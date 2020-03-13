@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-3">
-    <div class="form-group">
+    <div class="form-group text-left">
       <label for="exampleInputEmail1">
         เลือกบริการ
         <span style="color:red">*</span>
@@ -13,7 +13,7 @@
             border: 2px solid #99A3FF;
             border-radius: 8px;"
         >
-          <div style="margin-top:32px">
+          <div class="text-center" style="margin-top: 32px;">
             <svg
               width="48"
               height="48"
@@ -58,11 +58,10 @@
         <span v-for="(timeLoop, index) in dataTimes.times" :key="index">
           <button
             href="#"
-            v-if="timeLoop.status == true"
             :class="[
               timeLoop.status
                 ? 'btn btn-outline-primary m-1'
-                : 'btn btn-secondary m-1 hidden ',
+                : 'btn btn-secondary m-1 disable ',
               { active: activeBtn === 'btn' + index }
             ]"
             @click="
@@ -94,27 +93,59 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      activeBtn: '',
+      activeBtn: "",
       appointment: [],
-      dataDate: null,
+      dataDate: 1,
       time: null,
       symptom: null,
       dataTimes: {
-        date: '25/02/2020',
+        date: "25/02/2020",
         times: [
-          { time: '11.00', status: true },
-          { time: '11.15', status: false },
-          { time: '11.30', status: true },
-          { time: '11.45', status: true },
-          { time: '12.00', status: true }
+          { time: "11.00", status: true },
+          { time: "11.15", status: false },
+          { time: "11.30", status: true },
+          { time: "11.45", status: true },
+          { time: "12.00", status: true }
         ]
-      },
-      dateTimes2: []
+      }
+    };
+  },
+  methods: {
+    onChangeDate(date, dateString) {
+      this.dataDate = dateString;
+      console.log(this.dataDate);
+    },
+    onChangeTime(time) {
+      this.time = time;
+      console.log(this.time);
+    },
+    sendToBackend() {
+      if (this.dataDate != null && this.time != null) {
+        const data = {
+          type: "จิตแพทย์",
+          date: this.dataDate,
+          time: this.time,
+          symptom: this.symptom
+        };
+        console.log(data);
+        if (localStorage.getItem("appointment")) {
+          try {
+            this.appointment = JSON.parse(localStorage.getItem("appointment"));
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        this.appointment.push(data);
+        localStorage.setItem("appointment", JSON.stringify(this.appointment));
+        this.$router.push("Appointment");
+      } else {
+        alert("กรอกข้อมูลให้ครบ");
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
