@@ -28,10 +28,11 @@
 
 <style>
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", "Mitr", sans-serif;
+  background-color: #f9f9fc;
 }
 #app {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", "Mitr", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
