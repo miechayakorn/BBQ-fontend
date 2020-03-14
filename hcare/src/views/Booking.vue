@@ -8,9 +8,9 @@
         <div class="container">
           <div class="row">
             <div
-              v-for="(serviceDataType, index) in serviceDataTypes"
+              v-for="(serviceDataType, index) in dataFetch.dataTypes"
               :key="index"
-              v-on:click="console(serviceDataType.type_id)"
+              v-on:click="fetchDate(serviceDataType.type_id)"
               class="col-6 col-lg-3"
             >
               <div
@@ -50,11 +50,19 @@
           </label>
         </div>
         <div class="col-12">
-          <select class="form-control" id="selectDate" style="width:100%;">
-            <option>1</option>
-            <option>25/10/2020</option>
-            <option>3</option>
-            <option>4</option>
+          <select
+            class="form-control"
+            v-model="selectedDate"
+            @change="fetchTime()"
+            id="selectDate"
+            style="width:100%;"
+          >
+            <option
+              v-for="(dataDate, index) in dataFetch.dataDates"
+              :key="index"
+              :value="dataDate"
+              >{{ dataDate.date }}</option
+            >
           </select>
         </div>
       </div>
@@ -80,14 +88,14 @@
           <div class="container" v-if="this.dataDate != null">
             <div class="row">
               <div
-                v-for="(timeLoop, index) in dataTimes.times"
+                v-for="(timeLoop, index) in dataFetch.dataTimes"
                 :key="index"
                 class="col-xs-3 text-center"
               >
                 <button
                   href="#"
                   :class="[
-                    timeLoop.status
+                    timeLoop.status == 0
                       ? 'btn btn-outline-primary mr-2 mb-2 btnTime'
                       : 'btn btn-secondary mr-2 mb-2 disable btnTime btnDisabled',
 
@@ -95,13 +103,16 @@
                   ]"
                   @click="
                     [
-                      timeLoop.status ? onChangeTime(timeLoop.time) : '',
+                      timeLoop.status == 0
+                        ? onChangeTime(timeLoop.booking_id)
+                        : '',
                       (activeBtn = 'btn' + index)
                     ]
                   "
                   onclick="this.blur();"
+                  :disabled="timeLoop.status == 1 ? true : false"
                 >
-                  {{ timeLoop.time }}
+                  {{ timeLoop.time_in.slice(0, 5) }}
                 </button>
               </div>
             </div>
@@ -114,7 +125,11 @@
       <label for="exampleInputPassword1" class="d-flex justify-content-start"
         >อาการ</label
       >
-      <textarea rows="3" class="form-control" v-model="symptom"></textarea>
+      <textarea
+        rows="3"
+        class="form-control"
+        v-model="dataPrepareSend.symptom"
+      ></textarea>
     </div>
     <div class="row" style="text-align: center;">
       <div class="col-12">
@@ -135,64 +150,105 @@ import axios from "axios";
 export default {
   data() {
     return {
-      serviceDataTypes: "",
+      selectedDate: [],
+      dataPrepareSend: {
+        booking_id: null,
+        user_id: null,
+        symptom: null
+      },
+      dataFetch: {
+        dataTypes: null,
+        dataDates: null,
+        dataTimes: null
+      },
       activeBtn: "",
       appointment: [],
       dataDate: 1,
-      time: null,
-      symptom: null,
-      dataTimes: {
-        date: "25/02/2020",
-        times: [
-          { time: "11.00", status: true },
-          { time: "11.15", status: false },
-          { time: "11.30", status: true },
-          { time: "11.45", status: true },
-          { time: "12.00", status: true }
-        ]
-      }
+      time: null
     };
   },
   methods: {
-    console(re) {
-      console.log(re);
+    async fetchDate(type_id) {
+      await axios
+        .get("http://127.0.0.1:3333/ServiceDate/" + type_id)
+        .then(res => {
+          this.dataFetch.dataDates = res.data;
+          console.log(this.dataFetch.dataDates);
+        });
     },
-    onChangeDate(date, dateString) {
-      this.dataDate = dateString;
-      console.log(this.dataDate);
+    async fetchTime(e) {
+      console.log("fetchTime");
+      console.log(this.selectedDate);
+      await axios
+        .get(
+          "http://127.0.0.1:3333/ServiceTime/" +
+            this.selectedDate.type_id +
+            "?time=" +
+            this.selectedDate.date
+        )
+        .then(res => {
+          this.dataFetch.dataTimes = res.data;
+          console.log(this.dataFetch.dataTimes);
+        });
     },
-    onChangeTime(time) {
-      this.time = time;
-      console.log(this.time);
+    onChangeTime(booking_id) {
+      this.dataPrepareSend.booking_id = booking_id;
     },
-    sendToBackend() {
-      if (this.dataDate != null && this.time != null) {
-        const data = {
-          type: "จิตแพทย์",
-          date: this.dataDate,
-          time: this.time,
-          symptom: this.symptom
-        };
-        console.log(data);
-        if (localStorage.getItem("appointment")) {
-          try {
-            this.appointment = JSON.parse(localStorage.getItem("appointment"));
-          } catch (e) {
-            console.log(e);
-          }
-        }
-        this.appointment.push(data);
-        localStorage.setItem("appointment", JSON.stringify(this.appointment));
-        this.$router.push("Appointment");
-      } else {
-        alert("กรอกข้อมูลให้ครบ");
-      }
+    async sendToBackend() {
+      await axios
+        .post("http://127.0.0.1:3333/Booking", {
+          booking_id: this.dataPrepareSend.booking_id,
+          //Edit user_id เป็นของ user คนนั้นๆ
+
+          user_id: 1,
+
+
+
+          symptom: this.dataPrepareSend.symptom
+        })
+        .then(res => {
+          console.log(res.data);
+
+
+
+
+          // Set Local Storage
+        });
+
+      console.log(this.dataPrepareSend);
     }
+
+    // onChangeDate(date, dateString) {
+    //   this.dataDate = dateString;
+    //   console.log(this.dataDate);
+    // },
+    // sendToBackend() {
+    //   if (this.dataDate != null && this.time != null) {
+    //     const data = {
+    //       type: "จิตแพทย์",
+    //       date: this.dataDate,
+    //       time: this.time,
+    //       symptom: this.symptom
+    //     };
+    //     console.log(data);
+    //     if (localStorage.getItem("appointment")) {
+    //       try {
+    //         this.appointment = JSON.parse(localStorage.getItem("appointment"));
+    //       } catch (e) {
+    //         console.log(e);
+    //       }
+    //     }
+    //     this.appointment.push(data);
+    //     localStorage.setItem("appointment", JSON.stringify(this.appointment));
+    //     this.$router.push("Appointment");
+    //   } else {
+    //     alert("กรอกข้อมูลให้ครบ");
+    //   }
+    // }
   },
   async mounted() {
     await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
-      this.serviceDataTypes = res.data;
-      console.log(this.serviceDataTypes);
+      this.dataFetch.dataTypes = res.data;
     });
   }
 };
