@@ -77,16 +77,22 @@
           >
             กรุณาเลือกวันให้เรียบร้อยก่อน
           </div>
-          <div v-if="this.dataDate != null">
-            <span v-for="(timeLoop, index) in dataTimes.times" :key="index">
+          <div class="container" v-if="this.dataDate != null">
+            <div class="row">
+              <div
+                v-for="(timeLoop, index) in dataTimes.times"
+                :key="index"
+                class="col-xs-3 text-center"
+              >
                 <button
                   href="#"
                   :class="[
                     timeLoop.status
                       ? 'btn btn-outline-primary mr-2 mb-2 btnTime'
                       : 'btn btn-secondary mr-2 mb-2 disable btnTime btnDisabled',
+
                     { active: activeBtn === 'btn' + index }
-                  ] "
+                  ]"
                   @click="
                     [
                       timeLoop.status ? onChangeTime(timeLoop.time) : '',
@@ -97,7 +103,8 @@
                 >
                   {{ timeLoop.time }}
                 </button>
-            </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -223,10 +230,10 @@ button {
 .btnConfirm {
   border-radius: 31px;
 }
-.btnDisabled{
-  cursor:default;
+.btnDisabled {
+  cursor: default;
 }
-.btnDisabled:active{
+.btnDisabled:active {
   outline: none;
 }
 /*
