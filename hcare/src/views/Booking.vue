@@ -131,7 +131,10 @@
                   @click="
                     [
                       timeLoop.status == 0
-                        ? onChangeTime(timeLoop.booking_id)
+                        ? onChangeTime(
+                            timeLoop.booking_id,
+                            timeLoop.time_in.slice(0, 5)
+                          )
                         : '',
                       (activeBtnTime = 'btn' + index)
                     ]
@@ -265,43 +268,72 @@ export default {
           this.$swal.close();
         });
     },
-    onChangeTime(booking_id) {
+    onChangeTime(booking_id, time) {
       this.dataPrepareSend.booking_id = booking_id;
+      this.time = time;
     },
-    async sendToBackend() {
-      this.$swal({
-        title: "กรุณารอสักครู่",
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
+    sendToBackend() {
+      if (this.dataPrepareSend.booking_id != null) {
+        this.$swal({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+          footer:
+            "คุณจอง วันที่:" + " ...ยังไม่ได้เก็บ.." + " เวลา:" + this.time
+        }).then(result => {
+          if (result.value) {
+            this.$swal({
+              title: "กรุณารอสักครู่",
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              onOpen: () => {
+                this.$swal.showLoading();
+              }
+            });
 
-      await axios
-        .post("http://127.0.0.1:3333/Booking", {
-          booking_id: this.dataPrepareSend.booking_id,
-          //Edit user_id เป็นของ user คนนั้นๆ
+            axios
+              .post("http://127.0.0.1:3333/Booking", {
+                booking_id: this.dataPrepareSend.booking_id,
+                //Edit user_id เป็นของ user คนนั้นๆ
 
-          user_id: 1,
+                user_id: 1,
 
-          symptom: this.dataPrepareSend.symptom
-        })
-        .then(res => {
-          console.log(res.data);
+                symptom: this.dataPrepareSend.symptom
+              })
+              .then(res => {
+                console.log(res.data);
 
-          this.$swal({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            icon: "success",
-            title: "การจองสำเร็จ"
-            // text: "จองสำเร็จ"
-          });
-          // Set Local Storage
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  icon: "success",
+                  title: "การจองสำเร็จ"
+                  // text: "จองสำเร็จ"
+                });
+                // Set Local Storage
+
+
+
+
+
+                this.$router.push("Appointment");
+              });
+            console.log(this.dataPrepareSend);
+          }
         });
-      console.log(this.dataPrepareSend);
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "Oops...",
+          text: "Something went wrong!"
+        });
+      }
     }
 
     // onChangeDate(date, dateString) {
