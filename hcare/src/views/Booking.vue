@@ -1,9 +1,7 @@
 <template>
   <div class="container fixed-container mb-3">
     <div class="form-group text-left">
-      <label>
-        เลือกบริการ
-      </label>
+      <label>เลือกบริการ</label>
       <div class="form">
         <div class="container">
           <div class="row">
@@ -45,9 +43,7 @@
     <div class="row">
       <div class="form-group text-left w-100">
         <div class="col-12">
-          <label for="selectDate">
-            เลือกวัน
-          </label>
+          <label for="selectDate">เลือกวัน</label>
         </div>
         <div class="col-12">
           <select
@@ -57,34 +53,27 @@
             id="selectDate"
             style="width:100%;"
           >
+            <option :value="null" disabled selected="selected">กรุณาเลือกวัน</option>
             <option
               v-for="(dataDate, index) in dataFetch.dataDates"
               :key="index"
               :value="dataDate"
-              >{{ dataDate.date }}</option
-            >
+            >{{ dataDate.date }}</option>
           </select>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="form-group ">
+      <div class="form-group">
         <div class="col-12">
-          <label
-            for="exampleInputPassword1"
-            class="d-flex justify-content-start"
-          >
-            เลือกเวลา
-          </label>
+          <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
         </div>
         <div class="col-12">
           <div
             v-if="this.dataDate == null"
             class="alert alert-warning"
             role="alert"
-          >
-            กรุณาเลือกวันให้เรียบร้อยก่อน
-          </div>
+          >กรุณาเลือกวันให้เรียบร้อยก่อน</div>
           <div class="container" v-if="this.dataDate != null">
             <div class="row">
               <div
@@ -111,9 +100,7 @@
                   "
                   onclick="this.blur();"
                   :disabled="timeLoop.status == 1 ? true : false"
-                >
-                  {{ timeLoop.time_in.slice(0, 5) }}
-                </button>
+                >{{ timeLoop.time_in.slice(0, 5) }}</button>
               </div>
             </div>
           </div>
@@ -121,14 +108,13 @@
       </div>
     </div>
 
-    <div class="form-group ">
-      <label for="exampleInputPassword1" class="d-flex justify-content-start"
-        >อาการ</label
-      >
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
       <textarea
         rows="3"
         class="form-control"
         v-model="dataPrepareSend.symptom"
+        :disabled="activeBtn==''?true:false"
       ></textarea>
     </div>
     <div class="row" style="text-align: center;">
@@ -136,9 +122,7 @@
         <button
           @click="sendToBackend"
           class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-        >
-          Confirm
-        </button>
+        >Confirm</button>
       </div>
     </div>
   </div>
@@ -164,19 +148,29 @@ export default {
       activeBtn: "",
       appointment: [],
       dataDate: 1,
-      time: null
+      time: null,
+      oldTypeService: null
     };
   },
   methods: {
     async fetchDate(type_id) {
-      await axios
-        .get("http://127.0.0.1:3333/ServiceDate/" + type_id)
-        .then(res => {
-          this.dataFetch.dataDates = res.data;
-          console.log(this.dataFetch.dataDates);
-        });
+      console.log("oldservice = " + this.oldTypeService);
+      if (this.oldTypeService !== type_id) {
+        this.activeBtn = "";
+        this.dataPrepareSend.symptom = null;
+        this.dataFetch.dataTimes = null;
+        this.selectedDate = null;
+        await axios
+          .get("http://127.0.0.1:3333/ServiceDate/" + type_id)
+          .then(res => {
+            this.dataFetch.dataDates = res.data;
+            console.log(this.dataFetch.dataDates);
+            this.oldTypeService = type_id;
+          });
+      }
     },
     async fetchTime(e) {
+      this.activeBtn = "";
       console.log("fetchTime");
       console.log(this.selectedDate);
       await axios
@@ -202,15 +196,10 @@ export default {
 
           user_id: 1,
 
-
-
           symptom: this.dataPrepareSend.symptom
         })
         .then(res => {
           console.log(res.data);
-
-
-
 
           // Set Local Storage
         });
