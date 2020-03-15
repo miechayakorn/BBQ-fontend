@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <!-- <h1>{{messageToComponents }}</h1> -->
+  <div class="row" >
     <div
       v-for="(serviceDataType, index) in messageToComponents"
       :key="index"
     
-      class="col-6 col-lg-3"
+      class="col-6 col-lg-3 mt-3"
     >
       <div
         class="col-12"
