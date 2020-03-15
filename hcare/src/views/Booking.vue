@@ -199,6 +199,15 @@ export default {
   },
   methods: {
     async fetchDate(type_id) {
+      this.$swal({
+        title: "กรุณารอสักครู่",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        onOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+
       console.log("oldservice = " + this.oldTypeService);
       if (this.oldTypeService !== type_id) {
         this.activeBtnTime = "";
@@ -225,9 +234,20 @@ export default {
         .then(res => {
           this.dataFetch.dataTimes = res.data;
           console.log(this.dataFetch.dataTimes);
+
+          this.$swal.close();
         });
     },
     async fetchTime(e) {
+      this.$swal({
+        title: "กรุณารอสักครู่",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        onOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+
       this.activeBtnTime = "";
       console.log("fetchTime");
       console.log(this.selectedDate);
@@ -241,12 +261,23 @@ export default {
         .then(res => {
           this.dataFetch.dataTimes = res.data;
           console.log(this.dataFetch.dataTimes);
+
+          this.$swal.close();
         });
     },
     onChangeTime(booking_id) {
       this.dataPrepareSend.booking_id = booking_id;
     },
     async sendToBackend() {
+      this.$swal({
+        title: "กรุณารอสักครู่",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        onOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
+
       await axios
         .post("http://127.0.0.1:3333/Booking", {
           booking_id: this.dataPrepareSend.booking_id,
@@ -302,6 +333,15 @@ export default {
     // }
   },
   async mounted() {
+    // this.$swal.showLoading();
+    this.$swal({
+      title: "กรุณารอสักครู่",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      onOpen: () => {
+        this.$swal.showLoading();
+      }
+    });
     await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
       this.dataFetch.dataTypes = res.data;
     });
@@ -318,6 +358,7 @@ export default {
       .then(res => {
         this.dataFetch.dataTimes = res.data;
         console.log(this.dataFetch.dataTimes);
+        this.$swal.close();
       });
   }
 };
