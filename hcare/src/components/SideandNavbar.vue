@@ -1,14 +1,20 @@
 <template>
-  <div class="container-fluids">
+   <div class="container-fluids">
       <div class="row myRow">
         <div class="col myCol">nav</div>
       </div>
       <div class="row myRow">
-        <div class="col-1 myCol1">side</div>
+        <div class="col-1 myCol1">
+          <div class="logo"><i class="fas fa-address-card"></i></div>
+          <div class="ul"><a href="#"></a></a></div>
+          <div class="ul"><a href="#"></a></div>
+          <div class="ul">s<a href="#"></a></div>
+        </div>
         <div class="col-2 myCol1">queue</div>
         <div class="col-9 myCol1">spacework</div>
       </div>
     </div>
+
 </template>
 
 <script>
