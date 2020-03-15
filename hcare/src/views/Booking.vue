@@ -259,17 +259,17 @@ export default {
         .then(res => {
           console.log(res.data);
 
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            icon: "success",
+            title: "การจองสำเร็จ"
+            // text: "จองสำเร็จ"
+          });
           // Set Local Storage
         });
-      this.$swal({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        icon: "success",
-        title: "การจองสำเร็จ"
-        // text: "จองสำเร็จ"
-      });
       console.log(this.dataPrepareSend);
     }
 
