@@ -35,10 +35,13 @@
       <!-- <router-link to="/about">About</router-link> -->
     </div>
     <router-view />
+    
+
   </div>
 </template>
 
 <style>
+
 body {
   font-family: "Poppins", "Mitr", sans-serif;
   background-color: #f9f9fc;
