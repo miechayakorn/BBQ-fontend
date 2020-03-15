@@ -17,6 +17,7 @@
                   { active: activeBtnType === 'btn' + index }
                 ]"
                 @click="activeBtnType = 'btn' + index"
+                style="cursor: pointer"
               >
                 <div class="text-center" style="margin-top: 32px;">
                   <svg
@@ -309,7 +310,10 @@ export default {
     });
     await axios
       .get(
-        "http://127.0.0.1:3333/ServiceTime/" + 1 + "?time=" + this.selectFirstDate
+        "http://127.0.0.1:3333/ServiceTime/" +
+          1 +
+          "?time=" +
+          this.selectFirstDate
       )
       .then(res => {
         this.dataFetch.dataTimes = res.data;
