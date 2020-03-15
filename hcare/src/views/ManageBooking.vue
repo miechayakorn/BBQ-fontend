@@ -30,6 +30,46 @@
         </div>
       </div>
     </div>
+    <div class="container col-9">
+      <div>
+        <table class="table table-hover tableSize ">
+          <thead>
+            <tr>
+              <th scope="col">HN numbers</th>
+              <th scope="col">ชื่อ - นามสกุล</th>
+              <th scope="col">เวลาที่จอง</th>
+              <th scope="col">สถานะ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -105,6 +145,9 @@ button {
 }
 .btnDisabled:active {
   outline: none;
+}
+.tableSize {
+  width: 100%;
 }
 /*
 .btn-outline-primary,
