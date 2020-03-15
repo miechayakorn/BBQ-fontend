@@ -53,12 +53,15 @@
             id="selectDate"
             style="width:100%;"
           >
-            <option :value="null" disabled selected="selected">กรุณาเลือกวัน</option>
+            <option :value="null" disabled selected="selected"
+              >กรุณาเลือกวัน</option
+            >
             <option
               v-for="(dataDate, index) in dataFetch.dataDates"
               :key="index"
               :value="dataDate"
-            >{{ dataDate.date }}</option>
+              >{{ dataDate.date }}</option
+            >
           </select>
         </div>
       </div>
@@ -66,14 +69,20 @@
     <div class="row">
       <div class="form-group">
         <div class="col-12">
-          <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+          <label
+            for="exampleInputPassword1"
+            class="d-flex justify-content-start"
+            >เลือกเวลา</label
+          >
         </div>
         <div class="col-12">
           <div
             v-if="this.dataDate == null"
             class="alert alert-warning"
             role="alert"
-          >กรุณาเลือกวันให้เรียบร้อยก่อน</div>
+          >
+            กรุณาเลือกวันให้เรียบร้อยก่อน
+          </div>
           <div class="container" v-if="this.dataDate != null">
             <div class="row">
               <div
@@ -100,7 +109,9 @@
                   "
                   onclick="this.blur();"
                   :disabled="timeLoop.status == 1 ? true : false"
-                >{{ timeLoop.time_in.slice(0, 5) }}</button>
+                >
+                  {{ timeLoop.time_in.slice(0, 5) }}
+                </button>
               </div>
             </div>
           </div>
@@ -109,12 +120,14 @@
     </div>
 
     <div class="form-group">
-      <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+      <label for="exampleInputPassword1" class="d-flex justify-content-start"
+        >อาการ</label
+      >
       <textarea
         rows="3"
         class="form-control"
         v-model="dataPrepareSend.symptom"
-        :disabled="activeBtn==''?true:false"
+        :disabled="activeBtn == '' ? true : false"
       ></textarea>
     </div>
     <div class="row" style="text-align: center;">
@@ -122,7 +135,9 @@
         <button
           @click="sendToBackend"
           class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-        >Confirm</button>
+        >
+          Confirm
+        </button>
       </div>
     </div>
   </div>
@@ -203,7 +218,15 @@ export default {
 
           // Set Local Storage
         });
-
+      this.$swal({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        icon: "success",
+        title: "การจองสำเร็จ",
+        // text: "จองสำเร็จ"
+      });
       console.log(this.dataPrepareSend);
     }
 
