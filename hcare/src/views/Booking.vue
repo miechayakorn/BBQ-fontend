@@ -9,7 +9,7 @@
               v-for="(serviceDataType, index) in dataFetch.dataTypes"
               :key="index"
               v-on:click="fetchDate(serviceDataType.type_id)"
-              class="col-6 col-lg-3"
+              class="col-6 col-lg-3 mt-1"
             >
               <div
                 :class="[
@@ -34,8 +34,8 @@
                   </svg>
                   <svg
                     v-if="'btn' + index != activeBtnType"
-                    width="47"
-                    height="46"
+                    width="48"
+                    height="48"
                     viewBox="0 0 47 46"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -45,10 +45,16 @@
                       fill="#99A3FF"
                     />
                   </svg>
-                  <p v-if="'btn' + index == activeBtnType" style="color: #FFFFFF">
+                  <p
+                    v-if="'btn' + index == activeBtnType"
+                    style="color: #FFFFFF"
+                  >
                     {{ serviceDataType.type_name }}
                   </p>
-                  <p v-if="'btn' + index != activeBtnType" style="color: #555555">
+                  <p
+                    v-if="'btn' + index != activeBtnType"
+                    style="color: #555555"
+                  >
                     {{ serviceDataType.type_name }}
                   </p>
                 </div>
@@ -71,14 +77,18 @@
             id="selectDate"
             style="width:100%;"
           >
-            <option :value="null" disabled selected="selected"
-              >กรุณาเลือกวัน</option
+            <!-- <option :value="null" disabled selected="selected"
+              >กรุณาเลือกวัน</option -->
             >
             <option
               v-for="(dataDate, index) in dataFetch.dataDates"
               :key="index"
               :value="dataDate"
-              >{{ dataDate.date }}</option
+              :selected="index == 0 ? 'selected' : ''"
+            >
+              {{
+                index == 0 ? (selectFirstDate = dataDate.date) : dataDate.date
+              }}</option
             >
           </select>
         </div>
@@ -166,6 +176,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      selectFirstDate: "",
       selectedDate: [],
       dataPrepareSend: {
         booking_id: null,
@@ -177,7 +188,7 @@ export default {
         dataDates: null,
         dataTimes: null
       },
-      activeBtnType: "",
+      activeBtnType: "btn0",
       activeBtnTime: "",
       appointment: [],
       dataDate: 1,
@@ -190,9 +201,9 @@ export default {
       console.log("oldservice = " + this.oldTypeService);
       if (this.oldTypeService !== type_id) {
         this.activeBtnTime = "";
-        this.dataPrepareSend.symptom = null;
-        this.dataFetch.dataTimes = null;
-        this.selectedDate = null;
+        // this.dataPrepareSend.symptom = null;
+        // this.dataFetch.dataTimes = null;
+        // this.selectedDate = null;
         await axios
           .get("http://127.0.0.1:3333/ServiceDate/" + type_id)
           .then(res => {
@@ -201,6 +212,19 @@ export default {
             this.oldTypeService = type_id;
           });
       }
+
+      //ทุกครั้งทีมีการกดให้ไปดึงวันที่แรกของช่องเลือกวัน
+      await axios
+        .get(
+          "http://127.0.0.1:3333/ServiceTime/" +
+            type_id +
+            "?time=" +
+            this.selectFirstDate
+        )
+        .then(res => {
+          this.dataFetch.dataTimes = res.data;
+          console.log(this.dataFetch.dataTimes);
+        });
     },
     async fetchTime(e) {
       this.activeBtnTime = "";
@@ -280,6 +304,17 @@ export default {
     await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
       this.dataFetch.dataTypes = res.data;
     });
+    await axios.get("http://127.0.0.1:3333/ServiceDate/" + 1).then(res => {
+      this.dataFetch.dataDates = res.data;
+    });
+    await axios
+      .get(
+        "http://127.0.0.1:3333/ServiceTime/" + 1 + "?time=" + this.selectFirstDate
+      )
+      .then(res => {
+        this.dataFetch.dataTimes = res.data;
+        console.log(this.dataFetch.dataTimes);
+      });
   }
 };
 </script>
