@@ -88,7 +88,10 @@
               :selected="index == 0 ? 'selected' : ''"
             >
               {{
-                index == 0 ? (selectFirstDate = dataDate.date) : dataDate.date
+                index == 0
+                  ? ((selectFirstDate = dataDate.date),
+                    (dataShow.date = dataDate.date))
+                  : dataDate.date
               }}</option
             >
           </select>
@@ -192,16 +195,24 @@ export default {
         dataDates: null,
         dataTimes: null
       },
+      dataShow: {
+        date: "",
+        time: null
+      },
       activeBtnType: "btn0",
       activeBtnTime: "",
-      appointment: [],
       dataDate: 1,
-      time: null,
       oldTypeService: null
     };
   },
   methods: {
+    clearData() {
+      this.dataPrepareSend.booking_id = null;
+      this.dataShow.date = "";
+      this.dataShow.time = null;
+    },
     async fetchDate(type_id) {
+      this.clearData();
       this.$swal({
         title: "กรุณารอสักครู่",
         allowEscapeKey: false,
@@ -242,6 +253,7 @@ export default {
         });
     },
     async fetchTime(e) {
+      this.clearData();
       this.$swal({
         title: "กรุณารอสักครู่",
         allowEscapeKey: false,
@@ -251,6 +263,8 @@ export default {
         }
       });
 
+      this.dataShow.date = this.selectedDate.date;
+      console.log("----" + this.dataShow.date);
       this.activeBtnTime = "";
       console.log("fetchTime");
       console.log(this.selectedDate);
@@ -270,20 +284,21 @@ export default {
     },
     onChangeTime(booking_id, time) {
       this.dataPrepareSend.booking_id = booking_id;
-      this.time = time;
+      this.dataShow.time = time;
     },
     sendToBackend() {
       if (this.dataPrepareSend.booking_id != null) {
+        console.log("Backend----" + this.dataShow.date);
         this.$swal({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "question",
+          title: "การจอง",
+          text: "วันที่:" + this.dataShow.date + " เวลา:" + this.dataShow.time,
+          icon: "info",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes",
-          footer:
-            "คุณจอง วันที่:" + " ...ยังไม่ได้เก็บ.." + " เวลา:" + this.time
+          cancelButtonText: "Cancel",
+          footer: "กรุณามาก่อนเวลา 15 นาที"
         }).then(result => {
           if (result.value) {
             this.$swal({
@@ -318,10 +333,6 @@ export default {
                 });
                 // Set Local Storage
 
-
-
-
-
                 this.$router.push("Appointment");
               });
             console.log(this.dataPrepareSend);
@@ -330,8 +341,8 @@ export default {
       } else {
         this.$swal({
           icon: "warning",
-          title: "Oops...",
-          text: "Something went wrong!"
+          title: "คำเตือน",
+          text: "กรุณาเลือกเวลาที่ต้องการจอง"
         });
       }
     }
@@ -441,25 +452,4 @@ button {
 .btnDisabled:active {
   outline: none;
 }
-/*
-.btn-outline-primary,
-.btn-outline-primary:active {
-  color: #99a3ff;
-  background-color: #ffffff;
-  border: 1px solid #99a3ff;
-  border-radius: 8px;
-}
-.btn-outline-primary:hover,
-.btn-outline-primary:visited {
-  color: #ffffff;
-  background-color: #99a3ff;
-  border: 1px solid #99a3ff;
-  border-radius: 8px;
-}
-.btn-block {
-  color: #ffffff;
-  background-color: #99a3ff;
-  border: 1px solid #99a3ff;
-  border-radius: 31px;
-}*/
 </style>
