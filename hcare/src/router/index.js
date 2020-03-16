@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Booking from '../views/Booking.vue'
 import ManageBooking from '../views/ManageBooking.vue'
+import BookingUseComponent from '../views/BookingUseComponent.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/ManageBooking',
     name: 'ManageBooking',
     component: ManageBooking
+  },
+  {
+    path: '/BookingUseComponent',
+    name: 'BookingUseComponent',
+    component: BookingUseComponent
   }
 ]
 
