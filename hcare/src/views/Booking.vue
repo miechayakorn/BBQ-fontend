@@ -254,14 +254,6 @@ export default {
     },
     async fetchTime(e) {
       this.clearData();
-      this.$swal({
-        title: "กรุณารอสักครู่",
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
 
       this.dataShow.date = this.selectedDate.date;
       console.log("----" + this.dataShow.date);

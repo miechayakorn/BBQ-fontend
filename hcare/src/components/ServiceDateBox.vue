@@ -20,7 +20,14 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      selectedDate: []
+    };
+  },
+  methods: {
+    fetchTime() {
+      this.$emit("selectedDate", this.selectedDate);
+    }
   },
   props: {
     dataDates: Array

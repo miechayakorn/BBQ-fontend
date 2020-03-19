@@ -3,7 +3,7 @@
     <div
       v-for="(serviceDataType, index) in dataTypes"
       :key="index"
-      v-on:click="fetchDate(serviceDataType.type_id)"
+      v-on:click="fetchDate(serviceDataType)"
       class="col-6 col-lg-3 mt-1"
     >
       <div
@@ -66,8 +66,8 @@
 <script>
 export default {
   methods: {
-    fetchDate(type_id) {
-      this.$emit("type_id", type_id);
+    fetchDate(serviceDataType) {
+      this.$emit("serviceDataType", serviceDataType);
     }
   },
   props: {

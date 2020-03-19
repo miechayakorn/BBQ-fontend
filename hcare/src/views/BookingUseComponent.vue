@@ -8,10 +8,21 @@
         <div class="container">
           <ServiceTypeBox
             :dataTypes="dataFetch.dataTypes"
-            v-on:type_id="fetchDate"
+            v-on:serviceDataType="fetchDate"
           />
-
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group text-left w-100">
+        <div class="col-12">
+          <label for="selectDate">เลือกวัน</label>
+        </div>
+        <ServiceDateBox
+          :dataDates="dataFetch.dataDates"
+          v-on:selectedDate="fetchTime"
+        />
+        <!-- ใช้  v-model="selectedDate"     @change="fetchTime()" -->
       </div>
     </div>
   </div>
@@ -20,6 +31,7 @@
 <script>
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
+import ServiceDateBox from "@/components/ServiceDateBox.vue";
 
 export default {
   data() {
@@ -38,6 +50,7 @@ export default {
       },
       //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
+        type: "",
         date: "",
         time: null,
         activeBtnType: "btn0",
@@ -48,7 +61,8 @@ export default {
     };
   },
   components: {
-    ServiceTypeBox
+    ServiceTypeBox,
+    ServiceDateBox
   },
   async mounted() {
     // this.$swal.showLoading();
@@ -76,14 +90,13 @@ export default {
         "http://127.0.0.1:3333/ServiceTime/" +
           1 +
           "?time=" +
-          this.selectFirstDate
+          this.dataFetch.dataDates[0].date
       )
       .then(res => {
         this.dataFetch.dataTimes = res.data;
         console.log(this.dataFetch.dataTimes);
         this.$swal.close();
       });
-
   },
   methods: {
     clearData() {
@@ -91,7 +104,7 @@ export default {
       this.dataShow.date = "";
       this.dataShow.time = null;
     },
-    async fetchDate(type_id) {
+    async fetchDate(serviceDataType) {
       this.clearData();
       this.$swal({
         title: "กรุณารอสักครู่",
@@ -102,18 +115,22 @@ export default {
         }
       });
 
-      console.log("oldservice = " + this.oldTypeService);
-      if (this.oldTypeService !== type_id) {
-        this.activeBtnTime = "";
+      //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
+      this.dataShow.type = serviceDataType.type_name;
+      console.log("oldservice = " + this.dataShow.oldTypeService);
+
+      //เช็ค
+      if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
+        this.dataShow.activeBtnTime = "";
         // this.dataPrepareSend.symptom = null;
         // this.dataFetch.dataTimes = null;
         // this.selectedDate = null;
         await axios
-          .get("http://127.0.0.1:3333/ServiceDate/" + type_id)
+          .get("http://127.0.0.1:3333/ServiceDate/" + serviceDataType.type_id)
           .then(res => {
             this.dataFetch.dataDates = res.data;
             console.log(this.dataFetch.dataDates);
-            this.oldTypeService = type_id;
+            this.dataShow.oldTypeService = serviceDataType.type_id;
           });
       }
 
@@ -121,12 +138,35 @@ export default {
       await axios
         .get(
           "http://127.0.0.1:3333/ServiceTime/" +
-            type_id +
+            serviceDataType.type_id +
             "?time=" +
-            this.selectFirstDate
+            this.dataFetch.dataDates[0].date
         )
         .then(res => {
           this.dataFetch.dataTimes = res.data;
+          console.log(this.dataFetch.dataTimes);
+          this.$swal.close();
+        });
+    },
+    async fetchTime(selectedDate) {
+      this.clearData();
+      //เคลียสีปุ่ม
+      this.dataShow.activeBtnTime = "";
+
+      //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
+      this.dataShow.date = selectedDate.date;
+      console.log("selectedDate is " + this.dataShow.date);
+
+      await axios
+        .get(
+          "http://127.0.0.1:3333/ServiceTime/" +
+            selectedDate.type_id +
+            "?time=" +
+            selectedDate.date
+        )
+        .then(res => {
+          this.dataFetch.dataTimes = res.data;
+          console.log("Axios fetch time :");
           console.log(this.dataFetch.dataTimes);
 
           this.$swal.close();
