@@ -40,6 +40,27 @@
         />
       </div>
     </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex justify-content-start"
+        >อาการ</label
+      >
+      <textarea
+        rows="3"
+        class="form-control"
+        v-model="dataPrepareSend.symptom"
+        :disabled="dataShow.disableSymptom"
+      ></textarea>
+    </div>
+    <div class="row" style="text-align: center;">
+      <div class="col-12">
+        <button
+          @click="sendToBackend"
+          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,7 +90,7 @@ export default {
         type: "",
         date: "",
         time: null,
-        activeBtnType: "btn0",
+        disableSymptom: true,
         oldTypeService: null
       }
     };
@@ -118,6 +139,7 @@ export default {
       this.dataPrepareSend.booking_id = null;
       this.dataShow.date = "";
       this.dataShow.time = null;
+      this.dataShow.disableSymptom = true;
     },
     async fetchDate(serviceDataType) {
       this.clearData();
@@ -188,17 +210,82 @@ export default {
         });
     },
     onChangeTime(booking) {
-      console.log("------booking")
-      console.log(booking)
+      console.log("------booking");
+      console.log(booking);
       this.dataPrepareSend.booking_id = booking.booking_id;
       this.dataShow.time = booking.time;
+      this.dataShow.disableSymptom = false;
+    },
+    sendToBackend() {
+      if (this.dataPrepareSend.booking_id != null) {
+        console.log("Backend----" + this.dataShow.date);
+        this.$swal({
+          title: "การจอง " + this.dataShow.type,
+          text:
+            " วันที่: " +
+            this.dataShow.date +
+            " เวลา: " +
+            this.dataShow.time,
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+          cancelButtonText: "Cancel",
+          footer: "กรุณามาก่อนเวลา 15 นาที"
+        }).then(result => {
+          if (result.value) {
+            this.$swal({
+              title: "กรุณารอสักครู่",
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              onOpen: () => {
+                this.$swal.showLoading();
+              }
+            });
+
+            axios
+              .post("http://127.0.0.1:3333/Booking", {
+                booking_id: this.dataPrepareSend.booking_id,
+                //Edit user_id เป็นของ user คนนั้นๆ
+
+                user_id: 1,
+
+                symptom: this.dataPrepareSend.symptom
+              })
+              .then(res => {
+                console.log(res.data);
+
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  icon: "success",
+                  title: "การจองสำเร็จ"
+                  // text: "จองสำเร็จ"
+                });
+                // Set Local Storage
+
+                this.$router.push("Appointment");
+              });
+            console.log(this.dataPrepareSend);
+          }
+        });
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณาเลือกเวลาที่ต้องการจอง"
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-/* @media (max-width: 776px) {
+@media (max-width: 776px) {
   .fixed-button {
     width: 100%;
     height: 48px;
@@ -211,13 +298,12 @@ export default {
     position: relative;
     height: 48px;
   }
-} */
+}
 @media (min-width: 900px) {
   .fixed-container {
     width: 720px;
   }
 }
-
 
 button {
   border-radius: 8px;
