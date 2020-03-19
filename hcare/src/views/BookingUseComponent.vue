@@ -25,6 +25,21 @@
         <!-- ใช้  v-model="selectedDate"     @change="fetchTime()" -->
       </div>
     </div>
+    <div class="row">
+      <div class="form-group">
+        <div class="col-12">
+          <label
+            for="exampleInputPassword1"
+            class="d-flex justify-content-start"
+            >เลือกเวลา</label
+          >
+        </div>
+        <ServiceTimeBox
+          :dataTimes="dataFetch.dataTimes"
+          v-on:booking="onChangeTime"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,6 +47,7 @@
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
+import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 
 export default {
   data() {
@@ -54,15 +70,14 @@ export default {
         date: "",
         time: null,
         activeBtnType: "btn0",
-        activeBtnTime: "",
-        dataDate: 1,
         oldTypeService: null
       }
     };
   },
   components: {
     ServiceTypeBox,
-    ServiceDateBox
+    ServiceDateBox,
+    ServiceTimeBox
   },
   async mounted() {
     // this.$swal.showLoading();
@@ -171,6 +186,12 @@ export default {
 
           this.$swal.close();
         });
+    },
+    onChangeTime(booking) {
+      console.log("------booking")
+      console.log(booking)
+      this.dataPrepareSend.booking_id = booking.booking_id;
+      this.dataShow.time = booking.time;
     }
   }
 };
@@ -197,21 +218,11 @@ export default {
   }
 }
 
-.btnTime {
-  height: 48px;
-  width: 72px;
-}
 
 button {
   border-radius: 8px;
 }
 .btnConfirm {
   border-radius: 31px;
-}
-.btnDisabled {
-  cursor: default;
-}
-.btnDisabled:active {
-  outline: none;
 }
 </style>

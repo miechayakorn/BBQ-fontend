@@ -9,15 +9,15 @@
       <div
         :class="[
           'col-12 btnType btn-outline-primary',
-          { active: dataShow.activeBtnType === 'btn' + index }
+          { active: activeBtnType === 'btn' + index }
         ]"
-        @click="dataShow.activeBtnType = 'btn' + index"
+        @click="activeBtnType = 'btn' + index"
         style="cursor: pointer"
       >
         <div class="text-center" style="margin-top: 32px;">
           <!-- [START] Lavender color div -->
           <svg
-            v-if="'btn' + index == dataShow.activeBtnType"
+            v-if="'btn' + index == activeBtnType"
             width="48"
             height="48"
             viewBox="0 0 48 48"
@@ -32,7 +32,7 @@
           <!-- [END] Lavender color div -->
           <!-- [START] White color div -->
           <svg
-            v-if="'btn' + index != dataShow.activeBtnType"
+            v-if="'btn' + index != activeBtnType"
             width="48"
             height="48"
             viewBox="0 0 47 46"
@@ -45,16 +45,10 @@
             />
           </svg>
           <!-- [END] White color div -->
-          <p
-            v-if="'btn' + index == dataShow.activeBtnType"
-            style="color: #FFFFFF"
-          >
+          <p v-if="'btn' + index == activeBtnType" style="color: #FFFFFF">
             {{ serviceDataType.type_name }}
           </p>
-          <p
-            v-if="'btn' + index != dataShow.activeBtnType"
-            style="color: #555555"
-          >
+          <p v-if="'btn' + index != activeBtnType" style="color: #555555">
             {{ serviceDataType.type_name }}
           </p>
         </div>
@@ -65,6 +59,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      activeBtnType: "btn0"
+    };
+  },
   methods: {
     fetchDate(serviceDataType) {
       this.$emit("serviceDataType", serviceDataType);
@@ -72,23 +71,11 @@ export default {
   },
   props: {
     dataTypes: Array
-  },
-  data() {
-    return {
-      dataShow: {
-        date: "",
-        time: null,
-        activeBtnType: "btn0",
-        activeBtnTime: "",
-        dataDate: 1,
-        oldTypeService: null
-      }
-    };
   }
 };
 </script>
 
-<style>
+<style scope>
 .btnType {
   background-color: #ffffff;
   border: 2px solid #99a3ff;
