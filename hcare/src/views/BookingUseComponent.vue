@@ -22,7 +22,6 @@
           :dataDates="dataFetch.dataDates"
           v-on:selectedDate="fetchTime"
         />
-        <!-- ใช้  v-model="selectedDate"     @change="fetchTime()" -->
       </div>
     </div>
     <div class="row">
@@ -36,6 +35,7 @@
         </div>
         <ServiceTimeBox
           :dataTimes="dataFetch.dataTimes"
+          :activeTime="dataShow.activeBtnTime"
           v-on:booking="onChangeTime"
         />
       </div>
@@ -90,6 +90,7 @@ export default {
         type: "",
         date: "",
         time: null,
+        activeBtnTime: "",
         disableSymptom: true,
         oldTypeService: null
       }
@@ -119,20 +120,11 @@ export default {
     //Date
     await axios.get("http://127.0.0.1:3333/ServiceDate/" + 1).then(res => {
       this.dataFetch.dataDates = res.data;
+      this.$swal.close();
     });
     //Time
-    await axios
-      .get(
-        "http://127.0.0.1:3333/ServiceTime/" +
-          1 +
-          "?time=" +
-          this.dataFetch.dataDates[0].date
-      )
-      .then(res => {
-        this.dataFetch.dataTimes = res.data;
-        console.log(this.dataFetch.dataTimes);
-        this.$swal.close();
-      });
+
+    // this.dataFetch.dataTimes
   },
   methods: {
     clearData() {
@@ -168,22 +160,9 @@ export default {
             this.dataFetch.dataDates = res.data;
             console.log(this.dataFetch.dataDates);
             this.dataShow.oldTypeService = serviceDataType.type_id;
+            this.$swal.close();
           });
       }
-
-      //ทุกครั้งทีมีการกดให้ไปดึงวันที่แรกของช่องเลือกวัน
-      await axios
-        .get(
-          "http://127.0.0.1:3333/ServiceTime/" +
-            serviceDataType.type_id +
-            "?time=" +
-            this.dataFetch.dataDates[0].date
-        )
-        .then(res => {
-          this.dataFetch.dataTimes = res.data;
-          console.log(this.dataFetch.dataTimes);
-          this.$swal.close();
-        });
     },
     async fetchTime(selectedDate) {
       this.clearData();
@@ -212,8 +191,15 @@ export default {
     onChangeTime(booking) {
       console.log("------booking");
       console.log(booking);
+      // console.log(this.dataShow.activeBtnTime)
+
       this.dataPrepareSend.booking_id = booking.booking_id;
       this.dataShow.time = booking.time;
+
+      //================ เก็บไว้ใน ตัวแปร
+      this.dataShow.activeBtnTime = booking.activeBtnTime
+
+      //ให้กรอกอาการได้
       this.dataShow.disableSymptom = false;
     },
     sendToBackend() {
