@@ -87,12 +87,12 @@ export default {
       },
       //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
-        type: "",
+        type: "จิตแพทย์",
         date: "",
         time: null,
         activeBtnTime: "",
         disableSymptom: true,
-        oldTypeService: null
+        oldTypeService: 1
       }
     };
   },
@@ -134,7 +134,11 @@ export default {
       this.dataShow.disableSymptom = true;
     },
     async fetchDate(serviceDataType) {
+      //เช็ค
+      if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
       this.clearData();
+      this.dataFetch.dataTimes = null
+      this.dataPrepareSend.symptom = null;
       this.$swal({
         title: "กรุณารอสักครู่",
         allowEscapeKey: false,
@@ -148,8 +152,6 @@ export default {
       this.dataShow.type = serviceDataType.type_name;
       console.log("oldservice = " + this.dataShow.oldTypeService);
 
-      //เช็ค
-      if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
         this.dataShow.activeBtnTime = "";
         // this.dataPrepareSend.symptom = null;
         // this.dataFetch.dataTimes = null;
