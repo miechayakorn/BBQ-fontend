@@ -1,36 +1,34 @@
 <template>
   <div class="h-100">
-   <div class="row Myrow1">
-      </div>
+    <div class="row Myrow1"></div>
     <div class="row justify-content-center h-100">
-      
-      <div class="col-1 menu-background">
+      <div class="col.p-0-1 menu-background @mouseover:">
         <ul class="menu">
-          <li :class="{active: this.getRoutePath == '/'}">
+          <li :class="{ active: this.getRoutePath == '/' }">
             <router-link to="/">
               <i class="fas fa-calendar-check"></i>
-              <br>นัดหมาย
+              <br />นัดหมาย
             </router-link>
           </li>
-          <li :class="{active: this.getRoutePath == '/calendar'}">
+          <li :class="{ active: this.getRoutePath == '/calendar' }">
             <router-link to="/calendar">
               <i class="fas fa-calendar-alt"></i>
-              <br>ตารางเวลา
+              <br />ตารางเวลา
             </router-link>
           </li>
-          <li :class="{active: this.getRoutePath == '/queue'}">
+          <li :class="{ active: this.getRoutePath == '/queue' }">
             <router-link to="/queue">
               <i class="fas fa-hourglass-start"></i>
-              <br>คิว
+              <br />คิว
             </router-link>
           </li>
         </ul>
       </div>
-      <div class="col-2 text-center p-4 queue-bg">
+      <div class="col-2 mr-4 text-center p-4 queue-bg ">
         <h5>คิวปัจจุบัน</h5>
         <span class="current-queue-text">A 0001</span>
-        <br>
-        <br>
+        <br />
+        <br />
         <h6>คิวถัดไป</h6>
         <ul class="queue-list-next">
           <li>
@@ -45,78 +43,75 @@
         </ul>
       </div>
       <div class="col-9 content-background p-5">
-        <div class="view">
-          <div class="container pl-4">
-    <div class="row">
-      <h6>บริการ</h6>
-    </div>
-    <div class="row mb-4">
-      <ul class="service-menu">
-        <li class="active">
-          <i class="fas fa-user-md fa-3x"></i>
-          <br>จิตแพทย์
-        </li>
-        <li>
-          <i class="fas fa-user-md fa-3x"></i>
-          <br>จิตแพทย์
-        </li>
-        <li>
-          <i class="fas fa-user-md fa-3x"></i>
-          <br>จิตแพทย์
-        </li>
-      </ul>
-    </div>
-    <div class="row">
-      <h6>วันที่</h6>
-    </div>
-    <div class="row mb-4">
-      <input type="text">
-    </div>
-    <div class="row">
-      <h6>นัดหมายแพทย์ทั้งหมด</h6>
-    </div>
-    <div class="row">
-       <table class="table list-doctor">
-          <thead>
-            <tr>
-              <th scope="col">HN numbers</th>
-              <th scope="col">ชื่อ - นามสกุล</th>
-              <th scope="col">เวลาที่จอง</th>
-              <th scope="col">สถานะ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-            
-          </tbody>
-
-        </table>
-     
-    </div>
-  </div>
+        <div class="container m-0">
+          <div>
+            <div class="row">
+              <h6>บริการ</h6>
+            </div>
+            <div class="row mb-4">
+              <ul class="service-menu">
+                <li class="active">
+                  <i class="fas fa-user-md fa-3x"></i>
+                  <br />จิตแพทย์
+                </li>
+                <li>
+                  <i class="fas fa-user-md fa-3x"></i>
+                  <br />จิตแพทย์
+                </li>
+                <li>
+                  <i class="fas fa-user-md fa-3x"></i>
+                  <br />จิตแพทย์
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+              <h6>วันที่</h6>
+            </div>
+            <div class="row mb-4">
+              <input type="text" />
+            </div>
+            <div class="row">
+              <h6>นัดหมายแพทย์ทั้งหมด</h6>
+            </div>
+            <div class="row">
+              <table class="table list-doctor">
+                <thead>
+                  <tr>
+                    <th scope="col">HN numbers</th>
+                    <th scope="col">ชื่อ - นามสกุล</th>
+                    <th scope="col">เวลาที่จอง</th>
+                    <th scope="col">สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -131,7 +126,7 @@ import SideandNavbar from "@/components/SideandNavbar.vue";
 export default {
   data() {
     return {
-       doctors: [
+      doctors: [
         {
           id: 1,
           hnNumber: "6011",
@@ -194,9 +189,9 @@ export default {
     width: 720px;
   }
 }
-.Myrow1{
+.Myrow1 {
   height: 48px;
-  background-color: #CCD1FF;
+  background-color: #ccd1ff;
 }
 
 .btnTime {
@@ -253,25 +248,28 @@ body {
 }
 
 .content-background {
-  background-color: #F9F9FC;
+  background-color: #f9f9fc;
 }
-
 
 .menu {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 40px;
   text-align: center;
-  
+  height: 940px;
 }
 
 .queue-bg {
   background-color: white;
 }
+.queue-pad{
+    margin-top: 40px;
+}
 
 .menu > li {
-  color: #FFFFFF;
-  padding: 1em;
+  color: #ffffff;
+  padding: 0.5em;
+  margin-bottom: 32px;
 }
 
 .menu > li.active {
@@ -284,6 +282,7 @@ body {
 }
 
 .current-queue-text {
+
   color: #99a3ff;
   font-style: bold;
   font-size: 2em;
@@ -300,7 +299,7 @@ body {
 .queue-text {
   font-style: bold;
   font-size: 2em;
-  color: #B6B6B6;
+  color: #b6b6b6;
 }
 
 .service-menu {
