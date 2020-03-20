@@ -69,6 +69,7 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
+import { waiting } from "@/utility/swal.js";
 
 export default {
   data() {
@@ -136,21 +137,22 @@ export default {
     async fetchDate(serviceDataType) {
       //เช็ค
       if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
-      this.clearData();
-      this.dataFetch.dataTimes = null
-      this.dataPrepareSend.symptom = null;
-      this.$swal({
-        title: "กรุณารอสักครู่",
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
+        this.clearData();
+        this.dataFetch.dataTimes = null;
+        this.dataPrepareSend.symptom = null;
 
-      //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
-      this.dataShow.type = serviceDataType.type_name;
-      console.log("oldservice = " + this.dataShow.oldTypeService);
+        console.log(waiting);
+
+        this.$swal({
+          ...waiting,
+          onOpen: () => {
+            this.$swal.showLoading();
+          }
+        });
+
+        //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
+        this.dataShow.type = serviceDataType.type_name;
+        console.log("oldservice = " + this.dataShow.oldTypeService);
 
         this.dataShow.activeBtnTime = "";
         // this.dataPrepareSend.symptom = null;
@@ -199,7 +201,7 @@ export default {
       this.dataShow.time = booking.time;
 
       //================ เก็บไว้ใน ตัวแปร
-      this.dataShow.activeBtnTime = booking.activeBtnTime
+      this.dataShow.activeBtnTime = booking.activeBtnTime;
 
       //ให้กรอกอาการได้
       this.dataShow.disableSymptom = false;
@@ -210,10 +212,7 @@ export default {
         this.$swal({
           title: "การจอง " + this.dataShow.type,
           text:
-            " วันที่: " +
-            this.dataShow.date +
-            " เวลา: " +
-            this.dataShow.time,
+            " วันที่: " + this.dataShow.date + " เวลา: " + this.dataShow.time,
           icon: "info",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
