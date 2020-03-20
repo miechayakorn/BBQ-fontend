@@ -17,7 +17,7 @@
           <button
             href="#"
             :class="[
-              timeLoop.status == 0
+              timeLoop.status == null
                 ? 'btn btn-outline-primary mr-2 mb-2 btnTime'
                 : 'btn btn-secondary mr-2 mb-2 disable btnTime btnDisabled',
 
@@ -25,7 +25,7 @@
             ]"
             @click="
               [
-                timeLoop.status == 0
+                timeLoop.status == null
                   ? onChangeTime(
                       timeLoop.booking_id,
                       timeLoop.time_in.slice(0, 5),
@@ -34,7 +34,7 @@
                   : ''
               ]
             "
-            :disabled="timeLoop.status == 1 ? true : false"
+            :disabled="timeLoop.status != null ? true : false"
           >
             {{ timeLoop.time_in.slice(0, 5) }}
           </button>

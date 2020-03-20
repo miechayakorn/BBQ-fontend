@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Booking from '../views/Booking.vue'
 import ManageBooking from '../views/ManageBooking.vue'
 import BookingUseComponent from '../views/BookingUseComponent.vue'
+import BookingUseComponentAdmin from '../views/admin/ManageBooking.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +23,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/Booking',
+    path: '/booking',
     name: 'Booking',
     component: Booking
   },
@@ -32,9 +33,14 @@ const routes = [
     component: ManageBooking
   },
   {
-    path: '/BookingUseComponent',
+    path: '/bookingUseComponent',
     name: 'BookingUseComponent',
     component: BookingUseComponent
+  },
+  {
+    path: '/admin/home',
+    name: 'adminHome',
+    component: BookingUseComponentAdmin
   }
 ]
 
