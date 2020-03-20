@@ -25,7 +25,7 @@
       </div>
       <div class="col-2 mr-4 text-center p-4 queue-bg ">
         <h5>คิวปัจจุบัน</h5>
-        <span class="current-queue-text">A 0001</span>
+        <span class="current-queue-text btnBold">A 0001</span>
         <br />
         <br />
         <h6>คิวถัดไป</h6>
@@ -206,6 +206,10 @@ button {
 .btnDisabled:active {
   outline: none;
 }
+.btnBold {
+  font-weight: bold;
+  font-size: 36px;
+}
 .tableSize {
   width: 100%;
 }
@@ -257,8 +261,8 @@ body {
 .queue-bg {
   background-color: white;
 }
-.queue-pad{
-    margin-top: 40px;
+.queue-pad {
+  margin-top: 40px;
 }
 
 .menu > li {
@@ -277,14 +281,12 @@ body {
 }
 
 .current-queue-text {
-
   color: #99a3ff;
   font-style: bold;
   font-size: 2em;
 }
 
 .queue-list-next {
-  
   list-style: none;
   padding: 0;
   margin: 0;
