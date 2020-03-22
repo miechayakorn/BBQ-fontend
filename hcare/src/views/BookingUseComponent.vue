@@ -69,7 +69,7 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
-import { waiting } from "@/utility/swal.js";
+import { waiting, errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
@@ -140,8 +140,6 @@ export default {
         this.clearData();
         this.dataFetch.dataTimes = null;
         this.dataPrepareSend.symptom = null;
-
-        console.log(waiting);
 
         this.$swal({
           ...waiting,
@@ -234,9 +232,9 @@ export default {
             axios
               .post("http://127.0.0.1:3333/Booking", {
                 booking_id: this.dataPrepareSend.booking_id,
-                //Edit user_id เป็นของ user คนนั้นๆ
+                //Edit hn_number เป็นของ hn_number คนนั้นๆ
 
-                user_id: 1,
+                hn_number: 60130500017,
 
                 symptom: this.dataPrepareSend.symptom
               })
@@ -255,8 +253,12 @@ export default {
                 // Set Local Storage
 
                 this.$router.push("Appointment");
+              })
+              .catch(error => {
+                console.log("===== Backend-error ======");
+                console.error(error.response);
+                this.$swal({ ...errorSWAL });
               });
-            console.log(this.dataPrepareSend);
           }
         });
       } else {

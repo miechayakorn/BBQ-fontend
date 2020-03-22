@@ -4,4 +4,11 @@ const waiting = {
   allowOutsideClick: false
 };
 
-export { waiting };
+const errorSWAL = {
+  icon: "error",
+  title: "Oops...",
+  text: "Something went wrong!",
+  footer: ""
+};
+
+export { waiting, errorSWAL };
