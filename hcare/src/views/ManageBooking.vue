@@ -1,5 +1,6 @@
 <template>
   <div class="h-100">
+    <div class="row Myrow1"></div>
     <div class="row justify-content-center h-100">
       <div class="col.p-0-1 menu-background">
         <ul class="menu">
@@ -23,21 +24,21 @@
           </li>
         </ul>
       </div>
-      <div class="col-2 mr-4 text-center p-4 queue-bg ">
-        <h5>คิวปัจจุบัน</h5>
-        <span class="current-queue-text btnBold">A 0001</span>
+      <div class="col-2 mr-4  text-center p-4 queue-bg ">
+        <h5 class="queueMar qText">คิวปัจจุบัน</h5>
+        <span class="current-queue-text textBold">A 0001</span>
         <br />
         <br />
-        <h6>คิวถัดไป</h6>
+        <h5 class=" queueMar qText">คิวถัดไป</h5>
         <ul class="queue-list-next">
           <li>
-            <span class="queue-text">A 0002</span>
+            <span class="queue-text  textBold">A 0002</span>
           </li>
           <li>
-            <span class="queue-text">A 0003</span>
+            <span class="queue-text  textBold">A 0003</span>
           </li>
           <li>
-            <span class="queue-text">A 0004</span>
+            <span class="queue-text  textBold">A 0004</span>
           </li>
         </ul>
       </div>
@@ -126,18 +127,7 @@ export default {
   data() {
     return {
       doctors: [
-        {
-          id: 1,
-          hnNumber: "6011",
-          name: "นายมาลี สันดี",
-          time: "9.30"
-        },
-        {
-          id: 2,
-          hnNumber: "6012",
-          name: "นางมา สันดี",
-          time: "10.30"
-        }
+        0
       ],
       messageToComponents: [
         { type_id: 1, type_name: "จิตแพทย์" },
@@ -188,13 +178,19 @@ export default {
     width: 720px;
   }
 }
+.Myrow1 {
+  height: 48px;
+  background-color: #ccd1ff;
+}
 
 .btnTime {
   height: 48px;
   width: 72px;
 }
-
-button {
+.queueMar{
+  margin-top: 22px;
+}
+.button {
   border-radius: 8px;
 }
 .btnConfirm {
@@ -206,9 +202,16 @@ button {
 .btnDisabled:active {
   outline: none;
 }
-.btnBold {
-  font-weight: bold;
+.textBold {
   font-size: 36px;
+  font-weight: 900;
+  font-family: "Poppins"
+}
+.qText{
+  font-size: 18px;
+  font-weight: 300;
+  font-family: 'Mitr';
+  color: #444444;
 }
 .tableSize {
   width: 100%;
@@ -252,18 +255,18 @@ body {
 
 .menu {
   list-style: none;
-  padding: 0;
+  padding: 5px;
   margin-top: 40px;
   text-align: center;
   height: 940px;
+  
 }
 
 .queue-bg {
   background-color: white;
+
 }
-.queue-pad {
-  margin-top: 40px;
-}
+
 
 .menu > li {
   color: #ffffff;
