@@ -11,4 +11,13 @@ const errorSWAL = {
   footer: ""
 };
 
-export { waiting, errorSWAL };
+const successSWAL = {
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  icon: "success",
+  title: "การจองสำเร็จ"
+}
+
+export { waiting, errorSWAL,successSWAL };

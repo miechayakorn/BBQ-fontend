@@ -44,69 +44,60 @@
       </div>
       <div class="col-9 content-background p-5">
         <div class="container m-0">
-          <div>
             <div class="row">
               <h6>บริการ</h6>
             </div>
-            <div class="row mb-4">
-              <ul class="service-menu">
-                <li class="active">
-                  <i class="fas fa-user-md fa-3x"></i>
-                  <br />จิตแพทย์
-                </li>
-                <li>
-                  <i class="fas fa-user-md fa-3x"></i>
-                  <br />จิตแพทย์
-                </li>
-                <li>
-                  <i class="fas fa-user-md fa-3x"></i>
-                  <br />จิตแพทย์
-                </li>
-              </ul>
-            </div>
-            <div class="row">
+
+            <ServiceTypeBox
+            :dataTypes="dataFetch.dataTypes"
+            v-on:serviceDataType="fetchDate"
+            />
+
+            <div class="row mt-4">
               <h6>วันที่</h6>
             </div>
             <div class="row mb-4">
-              <input type="text" />
+              <ServiceDateBox
+          :dataDates="dataFetch.dataDates"
+          v-on:selectedDate="fetchTime"
+        />
             </div>
             <div class="row">
               <h6>นัดหมายแพทย์ทั้งหมด</h6>
             </div>
-            <div class="row">
-              <table class="table list-doctor">
-                <thead>
+            <div class="row mt-6">
+              <table class="table table-hover list-doctor  ">
+                <thead >
                   <tr>
-                    <th scope="col">HN numbers</th>
-                    <th scope="col">ชื่อ - นามสกุล</th>
-                    <th scope="col">เวลาที่จอง</th>
-                    <th scope="col">สถานะ</th>
+                    <th scope="col">เวลา</th>
+                    <th scope="col">HN number</th>
+                    <th scope="col">ชื่อ</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">1</th>
+                    <th scope="row"></th>
                     <td>Mark</td>
                     <td>Otto</td>
-                    <td>@mdo</td>
+                   
                   </tr>
                   <tr>
                     <th scope="row">2</th>
                     <td>Jacob</td>
                     <td>Thornton</td>
-                    <td>@fat</td>
+                   
                   </tr>
                   <tr>
                     <th scope="row">3</th>
                     <td>Larry</td>
                     <td>the Bird</td>
-                    <td>@twitter</td>
+                 
                   </tr>
                   <tr>
                     <th scope="row">3</th>
                     <td>Larry</td>
                     <td>the Bird</td>
-                    <td>@twitter</td>
+                    
                   </tr>
                 </tbody>
               </table>
@@ -119,6 +110,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import SideandNavbar from "@/components/SideandNavbar.vue";
@@ -126,6 +118,25 @@ import SideandNavbar from "@/components/SideandNavbar.vue";
 export default {
   data() {
     return {
+     //ข้อมูลที่ได้จาก Backend
+      dataFetch: {
+        dataTypes: null,
+        dataDates: null,
+        dataTimes: null
+      },
+      dataShow: {
+        type: "จิตแพทย์",
+        date: "",
+        time: null,
+        activeBtnTime: "",
+        disableSymptom: true,
+        oldTypeService: 1
+      },
+
+
+
+
+      //----------------------------------------
       doctors: [
         0
       ],
@@ -148,6 +159,21 @@ export default {
         }
       ]
     };
+  },
+  async mounted() {
+      //เรียกข้อมูล Default
+    //Type
+    await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
+      this.dataFetch.dataTypes = res.data;
+    });
+    //Date
+    await axios.get("http://127.0.0.1:3333/ServiceDate/" + 1).then(res => {
+      this.dataFetch.dataDates = res.data;
+      this.$swal.close();
+    });
+
+
+
   },
   methods: {},
   components: {

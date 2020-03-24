@@ -4,7 +4,9 @@ import Home from '../views/Home.vue'
 import Booking from '../views/Booking.vue'
 import ManageBooking from '../views/ManageBooking.vue'
 import BookingUseComponent from '../views/BookingUseComponent.vue'
-import BookingUseComponentAdmin from '../views/admin/ManageBooking.vue'
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
+
 
 Vue.use(VueRouter)
 
@@ -28,20 +30,25 @@ const routes = [
     component: Booking
   },
   {
+    path: '/Login',
+    name: 'Login',
+    component: Login
+  },
+  {
     path: '/ManageBooking',
     name: 'ManageBooking',
     component: ManageBooking
+  },
+  {
+    path: '/Register',
+    name: 'Register',
+    component: Register
   },
   {
     path: '/bookingUseComponent',
     name: 'BookingUseComponent',
     component: BookingUseComponent
   },
-  {
-    path: '/admin/home',
-    name: 'adminHome',
-    component: BookingUseComponentAdmin
-  }
 ]
 
 const router = new VueRouter({
