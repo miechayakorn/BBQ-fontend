@@ -163,11 +163,11 @@ export default {
   async mounted() {
       //เรียกข้อมูล Default
     //Type
-    await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
+    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`).then(res => {
       this.dataFetch.dataTypes = res.data;
     });
     //Date
-    await axios.get("http://127.0.0.1:3333/ServiceDate/" + 1).then(res => {
+    await axios.get(`${process.env.VUE_APP_BACKEND_URL}ServiceDate/1`).then(res => {
       this.dataFetch.dataDates = res.data;
       this.$swal.close();
     });

@@ -160,7 +160,7 @@ export default {
         });
 
         axios
-          .post("http://127.0.0.1:3333/register", {
+          .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
             first_name: this.dataUserInfo.first_name,
             last_name: this.dataUserInfo.last_name,
             email: this.dataUserInfo.email,

@@ -121,11 +121,11 @@ export default {
 
     //เรียกข้อมูล Default
     //Type
-    await axios.get("http://127.0.0.1:3333/ServiceTypes").then(res => {
+    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`).then(res => {
       this.dataFetch.dataTypes = res.data;
     });
     //Date
-    await axios.get("http://127.0.0.1:3333/ServiceDate/" + 1).then(res => {
+    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`).then(res => {
       this.dataFetch.dataDates = res.data;
       this.$swal.close();
     });
@@ -163,7 +163,7 @@ export default {
         // this.dataFetch.dataTimes = null;
         // this.selectedDate = null;
         await axios
-          .get("http://127.0.0.1:3333/ServiceDate/" + serviceDataType.type_id)
+          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`)
           .then(res => {
             this.dataFetch.dataDates = res.data;
             console.log(this.dataFetch.dataDates);
@@ -183,10 +183,7 @@ export default {
 
       await axios
         .get(
-          "http://127.0.0.1:3333/ServiceTime/" +
-            selectedDate.type_id +
-            "?time=" +
-            selectedDate.date
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.date}`
         )
         .then(res => {
           this.dataFetch.dataTimes = res.data;
@@ -236,7 +233,7 @@ export default {
             });
 
             axios
-              .post("http://127.0.0.1:3333/Booking", {
+              .post(`${process.env.VUE_APP_BACKEND_URL}/Booking`, {
                 booking_id: this.dataPrepareSend.booking_id,
                 //Edit account_id เป็นของ account_id คนนั้นๆ
 
