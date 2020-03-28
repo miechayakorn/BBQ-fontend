@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Booking from '../views/Booking.vue'
+import Booking from '../views/BookingUseComponent.vue'
 import ManageBooking from '../views/ManageBooking.vue'
-import BookingUseComponent from '../views/BookingUseComponent.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 
@@ -43,11 +42,6 @@ const routes = [
     path: '/Register',
     name: 'Register',
     component: Register
-  },
-  {
-    path: '/bookingUseComponent',
-    name: 'BookingUseComponent',
-    component: BookingUseComponent
   },
 ]
 
