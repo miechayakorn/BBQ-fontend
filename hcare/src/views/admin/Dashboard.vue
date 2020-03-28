@@ -4,8 +4,8 @@
     <div class="row justify-content-center h-100">
       <div class="col.p-0-1 menu-background">
         <ul class="menu">
-          <li :class="{ active: this.getRoutePath == '/' }">
-            <router-link to="/">
+          <li :class="{ active: this.getRoutePath == '/admin/booking' }">
+            <router-link to="/admin/booking">
               <i class="fas fa-calendar-check"></i>
               <br />นัดหมาย
             </router-link>

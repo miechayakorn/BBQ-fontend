@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Booking from '../views/BookingUseComponent.vue'
-import ManageBooking from '../views/ManageBooking.vue'
+import Booking from '../views/Booking.vue'
+import Dashboard from '../views/admin/Dashboard.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
-
+import NotFound from '../views/404.vue'
+import Admin from '../views/admin/Admin.vue'
 
 Vue.use(VueRouter)
 
@@ -29,20 +30,29 @@ const routes = [
     component: Booking
   },
   {
-    path: '/Login',
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/ManageBooking',
-    name: 'ManageBooking',
-    component: ManageBooking
-  },
-  {
-    path: '/Register',
+    path: '/register',
     name: 'Register',
     component: Register
+  }, 
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
+  }, 
+  {
+    path: '/admin/dashboard/',
+    name: 'Dashboard',
+    component: Dashboard
   },
+  { 
+    path: '*', 
+    component: NotFound 
+  }
 ]
 
 const router = new VueRouter({
