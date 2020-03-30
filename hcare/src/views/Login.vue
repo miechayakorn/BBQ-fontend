@@ -66,7 +66,7 @@
 
 <script>
 import axios from "axios";
-
+import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
@@ -77,10 +77,28 @@ export default {
   },
   methods: {
     sendToBackend() {
+      this.$swal({
+          ...waiting,
+          onOpen: () => {
+            this.$swal.showLoading();
+          }
+      });
+
       axios.post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
           username: this.username,
           password: this.password
-      }).then()
+      }).then(res => {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.$router.push("Booking");
+      }).catch(error => {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            this.$swal({
+              title: 'คำเตือน',
+              text: "รหัสผ่านไม่ถูกต้อง",
+              icon: 'warning',
+            });
+          });
 
     }
   }
