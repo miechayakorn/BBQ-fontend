@@ -84,15 +84,15 @@ export default {
           }
       });
 
-      axios.post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-          username: this.username,
+      axios.post(`${process.env.VUE_APP_BACKEND_URL}/login`, { //process.env.VUE_APP_BACKEND_URL อันนี้มาจากไฟล์ .env ของ VUE จะบังคับให้ขึ้นต้นด้วยชื่อ VUE_APP_
+          hn_number: this.username,
           password: this.password
       }).then(res => {
           localStorage.setItem("user", JSON.stringify(res.data));
-          this.$router.push("Booking");
+          this.$router.push("Booking"); //อันนี้คือที่จะให้ไปห้าต่อไป    
       }).catch(error => {
             console.log("===== Backend-error ======");
-            console.error(error.response);
+            console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status 
             this.$swal({
               title: 'คำเตือน',
               text: "รหัสผ่านไม่ถูกต้อง",

@@ -24,84 +24,68 @@
           </li>
         </ul>
       </div>
-      <div class="col-2 mr-4  text-center p-4 queue-bg ">
+      <div class="col-2 mr-4 text-center p-4 queue-bg">
         <h5 class="queueMar qText">คิวปัจจุบัน</h5>
         <span class="current-queue-text textBold">A 0001</span>
         <br />
         <br />
-        <h5 class=" queueMar qText">คิวถัดไป</h5>
+        <h5 class="queueMar qText">คิวถัดไป</h5>
         <ul class="queue-list-next">
           <li>
-            <span class="queue-text  textBold">A 0002</span>
+            <span class="queue-text textBold">A 0002</span>
           </li>
           <li>
-            <span class="queue-text  textBold">A 0003</span>
+            <span class="queue-text textBold">A 0003</span>
           </li>
           <li>
-            <span class="queue-text  textBold">A 0004</span>
+            <span class="queue-text textBold">A 0004</span>
           </li>
         </ul>
       </div>
       <div class="col-9 content-background p-5">
         <div class="container m-0">
-            <div class="row">
-              <h6>บริการ</h6>
-            </div>
+          <div class="row">
+            <h6>บริการ</h6>
+          </div>
 
-            <ServiceTypeBox
+          <ServiceTypeBox
             :dataTypes="dataFetch.dataTypes"
             v-on:serviceDataType="fetchDate"
-            />
+            @click="changeType"
+          />
 
-            <div class="row mt-4">
-              <h6>วันที่</h6>
-            </div>
-            <div class="row mb-4">
-              <ServiceDateBox
-          :dataDates="dataFetch.dataDates"
-          v-on:selectedDate="fetchTime"
-        />
-            </div>
-            <div class="row">
-              <h6>นัดหมายแพทย์ทั้งหมด</h6>
-            </div>
-            <div class="row mt-6">
-              <table class="table table-hover list-doctor  ">
-                <thead >
-                  <tr>
-                    <th scope="col">เวลา</th>
-                    <th scope="col">HN number</th>
-                    <th scope="col">ชื่อ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row"></th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                   
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                   
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                 
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="row mt-4">
+            <h6>วันที่</h6>
+          </div>
+          <div class="row mb-4">
+            <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          </div>
+          <div class="row mb-4 d-flex justify-content-center">
+            <button @click="sendToBackend" class="btn btn-primary px-md-4 py-md-2">ค้นหา</button>
+          </div>
+          <div class="row">
+            <h6>นัดหมายแพทย์ทั้งหมด</h6>
+          </div>
+          <div class="row mt-6">
+            <table class="table table-hover list-doctor">
+              <thead>
+                <tr>
+                  <th scope="col">วันที่</th>
+                  <th scope="col">เวลา</th>
+                  <th scope="col">HN number</th>
+                  <th scope="col">ชื่อ</th>
+                </tr>
+              </thead>
+              <tbody v-for="(user, index) in userBookings" :key="index">
+                <tr>
+                  <th scope="row">{{user.date}}</th>
+                  <td>{{user.time_in}}</td>
+                  <td>{{user.hn_number}}</td>
+                  <td>{{user.first_name}} {{user.last_name}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <DashboardTable :dataBookingTable="userBookings" />
           </div>
         </div>
       </div>
@@ -110,7 +94,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import SideandNavbar from "@/components/SideandNavbar.vue";
@@ -118,7 +102,7 @@ import SideandNavbar from "@/components/SideandNavbar.vue";
 export default {
   data() {
     return {
-     //ข้อมูลที่ได้จาก Backend
+      //ข้อมูลที่ได้จาก Backend
       dataFetch: {
         dataTypes: null,
         dataDates: null,
@@ -132,14 +116,14 @@ export default {
         disableSymptom: true,
         oldTypeService: 1
       },
-
-
-
+      userBookings: [],
+      dataPrepareSend: {
+        type_id: null,
+        date: null
+      },
 
       //----------------------------------------
-      doctors: [
-        0
-      ],
+      doctors: [0],
       messageToComponents: [
         { type_id: 1, type_name: "จิตแพทย์" },
         { type_id: 2, type_name: "จิตวิทยา" },
@@ -161,25 +145,66 @@ export default {
     };
   },
   async mounted() {
-      //เรียกข้อมูล Default
+    //เรียกข้อมูล Default
     //Type
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`).then(res => {
-      this.dataFetch.dataTypes = res.data;
-    });
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+      .then(res => {
+        this.dataFetch.dataTypes = res.data;
+      });
     //Date
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}ServiceDate/1`).then(res => {
-      this.dataFetch.dataDates = res.data;
-      this.$swal.close();
-    });
+    // await axios
+    //   .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+    //   .then(res => {
+    //     this.dataFetch.dataDates = res.data;
+    //     // this.$swal.close();
+    //   });
 
-
-
+    // await axios
+    //   .get(`${process.env.VUE_APP_BACKEND_URL}/showbooking/1/2020-04-27`)
+    //   .then(res => {
+    //     this.userBookings = res.data;
+    //     this.$swal.close();
+    //   });
   },
-  methods: {},
+  methods: {
+    async fetchDate(serviceDataType) {
+      this.dataPrepareSend.type_id = serviceDataType.type_id;
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+        )
+        .then(res => {
+          this.dataFetch.dataDates = res.data;
+          console.log(this.dataFetch.dataDates);
+          // this.dataShow.oldTypeService = serviceDataType.type_id;
+          // this.$swal.close();
+        });
+    },
+
+    async fetchTime(selectedDate) {
+      this.dataPrepareSend.date = selectedDate.date;
+    },
+
+    async sendToBackend() {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`
+        )
+        .then(res => {
+          this.userBookings = res.data;
+        })
+        .catch(error => {
+          console.log("===== Backend-error ======");
+          console.error(error.response);
+        });
+    }
+  },
   components: {
     ServiceTypeBox,
     ServiceDateBox,
-    SideandNavbar
+    SideandNavbar,
+    DashboardTable
   }
 };
 </script>
@@ -213,7 +238,7 @@ export default {
   height: 48px;
   width: 72px;
 }
-.queueMar{
+.queueMar {
   margin-top: 22px;
 }
 .button {
@@ -231,12 +256,12 @@ export default {
 .textBold {
   font-size: 36px;
   font-weight: 900;
-  font-family: "Poppins"
+  font-family: "Poppins";
 }
-.qText{
+.qText {
   font-size: 18px;
   font-weight: 300;
-  font-family: 'Mitr';
+  font-family: "Mitr";
   color: #444444;
 }
 .tableSize {
@@ -285,14 +310,11 @@ body {
   margin-top: 40px;
   text-align: center;
   height: 940px;
-  
 }
 
 .queue-bg {
   background-color: white;
-
 }
-
 
 .menu > li {
   color: #ffffff;
