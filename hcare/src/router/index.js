@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import NotFound from '../views/404.vue'
 import Admin from '../views/admin/Admin.vue'
+import Test from '../views/test.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     path: '/admin/dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: Test
   },
   { 
     path: '*', 
