@@ -237,7 +237,7 @@ export default {
                 booking_id: this.dataPrepareSend.booking_id,
                 //Edit account_id เป็นของ account_id คนนั้นๆ
 
-                account_id: 1,
+                account_id: 4,
 
                 symptom: this.dataPrepareSend.symptom
               })
