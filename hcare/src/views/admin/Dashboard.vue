@@ -98,6 +98,7 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import SideandNavbar from "@/components/SideandNavbar.vue";
+import DashboardTable from "@/components/DashboardTable.vue"
 
 export default {
   data() {
