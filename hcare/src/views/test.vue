@@ -22,7 +22,7 @@
 
 <script>
 
-import vuetify from '@/plugins/vuetify' // path to vuetify export
+ // path to vuetify export
 
 export default {
   data() {
