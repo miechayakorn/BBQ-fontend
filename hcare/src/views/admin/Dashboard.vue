@@ -4,19 +4,19 @@
     <div class="row justify-content-center h-100">
       <div class="col.p-0-1 menu-background">
         <ul class="menu">
-          <li :class="{ active: this.getRoutePath == '/admin/booking' }">
+          <li>
             <router-link to="/admin/booking">
               <i class="fas fa-calendar-check"></i>
               <br />นัดหมาย
             </router-link>
           </li>
-          <li :class="{ active: this.getRoutePath == '/calendar' }">
+          <li>
             <router-link to="/calendar">
               <i class="fas fa-calendar-alt"></i>
               <br />ตารางเวลา
             </router-link>
           </li>
-          <li :class="{ active: this.getRoutePath == '/queue' }">
+          <li>
             <router-link to="/queue">
               <i class="fas fa-hourglass-start"></i>
               <br />คิว
@@ -51,7 +51,6 @@
           <ServiceTypeBox
             :dataTypes="dataFetch.dataTypes"
             v-on:serviceDataType="fetchDate"
-            @click="changeType"
           />
 
           <div class="row mt-4">
@@ -101,7 +100,7 @@ export default {
       },
       userBookings: [],
       dataPrepareSend: {
-        type_id: null,
+        type_id: 1,
         date: null
       },
 
@@ -136,12 +135,12 @@ export default {
         this.dataFetch.dataTypes = res.data;
       });
     //Date
-    // await axios
-    //   .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
-    //   .then(res => {
-    //     this.dataFetch.dataDates = res.data;
-    //     // this.$swal.close();
-    //   });
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+      .then(res => {
+        this.dataFetch.dataDates = res.data;
+        // this.$swal.close();
+      });
 
     // await axios
     //   .get(`${process.env.VUE_APP_BACKEND_URL}/showbooking/1/2020-04-27`)
