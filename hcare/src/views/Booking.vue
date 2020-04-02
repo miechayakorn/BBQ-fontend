@@ -25,7 +25,10 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
           </div>
         </div>
       </div>
@@ -34,13 +37,20 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          <ServiceDateBox
+            :dataDates="dataFetch.dataDates"
+            v-on:selectedDate="fetchTime"
+          />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >เลือกเวลา</label
+            >
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -50,7 +60,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+        <label for="exampleInputPassword1" class="d-flex justify-content-start"
+          >อาการ</label
+        >
         <textarea
           rows="3"
           class="form-control"
@@ -63,7 +75,9 @@
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
@@ -109,29 +123,37 @@ export default {
     ServiceTimeBox
   },
   async mounted() {
-    // this.$swal.showLoading();
-    this.$swal({
-      title: "กรุณารอสักครู่",
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      onOpen: () => {
-        this.$swal.showLoading();
-      }
-    });
+    if (localStorage.getItem("user")) {
+      // this.$swal.showLoading();
+      this.$swal({
+        title: "กรุณารอสักครู่",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        onOpen: () => {
+          this.$swal.showLoading();
+        }
+      });
 
-    //เรียกข้อมูล Default
-    //Type
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`).then(res => {
-      this.dataFetch.dataTypes = res.data;
-    });
-    //Date
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`).then(res => {
-      this.dataFetch.dataDates = res.data;
-      this.$swal.close();
-    });
-    //Time
+      //เรียกข้อมูล Default
+      //Type
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+        .then(res => {
+          this.dataFetch.dataTypes = res.data;
+        });
+      //Date
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+        .then(res => {
+          this.dataFetch.dataDates = res.data;
+          this.$swal.close();
+        });
+      //Time
 
-    // this.dataFetch.dataTimes
+      // this.dataFetch.dataTimes
+    } else {
+      this.$router.push("login");
+    }
   },
   methods: {
     clearData() {
@@ -163,7 +185,9 @@ export default {
         // this.dataFetch.dataTimes = null;
         // this.selectedDate = null;
         await axios
-          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`)
+          .get(
+            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+          )
           .then(res => {
             this.dataFetch.dataDates = res.data;
             console.log(this.dataFetch.dataDates);
