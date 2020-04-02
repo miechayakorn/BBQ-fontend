@@ -8,7 +8,7 @@ import Login from "../views/Login.vue";
 import NotFound from "../views/404.vue";
 import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
-import Appointment from "../views/appointment.vue";
+import Appointment from "../views/Appointment.vue";
 
 Vue.use(VueRouter);
 
