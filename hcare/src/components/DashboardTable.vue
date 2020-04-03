@@ -3,18 +3,25 @@
     <table class="table table-hover list-doctor">
       <thead>
         <tr>
-          <th scope="col">วันที่</th>
           <th scope="col">เวลา</th>
           <th scope="col">HN number</th>
           <th scope="col">ชื่อ</th>
+          <th scope="col">action</th>
         </tr>
       </thead>
       <tbody v-for="(user, index) in dataBookingTable" :key="index">
         <tr>
-          <th scope="row">{{ user.date }}</th>
           <td>{{ user.time_in }}</td>
           <td>{{ user.hn_number }}</td>
           <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>
+            <button type="button" class="btn">
+              <i class="fas fa-pen edit" style="color: #ffc107;"></i>
+            </button>
+            <button type="button" class="btn">
+              <i class="fas fa-trash" style="color: #e34724;"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -28,8 +35,8 @@ export default {
     return {};
   },
   props: {
-    dataBookingTable: Array
-  }
+    dataBookingTable: Array,
+  },
 };
 </script>
 
