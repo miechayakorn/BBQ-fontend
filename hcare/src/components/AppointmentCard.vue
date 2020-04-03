@@ -1,10 +1,10 @@
 <template>
   <div class="row">
-    <div class="w-100" v-for="(item, index) in data" :key="index">
+    <div class="w-100 pb-3" v-for="(item, index) in data" :key="index">
       <div class="card" style="border-radius: 10px">
         <div class="col-xs-12">
           <div
-            class="col-xs-3 w-25 float-left"
+            class="col-xs-3 w-35 float-left"
             style="background-color:#99A3FF; border-radius: 10px 0 0 10px;"
           >
             <div class="h-100" style="margin: 24px 24px 100% 24px;">
@@ -54,15 +54,18 @@
               </div>
             </div>
           </div>
-          <div class="col-xs-8 float-right w-75 pl-4 card-body">
+          <div class="col-xs-8 float-right w-65 pl-4 card-body">
             <p class="card-text pb-1">
-              <span class="font-weight-bold text-primary">HN &nbsp;</span
-              >{{ item.hn_number }} <br />{{ item.first_name }}
+              <span class="font-weight-bold text-primary">HN &nbsp;</span>
+              {{ item.hn_number }}
+              <br />
+              {{ item.first_name }}
               {{ item.last_name }}
             </p>
             <p class="card-text">
               <span class="font-weight-bold text-primary">เวลานัดหมาย</span>
-              <br />{{ item.date.slice(0, 10) }}
+              <br />
+              {{ item.date.slice(0, 10) }}
               <br />
               <span class="font-weight-bold">{{ item.time_in }}</span>
             </p>
@@ -81,4 +84,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scope>
+.w-35 {
+  width: 35% !important;
+}
+.w-65 {
+  width: 65% !important;
+}
+</style>
