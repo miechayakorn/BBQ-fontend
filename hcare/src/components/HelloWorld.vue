@@ -11,6 +11,7 @@
       <li><a href="/booking" target="_blank">Booking</a></li>
       <li><a href="/register" target="_blank">Register</a></li>
       <li><a href="/login" target="_blank">Login</a></li>
+      <li><a href="/appointment" target="_blank">Appointment</a></li>
     </ul>
     <h3>Admin Pages</h3>
     <ul>

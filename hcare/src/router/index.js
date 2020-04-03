@@ -9,6 +9,7 @@ import NotFound from "../views/404.vue";
 import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
+import AppointmentDetail from "../views/AppointmentDetail.vue"
 
 Vue.use(VueRouter);
 
@@ -61,6 +62,11 @@ const routes = [
     path: "/appointment",
     name: "appointment",
     component: Appointment
+  },
+  {
+    path: '/appointment/detail/:id',
+    name: 'AppointmentDetail',
+    component: AppointmentDetail
   },
   {
     path: "*",

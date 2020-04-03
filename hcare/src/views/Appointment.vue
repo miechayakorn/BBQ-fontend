@@ -20,7 +20,7 @@
     </svg>
     <div class="container fixed-container mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold">My Appointment</label>
+        <label class="font-weight-bold mb-4">My Appointment</label>
         <div class="form">
           <div class="container">
             <AppointmentCard :data="dataFetch" />
