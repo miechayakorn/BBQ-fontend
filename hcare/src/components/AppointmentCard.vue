@@ -8,8 +8,8 @@
               class="col-xs-3 w-35 float-left"
               style="background-color: #99a3ff; border-radius: 10px 0 0 10px;"
             >
-              <div class="h-100" style="margin: 24px 24px 100% 24px;">
-                <div class="text-center" style="margin-top: 32px;">
+              <div class="h-100" style="margin: 40px 24px 40px 24px;">
+                <div class="text-center" style>
                   <svg
                     width="40"
                     height="40"
@@ -55,25 +55,26 @@
                 </div>
               </div>
             </div>
-            <div class="col-xs-8 float-right w-65 pl-4 card-body">
-              <p class="card-text pb-1">
+            <div class="col-xs-8 float-right w-65  pb-1 card-body " >
+              <p class="card-text ">
                 <span class="font-weight-bold text-primary">HN &nbsp;</span>
                 <span style="color: #444444;">{{ item.hn_number }}</span>
                 <br />
-                <span style="color: #444444;"
-                  >{{ item.first_name }} {{ item.last_name }}</span
-                >
+                <span style="color: #444444;">{{ item.first_name }} {{ item.last_name }}</span>
               </p>
               <p class="card-text">
                 <span class="font-weight-bold text-primary">เวลานัดหมาย</span>
                 <br />
-                <span style="color: #444444;">{{
+                <span style="color: #444444;">
+                  {{
                   item.date.slice(0, 10)
-                }}</span>
-                <br />
-                <span class="font-weight-bold" style="color: #444444;">
-                  {{ item.time_in.slice(0, 5) }} น.
+                  }}
                 </span>
+                <br />
+                <span
+                  class="font-weight-bold"
+                  style="color: #444444;"
+                >{{ item.time_in.slice(0, 5) }} น.</span>
               </p>
             </div>
           </div>
@@ -97,5 +98,21 @@ export default {
 }
 .w-65 {
   width: 65% !important;
+}
+.card-text {
+  margin-top:16px;
+  margin-left:32px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+}
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 0rem;
+}
+.card {
+  border : none
 }
 </style>
