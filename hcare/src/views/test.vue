@@ -1,132 +1,134 @@
 <template>
-  <v-app>
-    <v-data-table
-      v-model="selected"
-      :headers="headers"
-      :items="desserts"
-      :single-select="singleSelect"
-      item-key="name"
-      show-select
-      class="elevation-1"
+  <div>
+    5555
+    <form id="search">
+      Search
+      <input name="query" v-model="searchQuery" />
+    </form>
+    <data-table
+      class="table table-hover list-doctor"
+      :data="gridData"
+      :columns-to-display="gridColumns"
+      :filter-key="searchQuery"
+      :child-hideable="true"
+      :child-init-hide="true"
+      :columns-to-not-sort="['action']"
     >
-      <template v-slot:top>
-        <v-switch
-          v-model="singleSelect"
-          label="Single select"
-          class="pa-3"
-        ></v-switch>
+      <template slot="action" scope="props">
+        <button
+          @click="editBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
+          <i class="fas fa-pen edit" style="color: #ffc107;"></i>
+        </button>
+        <button
+          @click="deleteBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
+          <i class="fas fa-trash" style="color: #e34724;"></i>
+        </button>
       </template>
-    </v-data-table>
-  </v-app>
+    </data-table>
+  </div>
 </template>
 
 <script>
-
- // path to vuetify export
-
 export default {
   data() {
     return {
-      singleSelect: false,
-      selected: [],
-      headers: [
+      searchQuery: "",
+      gridColumns: ["booking_id", "hn_number", "first_name"],
+      displayNames: {
+        power: "Super Powers"
+      },
+      gridData: [
         {
-          text: "Dessert (100g serving)",
-          align: "start",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%"
+          booking_id: 1,
+          hn_number: 60130500001,
+          first_name: "ทดสอบ",
+          last_name: "การทำงาน",
+          time_in: "12:00:00",
+          type_id: 1,
+          date: "27/04/2020"
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%"
+          booking_id: 2,
+          hn_number: 60130500001,
+          first_name: "ทดสอบ"
         },
         {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%"
+          booking_id: 3,
+          hn_number: 601305000013,
+          first_name: "ทดสอบ3"
         },
         {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%"
+          booking_id: 4,
+          hn_number: 60130500001,
+          first_name: "ทดสอบ4"
         }
       ]
     };
   }
 };
 </script>
+<style>
+.swal2-confirm {
+  width: 327px;
+  border-radius: 31px !important;
+}
+.list-doctor > thead {
+  background-color: #99a3ff;
+  color: #ffffff;
+}
 
-<style></style>
+.list-doctor > tbody > tr {
+  background-color: #ffffff;
+}
+th.active .arrow.asc {
+  border-bottom: 4px solid #4d4d4d;
+}
+
+th.active .arrow.dsc {
+  border-top: 4px solid #4d4d4d;
+}
+
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+}
+
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #cdc;
+}
+
+.arrow.dsc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #cdc;
+}
+.previousPage {
+  position: relative;
+}
+.previousPage:before {
+  content: "\f104";
+  font-family: FontAwesome;
+  position: absolute;
+}
+
+.nextPage {
+  position: relative;
+}
+.nextPage:before {
+  content: "\f105";
+  font-family: FontAwesome;
+  position: absolute;
+  left: 5px;
+}
+</style>
