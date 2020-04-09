@@ -4,7 +4,6 @@
       <label class="col-1 col-form-label">Search</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
-
     <data-table
       class="table table-hover list-doctor"
       :data="dataBookingTable"
@@ -13,7 +12,31 @@
       :columns-to-not-sort="['action']"
     >
       <template slot="ชื่อ" scope="props">
-        {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
+        <div class="dropdown">
+          <a class="ui inverted button"
+            >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a
+          >
+          <div class="dropdown-content ">
+            <h6 style="color:black;">
+              {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
+              <hr style="border: 1px solid #B6B6B6;" />
+              <p class="d-flex justify-content-start">
+                {{ props.entry.telephone }} {{ props.entry.email }}
+              </p>
+            </h6>
+            <div class="row" style="text-align: center;">
+              <div class="col-12">
+                <button
+                  @click="sendToBackend"
+                  style="width: 140px; height: 32px;"
+                  class="btn btn-primary btnBlock btnConfirm fixed-button"
+                >
+                  <span>ดูเพิ่มเติม</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
       <template slot="time_in" scope="props">
         <b>{{ props.entry.time_in }}</b>
@@ -46,7 +69,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["เวลานัด", "HN number", "ชื่อ", "action"]
+      gridColumns: ["เวลานัด", "HNnumber", "ชื่อ", "action"]
       // gridColumns: ["time_in", "hn_number", "first_name", "action"],
       // displayNames: {
       //   'time_in': "เวลานัด",
@@ -103,10 +126,32 @@ export default {
 </script>
 
 <style>
+.dropdown {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  padding: 20px;
+  border: 0px solid #99a3ff;
+  box-shadow: 0px 5px 10px #99a3ff;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 252px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 .swal2-confirm {
   width: 327px;
   border-radius: 31px !important;
 }
+
 .list-doctor > thead {
   background-color: #99a3ff;
   color: #ffffff;
@@ -147,9 +192,11 @@ th.active .arrow.dsc {
   border-right: 4px solid transparent;
   border-top: 4px solid #cdc;
 }
+
 .previousPage {
   position: relative;
 }
+
 .previousPage:before {
   content: "\f104";
   font-family: FontAwesome;
@@ -159,6 +206,7 @@ th.active .arrow.dsc {
 .nextPage {
   position: relative;
 }
+
 .nextPage:before {
   content: "\f105";
   font-family: FontAwesome;

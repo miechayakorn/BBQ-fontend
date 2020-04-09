@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Booking from "../views/Booking.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
+import DashAppointment from "../views/admin/DashAppointment.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
 import NotFound from "../views/404.vue";
@@ -52,6 +53,11 @@ const routes = [
     path: "/admin/dashboard",
     name: "Dashboard",
     component: Dashboard
+  },
+  {
+    path: "/admin/dashboard/appointment/:id",
+    name: "DashAppointment",
+    component: DashAppointment
   },
   {
     path: "/test",
