@@ -12,7 +12,10 @@
                   ชื่อแพทย์
                   <br />
                 </span>
-                <span>{{dataFetch.doctor_firstname}} {{dataFetch.doctor_lastname}}</span>
+                <span
+                  >{{ dataFetch.doctor_firstname }}
+                  {{ dataFetch.doctor_lastname }}</span
+                >
               </div>
             </div>
             <div class="row">
@@ -26,11 +29,15 @@
             </div>
             <div class="row" style="text-align: center;">
               <div class="col-12">
-                <button class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2">
-                  <a :href="'http://'+dataFetch.link_meeting">
-                    <span style="font-weight: 900; color:white;">Join Meeting</span>
-                  </a>
-                </button>
+                <a :href="'http://' + dataFetch.link_meeting">
+                  <button
+                    class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+                  >
+                    <span style="font-weight: 900; color:white;"
+                      >Join Meeting</span
+                    >
+                  </button>
+                </a>
               </div>
             </div>
           </div>
@@ -78,7 +85,6 @@ export default {
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`
       )
       .then(res => {
-
         this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
         this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
         this.dataFetch.appointmentCard[0].first_name = res.data.first_name;
@@ -89,9 +95,9 @@ export default {
         this.dataFetch.appointmentCard[0].date = res.data.date;
         this.dataFetch.appointmentCard[0].time_in = res.data.time_in;
         this.dataFetch.link_meeting = res.data.link_meeting;
-        this.dataFetch.doctor_id = res.data.doctor_id
-        this.dataFetch.doctor_firstname = res.data.doctor_firstname
-        this.dataFetch.doctor_lastname = res.data.doctor_lastname
+        this.dataFetch.doctor_id = res.data.doctor_id;
+        this.dataFetch.doctor_firstname = res.data.doctor_firstname;
+        this.dataFetch.doctor_lastname = res.data.doctor_lastname;
       });
   }
 };

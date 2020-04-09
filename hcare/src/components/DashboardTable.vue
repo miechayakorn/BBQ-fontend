@@ -1,7 +1,7 @@
 <template>
   <div class="col-12">
     <form id="search" class="d-flex justify-content-end pb-3">
-      <label class="col-1 col-form-label">Search</label>
+      <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
     <data-table
@@ -17,22 +17,25 @@
             >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a
           >
           <div class="dropdown-content ">
-            <h6 style="color:black;">
-              {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
-              <hr style="border: 1px solid #B6B6B6;" />
-              <p class="d-flex justify-content-start">
-                {{ props.entry.telephone }} {{ props.entry.email }}
-              </p>
-            </h6>
-            <div class="row" style="text-align: center;">
-              <div class="col-12">
-                <button
-                  @click="sendToBackend"
-                  style="width: 140px; height: 32px;"
-                  class="btn btn-primary btnBlock btnConfirm fixed-button"
-                >
-                  <span>ดูเพิ่มเติม</span>
-                </button>
+            <div class="container">
+              <h6
+                style="font-family: Poppins; font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px; align-items: center; color: #444444;"
+              >
+                {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
+                <hr style="border: 1px solid #B6B6B6;" />
+                <span class="d-flex justify-content-start detail">
+                  {{ props.entry.telephone }} {{ props.entry.email }}
+                </span>
+              </h6>
+              <div class="row" style="text-align: center;">
+                <div class="col-12">
+                  <button
+                    style="width: 140px; height: 32px;"
+                    class="btn btn-primary btnBlock btnConfirm fixed-button"
+                  >
+                    <span>ดูเพิ่มเติม</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -135,10 +138,10 @@ export default {
 .dropdown-content {
   padding: 20px;
   border: 0px solid #99a3ff;
-  box-shadow: 0px 5px 10px #99a3ff;
+  box-shadow: 0px 4px 8px #d9d9d9;
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #FFFFFF;
   min-width: 252px;
   z-index: 1;
 }
@@ -212,5 +215,18 @@ th.active .arrow.dsc {
   font-family: FontAwesome;
   position: absolute;
   left: 5px;
+}
+.detail {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 15px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
 }
 </style>
