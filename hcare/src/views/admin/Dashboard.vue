@@ -168,12 +168,14 @@ export default {
       this.dataPrepareSend.date = selectedDate.date;
     },
 
-    async sendToBackend() {
+    async sendToBackend() { 
+      console.log(process.env.VUE_APP_BACKEND_URL);
       await axios
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`
         )
         .then(res => {
+          console.log(res.data);
           this.userBookings = res.data;
         })
         .catch(error => {

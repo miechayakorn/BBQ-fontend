@@ -1,9 +1,10 @@
 <template>
   <div class="col-12">
-    <form id="search">
-      Search
-      <input name="query" v-model="searchQuery" />
+    <form id="search" class="d-flex justify-content-end pb-3">
+      <label class="col-1 col-form-label">Search</label>
+      <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
+
     <data-table
       class="table table-hover list-doctor"
       :data="dataBookingTable"
@@ -12,21 +13,13 @@
       :columns-to-not-sort="['action']"
     >
       <template slot="time_in" scope="props">
-        <b>{{ props.entry.time_in }}</b>
+        <b>{{ props.entry.time_in}}</b>
       </template>
       <template slot="action" scope="props">
-        <button
-          @click="editBooking(props.entry.booking_id)"
-          type="button"
-          class="btn"
-        >
+        <button @click="editBooking(props.entry.booking_id)" type="button" class="btn">
           <i class="fas fa-pen edit" style="color: #ffc107;"></i>
         </button>
-        <button
-          @click="deleteBooking(props.entry.booking_id)"
-          type="button"
-          class="btn"
-        >
+        <button @click="deleteBooking(props.entry.booking_id)" type="button" class="btn">
           <i class="fas fa-trash" style="color: #e34724;"></i>
         </button>
       </template>
@@ -42,7 +35,13 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["time_in", "hn_number", "first_name", "action"]
+      gridColumns: ["เวลานัด", "HN number", "ชื่อ", "action"]
+      // gridColumns: ["time_in", "hn_number", "first_name", "action"],
+      // displayNames: {
+      //   'time_in': "เวลานัด",
+      //   'hn_number': "HN number",
+      //   'first_name': "ชื่อ"
+      // }
     };
   },
   methods: {
