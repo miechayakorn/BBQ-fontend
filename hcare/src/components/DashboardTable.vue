@@ -12,14 +12,25 @@
       :filter-key="searchQuery"
       :columns-to-not-sort="['action']"
     >
+      <template slot="ชื่อ" scope="props">
+        {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
+      </template>
       <template slot="time_in" scope="props">
-        <b>{{ props.entry.time_in}}</b>
+        <b>{{ props.entry.time_in }}</b>
       </template>
       <template slot="action" scope="props">
-        <button @click="editBooking(props.entry.booking_id)" type="button" class="btn">
+        <button
+          @click="editBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
           <i class="fas fa-pen edit" style="color: #ffc107;"></i>
         </button>
-        <button @click="deleteBooking(props.entry.booking_id)" type="button" class="btn">
+        <button
+          @click="deleteBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
           <i class="fas fa-trash" style="color: #e34724;"></i>
         </button>
       </template>
