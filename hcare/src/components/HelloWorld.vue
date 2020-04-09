@@ -4,18 +4,18 @@
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+      <a href="https://cli.vuejs.org" rel="noopener">vue-cli documentation</a>.
     </p>
     <h3>Pages</h3>
     <ul>
-      <li><a href="/booking" target="_blank">Booking</a></li>
-      <li><a href="/register" target="_blank">Register</a></li>
-      <li><a href="/login" target="_blank">Login</a></li>
-      <li><a href="/appointment" target="_blank">Appointment</a></li>
+      <li><a href="/booking">Booking</a></li>
+      <li><a href="/register">Register</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/appointment">Appointment</a></li>
     </ul>
     <h3>Admin Pages</h3>
     <ul>
-      <li><a href="/admin/dashboard" target="_blank">Dashboard</a></li>
+      <li><a href="/admin/dashboard">Dashboard</a></li>
     </ul>
     <h3>Essential Links</h3>
     
