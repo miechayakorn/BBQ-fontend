@@ -29,7 +29,7 @@
             </div>
             <div class="row" style="text-align: center;">
               <div class="col-12">
-                <a :href="'http://' + dataFetch.link_meeting">
+                <a :href="dataFetch.link_meeting">
                   <button
                     class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                   >

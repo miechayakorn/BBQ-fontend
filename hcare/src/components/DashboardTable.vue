@@ -29,24 +29,36 @@
               </h6>
               <div class="row" style="text-align: center;">
                 <div class="col-12">
-                  <button
-                    style="width: 140px; height: 32px;"
-                    class="btn btn-primary btnBlock btnConfirm fixed-button"
+                  <a
+                    :href="
+                      '/admin/dashboard/appointment/' + props.entry.booking_id
+                    "
                   >
-                    <span>ดูเพิ่มเติม</span>
-                  </button>
+                    <button
+                      style="width: 140px; height: 32px;"
+                      class="btn btn-primary btnBlock btnConfirm fixed-button"
+                    >
+                      <span>ดูเพิ่มเติม</span>
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </template>
-      <template slot="time_in" scope="props">
-        <b>{{ props.entry.time_in }}</b>
+      <template slot="เวลานัด" scope="props">
+        <b>{{ props.entry.เวลานัด }}</b>
       </template>
       <template slot="action" scope="props">
         <button
-          @click="editBooking(props.entry.booking_id)"
+          @click="
+            editBooking(
+              props.entry.booking_id,
+              props.entry.link_meeting,
+              props.entry.comment_from_staff
+            )
+          "
           type="button"
           class="btn"
         >
@@ -66,6 +78,7 @@
 
 <script>
 import axios from "axios";
+import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   name: "DashboardTable",
@@ -82,14 +95,18 @@ export default {
     };
   },
   methods: {
-    editBooking(booking_id) {
+    editBooking(booking_id, link_meeting, comment_from_staff) {
       this.$swal({
         width: "678px",
         html:
           "เพิ่มลิงค์สำหรับการ Meeting" +
-          '<input id="link-input" placeholder="ใส่ลิงค์" class="swal2-input">' +
+          `<input id="link-input" placeholder="ใส่ลิงค์" class="swal2-input" ${
+            link_meeting == null ? "" : "value=" + link_meeting
+          }>` +
           "บันทึกเพิ่มเติม" +
-          '<textarea id="note" class="swal2-input" style="height: 122px;">',
+          `<textarea id="note" class="swal2-input" style="height: 122px;">${
+            comment_from_staff == null ? "" : comment_from_staff
+          }</textarea>`,
         inputAttributes: {
           autocapitalize: "off"
         },
@@ -101,7 +118,33 @@ export default {
           let linkInput = document.getElementById("link-input").value;
           let note = document.getElementById("note").value;
 
-          return alert(note);
+          axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/patientbooking/edit`, {
+              booking_id: booking_id,
+              link: linkInput,
+              note: note
+            })
+            .then(res => {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                icon: "success",
+                title: "บันทึกสำเร็จ"
+              });
+              this.$router.go();
+            })
+            .catch(error => {
+              console.log("===== Backend-error ======");
+              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              this.$swal({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: ""
+              });
+            });
         }
       });
     },
@@ -117,7 +160,31 @@ export default {
         confirmButtonColor: "#99A3FF",
         showLoaderOnConfirm: true,
         preConfirm: () => {
-          return alert(booking_id);
+          axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/cancel`, {
+              booking_id: booking_id
+            })
+            .then(res => {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                icon: "success",
+                title: "ยกเลิกสำเร็จ"
+              });
+              this.$router.go();
+            })
+            .catch(error => {
+              console.log("===== Backend-error ======");
+              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              this.$swal({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: ""
+              });
+            });
         }
       });
     }
@@ -141,7 +208,7 @@ export default {
   box-shadow: 0px 4px 8px #d9d9d9;
   display: none;
   position: absolute;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   min-width: 252px;
   z-index: 1;
 }
