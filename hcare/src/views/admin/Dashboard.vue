@@ -165,7 +165,7 @@ export default {
     },
 
     async fetchTime(selectedDate) {
-      this.dataPrepareSend.date = selectedDate.date;
+      this.dataPrepareSend.date = selectedDate.datevalue;
     },
 
     async sendToBackend() { 

@@ -12,7 +12,7 @@
         v-for="(dataDate, index) in dataDates"
         :key="index"
         :value="dataDate"
-        >{{ dataDate.date }}</option
+        >{{ dataDate.dateformat }}</option
       >
     </select>
   </div>

@@ -7,10 +7,7 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox
-              :dataTypes="dataFetch.dataTypes"
-              v-on:serviceDataType="fetchDate"
-            />
+            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
           </div>
         </div>
       </div>
@@ -19,20 +16,13 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox
-            :dataDates="dataFetch.dataDates"
-            v-on:selectedDate="fetchTime"
-          />
+          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label
-              for="exampleInputPassword1"
-              class="d-flex justify-content-start"
-              >เลือกเวลา</label
-            >
+            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -42,9 +32,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start"
-          >อาการ</label
-        >
+        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
         <textarea
           rows="3"
           class="form-control"
@@ -57,9 +45,7 @@
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >
-            Confirm
-          </button>
+          >Confirm</button>
         </div>
       </div>
     </div>
@@ -104,7 +90,7 @@ export default {
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
-    logoHeader,
+    logoHeader
   },
   async mounted() {
     if (localStorage.getItem("user")) {
@@ -186,12 +172,12 @@ export default {
       this.dataShow.activeBtnTime = "";
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
-      this.dataShow.date = selectedDate.date;
+      this.dataShow.date = selectedDate.dateformat;
       console.log("selectedDate is " + this.dataShow.date);
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.date}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`
         )
         .then(res => {
           this.dataFetch.dataTimes = res.data;
