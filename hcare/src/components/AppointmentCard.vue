@@ -55,8 +55,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-xs-8 float-right w-65  pb-1 card-body " >
-              <p class="card-text ">
+            <div class="col-xs-8 float-right w-65 pb-1 card-body">
+              <p class="card-text">
                 <span class="font-weight-bold text-primary">HN &nbsp;</span>
                 <span style="color: #444444;">{{ item.hn_number }}</span>
                 <br />
@@ -66,8 +66,9 @@
                 <span class="font-weight-bold text-primary">เวลานัดหมาย</span>
                 <br />
                 <span style="color: #444444;">
+                  <!--item.date.slice(0, 10)-->
                   {{
-                  item.date.slice(0, 10)
+                  item.date
                   }}
                 </span>
                 <br />
@@ -87,8 +88,8 @@
 <script>
 export default {
   props: {
-    data: Array,
-  },
+    data: Array
+  }
 };
 </script>
 
@@ -100,8 +101,8 @@ export default {
   width: 65% !important;
 }
 .card-text {
-  margin-top:16px;
-  margin-left:32px;
+  margin-top: 16px;
+  margin-left: 32px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -113,6 +114,6 @@ export default {
   padding: 0rem;
 }
 .card {
-  border : none
+  border: none;
 }
 </style>

@@ -11,9 +11,9 @@
               <input
                 type="text"
                 id="InputName"
-                v-model="username"
+                v-model="email"
                 class="form-control"
-                placeholder="username"
+                placeholder="อีเมล มหาวิยาลัย"
               />
             </div>
           </div>
@@ -22,12 +22,7 @@
 
             <div class="inner-addon left-addon">
               <i class="fas fa-key"></i>
-              <input
-                type="password"
-                v-model="password"
-                class="form-control"
-                placeholder="password"
-              />
+              <input type="password" v-model="password" class="form-control" placeholder="รหัสผ่าน" />
             </div>
           </div>
 
@@ -55,38 +50,62 @@ import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
-      username: "",
+      email: "",
       password: ""
     };
   },
   methods: {
+    checkEmail() {
+      if (this.email == "") {
+        return true;
+      }
+      let emailCheck = this.email;
+      let emailKmutt = "@mail.kmutt.ac.th";
+      let emailSub = this.email.slice(
+        emailCheck.length - 17,
+        emailCheck.length
+      );
+      if (emailSub != emailKmutt) {
+        return false;
+      }
+      return true;
+    },
     sendToBackend() {
-      this.$swal({
-        ...waiting,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
-
-      axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-          //process.env.VUE_APP_BACKEND_URL อันนี้มาจากไฟล์ .env ของ VUE จะบังคับให้ขึ้นต้นด้วยชื่อ VUE_APP_
-          hn_number: this.username,
-          password: this.password
-        })
-        .then(res => {
-          localStorage.setItem("user", JSON.stringify(res.data));
-          this.$router.push("Booking"); //อันนี้คือที่จะให้ไปห้าต่อไป
-        })
-        .catch(error => {
-          console.log("===== Backend-error ======");
-          console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
-          this.$swal({
-            title: "คำเตือน",
-            text: "รหัสผ่านไม่ถูกต้อง",
-            icon: "warning"
-          });
+      if (this.checkEmail() == true) {
+        this.$swal({
+          ...waiting,
+          onOpen: () => {
+            this.$swal.showLoading();
+          }
         });
+
+        axios
+          .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
+            //process.env.VUE_APP_BACKEND_URL อันนี้มาจากไฟล์ .env ของ VUE จะบังคับให้ขึ้นต้นด้วยชื่อ VUE_APP_
+            email: this.email,
+            password: this.password
+          })
+          .then(res => {
+            localStorage.setItem("user", JSON.stringify(res.data));
+            this.$router.push("Booking"); //อันนี้คือที่จะให้ไปหน้าต่อไป
+          })
+          .catch(error => {
+            console.log("===== Backend-error ======");
+            console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+            this.$swal({
+              title: "คำเตือน",
+              text: "รหัสผ่านไม่ถูกต้อง",
+              icon: "warning"
+            });
+          });
+      } else {
+        this.email = "";
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกอีเมล มหาวิทยาลัย"
+        });
+      }
     }
   },
   components: {

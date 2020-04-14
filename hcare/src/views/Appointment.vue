@@ -6,20 +6,14 @@
         <label class="font-weight-bold mb-4">My Appointment</label>
         <div class="form">
           <div class="container">
-            <!-- {{checkAppointment}} -->
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
-            <div
-              class="d-flex justify-content-center my-5"
-              v-if="checkAppointment"
-            >
+            <div class="d-flex justify-content-center my-5" v-if="checkAppointment">
               <div class="row">
                 <div class="col-12 d-flex justify-content-center">
                   <man />
                 </div>
                 <div class="col-12">
-                  <p class="announcement d-flex justify-content-center my-3">
-                    คุณยังไม่มีนัดหมาย
-                  </p>
+                  <p class="announcement d-flex justify-content-center my-3">คุณยังไม่มีนัดหมาย</p>
                 </div>
               </div>
             </div>
@@ -69,7 +63,7 @@ export default {
   components: {
     AppointmentCard,
     logoHeader,
-    man,
+    man
   },
   async mounted() {
     if (localStorage.getItem("user")) {
@@ -84,6 +78,7 @@ export default {
             this.checkAppointment = true;
           } else {
             this.dataFetch = res.data;
+            console.log(dataFetch);
           }
         });
     } else {
