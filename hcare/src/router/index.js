@@ -11,6 +11,7 @@ import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue"
+import emailVerification from "../views/emailVerification.vue"
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register
+  },
+  {
+    path: "/email-verification",
+    name: "emailVerification",
+    component: emailVerification
   },
   {
     path: "/admin",
