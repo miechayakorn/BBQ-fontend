@@ -1,16 +1,19 @@
 <template>
-  <div class="container">
-    <div class="row" style="text-align: center;">
-      <div class="mt-5 col-12">
-        {{ status }}
-      </div>
-      <div class="col-12">
-        <button
-          @click="confirm"
-          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-        >
-          <span style="font-weight:900">confirm email</span>
-        </button>
+  <div>
+    <logoHeader />
+    <div class="container">
+      <div class="row" style="text-align: center;">
+        <div class="mt-5 col-12">
+          {{ status }}
+        </div>
+        <div class="col-12">
+          <button
+            @click="confirm"
+            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+          >
+            <span style="font-weight:900">confirm email</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -18,12 +21,16 @@
 
 <script>
 import axios from "axios";
+import logoHeader from "@/components/svg/logoHeader.vue";
 
 export default {
   data() {
     return {
       status: "สถานะ"
     };
+  },
+  components: {
+    logoHeader
   },
   methods: {
     confirm() {
@@ -47,7 +54,7 @@ export default {
         .catch(error => {
           console.log("===== Backend-error ======");
           console.error(error.response);
-          this.status = error.response.data.error.message
+          this.status = error.response.data.error.message;
         });
     }
   }

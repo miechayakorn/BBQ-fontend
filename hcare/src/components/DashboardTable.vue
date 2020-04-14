@@ -133,7 +133,7 @@ export default {
                 icon: "success",
                 title: "บันทึกสำเร็จ"
               });
-              this.$router.go();
+              vm.$forceUpdate();
             })
             .catch(error => {
               console.log("===== Backend-error ======");
