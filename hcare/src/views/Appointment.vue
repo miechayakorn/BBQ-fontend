@@ -10,9 +10,12 @@
             <div class="" v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <p class="announcement d-flex justify-content-center mt-3">
+                  <span class="announcement d-flex justify-content-center mt-3">
                     คุณยังไม่มีนัดหมาย
-                  </p>
+                  </span>
+                  <span class="announcement d-flex justify-content-center mt-3">
+                    หรือยังไม่ได้กดยืนยันที่ Email
+                  </span>
                 </div>
                 <div class="col-12 d-flex justify-content-center fixed-bottom">
                   <man />
