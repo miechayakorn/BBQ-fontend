@@ -13,7 +13,6 @@ import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue"
 import BookingConfirm from "../views/BookingConfirm.vue"
 import RegisterConfirm from "../views/BookingConfirm.vue"
-import Menubar from "../views/Menubar.vue"
 
 Vue.use(VueRouter);
 
@@ -86,11 +85,6 @@ const routes = [
     path: '/appointment/detail/:id',
     name: 'AppointmentDetail',
     component: AppointmentDetail
-  },
-  {
-    path: '/menu',
-    name: 'Menubar',
-    component: Menubar
   },
   {
     path: "*",
