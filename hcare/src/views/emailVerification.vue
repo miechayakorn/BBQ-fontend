@@ -4,16 +4,22 @@
     <div class="container">
       <div class="row" style="text-align: center;">
         <div class="mt-5 col-12">
-          {{ status }}
+          <div v-if="status == 500" class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+          <div v-if="status == 304" class="alert alert-warning" role="alert">
+            This booking has been confirmed
+          </div>
+          <div v-if="status == 200" class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
         </div>
-        <div class="col-12">
+        <!-- <div class="col-12">
           <button
             @click="confirm"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >
-            <span style="font-weight:900">confirm email</span>
-          </button>
-        </div>
+          ></button>
+        </div> -->
       </div>
     </div>
   </div>
@@ -26,20 +32,19 @@ import logoHeader from "@/components/svg/logoHeader.vue";
 export default {
   data() {
     return {
-      status: "สถานะ"
+      status: "",
+      message: ""
     };
   },
   components: {
     logoHeader
   },
-  methods: {
-    confirm() {
+  mounted() {
+    if (this.$route.query.token) {
       axios
-        //===================== ยังไม่รู้ backend ==============================
-        .post(`${process.env.VUE_APP_BACKEND_URL}/booking===`, {
-          //   hn_number: this.username,
-          //   password: this.password
-        })
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/bookings/confirm?token=${this.$route.query.token}`
+        )
         .then(res => {
           this.$swal({
             toast: true,
@@ -49,13 +54,18 @@ export default {
             icon: "success",
             title: "ยืนยัน email สำเร็จ"
           });
-          this.$router.push("/");
+          console.log(res);
+          this.message = res.data.message;
+          this.status = res.status;
         })
         .catch(error => {
           console.log("===== Backend-error ======");
           console.error(error.response);
-          this.status = error.response.data.error.message;
+          this.message = error.response.data;
+          this.status = error.response.status;
         });
+    }else{
+      this.$router.push("/")
     }
   }
 };

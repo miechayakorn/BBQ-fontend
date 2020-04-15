@@ -214,7 +214,7 @@ export default {
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes",
           cancelButtonText: "Cancel",
-          footer: "กรุณามาก่อนเวลา 15 นาที"
+          footer: "กรุณากดยืนยันการจองที่ email"
         }).then(result => {
           if (result.value) {
             this.$swal({
@@ -229,10 +229,7 @@ export default {
             axios
               .post(`${process.env.VUE_APP_BACKEND_URL}/Booking`, {
                 booking_id: this.dataPrepareSend.booking_id,
-                //Edit account_id เป็นของ account_id คนนั้นๆ
-
-                account_id: 1,
-
+                account_id: this.dataPrepareSend.user_id,
                 symptom: this.dataPrepareSend.symptom
               })
               .then(res => {
@@ -245,10 +242,7 @@ export default {
                   timer: 3000,
                   icon: "success",
                   title: "การจองสำเร็จ"
-                  // text: "จองสำเร็จ"
                 });
-                // Set Local Storage
-
                 this.$router.push("Appointment");
               })
               .catch(error => {

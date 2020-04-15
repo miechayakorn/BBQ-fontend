@@ -133,11 +133,11 @@ export default {
                 icon: "success",
                 title: "บันทึกสำเร็จ"
               });
-              vm.$forceUpdate();
+              // vm.$forceUpdate();
             })
             .catch(error => {
               console.log("===== Backend-error ======");
-              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              console.error(error.response);
               this.$swal({
                 icon: "error",
                 title: "Oops...",
