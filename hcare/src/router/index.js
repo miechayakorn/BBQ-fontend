@@ -11,7 +11,9 @@ import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue"
-import emailVerification from "../views/emailVerification.vue"
+import BookingConfirm from "../views/BookingConfirm.vue"
+import RegisterConfirm from "../views/BookingConfirm.vue"
+import Menubar from "../views/Menubar.vue"
 
 Vue.use(VueRouter);
 
@@ -36,6 +38,11 @@ const routes = [
     component: Booking
   },
   {
+    path: "/bookings/confirm",
+    name: "BookingConfirm",
+    component: BookingConfirm
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login
@@ -46,9 +53,9 @@ const routes = [
     component: Register
   },
   {
-    path: "/email-verification",
-    name: "emailVerification",
-    component: emailVerification
+    path: "/register/confirm",
+    name: "RegisterConfirm",
+    component: RegisterConfirm
   },
   {
     path: "/admin",
@@ -79,6 +86,11 @@ const routes = [
     path: '/appointment/detail/:id',
     name: 'AppointmentDetail',
     component: AppointmentDetail
+  },
+  {
+    path: '/menu',
+    name: 'Menubar',
+    component: Menubar
   },
   {
     path: "*",

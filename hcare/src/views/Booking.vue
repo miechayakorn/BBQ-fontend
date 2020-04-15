@@ -66,7 +66,7 @@ export default {
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
-        user_id: null,
+        account_id: null,
         symptom: null
       },
       //ข้อมูลที่ได้จาก Backend
@@ -103,6 +103,7 @@ export default {
           this.$swal.showLoading();
         }
       });
+      this.dataPrepareSend.account_id = JSON.parse(localStorage.getItem("user")).account_id
 
       //เรียกข้อมูล Default
       //Type
@@ -229,7 +230,7 @@ export default {
             axios
               .post(`${process.env.VUE_APP_BACKEND_URL}/Booking`, {
                 booking_id: this.dataPrepareSend.booking_id,
-                account_id: this.dataPrepareSend.user_id,
+                account_id: this.dataPrepareSend.account_id,
                 symptom: this.dataPrepareSend.symptom
               })
               .then(res => {
