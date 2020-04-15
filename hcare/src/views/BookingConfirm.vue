@@ -8,7 +8,7 @@
             {{ message }}
           </div>
           <div v-if="status == 304" class="alert alert-warning" role="alert">
-            This booking has been confirmed
+            This token is not available.
           </div>
           <div v-if="status == 200" class="alert alert-success" role="alert">
             {{ message }}
@@ -46,14 +46,6 @@ export default {
           `${process.env.VUE_APP_BACKEND_URL}/bookings/confirm?token=${this.$route.query.token}`
         )
         .then(res => {
-          this.$swal({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            icon: "success",
-            title: "ยืนยัน email สำเร็จ"
-          });
           console.log(res);
           this.message = res.data.message;
           this.status = res.status;
