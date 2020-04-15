@@ -12,9 +12,14 @@
                 type="text"
                 id="InputName"
                 v-model="email"
-                class="form-control"
+                :class="
+                  checkEmail() ? 'form-control' : 'form-control is-invalid'
+                "
                 placeholder="อีเมล มหาวิยาลัย"
               />
+              <div class="invalid-feedback">
+                กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -22,7 +27,12 @@
 
             <div class="inner-addon left-addon">
               <i class="fas fa-key"></i>
-              <input type="password" v-model="password" class="form-control" placeholder="รหัสผ่าน" />
+              <input
+                type="password"
+                v-model="password"
+                class="form-control"
+                placeholder="รหัสผ่าน"
+              />
             </div>
           </div>
 
@@ -71,7 +81,7 @@ export default {
       return true;
     },
     sendToBackend() {
-      if (this.checkEmail() == true) {
+      if (this.checkEmail() == true && this.email != "" && this.password != "") {
         this.$swal({
           ...waiting,
           onOpen: () => {

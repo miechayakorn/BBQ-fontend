@@ -7,13 +7,15 @@
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
-            <div class="d-flex justify-content-center my-5" v-if="checkAppointment">
+            <div class="" v-if="checkAppointment">
               <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                  <man />
-                </div>
                 <div class="col-12">
-                  <p class="announcement d-flex justify-content-center my-3">คุณยังไม่มีนัดหมาย</p>
+                  <p class="announcement d-flex justify-content-center mt-3">
+                    คุณยังไม่มีนัดหมาย
+                  </p>
+                </div>
+                <div class="col-12 d-flex justify-content-center fixed-bottom">
+                  <man />
                 </div>
               </div>
             </div>
@@ -44,19 +46,7 @@ export default {
         email: "",
         telephone: null
       },
-      dataFetch: [
-        {
-          account_id: null,
-          hn_number: null,
-          first_name: "",
-          last_name: "",
-          booking_id: null,
-          type_id: null,
-          type_name: "",
-          date: "",
-          time_in: ""
-        }
-      ],
+      dataFetch: [],
       checkAppointment: false
     };
   },
@@ -78,7 +68,7 @@ export default {
             this.checkAppointment = true;
           } else {
             this.dataFetch = res.data;
-            console.log(dataFetch);
+            console.log(this.dataFetch);
           }
         });
     } else {

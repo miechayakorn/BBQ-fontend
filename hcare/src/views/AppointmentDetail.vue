@@ -31,10 +31,19 @@
               <div class="col-12">
                 <a :href="dataFetch.link_meeting">
                   <button
+                    v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                   >
                     <span style="font-weight: 900; color:white;"
                       >Join Meeting</span
+                    >
+                  </button>
+                  <button
+                    v-if="dataFetch.link_meeting == null"
+                    class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
+                  >
+                    <span style="font-weight: 900; color:white;"
+                      >ท่านยังไม่ได้รับลิงค์</span
                     >
                   </button>
                 </a>
@@ -85,19 +94,23 @@ export default {
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`
       )
       .then(res => {
-        this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
-        this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
-        this.dataFetch.appointmentCard[0].first_name = res.data.first_name;
-        this.dataFetch.appointmentCard[0].last_name = res.data.last_name;
-        this.dataFetch.appointmentCard[0].booking_id = res.data.booking_id;
-        this.dataFetch.appointmentCard[0].type_id = res.data.type_id;
-        this.dataFetch.appointmentCard[0].type_name = res.data.type_name;
-        this.dataFetch.appointmentCard[0].date = res.data.date;
-        this.dataFetch.appointmentCard[0].time_in = res.data.time_in;
-        this.dataFetch.link_meeting = res.data.link_meeting;
-        this.dataFetch.doctor_id = res.data.doctor_id;
-        this.dataFetch.doctor_firstname = res.data.doctor_firstname;
-        this.dataFetch.doctor_lastname = res.data.doctor_lastname;
+        if (res.data.account_id) {
+          this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
+          this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
+          this.dataFetch.appointmentCard[0].first_name = res.data.first_name;
+          this.dataFetch.appointmentCard[0].last_name = res.data.last_name;
+          this.dataFetch.appointmentCard[0].booking_id = res.data.booking_id;
+          this.dataFetch.appointmentCard[0].type_id = res.data.type_id;
+          this.dataFetch.appointmentCard[0].type_name = res.data.type_name;
+          this.dataFetch.appointmentCard[0].date = res.data.date;
+          this.dataFetch.appointmentCard[0].time_in = res.data.time_in;
+          this.dataFetch.link_meeting = res.data.link_meeting;
+          this.dataFetch.doctor_id = res.data.doctor_id;
+          this.dataFetch.doctor_firstname = res.data.doctor_firstname;
+          this.dataFetch.doctor_lastname = res.data.doctor_lastname;
+        }else{
+            this.$router.push("/")
+        }
       });
   }
 };
