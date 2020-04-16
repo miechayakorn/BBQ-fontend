@@ -1,6 +1,5 @@
 <template>
   <div>
-    <logoHeader />
     <div class="container fixed-container mb-3">
       <div class="form-group text-left">
         <label class="font-weight-bold mb-4">My Appointment</label>
@@ -32,7 +31,6 @@
 <script>
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
-import logoHeader from "@/components/svg/logoHeader.vue";
 import man from "@/components/svg/man.vue";
 
 export default {
@@ -55,7 +53,6 @@ export default {
   },
   components: {
     AppointmentCard,
-    logoHeader,
     man
   },
   async mounted() {

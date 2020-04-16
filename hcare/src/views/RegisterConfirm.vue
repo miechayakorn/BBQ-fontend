@@ -12,7 +12,11 @@
             role="alert"
           >This token is not available.</div>
           <div v-if="status == 200" class="alert alert-success" role="alert">{{ message }}</div>
-          
+          <router-link :to="'/login'">
+            <button class="col-10 btn btn-primary btnBlock btnConfirm mt-3 fixed-button mb-2">
+              <span style="font-weight: 900; color:white; ">Login</span>
+            </button>
+          </router-link>
         </div>
         <!-- <div class="col-12">
           <button

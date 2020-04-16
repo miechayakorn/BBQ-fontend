@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top bg-white">
+  <nav class="navbar navbar-expand-lg fixed-top bg-white bd-navbar">
     <router-link to="/">
       <logoHeaderMini style="width: 55px; height: 17px; margin-top:0px;" />
     </router-link>
@@ -12,15 +12,12 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span style="color:#99A3FF"><i class="fas fa-bars fa-1x"></i></span>
+      <span style="color:#99A3FF">
+        <i class="fas fa-bars fa-1x"></i>
+      </span>
     </button>
-    <div
-      class="collapse navbar-collapse bg-white text-left"
-      id="navbarCollapse"
-    >
-      <ul class="navbar-nav mr-auto">
-       
-      </ul>
+    <div class="collapse navbar-collapse bg-white text-left" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0">
         <li class="nav-item active">
           <router-link class="nav-link" to="/">Home</router-link>
@@ -39,7 +36,7 @@
         <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
           Search
-        </button> -->
+        </button>-->
       </form>
     </div>
   </nav>

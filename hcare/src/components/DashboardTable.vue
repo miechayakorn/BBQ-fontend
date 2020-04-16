@@ -133,7 +133,7 @@ export default {
                 icon: "success",
                 title: "บันทึกสำเร็จ"
               });
-              // vm.$forceUpdate();
+              this.$router.go();
             })
             .catch(error => {
               console.log("===== Backend-error ======");
@@ -157,7 +157,7 @@ export default {
         },
         showCloseButton: true,
         confirmButtonText: "ยืนยัน",
-        confirmButtonColor: "#99A3FF",
+        confirmButtonColor: "#d33",
         showLoaderOnConfirm: true,
         preConfirm: () => {
           axios
@@ -215,11 +215,6 @@ export default {
 
 .dropdown:hover .dropdown-content {
   display: block;
-}
-
-.swal2-confirm {
-  width: 327px;
-  border-radius: 31px !important;
 }
 
 .list-doctor > thead {

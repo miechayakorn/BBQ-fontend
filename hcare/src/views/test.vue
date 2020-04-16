@@ -74,10 +74,6 @@ export default {
 };
 </script>
 <style>
-.swal2-confirm {
-  width: 327px;
-  border-radius: 31px !important;
-}
 .list-doctor > thead {
   background-color: #99a3ff;
   color: #ffffff;

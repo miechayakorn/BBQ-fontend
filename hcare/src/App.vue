@@ -1,38 +1,19 @@
 <template>
   <div id="app">
-    <nav v-if="role == 'admin'" class="navbar navbar-primary Myrow1">
-        <a class="navbar-brand" href="#">
-          <img
-            src="/docs/4.0/assets/brand/bootstrap-solid.svg"
-            width="30"
-            height="30"
-            class="d-inline-block align-top"
-            alt=""
-          />
-          Bootstrap
-        </a>
-      </nav>
-
+    <Menubar/>
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link to="/about">About</router-link> -->
-
-    <router-view />
+    <div style="margin-top:60px;">
+      <router-view />
+    </div>
   </div>
 </template>
 <script>
+import Menubar from "@/components/Menubar.vue";
+
 export default {
-  data() {
-    return {
-      role: ""
-    };
-  },
-  mounted() {
-    if (localStorage.getItem("role")) {
-      let dataRole = localStorage.getItem("role");
-      this.role = dataRole
-    } else {
-      
-    }
+components: {
+    Menubar,
   }
 };
 </script>

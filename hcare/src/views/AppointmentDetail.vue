@@ -12,10 +12,10 @@
                   ชื่อแพทย์
                   <br />
                 </span>
-                <span
-                  >{{ dataFetch.doctor_firstname }}
-                  {{ dataFetch.doctor_lastname }}</span
-                >
+                <span>
+                  {{ dataFetch.doctor_firstname }}
+                  {{ dataFetch.doctor_lastname }}
+                </span>
               </div>
             </div>
             <div class="row">
@@ -34,18 +34,14 @@
                     v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >Join Meeting</span
-                    >
+                    <span style="font-weight: 900; color:white;">Join Meeting</span>
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
                     class="btn btn btn-secondary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >ท่านยังไม่ได้รับลิงค์</span
-                    >
+                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
                   </button>
                 </a>
               </div>
@@ -75,7 +71,8 @@ export default {
             type_id: null,
             type_name: "",
             date: "",
-            time_in: ""
+            time_in: "",
+            dateformat: ""
           }
         ],
         link_meeting: "",
@@ -105,12 +102,13 @@ export default {
           this.dataFetch.appointmentCard[0].type_name = res.data.type_name;
           this.dataFetch.appointmentCard[0].date = res.data.date;
           this.dataFetch.appointmentCard[0].time_in = res.data.time_in;
+          this.dataFetch.appointmentCard[0].dateformat = res.data.dateformat;
           this.dataFetch.link_meeting = res.data.link_meeting;
           this.dataFetch.doctor_id = res.data.doctor_id;
           this.dataFetch.doctor_firstname = res.data.doctor_firstname;
           this.dataFetch.doctor_lastname = res.data.doctor_lastname;
-        }else{
-            this.$router.push("/")
+        } else {
+          this.$router.push("/");
         }
       });
   }

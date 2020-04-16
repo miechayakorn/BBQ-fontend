@@ -211,10 +211,11 @@ export default {
             " วันที่: " + this.dataShow.date + " เวลา: " + this.dataShow.time,
           icon: "info",
           showCancelButton: true,
+          reverseButtons: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes",
-          cancelButtonText: "Cancel",
+          confirmButtonText: "Confirm",
+          cancelButtonText: "No",
           footer: "กรุณากดยืนยันการจองที่ email"
         }).then(result => {
           if (result.value) {
