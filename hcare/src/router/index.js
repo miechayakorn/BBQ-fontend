@@ -10,9 +10,9 @@ import NotFound from "../views/404.vue";
 import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
-import AppointmentDetail from "../views/AppointmentDetail.vue"
-import BookingConfirm from "../views/BookingConfirm.vue"
-import RegisterConfirm from "../views/BookingConfirm.vue"
+import AppointmentDetail from "../views/AppointmentDetail.vue";
+import BookingConfirm from "../views/BookingConfirm.vue";
+import RegisterConfirm from "../views/RegisterConfirm.vue";
 
 Vue.use(VueRouter);
 
@@ -82,8 +82,8 @@ const routes = [
     component: Appointment
   },
   {
-    path: '/appointment/detail/:id',
-    name: 'AppointmentDetail',
+    path: "/appointment/detail/:id",
+    name: "AppointmentDetail",
     component: AppointmentDetail
   },
   {

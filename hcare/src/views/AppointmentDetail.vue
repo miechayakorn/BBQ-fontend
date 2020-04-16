@@ -40,7 +40,8 @@
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
-                    class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
+                    class="btn btn btn-secondary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
+                    :disabled="true"
                   >
                     <span style="font-weight: 900; color:white;"
                       >ท่านยังไม่ได้รับลิงค์</span

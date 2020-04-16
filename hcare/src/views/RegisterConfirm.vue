@@ -1,25 +1,25 @@
 <template>
   <div>
     <logoHeader />
+    {{token}}
     <div class="container">
       <div class="row" style="text-align: center;">
         <div class="mt-5 col-12">
-          <div v-if="status == 500" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-          <div v-if="status == 304" class="alert alert-warning" role="alert">
-            This token is not available.
-          </div>
-          <div v-if="status == 200" class="alert alert-success" role="alert">
-            {{ message }}
-          </div>
+          <div v-if="status == 500" class="alert alert-danger" role="alert">{{ message }}</div>
+          <div
+            v-if="status == 304"
+            class="alert alert-warning"
+            role="alert"
+          >This token is not available.</div>
+          <div v-if="status == 200" class="alert alert-success" role="alert">{{ message }}</div>
+          
         </div>
         <!-- <div class="col-12">
           <button
             @click="confirm"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
           ></button>
-        </div> -->
+        </div>-->
       </div>
     </div>
   </div>
@@ -56,8 +56,8 @@ export default {
           this.message = error.response.data;
           this.status = error.response.status;
         });
-    }else{
-      this.$router.push("/")
+    } else {
+      this.$router.push("/");
     }
   }
 };
