@@ -24,64 +24,123 @@
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
+          <div class="float-right">V 1.0</div>
           <img
             src="https://www.w3schools.com/bootstrap4/paris.jpg"
             style="margin-top:24px; width: 56px; height: 56px;"
             class="rounded-circle centerImg"
             alt=""
           />
-          <p class="d-flex justify-content-center mb-0 mt-2">นายชื่อ นามสกุล</p>
+          <p class="d-flex justify-content-center mb-0 mt-2">
+            {{ user.first_name }} {{ user.last_name }}
+          </p>
         </li>
         <hr class="lineHr" />
-        <!-- <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/">
+        <li
+          class="nav-item"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-expanded="false"
+        >
+          <a class="nav-link blackTextMenu" href="/">
             <iconHome style="margin-right:14px;" />
 
             Home
-          </router-link>
-        </li> -->
+          </a>
+        </li>
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/booking">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="/booking"
+          >
             <iconNote style="margin-right:14px;" />
 
             ทำนัด
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/queue">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="/queue"
+          >
             <iconPaper style="margin-right:14px;" />
             กดคิว
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="#">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="#"
+          >
             <iconClock style="margin-right:14px;" />
             ตารางให้บริการ
           </router-link>
         </li>
         <hr class="lineHr" />
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="appointment"
+          >
             <iconCalendar style="margin-right:14px;" />
             นัดของฉัน
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/booking">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="#"
+          >
             <iconNoti style="margin-right:14px;" />
             Notification
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link blackTextMenu" to="/queue">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="#"
+          >
             <iconTime style="margin-right:14px;" />
             History
           </router-link>
         </li>
         <hr class="lineHr" />
-        <router-link to="/logout">
-          <button class="btn btnLogout mx-auto">
+        <router-link v-if="log" to="/logout">
+          <button
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="btn btnLogout mx-auto"
+          >
             <span style="font-weight:900">ออกจากระบบ</span>
+          </button>
+        </router-link>
+        <router-link v-else to="/login">
+          <button
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="btn btnLogout mx-auto"
+          >
+            <span style="font-weight:900">เข้าสู่ระบบ</span>
           </button>
         </router-link>
       </ul>
@@ -99,6 +158,26 @@ import iconPaper from "@/components/svg/icon/iconPaper.vue";
 import iconTime from "@/components/svg/icon/iconTime.vue";
 
 export default {
+  data() {
+    return {
+      user: {
+        first_name: "",
+        last_name: ""
+      },
+      log: false
+    };
+  },
+  mounted() {
+    if (localStorage.getItem("user")) {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.user.first_name = user.first_name;
+      this.user.last_name = user.last_name;
+      this.log = true
+    } else {
+      this.user.first_name = "กรุณา";
+      this.user.last_name = "เข้าสู่ระบบ";
+    }
+  },
   components: {
     logoHeaderMini,
     iconCalendar,

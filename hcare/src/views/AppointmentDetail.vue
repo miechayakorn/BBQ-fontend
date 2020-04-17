@@ -34,14 +34,18 @@
                     v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;">Join Meeting</span>
+                    <span style="font-weight: 900; color:white;"
+                      >Join Meeting</span
+                    >
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
                     class="btn btn btn-secondary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
+                    <span style="font-weight: 900; color:white;"
+                      >ท่านยังไม่ได้รับลิงค์</span
+                    >
                   </button>
                 </a>
               </div>
@@ -110,6 +114,10 @@ export default {
         } else {
           this.$router.push("/");
         }
+      })
+      .catch(err => {
+        console.log("===== Backend-error ======");
+        console.error(error.response);
       });
   }
 };
