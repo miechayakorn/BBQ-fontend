@@ -6,6 +6,7 @@ import Dashboard from "../views/admin/Dashboard.vue";
 import DashAppointment from "../views/admin/DashAppointment.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
+import Logout from "../views/Logout.vue"
 import NotFound from "../views/404.vue";
 import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
@@ -45,6 +46,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    component: Logout
   },
   {
     path: "/register",

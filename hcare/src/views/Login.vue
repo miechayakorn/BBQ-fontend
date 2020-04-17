@@ -64,6 +64,11 @@ export default {
       password: ""
     };
   },
+  mounted() {
+    if (localStorage.getItem("user")) {
+      this.$router.push("/");
+    }
+  },
   methods: {
     checkEmail() {
       if (this.email == "") {
@@ -81,7 +86,11 @@ export default {
       return true;
     },
     sendToBackend() {
-      if (this.checkEmail() == true && this.email != "" && this.password != "") {
+      if (
+        this.checkEmail() == true &&
+        this.email != "" &&
+        this.password != ""
+      ) {
         this.$swal({
           ...waiting,
           onOpen: () => {
@@ -97,7 +106,7 @@ export default {
           })
           .then(res => {
             localStorage.setItem("user", JSON.stringify(res.data));
-            this.$router.push("Booking"); //อันนี้คือที่จะให้ไปหน้าต่อไป
+            this.$router.go();
           })
           .catch(error => {
             console.log("===== Backend-error ======");
