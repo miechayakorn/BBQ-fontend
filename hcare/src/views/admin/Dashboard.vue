@@ -1,76 +1,104 @@
 <template>
-  <div class="h-100">
-    <div class="row Myrow1"></div>
-    <div class="row justify-content-center h-100">
-      <div class="col.p-0-1 menu-background">
-        <ul class="menu">
-          <li>
-            <router-link to="/admin/booking">
-              <i class="fas fa-calendar-check"></i>
-              <br />นัดหมาย
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/calendar">
-              <i class="fas fa-calendar-alt"></i>
-              <br />ตารางเวลา
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/queue">
-              <i class="fas fa-hourglass-start"></i>
-              <br />คิว
-            </router-link>
-          </li>
-        </ul>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div
+      class=" border-right bg-primary col-md-1"
+      id="navbarCollapseMenu-toggle"
+    >
+      <div class="sidebar-heading">
+        <img
+          src="https://www.w3schools.com/bootstrap4/paris.jpg"
+          style="margin-top:24px; width: 56px; height: 56px;"
+          class="rounded-circle mb-3"
+        />
       </div>
-      <div class="col-2 mr-4 text-center p-4 queue-bg">
-        <h5 class="queueMar qText">คิวปัจจุบัน</h5>
-        <span class="current-queue-text textBold">A 0001</span>
-        <br />
-        <br />
-        <h5 class="queueMar qText">คิวถัดไป</h5>
-        <ul class="queue-list-next">
-          <li>
-            <span class="queue-text textBold">A 0002</span>
-          </li>
-          <li>
-            <span class="queue-text textBold">A 0003</span>
-          </li>
-          <li>
-            <span class="queue-text textBold">A 0004</span>
-          </li>
-        </ul>
+      <div class="list-group menu">
+        <router-link to="#" class="p-2 bg-primary">
+          <iconAppointment />
+          <p class="menu-list">นัดหมาย</p>
+        </router-link>
+        <a href="#" class="p-2 bg-primary">
+          <iconTimeTable />
+          <p class="menu-list">ตารางเวลา</p>
+        </a>
+        <a href="#" class="p-2 bg-primary">
+          <iconQueue />
+          <p class="menu-list">คิว</p>
+        </a>
+        <div class="list-group">
+          <a href="#" class="p-2 bg-primary" style="margin-top:300px">
+            <iconSetting />
+          </a>
+          <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
+            <iconLogout />
+          </a>
+        </div>
       </div>
-      <div class="col-9 content-background p-5">
-        <div class="container m-0">
-          <div class="row">
-            <h6>บริการ</h6>
-          </div>
+    </div>
+    <div class="border-right bg-white col-md-3" id="navbarCollapseMenu-toggle">
+      <h5 class="qText" style="margin-top: 22px;">คิวปัจจุบัน</h5>
+      <span class="current-queue-text textBold">A 0001</span>
+      <br />
+      <br />
+      <h5 class="qText" style="margin-top: 22px;">คิวถัดไป</h5>
+      <ul class="queue-list-next">
+        <li>
+          <span class="queue-text textBold">A 0002</span>
+        </li>
+        <li>
+          <span class="queue-text textBold">A 0003</span>
+        </li>
+        <li>
+          <span class="queue-text textBold">A 0004</span>
+        </li>
+      </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
 
-          <ServiceTypeBox
-            :dataTypes="dataFetch.dataTypes"
-            v-on:serviceDataType="fetchDate"
-          />
-
-          <div class="row mt-4">
-            <h6>วันที่</h6>
+    <!-- Page Content -->
+    <div class="container" id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button
+          class="btn btn-primary"
+          data-toggle="collapse"
+          data-target="#navbarCollapseMenu-toggle"
+          id="menu-toggle"
+        >
+          <span><</span>
+        </button>
+      </nav>
+      <div class="container mt-3 ml-2">
+        <div class="row">
+          <div class="col-12">
+            <h6 class="text-left">บริการ</h6>
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
           </div>
-          <div class="row mb-4">
-            <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          <div class="col-12 mt-3">
+            <h6 class="text-left">วันที่</h6>
+            <ServiceDateBox
+              :dataDates="dataFetch.dataDates"
+              v-on:selectedDate="fetchTime"
+            />
+            <button
+              @click="sendToBackend"
+              class="btn btn-primary mt-3 px-md-4 py-md-2"
+            >
+              ค้นหา
+            </button>
           </div>
-          <div class="row mb-4 d-flex justify-content-center">
-            <button @click="sendToBackend" class="btn btn-primary px-md-4 py-md-2">ค้นหา</button>
-          </div>
-          <div class="row">
-            <h6>นัดหมายแพทย์ทั้งหมด</h6>
-          </div>
-          <div class="row mt-6">
-            <DashboardTable :dataBookingTable="userBookings" />
+          <div class="col-12 mt-3">
+            <h6 class="text-left">นัดหมายแพทย์ทั้งหมด</h6>
+            <div class="row mt-6">
+              <DashboardTable :dataBookingTable="userBookings" />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- /#page-content-wrapper -->
   </div>
 </template>
 
@@ -79,7 +107,12 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import SideandNavbar from "@/components/SideandNavbar.vue";
-import DashboardTable from "@/components/DashboardTable.vue"
+import DashboardTable from "@/components/DashboardTable.vue";
+import iconAppointment from "@/components/svg/icon/iconAppointment.vue";
+import iconTimeTable from "@/components/svg/icon/iconTimeTable.vue";
+import iconQueue from "@/components/svg/icon/iconQueue.vue";
+import iconSetting from "@/components/svg/icon/iconSetting.vue";
+import iconLogout from "@/components/svg/icon/iconLogout.vue";
 
 export default {
   data() {
@@ -168,7 +201,7 @@ export default {
       this.dataPrepareSend.date = selectedDate.datevalue;
     },
 
-    async sendToBackend() { 
+    async sendToBackend() {
       console.log(process.env.VUE_APP_BACKEND_URL);
       await axios
         .get(
@@ -188,59 +221,23 @@ export default {
     ServiceTypeBox,
     ServiceDateBox,
     SideandNavbar,
-    DashboardTable
+    DashboardTable,
+    iconAppointment,
+    iconTimeTable,
+    iconQueue,
+    iconSetting,
+    iconLogout
   }
 };
 </script>
 
 <style scoped>
-@media (max-width: 776px) {
-  .fixed-button {
-    width: 100%;
-    height: 48px;
-  }
-}
-@media (min-width: 776px) {
-  .fixed-button {
-    width: 320px;
-    text-align: center;
-    position: relative;
-    height: 48px;
-  }
-}
-@media (min-width: 900px) {
-  .fixed-container {
-    width: 720px;
-  }
-}
-.Myrow1 {
-  height: 48px;
-  background-color: #ccd1ff;
-}
-
-.btnTime {
-  height: 48px;
-  width: 72px;
-}
-.queueMar {
-  margin-top: 22px;
-}
-.button {
-  border-radius: 8px;
-}
-.btnConfirm {
-  border-radius: 31px;
-}
-.btnDisabled {
-  cursor: default;
-}
-.btnDisabled:active {
-  outline: none;
-}
-.textBold {
-  font-size: 36px;
-  font-weight: 900;
-  font-family: "Poppins";
+.menu-list {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
+  color: #f9f9fc;
 }
 .qText {
   font-size: 18px;
@@ -248,119 +245,38 @@ export default {
   font-family: "Mitr";
   color: #444444;
 }
-.tableSize {
-  width: 100%;
-}
-/*
-.btn-outline-primary,
-.btn-outline-primary:active {
-  color: #99a3ff;
-  background-color: #ffffff;
-  border: 1px solid #99a3ff;
-  border-radius: 8px;
-}
-.btn-outline-primary:hover,
-.btn-outline-primary:visited {
-  color: #ffffff;
-  background-color: #99a3ff;
-  border: 1px solid #99a3ff;
-  border-radius: 8px;
-}
-.btn-block {
-  color: #ffffff;
-  background-color: #99a3ff;
-  border: 1px solid #99a3ff;
-  border-radius: 31px;
-}*/
-
-html,
-body {
-  height: 100%;
-}
-
-.menu-background {
-  padding: 0;
-  background-color: #99a3ff;
-  height: 800;
-}
-
-.content-background {
-  background-color: #f9f9fc;
-}
-
-.menu {
-  list-style: none;
-  padding: 5px;
-  margin-top: 40px;
-  text-align: center;
-  height: 940px;
-}
-
-.queue-bg {
-  background-color: white;
-}
-
-.menu > li {
-  color: #ffffff;
-  padding: 0.5em;
-  margin-bottom: 32px;
-}
-
-.menu > li.active {
-  background-color: #a5bbe7;
-}
-
-.menu > li > a {
-  text-decoration: none;
-  color: #ffffff !important;
-}
-
 .current-queue-text {
   color: #99a3ff;
   font-style: bold;
   font-size: 2em;
 }
-
+.textBold {
+  font-size: 36px;
+  font-weight: 900;
+  font-family: "Poppins";
+}
+.queue-text {
+  font-style: bold;
+  font-size: 2em;
+  color: #b6b6b6;
+}
 .queue-list-next {
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: center;
 }
-
-.queue-text {
-  font-style: bold;
-  font-size: 2em;
-  color: #b6b6b6;
+.navbar-fixed-left {
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+}
+.navbar-fixed-left .navbar-nav > li {
+  float: none; /* Cancel default li float: left */
+  width: 139px;
 }
 
-.service-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-
-.service-menu > li {
-  float: left;
-  padding: 2em;
-  margin-right: 0.5em;
-  border: 0.05em #99a3ff solid;
-  border-radius: 0.4em;
-  background-color: #ffffff;
-}
-
-.service-menu > li.active {
-  background-color: #99a3ff;
-  color: #ffffff;
-}
-
-.list-doctor > thead {
-  background-color: #99a3ff;
-  color: #ffffff;
-}
-
-.list-doctor > tbody > tr {
-  background-color: #ffffff;
+.navbar-fixed-left + .container {
+  padding-left: 160px;
 }
 </style>

@@ -99,6 +99,7 @@
                 @click="sendToBackend"
                 type="button"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+                style="font-weight:900"
               >
                 Register
               </button>
