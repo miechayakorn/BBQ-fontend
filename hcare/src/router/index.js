@@ -5,15 +5,16 @@ import Booking from "../views/Booking.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
 import DashAppointment from "../views/admin/DashAppointment.vue";
 import Register from "../views/Register.vue";
+import RegisterConfirm from "../views/RegisterConfirm.vue";
 import Login from "../views/Login.vue";
-import Logout from "../views/Logout.vue"
+import Logout from "../views/Logout.vue";
 import NotFound from "../views/404.vue";
 import Admin from "../views/admin/Admin.vue";
 import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue";
 import BookingConfirm from "../views/BookingConfirm.vue";
-import RegisterConfirm from "../views/RegisterConfirm.vue";
+import BookingCancelByEmail from "../views/BookingCancelByEmail.vue";
 
 Vue.use(VueRouter);
 
@@ -41,6 +42,11 @@ const routes = [
     path: "/bookings/confirm",
     name: "BookingConfirm",
     component: BookingConfirm
+  },
+  {
+    path: "/bookings/emailcancel",
+    name: "BookingCancelByEmail",
+    component: BookingCancelByEmail
   },
   {
     path: "/login",

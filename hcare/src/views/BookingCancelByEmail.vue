@@ -9,20 +9,14 @@
             v-if="status == 304"
             class="alert alert-warning"
             role="alert"
-          >This token is not available.</div>
+          >This booking id have cancel already.</div>
           <div v-if="status == 200" class="alert alert-success" role="alert">{{ message }}</div>
-          <router-link :to="'/login'">
+          <router-link :to="'/appointment'">
             <button class="col-10 btn btn-primary btnBlock btnConfirm mt-3 fixed-button mb-2">
-              <span style="font-weight: 900; color:white; ">Login</span>
+              <span style="font-weight: 900; color:white; ">Appointment</span>
             </button>
           </router-link>
         </div>
-        <!-- <div class="col-12">
-          <button
-            @click="confirm"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          ></button>
-        </div>-->
       </div>
     </div>
   </div>
@@ -42,12 +36,13 @@ export default {
   components: {
     logoHeader
   },
-  mounted() {
-    if (this.$route.query.token) {
-      axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/register/confirm?token=${this.$route.query.token}`
-        )
+  async mounted() {
+    if (this.$route.query.booking_id) {
+      console.log("booking=" + this.$route.query.booking_id);
+      await axios
+        .post(`${process.env.VUE_APP_BACKEND_URL}/cancel`, {
+          booking_id: this.$route.query.booking_id
+        })
         .then(res => {
           console.log(res);
           this.message = res.data.message;
@@ -66,4 +61,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

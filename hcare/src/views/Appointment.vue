@@ -6,15 +6,13 @@
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
-            <div class="" v-if="checkAppointment">
+            <div class v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3">
-                    คุณยังไม่มีนัดหมาย
-                  </span>
-                  <span class="announcement d-flex justify-content-center mt-3">
-                    หรือยังไม่ได้กดยืนยันที่ Email
-                  </span>
+                  <span class="announcement d-flex justify-content-center mt-3">คุณยังไม่มีนัดหมาย</span>
+                  <span
+                    class="announcement d-flex justify-content-center mt-3"
+                  >หรือยังไม่ได้กดยืนยันที่ Email</span>
                 </div>
                 <div class="col-12 d-flex justify-content-center fixed-bottom">
                   <man />
