@@ -4,7 +4,7 @@
     <Queuedash />
     <!-- Page Content -->
     <div class="container bg-white">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
         <button
           class="btn btn-primary"
           data-toggle="collapse"
@@ -14,38 +14,65 @@
           <span>&#60;</span>
         </button>
         <ul class="nav navbar-nav nav-underlined">
-          <li class="active" style="margin-left: 63px; color: #555555;">
-            <a href="#" style="color: #555555;">ตารางนัดคนไข้</a>
+          <!-- Appointmentdash -->
+          <li
+            :class="{ active: activeBtnNav === 'Appointmentdash' }"
+            style="margin-left: 63px;"
+            @click="activeBtnNav = 'Appointmentdash'"
+          >
+            <router-link
+              to="#Appointmentdash"
+              :class="[
+                'disText',
+                { activeText: activeBtnNav === 'Appointmentdash' }
+              ]"
+              >ตารางนัดคนไข้</router-link
+            >
           </li>
-          <li style="margin-left: 63px;">
-            <a href="#" style="color: #B6B6B6;">ทำนัดหมาย</a>
+          <!-- #Appointmentdash -->
+
+          <!-- Bookingdash -->
+          <li
+            :class="{ active: activeBtnNav === 'Bookingdash' }"
+            style="margin-left: 63px;"
+            @click="activeBtnNav = 'Bookingdash'"
+          >
+            <router-link
+              to="#Bookingdash"
+              :class="[
+                'disText',
+                { activeText: activeBtnNav === 'Bookingdash' }
+              ]"
+              >ทำนัดหมาย</router-link
+            >
           </li>
+          <!-- #Bookingdash -->
         </ul>
       </nav>
-      <Appointmentdash />
+      <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
+      <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
     </div>
     <!-- #Page Content -->
   </div>
 </template>
 
 <script>
-import SideandNavbar from "@/components/SideandNavbar.vue";
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
+import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 
 export default {
   data() {
     return {
-      //ข้อมูลที่ได้จาก Backend
-      //----------------------------------------
+      activeBtnNav: "Appointmentdash"
     };
   },
   components: {
-    SideandNavbar,
     Menudash,
     Queuedash,
-    Appointmentdash
+    Appointmentdash,
+    Bookingdash
   }
 };
 </script>
@@ -59,6 +86,12 @@ export default {
   border-bottom: 3px solid transparent;
   width: 0;
   width: auto;
+}
+.disText {
+  color: #b6b6b6;
+}
+.activeText {
+  color: #555555;
 }
 
 .underlined-active:after,
