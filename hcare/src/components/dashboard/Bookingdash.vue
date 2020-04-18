@@ -1,53 +1,76 @@
 <template>
-  <!-- ========= ทดสอบการใช้ Component ให้โค้ดดูง่าย และแยกเป็นส่วนๆ ============== -->
-  <div>
-    <logoHeader />
-    <div class="container fixed-container mb-3">
-      <div class="form-group text-left">
-        <label>เลือกบริการ</label>
-        <div class="form">
-          <div class="container">
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+  <div class="container ml-2">
+    <div class="row bg-blueMan2">
+      <div class="col-4">
+        <man2 />
+      </div>
+      <div class="col-8">
+        <div class="form-group text-left" style="margin-top:48px;">
+          <label for="InputName">กรอกรหัสนักศึกษา</label>
+          <input
+            type="text"
+            v-model="hn_number"
+            class="form-control"
+            placeholder="รหัสนักศึกษา"
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <h6 class="text-left">บริการ</h6>
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
+          </div>
+          <div class="col-12 mt-3">
+            <h6 class="text-left">วันที่</h6>
+            <ServiceDateBox
+              :dataDates="dataFetch.dataDates"
+              v-on:selectedDate="fetchTime"
+            />
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="form-group text-left w-100">
-          <div class="col-12">
-            <label for="selectDate">เลือกวัน</label>
-          </div>
-          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <div class="col-12">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
-          </div>
+      <div class="col-6">
+        <div class="col-12">
+          <label
+            for="exampleInputPassword1"
+            class="d-flex justify-content-start"
+            >เลือกเวลา</label
+          >
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
             :activeTime="dataShow.activeBtnTime"
             v-on:booking="onChangeTime"
           />
+          <div class="form-group">
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >อาการ</label
+            >
+            <textarea
+              rows="3"
+              class="form-control"
+              v-model="dataPrepareSend.symptom"
+              :disabled="dataShow.disableSymptom"
+            ></textarea>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
-        <textarea
-          rows="3"
-          class="form-control"
-          v-model="dataPrepareSend.symptom"
-          :disabled="dataShow.disableSymptom"
-        ></textarea>
-      </div>
-      <div class="row" style="text-align: center;">
-        <div class="col-12">
+    </div>
+    <div class="row">
+      <div class="col-12">
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
           >Confirm</button>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -57,25 +80,22 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
-import logoHeader from "@/components/svg/logoHeader.vue";
-import { waiting, errorSWAL } from "@/utility/swal.js";
+import man2 from "@/components/svg/man2.vue";
 
 export default {
   data() {
     return {
-      //ข้อมูลเตรียมส่งไป Backend
+      hn_number: "",
       dataPrepareSend: {
         booking_id: null,
         account_id: null,
         symptom: null
       },
-      //ข้อมูลที่ได้จาก Backend
       dataFetch: {
         dataTypes: null,
         dataDates: null,
         dataTimes: null
       },
-      //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
         type: "จิตแพทย์",
         date: "",
@@ -86,42 +106,6 @@ export default {
       }
     };
   },
-  components: {
-    ServiceTypeBox,
-    ServiceDateBox,
-    ServiceTimeBox,
-    logoHeader
-  },
-  async mounted() {
-    if (localStorage.getItem("user")) {
-      this.$swal({
-        title: "กรุณารอสักครู่",
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
-      this.dataPrepareSend.account_id = JSON.parse(localStorage.getItem("user")).account_id
-
-      //เรียกข้อมูล Default
-      //Type
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
-        .then(res => {
-          this.dataFetch.dataTypes = res.data;
-        });
-      //Date
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
-        .then(res => {
-          this.dataFetch.dataDates = res.data;
-          this.$swal.close();
-        });
-    } else {
-      this.$router.push("login");
-    }
-  },
   methods: {
     clearData() {
       this.dataPrepareSend.booking_id = null;
@@ -129,37 +113,19 @@ export default {
       this.dataShow.time = null;
       this.dataShow.disableSymptom = true;
     },
+
     async fetchDate(serviceDataType) {
-      //เช็ค
-      if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
-        this.clearData();
-        this.dataFetch.dataTimes = null;
-        this.dataPrepareSend.symptom = null;
-
-        this.$swal({
-          ...waiting,
-          onOpen: () => {
-            this.$swal.showLoading();
-          }
+      this.dataPrepareSend.type_id = serviceDataType.type_id;
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+        )
+        .then(res => {
+          this.dataFetch.dataDates = res.data;
+          console.log(this.dataFetch.dataDates);
         });
-
-        //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
-        this.dataShow.type = serviceDataType.type_name;
-        console.log("oldservice = " + this.dataShow.oldTypeService);
-
-        this.dataShow.activeBtnTime = "";
-        await axios
-          .get(
-            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
-          )
-          .then(res => {
-            this.dataFetch.dataDates = res.data;
-            console.log(this.dataFetch.dataDates);
-            this.dataShow.oldTypeService = serviceDataType.type_id;
-            this.$swal.close();
-          });
-      }
     },
+
     async fetchTime(selectedDate) {
       this.clearData();
       //เคลียสีปุ่ม
@@ -181,6 +147,7 @@ export default {
           this.$swal.close();
         });
     },
+
     onChangeTime(booking) {
       console.log("------booking");
       console.log(booking);
@@ -195,6 +162,7 @@ export default {
       //ให้กรอกอาการได้
       this.dataShow.disableSymptom = false;
     },
+    
     sendToBackend() {
       if (this.dataPrepareSend.booking_id != null) {
         console.log("Backend----" + this.dataShow.date);
@@ -209,7 +177,7 @@ export default {
           cancelButtonColor: "#d33",
           confirmButtonText: "Confirm",
           cancelButtonText: "No",
-          footer: "กรุณากดยืนยันการจองที่ email"
+          footer: "กรุณาบอก ผู้ให้รับบริการ ให้กดยืนยันการจองที่ email"
         }).then(result => {
           if (result.value) {
             this.$swal({
@@ -255,35 +223,33 @@ export default {
         });
       }
     }
+  },
+  components: {
+    man2,
+    ServiceTypeBox,
+    ServiceDateBox,
+    ServiceTimeBox
+  },
+  async mounted() {
+    //เรียกข้อมูล Default
+    //Type
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+      .then(res => {
+        this.dataFetch.dataTypes = res.data;
+      });
+    //Date
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+      .then(res => {
+        this.dataFetch.dataDates = res.data;
+      });
   }
 };
 </script>
 
 <style scoped>
-@media (max-width: 776px) {
-  .fixed-button {
-    width: 100%;
-    height: 48px;
-  }
-}
-@media (min-width: 776px) {
-  .fixed-button {
-    width: 320px;
-    text-align: center;
-    position: relative;
-    height: 48px;
-  }
-}
-@media (min-width: 900px) {
-  .fixed-container {
-    width: 720px;
-  }
-}
-
-button {
-  border-radius: 8px;
-}
-.btnConfirm {
-  border-radius: 31px;
+.bg-blueMan2 {
+  background-color: #e0e3ff;
 }
 </style>
