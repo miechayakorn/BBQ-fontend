@@ -10,7 +10,7 @@
             >
               <div class="h-100" style="margin: 40px 24px 40px 24px;">
                 <div class="text-center" style>
-                  <logoEmotion/>
+                  <logoEmotion :color="'white'" />
                   <p style="color: rgb(255, 255, 255);">{{ item.type_name }}</p>
                 </div>
               </div>
