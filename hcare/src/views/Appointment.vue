@@ -14,7 +14,7 @@
                     class="announcement d-flex justify-content-center mt-3"
                   >หรือยังไม่ได้กดยืนยันที่ Email</span>
                 </div>
-                <div class="col-12 d-flex justify-content-center fixed-bottom">
+                <div class="fix-buttom-man">
                   <man />
                 </div>
               </div>
@@ -106,7 +106,12 @@ export default {
   display: flex;
   align-items: center;
 }
-/* .padStyle{
-  padding-bottom: 24px
-} */
+.fix-buttom-man {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
 </style>
