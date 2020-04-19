@@ -3,14 +3,16 @@
     <div class="container">
       <div class="row">
         <div class="col-6 col-md-3 mt-1">
-          <div class="col-12 btnHomeActive" style="cursor: pointer;">
-            <div class="text-center" style="margin-top: 36px;">
-              <iconNote2 :color="'white'" />
-              <p style="color: #FFFFFF; margin-top: 8px;">
-                ทำนัด
-              </p>
+          <router-link to="/booking">
+            <div class="col-12 btnHomeActive" style="cursor: pointer;">
+              <div class="text-center" style="margin-top: 36px;">
+                <iconNote2 :color="'white'" />
+                <p style="color: #FFFFFF; margin-top: 8px;">
+                  ทำนัด
+                </p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
         <div class="col-6 col-md-3 mt-1">
           <div class="col-12 btnHome" style="cursor: pointer;">
@@ -44,8 +46,42 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
-
+        <div class="col-12 mt-3">
+          <div class="card btnHome" style="max-width: 500px;">
+            <div class="row no-gutters">
+              <div class="col-5">
+                <woman class="card-img-bottom h-100" />
+              </div>
+              <div class="col-7">
+                <div class="card-body">
+                  <h6
+                    class="card-title text-md-center text-left"
+                    style="margin-top:16px;"
+                  >
+                    นัดของคุณที่กำลังจะมาถึง
+                  </h6>
+                  <p class="text-md-center text-left">
+                    <span class="text-primary">จิตแพทย์<br /></span>
+                    18 เมษายน 2563
+                    <br />
+                    เวลา 13.30 น
+                  </p>
+                  <router-link
+                    to="#"
+                    class="btn btn-primary btn-comming"
+                    style="margin-bottom:16px;"
+                  >
+                    Join Meeting
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mt-3" style="margin-bottom:200px;">
+          <div class="card btnHome mb-5">Dash Board</div>
         </div>
       </div>
     </div>
@@ -58,6 +94,7 @@ import iconNote2 from "@/components/svg/icon/iconNote-2.vue";
 import iconBill from "@/components/svg/icon/iconBill.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
 import iconCalendar2 from "@/components/svg/icon/iconCalendar-2.vue";
+import woman from "@/components/svg/woman.vue";
 
 export default {
   name: "Home",
@@ -67,6 +104,7 @@ export default {
     iconBill,
     iconClock2,
     iconCalendar2,
+    woman
   }
 };
 </script>
@@ -84,5 +122,8 @@ export default {
   border-radius: 8px;
   height: 100%;
   box-shadow: 0px 4px 8px #dfe2ff;
+}
+.btn-comming {
+  border-radius: 31px;
 }
 </style>
