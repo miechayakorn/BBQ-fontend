@@ -7,9 +7,7 @@
             <div class="col-12 btnHomeActive" style="cursor: pointer;">
               <div class="text-center" style="margin-top: 36px;">
                 <iconNote2 :color="'white'" />
-                <p style="color: #FFFFFF; margin-top: 8px;">
-                  ทำนัด
-                </p>
+                <p style="color: #FFFFFF; margin-top: 8px;">ทำนัด</p>
               </div>
             </div>
           </router-link>
@@ -18,9 +16,7 @@
           <div class="col-12 btnHome" style="cursor: pointer;">
             <div class="text-center" style="margin-top: 36px;">
               <iconBill :color="'#99A3FF'" />
-              <p style="color: #555555; margin-top: 8px;">
-                กดคิว
-              </p>
+              <p style="color: #555555; margin-top: 8px;">กดคิว</p>
             </div>
           </div>
         </div>
@@ -28,9 +24,7 @@
           <div class="col-12 btnHome" style="cursor: pointer;">
             <div class="text-center" style="margin-top: 36px;">
               <iconClock2 />
-              <p style="color: #555555; margin-top: 8px;">
-                ตารางให้บริการ
-              </p>
+              <p style="color: #555555; margin-top: 8px;">ตารางให้บริการ</p>
             </div>
           </div>
         </div>
@@ -38,9 +32,7 @@
           <div class="col-12 btnHome" style="cursor: pointer;">
             <div class="text-center" style="margin-top: 36px;">
               <iconCalendar2 />
-              <p style="color: #555555; margin-top: 8px;">
-                นัดของฉัน
-              </p>
+              <p style="color: #555555; margin-top: 8px;">นัดของฉัน</p>
             </div>
           </div>
         </div>
@@ -53,25 +45,37 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div class="col-7">
-                <div class="card-body">
+                <div class="card-body ml-3">
                   <h6
                     class="card-title text-md-center text-left"
-                    style="margin-top:16px;"
+                    style="margin-top:16px; font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px;"
+                  >นัดของคุณที่กำลังจะมาถึง</h6>
+                  <p
+                    class="text-md-center text-left"
+                    style="
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 18px;
+                            color: #444444;"
                   >
-                    นัดของคุณที่กำลังจะมาถึง
-                  </h6>
-                  <p class="text-md-center text-left">
-                    <span class="text-primary">จิตแพทย์<br /></span>
-                    18 เมษายน 2563
+                    <span
+                      class="text-primary"
+                      style="font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px;  color: #99A3FF;"
+                    >
+                      {{dataFetch.type_name}}
+                      <br />
+                    </span>
+                    {{ dataFetch.dateformat}}
                     <br />
-                    เวลา 13.30 น
+                    เวลา {{dataFetch.time_in.slice(0, 5)}} น.
                   </p>
                   <router-link
                     to="#"
                     class="btn btn-primary btn-comming"
-                    style="margin-bottom:16px;"
+                    style="margin-bottom:16px; font-style: normal; font-weight: bold; font-size: 12px; line-height: 18px;"
                   >
-                    Join Meeting
+                    <span class="px-4">Meeting</span>
                   </router-link>
                 </div>
               </div>
@@ -95,6 +99,7 @@ import iconBill from "@/components/svg/icon/iconBill.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
 import iconCalendar2 from "@/components/svg/icon/iconCalendar-2.vue";
 import woman from "@/components/svg/woman.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -105,6 +110,47 @@ export default {
     iconClock2,
     iconCalendar2,
     woman
+  },
+  data() {
+    return {
+      user: {
+        account_id: "",
+        hn_number: "",
+        first_name: "",
+        last_name: "",
+        verify: null,
+        gender: null,
+        date_of_birth: null,
+        email: "",
+        telephone: null
+      },
+      dataFetch: null,
+      checkAppointment: false
+    };
+  },
+  async mounted() {
+    if (localStorage.getItem("user")) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.user = user;
+      await axios
+        .post(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+          account_id: this.user.account_id
+        })
+        .then(res => {
+          if (res.status == 204) {
+            this.checkAppointment = true;
+          } else {
+            this.dataFetch = res.data[0];
+            console.log(this.dataFetch);
+          }
+        });
+    } else {
+      this.$swal({
+        title: "คำเตือน",
+        text: "กรุณาเข้าสู่ระบบ",
+        icon: "warning"
+      }).then(this.$router.push("login"));
+    }
   }
 };
 </script>
