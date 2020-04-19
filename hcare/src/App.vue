@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Menubar/>
+    <Menubar />
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link to="/about">About</router-link> -->
-    <div style="margin-top:60px;">
+    <div style="margin-top:0.625rem">
       <router-view />
     </div>
   </div>
@@ -12,8 +12,8 @@
 import Menubar from "@/components/Menubar.vue";
 
 export default {
-components: {
-    Menubar,
+  components: {
+    Menubar
   }
 };
 </script>

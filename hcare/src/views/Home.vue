@@ -70,13 +70,14 @@
                     <br />
                     เวลา {{dataFetch.time_in.slice(0, 5)}} น.
                   </p>
-                  <router-link
-                    to="#"
+                  <a
+                    v-if="dataFetch.link_meeting"
+                    :href="dataFetch.link_meeting"
                     class="btn btn-primary btn-comming"
                     style="margin-bottom:16px; font-style: normal; font-weight: bold; font-size: 12px; line-height: 18px;"
                   >
                     <span class="px-4">Meeting</span>
-                  </router-link>
+                  </a>
                 </div>
               </div>
             </div>

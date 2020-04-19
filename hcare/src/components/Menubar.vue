@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar fixed-top bg-white bd-navbar">
+  <nav class="navbar fixed-top bg-white bd-navbar site-header sticky-top">
     <router-link to="/">
       <logoHeaderMini style="width: 55px; height: 17px; margin-top:0px;" />
     </router-link>
@@ -17,10 +17,7 @@
       </span>
     </button>
 
-    <div
-      class="collapse navbar-collapse bg-white text-left text-md-center"
-      id="navbarCollapse"
-    >
+    <div class="collapse navbar-collapse bg-white text-left text-md-center" id="navbarCollapse">
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
@@ -29,11 +26,11 @@
             src="https://www.w3schools.com/bootstrap4/paris.jpg"
             style="margin-top:24px; width: 56px; height: 56px;"
             class="rounded-circle centerImg"
-            alt=""
+            alt
           />
-          <p class="d-flex justify-content-center mb-0 mt-2">
-            {{ user.first_name }} {{ user.last_name }}
-          </p>
+          <p
+            class="d-flex justify-content-center mb-0 mt-2"
+          >{{ user.first_name }} {{ user.last_name }}</p>
         </li>
         <hr class="lineHr" />
         <li
@@ -43,9 +40,7 @@
           aria-expanded="false"
         >
           <a class="nav-link blackTextMenu" href="/">
-            <iconHome style="margin-right:14px;" />
-
-            Home
+            <iconHome style="margin-right:14px;" />Home
           </a>
         </li>
         <li class="nav-item">
@@ -56,9 +51,7 @@
             class="nav-link blackTextMenu"
             to="/booking"
           >
-            <iconNote style="margin-right:14px;" />
-
-            ทำนัด
+            <iconNote style="margin-right:14px;" />ทำนัด
           </router-link>
         </li>
         <li class="nav-item">
@@ -69,8 +62,7 @@
             class="nav-link blackTextMenu"
             to="/queue"
           >
-            <iconPaper style="margin-right:14px;" />
-            กดคิว
+            <iconPaper style="margin-right:14px;" />กดคิว
           </router-link>
         </li>
         <li class="nav-item">
@@ -81,8 +73,7 @@
             class="nav-link blackTextMenu"
             to="#"
           >
-            <iconClock style="margin-right:14px;" />
-            ตารางให้บริการ
+            <iconClock style="margin-right:14px;" />ตารางให้บริการ
           </router-link>
         </li>
         <hr class="lineHr" />
@@ -94,8 +85,7 @@
             class="nav-link blackTextMenu"
             to="appointment"
           >
-            <iconCalendar style="margin-right:14px;" />
-            นัดของฉัน
+            <iconCalendar style="margin-right:14px;" />นัดของฉัน
           </router-link>
         </li>
         <li class="nav-item">
@@ -106,8 +96,7 @@
             class="nav-link blackTextMenu"
             to="#"
           >
-            <iconNoti style="margin-right:14px;" />
-            Notification
+            <iconNoti style="margin-right:14px;" />Notification
           </router-link>
         </li>
         <li class="nav-item">
@@ -118,8 +107,7 @@
             class="nav-link blackTextMenu"
             to="#"
           >
-            <iconTime style="margin-right:14px;" />
-            History
+            <iconTime style="margin-right:14px;" />History
           </router-link>
         </li>
         <hr class="lineHr" />
@@ -128,7 +116,7 @@
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
-            class="btn btnLogout mx-auto"
+            class="btn btnLogout mx-auto d-flex justify-content-center"
           >
             <span style="font-weight:900">ออกจากระบบ</span>
           </button>
@@ -172,7 +160,7 @@ export default {
       let user = JSON.parse(localStorage.getItem("user"));
       this.user.first_name = user.first_name;
       this.user.last_name = user.last_name;
-      this.log = true
+      this.log = true;
     } else {
       this.user.first_name = "กรุณา";
       this.user.last_name = "เข้าสู่ระบบ";
