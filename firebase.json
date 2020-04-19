@@ -14,12 +14,21 @@
     ],
     "headers": [
       {
-        "source": "**",
+        "source": "/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=300" //5min
-            // "value": "no-cache, no-store, must-revalidate"
+            "value": "max-age=0, no-cache, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source":
+          "**/*.@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=3600"
           }
         ]
       }
