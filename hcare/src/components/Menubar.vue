@@ -39,9 +39,9 @@
           data-target="#navbarCollapse"
           aria-expanded="false"
         >
-          <a class="nav-link blackTextMenu" href="/">
+          <router-link class="nav-link blackTextMenu" to="/">
             <iconHome style="margin-right:14px;" />Home
-          </a>
+          </router-link>
         </li>
         <li class="nav-item">
           <router-link

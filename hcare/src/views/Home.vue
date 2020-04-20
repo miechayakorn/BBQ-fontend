@@ -44,12 +44,21 @@
               <div class="col-5">
                 <woman class="card-img-bottom h-100" />
               </div>
+              <div  v-if="checkAppointment" class="col-7">
+                <h6 class="card-title text-md-center text-left title-card-app">
+                  คุณยังไม่มีนัดหมาย
+                </h6>
+                <h6 class="card-title text-md-center text-left title-card-app">
+                  หรือยังไม่ได้กดยืนยันที่ Email
+                </h6>
+              </div>
               <div class="col-7">
-                <div class="card-body ml-3">
+                <div v-if="checkAppointment == false" class="card-body ml-3">
                   <h6
-                    class="card-title text-md-center text-left"
-                    style="margin-top:16px; font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px;"
-                  >นัดของคุณที่กำลังจะมาถึง</h6>
+                    class="card-title text-md-center text-left title-card-app"
+                  >
+                    นัดของคุณที่กำลังจะมาถึง
+                  </h6>
                   <p
                     class="text-md-center text-left"
                     style="
@@ -63,12 +72,12 @@
                       class="text-primary"
                       style="font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px;  color: #99A3FF;"
                     >
-                      {{dataFetch.type_name}}
+                      {{ dataFetch.type_name }}
                       <br />
                     </span>
-                    {{ dataFetch.dateformat}}
+                    {{ dataFetch.dateformat }}
                     <br />
-                    เวลา {{dataFetch.time_in.slice(0, 5)}} น.
+                    เวลา {{ dataFetch.time_in.slice(0, 5) }} น.
                   </p>
                   <a
                     v-if="dataFetch.link_meeting"
@@ -125,7 +134,9 @@ export default {
         email: "",
         telephone: null
       },
-      dataFetch: null,
+      dataFetch: {
+        time_in: ""
+      },
       checkAppointment: false
     };
   },
@@ -172,5 +183,12 @@ export default {
 }
 .btn-comming {
   border-radius: 31px;
+}
+.title-card-app {
+  margin-top: 16px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
 }
 </style>
