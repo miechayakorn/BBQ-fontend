@@ -13,28 +13,34 @@
           </router-link>
         </div>
         <div class="col-6 col-md-3 mt-1">
-          <div class="col-12 btnHome" style="cursor: pointer;">
-            <div class="text-center" style="margin-top: 36px;">
-              <iconBill :color="'#99A3FF'" />
-              <p style="color: #555555; margin-top: 8px;">กดคิว</p>
+          <router-link to="#">
+            <div class="col-12 btnHome" style="cursor: pointer;">
+              <div class="text-center" style="margin-top: 36px;">
+                <iconBill :color="'#99A3FF'" />
+                <p style="color: #555555; margin-top: 8px;">กดคิว</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
-        <div class="col-6 col-md-3 mt-3">
-          <div class="col-12 btnHome" style="cursor: pointer;">
-            <div class="text-center" style="margin-top: 36px;">
-              <iconClock2 />
-              <p style="color: #555555; margin-top: 8px;">ตารางให้บริการ</p>
+        <div class="col-6 col-md-3 mt-3 mt-md-1">
+          <router-link to="#">
+            <div class="col-12 btnHome" style="cursor: pointer;">
+              <div class="text-center" style="margin-top: 36px;">
+                <iconClock2 />
+                <p style="color: #555555; margin-top: 8px;">ตารางให้บริการ</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
-        <div class="col-6 col-md-3 mt-3">
-          <div class="col-12 btnHome" style="cursor: pointer;">
-            <div class="text-center" style="margin-top: 36px;">
-              <iconCalendar2 />
-              <p style="color: #555555; margin-top: 8px;">นัดของฉัน</p>
+        <div class="col-6 col-md-3 mt-3 mt-md-1">
+          <router-link to="/appointment">
+            <div class="col-12 btnHome" style="cursor: pointer;">
+              <div class="text-center" style="margin-top: 36px;">
+                <iconCalendar2 />
+                <p style="color: #555555; margin-top: 8px;">นัดของฉัน</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="row">
@@ -44,7 +50,7 @@
               <div class="col-5">
                 <woman class="card-img-bottom h-100" />
               </div>
-              <div  v-if="checkAppointment" class="col-7">
+              <div v-if="checkAppointment" class="col-7">
                 <h6 class="card-title text-md-center text-left title-card-app">
                   คุณยังไม่มีนัดหมาย
                 </h6>
