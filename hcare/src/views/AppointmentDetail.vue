@@ -27,27 +27,31 @@
                 <span>ควรเข้า Join Meeting ก่อนเวลาประมาณ 5 นาที</span>
               </div>
             </div>
-            <div class="row" style="text-align: center;">
+            <div class="row mt-5" style="text-align: center;">
               <div class="col-12">
                 <a :href="dataFetch.link_meeting">
                   <button
                     v-if="dataFetch.link_meeting"
-                    class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+                    class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >Join Meeting</span
-                    >
+                    <span style="font-weight: 900; color:white;">Join Meeting</span>
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
-                    class="btn btn btn-secondary btnBlock btnConfirm mt-5 fixed-button mb-2 disabled"
+                    class="btn btn-secondary btnBlock btnConfirm fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >ท่านยังไม่ได้รับลิงค์</span
-                    >
+                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
                   </button>
                 </a>
+              </div>
+              <div class="col-12">
+                <button
+                  class="btn btnBlock btnConfirm btnCancel fixed-button mb-2"
+                  @click="cancelAppointment"
+                >
+                  <span style="font-weight: 900; color:white;">ยกเลิกนัด</span>
+                </button>
               </div>
             </div>
           </div>
@@ -60,6 +64,7 @@
 <script>
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
+import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
@@ -119,8 +124,48 @@ export default {
         console.log("===== Backend-error ======");
         console.error(error.response);
       });
+  },
+  methods: {
+    cancelAppointment() {
+      this.$swal({
+        title: "คำเตือน",
+        text: "ยกเลิกการนัด",
+        icon: "warning",
+        showCloseButton: true,
+        confirmButtonColor: "#FF4F5B",
+        confirmButtonText: "ยืนยัน",
+        footer: "ระบบจะไม่สามารถคืนการนัดได้"
+      }).then(result => {
+        if (result.value) {
+        axios
+          .post(`${process.env.VUE_APP_BACKEND_URL}/cancel`, {
+            booking_id: this.dataFetch.appointmentCard[0].booking_id
+          })
+          .then(res => {
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              icon: "success",
+              title: "ยกเลิกการนัดสำเร็จ"
+            });
+            this.$router.push("/appointment");
+          })
+          .catch(error => {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            this.$swal({ ...errorSWAL });
+          });
+        }
+      });
+    }
   }
 };
 </script>
 
-<style></style>
+<style>
+.btnCancel {
+  background-color: #ff4f5b;
+}
+</style>

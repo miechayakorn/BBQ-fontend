@@ -83,7 +83,7 @@
             data-target="#navbarCollapse"
             aria-expanded="false"
             class="nav-link blackTextMenu"
-            to="appointment"
+            to="/appointment"
           >
             <iconCalendar style="margin-right:14px;" />นัดของฉัน
           </router-link>

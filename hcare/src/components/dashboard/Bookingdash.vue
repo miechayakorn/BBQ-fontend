@@ -22,38 +22,24 @@
         <div class="row">
           <div class="col-12">
             <h6 class="text-left">บริการ</h6>
-            <ServiceTypeBox
-              :dataTypes="dataFetch.dataTypes"
-              v-on:serviceDataType="fetchDate"
-            />
+            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
           </div>
           <div class="col-12 mt-3">
             <h6 class="text-left">วันที่</h6>
-            <ServiceDateBox
-              :dataDates="dataFetch.dataDates"
-              v-on:selectedDate="fetchTime"
-            />
+            <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
           </div>
         </div>
       </div>
       <div class="col-6">
         <div class="col-12">
-          <label
-            for="exampleInputPassword1"
-            class="d-flex justify-content-start"
-            >เลือกเวลา</label
-          >
+          <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
             :activeTime="dataShow.activeBtnTime"
             v-on:booking="onChangeTime"
           />
           <div class="form-group">
-            <label
-              for="exampleInputPassword1"
-              class="d-flex justify-content-start"
-              >อาการ</label
-            >
+            <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
             <textarea
               rows="3"
               class="form-control"
@@ -66,11 +52,11 @@
     </div>
     <div class="row">
       <div class="col-12">
-          <button
-            @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
-        </div>
+        <button
+          @click="sendToBackend"
+          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+        >Confirm</button>
+      </div>
     </div>
   </div>
 </template>
@@ -85,10 +71,10 @@ import man2 from "@/components/svg/man2.vue";
 export default {
   data() {
     return {
-      hn_number: "",
+      hn_number: null,
       dataPrepareSend: {
         booking_id: null,
-        account_id: null,
+        // account_id: null,
         symptom: null
       },
       dataFetch: {
@@ -107,6 +93,24 @@ export default {
     };
   },
   methods: {
+    async clearDataShow() {
+      this.dataShow.type = "จิตแพทย์";
+      this.dataShow.date = "";
+      this.dataShow.time = null;
+      this.dataShow.activeBtnTime = "";
+      this.dataShow.disableSymptom = true;
+      this.dataShow.oldTypeService = 1;
+      this.hn_number = null;
+      this.dataPrepareSend.booking_id = null;
+      this.dataPrepareSend.symptom = null;
+      this.dataFetch.dataTimes = null;
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+        .then(res => {
+          this.dataFetch.dataTypes = res.data;
+        });
+      this.fetchDate(this.dataShow.oldTypeService);
+    },
     clearData() {
       this.dataPrepareSend.booking_id = null;
       this.dataShow.date = "";
@@ -162,10 +166,13 @@ export default {
       //ให้กรอกอาการได้
       this.dataShow.disableSymptom = false;
     },
-    
+
     sendToBackend() {
       if (this.dataPrepareSend.booking_id != null) {
         console.log("Backend----" + this.dataShow.date);
+        console.log("booking_id = " + this.dataPrepareSend.booking_id);
+        console.log("hn_number = " + this.hn_number);
+        console.log("symptom = " + this.dataPrepareSend.symptom);
         this.$swal({
           title: "การจอง " + this.dataShow.type,
           text:
@@ -190,9 +197,10 @@ export default {
             });
 
             axios
-              .post(`${process.env.VUE_APP_BACKEND_URL}/Booking`, {
+              .post(`${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`, {
                 booking_id: this.dataPrepareSend.booking_id,
-                account_id: this.dataPrepareSend.account_id,
+                // account_id: this.dataPrepareSend.account_id,
+                hn_number: this.hn_number,
                 symptom: this.dataPrepareSend.symptom
               })
               .then(res => {
@@ -206,7 +214,8 @@ export default {
                   icon: "success",
                   title: "การจองสำเร็จ"
                 });
-                this.$router.push("Appointment");
+                this.clearDataShow();
+                this.$router.push("/admin/Dashboard");
               })
               .catch(error => {
                 console.log("===== Backend-error ======");
