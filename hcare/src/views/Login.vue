@@ -17,12 +17,10 @@
                 "
                 placeholder="อีเมล มหาวิยาลัย"
               />
-              <div class="invalid-feedback">
-                กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
-              </div>
+              <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th</div>
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="InputName">Password</label>
 
             <div class="inner-addon left-addon">
@@ -34,7 +32,7 @@
                 placeholder="รหัสผ่าน"
               />
             </div>
-          </div>
+          </div>-->
 
           <div class="row" style="text-align: center;">
             <div class="col-12">
@@ -60,8 +58,8 @@ import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
-      email: "",
-      password: ""
+      email: ""
+      //password: ""
     };
   },
   mounted() {
@@ -88,8 +86,9 @@ export default {
     sendToBackend() {
       if (
         this.checkEmail() == true &&
-        this.email != "" &&
-        this.password != ""
+        this.email != ""
+
+        // && this.password != ""
       ) {
         this.$swal({
           ...waiting,
@@ -101,11 +100,11 @@ export default {
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
             //process.env.VUE_APP_BACKEND_URL อันนี้มาจากไฟล์ .env ของ VUE จะบังคับให้ขึ้นต้นด้วยชื่อ VUE_APP_
-            email: this.email,
-            password: this.password
+            email: this.email
+            //password: this.password
           })
           .then(res => {
-            localStorage.setItem("user", JSON.stringify(res.data));
+            //localStorage.setItem("user", JSON.stringify(res.data));
             this.$router.go();
           })
           .catch(error => {

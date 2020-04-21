@@ -15,6 +15,7 @@ import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue";
 import BookingConfirm from "../views/BookingConfirm.vue";
 import BookingCancelByEmail from "../views/BookingCancelByEmail.vue";
+import LoginConfirm from "../views/LoginConfirm.vue";
 
 Vue.use(VueRouter);
 
@@ -52,6 +53,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/login/confirm",
+    name: "LoginConfirm",
+    component: LoginConfirm
   },
   {
     path: "/logout",
