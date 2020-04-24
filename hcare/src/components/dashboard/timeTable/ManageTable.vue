@@ -84,7 +84,9 @@ export default {
     //เรียกข้อมูล Default
     //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
       .then(res => {
         this.dataFetch.dataTypes = res.data;
       });

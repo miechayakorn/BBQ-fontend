@@ -36,9 +36,6 @@ export default {
     let a = this;
     console.log(a);
     this.selectedDate = a.dataDates;
-
-    // console.log("selectedDate----------------")
-    // console.log(this.selectedDate)
   }
 };
 </script>

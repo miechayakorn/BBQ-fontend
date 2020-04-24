@@ -63,13 +63,17 @@ export default {
     //เรียกข้อมูล Default
     //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
       .then(res => {
         this.dataFetch.dataTypes = res.data;
       });
     //Date
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
       .then(res => {
         this.dataFetch.dataDates = res.data;
       });
@@ -79,7 +83,10 @@ export default {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          }
         )
         .then(res => {
           this.dataFetch.dataDates = res.data;
@@ -96,7 +103,10 @@ export default {
       console.log(process.env.VUE_APP_BACKEND_URL);
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`
+          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          }
         )
         .then(res => {
           console.log(res.data);
@@ -110,5 +120,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

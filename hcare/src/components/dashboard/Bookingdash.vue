@@ -123,7 +123,9 @@ export default {
       this.dataPrepareSend.symptom = null;
       this.dataFetch.dataTimes = null;
       await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        })
         .then(res => {
           this.dataFetch.dataTypes = res.data;
         });
@@ -140,7 +142,10 @@ export default {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          }
         )
         .then(res => {
           this.dataFetch.dataDates = res.data;
@@ -159,7 +164,10 @@ export default {
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          }
         )
         .then(res => {
           this.dataFetch.dataTimes = res.data;
@@ -214,15 +222,20 @@ export default {
             });
 
             axios
-              .post(`${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`, {
-                booking_id: this.dataPrepareSend.booking_id,
-                // account_id: this.dataPrepareSend.account_id,
-                hn_number: this.hn_number,
-                symptom: this.dataPrepareSend.symptom
-              })
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`,
+                {
+                  booking_id: this.dataPrepareSend.booking_id,
+                  hn_number: this.hn_number,
+                  symptom: this.dataPrepareSend.symptom
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`
+                  }
+                }
+              )
               .then(res => {
-                console.log(res.data);
-
                 this.$swal({
                   toast: true,
                   position: "top-end",
@@ -260,13 +273,17 @@ export default {
     //เรียกข้อมูล Default
     //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
       .then(res => {
         this.dataFetch.dataTypes = res.data;
       });
     //Date
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
       .then(res => {
         this.dataFetch.dataDates = res.data;
       });

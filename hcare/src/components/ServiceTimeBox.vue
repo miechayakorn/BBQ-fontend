@@ -46,11 +46,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      // activeBtnTime: ""
-    };
-  },
   methods: {
     onChangeTime(booking_id, time_in, activeTime) {
       let booking = {
@@ -58,9 +53,6 @@ export default {
         time: time_in,
         activeBtnTime: activeTime
       };
-      //console.log("prop activeBtnTime")
-      // console.log("prop activeBtnTime" +  this.props.activeBtnTime)
-
       this.$emit("booking", booking);
     }
   },

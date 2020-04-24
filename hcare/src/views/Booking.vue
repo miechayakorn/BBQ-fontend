@@ -7,7 +7,10 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
           </div>
         </div>
       </div>
@@ -16,13 +19,20 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          <ServiceDateBox
+            :dataDates="dataFetch.dataDates"
+            v-on:selectedDate="fetchTime"
+          />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >เลือกเวลา</label
+            >
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -32,7 +42,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+        <label for="exampleInputPassword1" class="d-flex justify-content-start"
+          >อาการ</label
+        >
         <textarea
           rows="3"
           class="form-control"
@@ -45,7 +57,9 @@
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
@@ -66,7 +80,6 @@ export default {
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
-        account_id: null,
         symptom: null
       },
       //ข้อมูลที่ได้จาก Backend
@@ -83,7 +96,7 @@ export default {
         activeBtnTime: "",
         disableSymptom: true,
         oldTypeService: 1
-      }
+      },
     };
   },
   components: {
@@ -93,34 +106,33 @@ export default {
     logoHeader
   },
   async mounted() {
-    if (localStorage.getItem("user")) {
-      this.$swal({
-        title: "กรุณารอสักครู่",
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.$swal.showLoading();
-        }
-      });
-      this.dataPrepareSend.account_id = JSON.parse(localStorage.getItem("user")).account_id
+    this.$swal({
+      title: "กรุณารอสักครู่",
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      onOpen: () => {
+        this.$swal.showLoading();
+      }
+    });
 
-      //เรียกข้อมูล Default
-      //Type
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`)
-        .then(res => {
-          this.dataFetch.dataTypes = res.data;
-        });
-      //Date
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`)
-        .then(res => {
-          this.dataFetch.dataDates = res.data;
-          this.$swal.close();
-        });
-    } else {
-      this.$router.push("login");
-    }
+    //เรียกข้อมูล Default
+    //Type
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
+      .then(res => {
+        this.dataFetch.dataTypes = res.data;
+      });
+    //Date
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
+      .then(res => {
+        this.dataFetch.dataDates = res.data;
+        this.$swal.close();
+      });
   },
   methods: {
     clearData() {
@@ -150,7 +162,10 @@ export default {
         this.dataShow.activeBtnTime = "";
         await axios
           .get(
-            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
+            {
+              headers: { Authorization: `Bearer ${this.$store.state.token}` }
+            }
           )
           .then(res => {
             this.dataFetch.dataDates = res.data;
@@ -171,7 +186,10 @@ export default {
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          }
         )
         .then(res => {
           this.dataFetch.dataTimes = res.data;
@@ -222,11 +240,16 @@ export default {
             });
 
             axios
-              .post(`${process.env.VUE_APP_BACKEND_URL}/Booking`, {
-                booking_id: this.dataPrepareSend.booking_id,
-                account_id: this.dataPrepareSend.account_id,
-                symptom: this.dataPrepareSend.symptom
-              })
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/Booking`,
+                {
+                  booking_id: this.dataPrepareSend.booking_id,
+                  symptom: this.dataPrepareSend.symptom
+                },
+                {
+                  headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                }
+              )
               .then(res => {
                 console.log(res.data);
 

@@ -9,10 +9,12 @@
             <div class v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3">คุณยังไม่มีนัดหมาย</span>
-                  <span
-                    class="announcement d-flex justify-content-center mt-3"
-                  >หรือยังไม่ได้กดยืนยันที่ Email</span>
+                  <span class="announcement d-flex justify-content-center mt-3"
+                    >คุณยังไม่มีนัดหมาย</span
+                  >
+                  <span class="announcement d-flex justify-content-center mt-3"
+                    >หรือยังไม่ได้กดยืนยันที่ Email</span
+                  >
                 </div>
                 <div class="fix-buttom-man">
                   <man />
@@ -34,17 +36,6 @@ import man from "@/components/svg/man.vue";
 export default {
   data() {
     return {
-      user: {
-        account_id: "",
-        hn_number: "",
-        first_name: "",
-        last_name: "",
-        verify: null,
-        gender: null,
-        date_of_birth: null,
-        email: "",
-        telephone: null
-      },
       dataFetch: [],
       checkAppointment: false
     };
@@ -54,28 +45,20 @@ export default {
     man
   },
   async mounted() {
-    if (localStorage.getItem("user")) {
-      const user = JSON.parse(localStorage.getItem("user"));
-      this.user = user;
-      await axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-          account_id: this.user.account_id
-        })
-        .then(res => {
-          if (res.status == 204) {
-            this.checkAppointment = true;
-          } else {
-            this.dataFetch = res.data;
-            console.log(this.dataFetch);
-          }
-        });
-    } else {
-      this.$swal({
-        title: "คำเตือน",
-        text: "กรุณาเข้าสู่ระบบ",
-        icon: "warning"
-      }).then(this.$router.push("login"));
-    }
+    await axios
+      .post(
+        `${process.env.VUE_APP_BACKEND_URL}/myappointment`,
+        {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        }
+      )
+      .then(res => {
+        if (res.status == 204) {
+          this.checkAppointment = true;
+        } else {
+          this.dataFetch = res.data;
+        }
+      });
   }
 };
 </script>

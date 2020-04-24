@@ -34,14 +34,18 @@
                     v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;">Join Meeting</span>
+                    <span style="font-weight: 900; color:white;"
+                      >Join Meeting</span
+                    >
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
                     class="btn btn-secondary btnBlock btnConfirm fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
+                    <span style="font-weight: 900; color:white;"
+                      >ท่านยังไม่ได้รับลิงค์</span
+                    >
                   </button>
                 </a>
               </div>
@@ -88,17 +92,19 @@ export default {
         doctor_id: null,
         doctor_firstname: "",
         doctor_lastname: ""
-      }
+      },
     };
   },
   components: {
     AppointmentCard
   },
   async mounted() {
-    console.log();
     await axios
       .get(
-        `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`
+        `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        }
       )
       .then(res => {
         if (res.data.account_id) {
@@ -137,26 +143,32 @@ export default {
         footer: "ระบบจะไม่สามารถคืนการนัดได้"
       }).then(result => {
         if (result.value) {
-        axios
-          .post(`${process.env.VUE_APP_BACKEND_URL}/cancel`, {
-            booking_id: this.dataFetch.appointmentCard[0].booking_id
-          })
-          .then(res => {
-            this.$swal({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              icon: "success",
-              title: "ยกเลิกการนัดสำเร็จ"
+          axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/cancel`,
+              {
+                booking_id: this.dataFetch.appointmentCard[0].booking_id
+              },
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+              }
+            )
+            .then(res => {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                icon: "success",
+                title: "ยกเลิกการนัดสำเร็จ"
+              });
+              this.$router.push("/appointment");
+            })
+            .catch(error => {
+              console.log("===== Backend-error ======");
+              console.error(error.response);
+              this.$swal({ ...errorSWAL });
             });
-            this.$router.push("/appointment");
-          })
-          .catch(error => {
-            console.log("===== Backend-error ======");
-            console.error(error.response);
-            this.$swal({ ...errorSWAL });
-          });
         }
       });
     }

@@ -86,12 +86,6 @@ export default {
     return {
       searchQuery: "",
       gridColumns: ["เวลานัด", "HNnumber", "ชื่อ", "action"]
-      // gridColumns: ["time_in", "hn_number", "first_name", "action"],
-      // displayNames: {
-      //   'time_in': "เวลานัด",
-      //   'hn_number': "HN number",
-      //   'first_name': "ชื่อ"
-      // }
     };
   },
   methods: {
@@ -119,11 +113,17 @@ export default {
           let note = document.getElementById("note").value;
 
           axios
-            .post(`${process.env.VUE_APP_BACKEND_URL}/patientbooking/edit`, {
-              booking_id: booking_id,
-              link: linkInput,
-              note: note
-            })
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/patientbooking/edit`,
+              {
+                booking_id: booking_id,
+                link: linkInput,
+                note: note
+              },
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+              }
+            )
             .then(res => {
               this.$swal({
                 toast: true,
@@ -161,9 +161,15 @@ export default {
         showLoaderOnConfirm: true,
         preConfirm: () => {
           axios
-            .post(`${process.env.VUE_APP_BACKEND_URL}/cancel`, {
-              booking_id: booking_id
-            })
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/cancel`,
+              {
+                booking_id: booking_id
+              },
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+              }
+            )
             .then(res => {
               this.$swal({
                 toast: true,
