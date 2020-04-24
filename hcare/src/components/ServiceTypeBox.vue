@@ -4,15 +4,14 @@
       v-for="(serviceDataType, index) in dataTypes"
       :key="index"
       v-on:click="fetchDate(serviceDataType)"
-      class="col-6 col-md-4 mt-1"
+      class="col-6 col-md-3 mt-1"
     >
       <div
         :class="[
-          'col-12 btnType btn-outline-primary',
+          'btnType btn-outline-primary',
           { active: activeBtnType === 'btn' + index }
         ]"
         @click="activeBtnType = 'btn' + index"
-        style="cursor: pointer"
       >
         <div class="text-center" style="margin-top: 32px;">
           <logoEmotion :color="'white'" v-if="'btn' + index == activeBtnType" />
@@ -56,6 +55,7 @@ export default {
 
 <style scope>
 .btnType {
+  cursor: pointer;
   background-color: #ffffff;
   border: 2px solid #99a3ff;
   border-radius: 8px;

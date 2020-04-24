@@ -1,21 +1,25 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+//User
 import Home from "../views/Home.vue";
-import Booking from "../views/Booking.vue";
-import Dashboard from "../views/admin/Dashboard.vue";
-import DashAppointment from "../views/admin/DashAppointment.vue";
-import Register from "../views/Register.vue";
-import RegisterConfirm from "../views/RegisterConfirm.vue";
-import Login from "../views/Login.vue";
-import Logout from "../views/Logout.vue";
-import NotFound from "../views/404.vue";
-import Admin from "../views/admin/Admin.vue";
-import Test from "../views/test.vue";
 import Appointment from "../views/Appointment.vue";
 import AppointmentDetail from "../views/AppointmentDetail.vue";
+import Booking from "../views/Booking.vue";
 import BookingConfirm from "../views/BookingConfirm.vue";
 import BookingCancelByEmail from "../views/BookingCancelByEmail.vue";
+import Login from "../views/Login.vue";
 import LoginConfirm from "../views/LoginConfirm.vue";
+import Logout from "../views/Logout.vue";
+import Register from "../views/Register.vue";
+import RegisterConfirm from "../views/RegisterConfirm.vue";
+//Admin
+import Admin from "../views/admin/Admin.vue";
+import Dashboard from "../views/admin/Dashboard.vue";
+import DashAppointment from "../views/admin/DashAppointment.vue";
+import TimeTable from "../views/admin/TimeTable.vue";
+//Service
+import NotFound from "../views/404.vue";
+import Test from "../views/test.vue";
 
 Vue.use(VueRouter);
 
@@ -88,6 +92,11 @@ const routes = [
     path: "/admin/dashboard/appointment/:id",
     name: "DashAppointment",
     component: DashAppointment
+  },
+  {
+    path: "/admin/dashboard/timetable",
+    name: "TimeTable",
+    component: TimeTable
   },
   {
     path: "/test",

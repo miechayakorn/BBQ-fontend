@@ -8,17 +8,21 @@
       />
     </div>
     <div class="list-group menu">
-      <router-link to="#" class="p-2 bg-primary">
+      <router-link to="/admin/dashboard/" class="p-2 bg-primary">
         <iconAppointment />
         <p class="menu-list">นัดหมาย</p>
       </router-link>
-      <a href="#" class="p-2 bg-primary">
+      <router-link to="/admin/dashboard/timetable" class="p-2 bg-primary">
         <iconTimeTable />
         <p class="menu-list">ตารางเวลา</p>
-      </a>
+      </router-link>
       <a href="#" class="p-2 bg-primary">
         <iconQueue />
         <p class="menu-list">คิว</p>
+      </a>
+      <a href="#" class="p-2 bg-primary">
+        <iconService />
+        <p class="menu-list">บริการ</p>
       </a>
       <div class="list-group">
         <a href="#" class="p-2 bg-primary" style="margin-top:300px">
@@ -37,6 +41,7 @@ import iconTimeTable from "@/components/svg/icon/iconTimeTable.vue";
 import iconQueue from "@/components/svg/icon/iconQueue.vue";
 import iconSetting from "@/components/svg/icon/iconSetting.vue";
 import iconLogout from "@/components/svg/icon/iconLogout.vue";
+import iconService from "@/components/svg/icon/iconService.vue";
 
 export default {
   components: {
@@ -44,7 +49,8 @@ export default {
     iconTimeTable,
     iconQueue,
     iconSetting,
-    iconLogout
+    iconLogout,
+    iconService,
   }
 };
 </script>

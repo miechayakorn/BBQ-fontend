@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-3 ml-2 bg-white">
-    <div class="row">
+  <div class="container mt-3 bg-white">
+    <div class="row p-3 pt-4">
       <div class="col-12">
         <h6 class="text-left">บริการ</h6>
         <ServiceTypeBox

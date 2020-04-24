@@ -17,7 +17,6 @@
                   { active: activeBtnType === 'btn' + index }
                 ]"
                 @click="activeBtnType = 'btn' + index"
-                style="cursor: pointer"
               >
                 <div class="text-center" style="margin-top: 32px;">
                   <svg
@@ -426,6 +425,7 @@ export default {
 }
 
 .btnType {
+  cursor: pointer;
   background-color: #ffffff;
   border: 2px solid #99a3ff;
   border-radius: 8px;

@@ -1,61 +1,79 @@
 <template>
-  <div class="container ml-2">
-    <div class="row bg-blueMan2">
-      <div class="col-4">
-        <man2 />
-      </div>
-      <div class="col-8">
-        <div class="form-group text-left" style="margin-top:48px;">
-          <label for="InputName">กรอกรหัสนักศึกษา</label>
-          <input
-            type="text"
-            v-model="hn_number"
-            class="form-control"
-            placeholder="รหัสนักศึกษา"
-            required
-          />
+  <div class="container mt-3">
+    <div class="mt-3 bg-white">
+      <div class="row bg-blueMan2">
+        <div class="col-4">
+          <man2 />
         </div>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-6">
-        <div class="row">
-          <div class="col-12">
-            <h6 class="text-left">บริการ</h6>
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
-          </div>
-          <div class="col-12 mt-3">
-            <h6 class="text-left">วันที่</h6>
-            <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="col-12">
-          <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
-          <ServiceTimeBox
-            :dataTimes="dataFetch.dataTimes"
-            :activeTime="dataShow.activeBtnTime"
-            v-on:booking="onChangeTime"
-          />
-          <div class="form-group">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
-            <textarea
-              rows="3"
+        <div class="col-8">
+          <div class="form-group text-left" style="margin-top:48px;">
+            <label for="InputName">กรอกรหัสนักศึกษา</label>
+            <input
+              type="text"
+              v-model="hn_number"
               class="form-control"
-              v-model="dataPrepareSend.symptom"
-              :disabled="dataShow.disableSymptom"
-            ></textarea>
+              placeholder="รหัสนักศึกษา"
+              required
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <button
-          @click="sendToBackend"
-          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-        >Confirm</button>
+    <div class="mt-3">
+      <div class="row p-3 pt-4 bg-white">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-12">
+              <h6 class="text-left">บริการ</h6>
+              <ServiceTypeBox
+                :dataTypes="dataFetch.dataTypes"
+                v-on:serviceDataType="fetchDate"
+              />
+            </div>
+            <div class="col-12 mt-3">
+              <h6 class="text-left">วันที่</h6>
+              <ServiceDateBox
+                :dataDates="dataFetch.dataDates"
+                v-on:selectedDate="fetchTime"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="col-12">
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >เลือกเวลา</label
+            >
+            <ServiceTimeBox
+              :dataTimes="dataFetch.dataTimes"
+              :activeTime="dataShow.activeBtnTime"
+              v-on:booking="onChangeTime"
+            />
+            <div class="form-group">
+              <label
+                for="exampleInputPassword1"
+                class="d-flex justify-content-start"
+                >อาการ</label
+              >
+              <textarea
+                rows="3"
+                class="form-control"
+                v-model="dataPrepareSend.symptom"
+                :disabled="dataShow.disableSymptom"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <button
+            @click="sendToBackend"
+            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -183,8 +201,7 @@ export default {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText: "Confirm",
-          cancelButtonText: "No",
-          footer: "กรุณาบอก ผู้ให้รับบริการ ให้กดยืนยันการจองที่ email"
+          cancelButtonText: "No"
         }).then(result => {
           if (result.value) {
             this.$swal({

@@ -14,17 +14,17 @@
         </button>
         <ul class="nav navbar-nav nav-underlined">
           <li
-            :class="{ active: activeBtnNav === 'Appointmentdash' }"
+            :class="{ active: activeBtnNav === 'ManageTable' }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'Appointmentdash'"
+            @click="activeBtnNav = 'ManageTable'"
           >
             <router-link
-              to="#Appointmentdash"
+              to="#ManageTable"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'Appointmentdash' }
+                { activeText: activeBtnNav === 'ManageTable' }
               ]"
-              >ตารางนัดคนไข้</router-link
+              >ตารางการให้บริการ</router-link
             >
           </li>
           <li
@@ -38,12 +38,12 @@
                 'disText',
                 { activeText: activeBtnNav === 'Bookingdash' }
               ]"
-              >ทำนัดหมาย</router-link
+              >จัดการตารางให้บริการ</router-link
             >
           </li>
         </ul>
       </nav>
-      <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
+      <ManageTable v-if="activeBtnNav == 'ManageTable'" />
       <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
     </div>
   </div>
@@ -52,19 +52,19 @@
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
-import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
+import ManageTable from "@/components/dashboard/timeTable/ManageTable.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 
 export default {
   data() {
     return {
-      activeBtnNav: "Appointmentdash"
+      activeBtnNav: "ManageTable"
     };
   },
   components: {
     Menudash,
     Queuedash,
-    Appointmentdash,
+    ManageTable,
     Bookingdash
   }
 };
