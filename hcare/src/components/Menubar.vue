@@ -182,7 +182,7 @@ export default {
 @media (max-width: 992px) {
   .navbar-collapse {
     position: absolute;
-    top: 54px;
+    top: 45px;
     /* left: 100%; */
     margin-left: 20%;
     padding-left: 15px;
