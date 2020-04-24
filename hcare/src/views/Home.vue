@@ -149,10 +149,9 @@ export default {
   async mounted() {
     if (localStorage.getItem("user")) {
       const user = JSON.parse(localStorage.getItem("user"));
-      this.user = user;
       await axios
         .post(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-          account_id: this.user.account_id
+          headers: { Authorization: `Bearer ${user.token}` }
         })
         .then(res => {
           if (res.status == 204) {
