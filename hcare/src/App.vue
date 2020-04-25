@@ -12,6 +12,24 @@
 import Menubar from "@/components/Menubar.vue";
 
 export default {
+  methods: {
+    checkRouteAuth() {
+      if (this.$router.currentRoute.path == "/register") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/register/confirm") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/bookings/confirm") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/bookings/emailcancel") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/login/confirm") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/login/confirm") {
+        return true;
+      }
+      return false;
+    }
+  },
   mounted() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
@@ -20,8 +38,8 @@ export default {
         first_name: user.first_name,
         last_name: user.last_name
       };
-    } else if (this.$router.currentRoute.path == "/register") {
-      console.log("regis");
+    } else if (checkRouteAuth()) {
+      console.log("pass");
     } else {
       this.$swal({
         title: "คำเตือน",

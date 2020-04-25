@@ -51,16 +51,20 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div v-if="checkAppointment" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">คุณยังไม่มีนัดหมาย</h6>
-                <h6
-                  class="card-title text-md-center text-left title-card-app"
-                >หรือยังไม่ได้กดยืนยันที่ Email</h6>
+                <h6 class="card-title text-md-center text-left title-card-app">
+                  คุณยังไม่มีนัดหมาย
+                </h6>
+                <h6 class="card-title text-md-center text-left title-card-app">
+                  หรือยังไม่ได้กดยืนยันที่ Email
+                </h6>
               </div>
               <div class="col-7">
                 <div v-if="checkAppointment == false" class="card-body ml-3">
                   <h6
                     class="card-title text-md-center text-left title-card-app"
-                  >นัดของคุณที่กำลังจะมาถึง</h6>
+                  >
+                    นัดของคุณที่กำลังจะมาถึง
+                  </h6>
                   <p
                     class="text-md-center text-left"
                     style="
@@ -144,6 +148,14 @@ export default {
   },
   async mounted() {
     if (localStorage.getItem("user")) {
+      //Fix bug token null
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.$store.state.token = user.token;
+      this.$store.state.user = {
+        first_name: user.first_name,
+        last_name: user.last_name
+      };
+
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
           headers: { Authorization: `Bearer ${this.$store.state.token}` }
