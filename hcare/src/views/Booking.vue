@@ -236,8 +236,8 @@ export default {
                 },
                 {
                   headers: {
-                    // Authorization: `Bearer ${this.$store.state.token}`
-                    Authorization: "Bearer " + user.token
+                    Authorization: `Bearer ${this.$store.state.token}`
+                    
                   }
                 }
               )

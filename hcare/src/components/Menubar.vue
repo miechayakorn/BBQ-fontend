@@ -17,10 +17,7 @@
       </span>
     </button>
 
-    <div
-      class="collapse navbar-collapse bg-white text-left text-md-center"
-      id="navbarCollapse"
-    >
+    <div class="collapse navbar-collapse bg-white text-left text-md-center" id="navbarCollapse">
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
@@ -31,9 +28,9 @@
             class="rounded-circle centerImg"
             alt
           />
-          <p class="d-flex justify-content-center mb-0 mt-2">
-            {{ user.first_name }} {{ user.last_name }}
-          </p>
+          <p
+            class="d-flex justify-content-center mb-0 mt-2"
+          >{{ user.first_name }} {{ user.last_name }}</p>
         </li>
         <hr class="lineHr" />
         <li

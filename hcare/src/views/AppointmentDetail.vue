@@ -95,12 +95,11 @@ export default {
     AppointmentCard
   },
   async mounted() {
-    const user = JSON.parse(localStorage.getItem("user"));
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
         }
       )
       .then(res => {

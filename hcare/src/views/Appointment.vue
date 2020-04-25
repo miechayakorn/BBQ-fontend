@@ -46,7 +46,7 @@ export default {
     const user = JSON.parse(localStorage.getItem("user"));
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-        headers: { Authorization: "Bearer " + user.token }
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
       })
       .then(res => {
         if (res.status == 204) {
