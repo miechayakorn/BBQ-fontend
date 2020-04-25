@@ -20,6 +20,8 @@ export default {
         first_name: user.first_name,
         last_name: user.last_name
       };
+    } else if (this.$router.currentRoute.path == "/register") {
+      console.log("regis");
     } else {
       this.$swal({
         title: "คำเตือน",
@@ -27,6 +29,9 @@ export default {
         icon: "warning"
       }).then(this.$router.push("login"));
     }
+  },
+  beforeUpdate() {
+    // Check Token every action
   },
   components: {
     Menubar
