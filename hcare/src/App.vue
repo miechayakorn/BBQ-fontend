@@ -12,22 +12,22 @@
 import Menubar from "@/components/Menubar.vue";
 
 export default {
-  mounted() {
-    if (localStorage.getItem("user")) {
-      let user = JSON.parse(localStorage.getItem("user"));
-      this.$store.state.token = user.token;
-      this.$store.state.user = {
-        first_name: user.first_name,
-        last_name: user.last_name
-      };
-    } else {
-      this.$swal({
-        title: "คำเตือน",
-        text: "กรุณาเข้าสู่ระบบ",
-        icon: "warning"
-      }).then(this.$router.push("login"));
-    }
-  },
+  // mounted() {
+  //   if (localStorage.getItem("user")) {
+  //     let user = JSON.parse(localStorage.getItem("user"));
+  //     this.$store.state.token = user.token;
+  //     this.$store.state.user = {
+  //       first_name: user.first_name,
+  //       last_name: user.last_name
+  //     };
+  //   } else {
+  //     this.$swal({
+  //       title: "คำเตือน",
+  //       text: "กรุณาเข้าสู่ระบบ",
+  //       icon: "warning"
+  //     }).then(this.$router.push("login"));
+  //   }
+  // },
   components: {
     Menubar
   }
