@@ -2,7 +2,7 @@
   <div class="container fixed-container mb-3 bg" style="margin-top:40px">
     <div class="form-group text-left">
       <h1 class="RegStyle">Register</h1>
-      <form @submit="">
+      <form @submit>
         <div class="col-xs-12" style="margin-top:28px">
           <div class="form-group">
             <label for="InputName">ชื่อ</label>
@@ -48,9 +48,7 @@
               placeholder="รหัสผ่าน"
               required
             />
-            <div class="invalid-feedback">
-              กรุณากรอกรหัสผ่านให้ตรงกัน
-            </div>
+            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
           </div>
           <div class="form-group">
             <label for="InputPass">ยืนยันรหัสผ่าน</label>
@@ -65,9 +63,7 @@
               placeholder="ยืนยันรหัสผ่าน"
               required
             />
-            <div class="invalid-feedback">
-              กรุณากรอกรหัสผ่านให้ตรงกัน
-            </div>
+            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
           </div>
           <div class="form-group">
             <label for="InputEmail">อีเมล</label>
@@ -79,9 +75,7 @@
               placeholder="example@mail.kmutt.ac.th"
               required
             />
-            <div class="invalid-feedback">
-              กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
-            </div>
+            <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th</div>
           </div>
           <div class="form-group">
             <label for="InputTel">เบอร์โทรศัพท์</label>
@@ -100,9 +94,7 @@
                 type="button"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                 style="font-weight:900"
-              >
-                Register
-              </button>
+              >Register</button>
             </div>
           </div>
         </div>
@@ -195,7 +187,7 @@ export default {
 
             // Set Local Storage
 
-            localStorage.setItem("user", JSON.stringify(res.data));
+            // localStorage.setItem("user", JSON.stringify(res.data));
 
             this.$router.push("Booking");
           })

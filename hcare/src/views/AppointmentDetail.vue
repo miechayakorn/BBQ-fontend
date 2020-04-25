@@ -34,18 +34,14 @@
                     v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >Join Meeting</span
-                    >
+                    <span style="font-weight: 900; color:white;">Join Meeting</span>
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
                     class="btn btn-secondary btnBlock btnConfirm fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;"
-                      >ท่านยังไม่ได้รับลิงค์</span
-                    >
+                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
                   </button>
                 </a>
               </div>
@@ -92,18 +88,19 @@ export default {
         doctor_id: null,
         doctor_firstname: "",
         doctor_lastname: ""
-      },
+      }
     };
   },
   components: {
     AppointmentCard
   },
   async mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${user.token}` }
         }
       )
       .then(res => {

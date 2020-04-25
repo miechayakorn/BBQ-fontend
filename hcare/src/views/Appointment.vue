@@ -9,12 +9,10 @@
             <div class v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3"
-                    >คุณยังไม่มีนัดหมาย</span
-                  >
-                  <span class="announcement d-flex justify-content-center mt-3"
-                    >หรือยังไม่ได้กดยืนยันที่ Email</span
-                  >
+                  <span class="announcement d-flex justify-content-center mt-3">คุณยังไม่มีนัดหมาย</span>
+                  <span
+                    class="announcement d-flex justify-content-center mt-3"
+                  >หรือยังไม่ได้กดยืนยันที่ Email</span>
                 </div>
                 <div class="fix-buttom-man">
                   <man />
@@ -45,13 +43,11 @@ export default {
     man
   },
   async mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
     await axios
-      .post(
-        `${process.env.VUE_APP_BACKEND_URL}/myappointment`,
-        {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
-        }
-      )
+      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+        headers: { Authorization: "Bearer " + user.token }
+      })
       .then(res => {
         if (res.status == 204) {
           this.checkAppointment = true;

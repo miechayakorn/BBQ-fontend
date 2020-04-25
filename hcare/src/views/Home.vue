@@ -51,20 +51,16 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div v-if="checkAppointment" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  คุณยังไม่มีนัดหมาย
-                </h6>
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  หรือยังไม่ได้กดยืนยันที่ Email
-                </h6>
+                <h6 class="card-title text-md-center text-left title-card-app">คุณยังไม่มีนัดหมาย</h6>
+                <h6
+                  class="card-title text-md-center text-left title-card-app"
+                >หรือยังไม่ได้กดยืนยันที่ Email</h6>
               </div>
               <div class="col-7">
                 <div v-if="checkAppointment == false" class="card-body ml-3">
                   <h6
                     class="card-title text-md-center text-left title-card-app"
-                  >
-                    นัดของคุณที่กำลังจะมาถึง
-                  </h6>
+                  >นัดของคุณที่กำลังจะมาถึง</h6>
                   <p
                     class="text-md-center text-left"
                     style="
@@ -150,16 +146,16 @@ export default {
     if (localStorage.getItem("user")) {
       const user = JSON.parse(localStorage.getItem("user"));
       await axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
           headers: { Authorization: `Bearer ${user.token}` }
         })
         .then(res => {
           if (res.status == 204) {
             this.checkAppointment = true;
-          } else {
-            this.dataFetch = res.data[0];
-            console.log(this.dataFetch);
           }
+
+          this.dataFetch = res.data[0];
+          console.log(this.dataFetch);
         });
     } else {
       this.$swal({
