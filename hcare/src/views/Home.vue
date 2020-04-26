@@ -147,34 +147,18 @@ export default {
     };
   },
   async mounted() {
-    if (localStorage.getItem("user")) {
-      //Fix bug token null
-      let user = JSON.parse(localStorage.getItem("user"));
-      this.$store.state.token = user.token;
-      this.$store.state.user = {
-        first_name: user.first_name,
-        last_name: user.last_name
-      };
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      })
+      .then(res => {
+        if (res.status == 204) {
+          this.checkAppointment = true;
+        }
 
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
-        })
-        .then(res => {
-          if (res.status == 204) {
-            this.checkAppointment = true;
-          }
-
-          this.dataFetch = res.data[0];
-          console.log(this.dataFetch);
-        });
-    } else {
-      this.$swal({
-        title: "คำเตือน",
-        text: "กรุณาเข้าสู่ระบบ",
-        icon: "warning"
-      }).then(this.$router.push("login"));
-    }
+        this.dataFetch = res.data[0];
+        console.log(this.dataFetch);
+      });
   }
 };
 </script>

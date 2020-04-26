@@ -7,7 +7,10 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
           </div>
         </div>
       </div>
@@ -16,13 +19,20 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          <ServiceDateBox
+            :dataDates="dataFetch.dataDates"
+            v-on:selectedDate="fetchTime"
+          />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >เลือกเวลา</label
+            >
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -32,7 +42,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+        <label for="exampleInputPassword1" class="d-flex justify-content-start"
+          >อาการ</label
+        >
         <textarea
           rows="3"
           class="form-control"
@@ -45,7 +57,9 @@
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
@@ -200,8 +214,6 @@ export default {
       this.dataShow.disableSymptom = false;
     },
     sendToBackend() {
-      const user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
       if (this.dataPrepareSend.booking_id != null) {
         console.log("Backend----" + this.dataShow.date);
         this.$swal({
@@ -237,7 +249,6 @@ export default {
                 {
                   headers: {
                     Authorization: `Bearer ${this.$store.state.token}`
-                    
                   }
                 }
               )

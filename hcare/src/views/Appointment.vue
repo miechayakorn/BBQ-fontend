@@ -43,7 +43,6 @@ export default {
     man
   },
   async mounted() {
-    const user = JSON.parse(localStorage.getItem("user"));
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
         headers: { Authorization: `Bearer ${this.$store.state.token}` }

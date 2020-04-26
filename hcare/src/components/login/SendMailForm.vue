@@ -12,7 +12,7 @@
             :class="
                   checkEmail() ? 'form-control' : 'form-control is-invalid'
                 "
-            placeholder="อีเมล มหาวิยาลัย"
+            placeholder="อีเมล มหาวิทยาลัย"
           />
           <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th</div>
         </div>

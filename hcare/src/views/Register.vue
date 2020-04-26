@@ -75,7 +75,9 @@
               placeholder="example@mail.kmutt.ac.th"
               required
             />
-            <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th</div>
+            <div class="invalid-feedback">
+              กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
+            </div>
           </div>
           <div class="form-group">
             <label for="InputTel">เบอร์โทรศัพท์</label>
@@ -94,7 +96,9 @@
                 type="button"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                 style="font-weight:900"
-              >Register</button>
+              >
+                Register
+              </button>
             </div>
           </div>
         </div>
@@ -180,16 +184,15 @@ export default {
           })
           .then(res => {
             console.log(res.data);
-
             this.$swal({
-              ...successSWAL
+              icon: "success",
+              title: "ลงทะเบียนสำเร็จ",
+              text: "กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
+            }).then(result => {
+              if (result.value) {
+                this.$router.push("/");
+              }
             });
-
-            // Set Local Storage
-
-            // localStorage.setItem("user", JSON.stringify(res.data));
-
-            this.$router.push("Booking");
           })
           .catch(error => {
             console.log("===== Backend-error ======");

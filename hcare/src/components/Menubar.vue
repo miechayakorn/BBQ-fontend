@@ -33,6 +33,7 @@
           >{{ user.first_name }} {{ user.last_name }}</p>
         </li>
         <hr class="lineHr" />
+        <div v-if="log">
         <li
           class="nav-item"
           data-toggle="collapse"
@@ -131,6 +132,7 @@
             <span style="font-weight:900">เข้าสู่ระบบ</span>
           </button>
         </router-link>
+        </div>
       </ul>
     </div>
   </nav>

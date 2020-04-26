@@ -30,7 +30,7 @@ export default {
       return false;
     }
   },
-  mounted() {
+  created() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
       this.$store.state.token = user.token;
@@ -38,18 +38,20 @@ export default {
         first_name: user.first_name,
         last_name: user.last_name
       };
-    } else if (checkRouteAuth()) {
+    } else if (this.checkRouteAuth()) {
       console.log("pass");
     } else {
-      this.$swal({
-        title: "คำเตือน",
-        text: "กรุณาเข้าสู่ระบบ",
-        icon: "warning"
-      }).then(this.$router.push("login"));
+      this.$router.push("login");
     }
   },
   beforeUpdate() {
     // Check Token every action
+    if (this.$store.state.token) {
+      console.log("check token");
+    } else {
+      console.log("Longin");
+      this.$router.push("/login");
+    }
   },
   components: {
     Menubar
