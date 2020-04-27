@@ -22,7 +22,7 @@ export default {
         return true;
       } else if (this.$router.currentRoute.path == "/bookings/emailcancel") {
         return true;
-      } else if (this.$router.currentRoute.path == "/login/confirm") {
+      } else if (this.$router.currentRoute.path == "/login") {
         return true;
       } else if (this.$router.currentRoute.path == "/login/confirm") {
         return true;
