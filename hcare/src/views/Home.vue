@@ -155,9 +155,7 @@ export default {
         if (res.status == 204) {
           this.checkAppointment = true;
         }
-
         this.dataFetch = res.data[0];
-        console.log(this.dataFetch);
       });
   }
 };

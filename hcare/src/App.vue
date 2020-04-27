@@ -49,7 +49,7 @@ export default {
     if (this.$store.state.token) {
       console.log("check token");
     } else {
-      console.log("Longin");
+      console.log("Login");
       this.$router.push("/login");
     }
   },

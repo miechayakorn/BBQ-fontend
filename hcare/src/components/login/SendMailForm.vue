@@ -9,25 +9,25 @@
             type="text"
             id="InputName"
             v-model="email"
-            :class="
-                  checkEmail() ? 'form-control' : 'form-control is-invalid'
-                "
+            :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
             placeholder="อีเมล มหาวิทยาลัย"
           />
-          <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th</div>
+          <div class="invalid-feedback">
+            กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
+          </div>
         </div>
       </div>
     </div>
-      <div class="row">
-        <div class="col-12">
-          <button
-            @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >
-            <span style="font-weight:900">Send OTP</span>
-          </button>
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <button
+          @click="sendToBackend"
+          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+        >
+          <span style="font-weight:900;">Send OTP</span>
+        </button>
       </div>
+    </div>
   </div>
 </template>
 
@@ -59,10 +59,7 @@ export default {
       return true;
     },
     sendToBackend() {
-      if (
-        this.checkEmail() == true &&
-        this.email != ""
-      ) {
+      if (this.checkEmail() == true && this.email != "") {
         this.$swal({
           ...waiting,
           onOpen: () => {
@@ -75,8 +72,16 @@ export default {
             email: this.email
           })
           .then(res => {
-            this.$emit("email", this.email);
-            this.$swal.close()
+            if (res.status == 200) {
+              this.$emit("email", this.email);
+              this.$swal.close();
+            } else {
+              this.$swal({
+                title: "คำเตือน",
+                text: "กรุณาลงละเบียนเพื่อใช้งาน",
+                icon: "warning"
+              });
+            }
           })
           .catch(error => {
             console.log("===== Backend-error ======");
@@ -96,10 +101,8 @@ export default {
         });
       }
     }
-  },
-  
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

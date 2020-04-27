@@ -1,25 +1,31 @@
 <template>
   <div class="form-group">
+    {{ email }}
     <div class="col-12" style="margin-top:28px">
-      {{email}}
       <div class="form-group text-left mt-2">
-        <form>
-          <label for="InputOTP">OTP</label>
-          <div class="inner-addon left-addon">
-            <i class="fas fa-user"></i>
-            <input
-              type="number"
-              pattern="[0-9]{1,4}"
-              maxlength="4"
-              id="InputOTP"
-              class="form-control"
-              placeholder="OTP"
-              aria-describedby="otpSend"
-              v-model="password"
-            />
-            <small id="otpSend" class="form-text text-left">Send OTP Again?</small>
-          </div>
-        </form>
+        <label for="InputOTP">OTP</label>
+        <div class="inner-addon left-addon">
+          <i class="fas fa-user"></i>
+          <input
+            type="number"
+            pattern="[0-9]{1,4}"
+            maxlength="4"
+            id="InputOTP"
+            class="form-control"
+            placeholder="OTP"
+            aria-describedby="otpSend"
+            v-model="password"
+          />
+          <small
+            @click="sendMailAgain"
+            v-if="status == '401'"
+            id="otpSend"
+            class="form-text text-right"
+            style="cursor: pointer;"
+          >
+            Send OTP Again?
+          </small>
+        </div>
       </div>
       <div class="row">
         <div class="col-12">
@@ -37,17 +43,49 @@
 
 <script>
 import axios from "axios";
+import { waiting, errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
-      password: ""
+      password: "",
+      status: "",
     };
   },
   props: {
     email: String
   },
   methods: {
+    sendMailAgain() {
+      if (this.email != "") {
+        this.$swal({
+          ...waiting,
+          onOpen: () => {
+            this.$swal.showLoading();
+          }
+        });
+
+        axios
+          .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
+            email: this.email
+          })
+          .then(res => {
+            this.$emit("email", this.email);
+            this.$swal.close();
+          })
+          .catch(error => {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            this.$swal({
+              title: "คำเตือน",
+              text: "กรุณาลงละเบียนเพื่อใช้งาน",
+              icon: "warning"
+            });
+          });
+      } else {
+        this.$swal({ ...errorSWAL });
+      }
+    },
     sendToBackend() {
       if (this.email && this.password) {
         axios
@@ -56,9 +94,6 @@ export default {
             password: this.password
           })
           .then(res => {
-            console.log(res);
-            this.message = res.data.message;
-            this.status = res.status;
             localStorage.setItem("user", JSON.stringify(res.data));
             this.$router.push("/");
             this.$router.go();
@@ -66,8 +101,11 @@ export default {
           .catch(error => {
             console.log("===== Backend-error ======");
             console.error(error.response);
-            this.message = error.response.data;
             this.status = error.response.status;
+            this.$swal({
+              icon: "warning",
+              title: "OTP ไม่ถูกต้อง"
+            });
           });
       } else {
         this.$router.push("/");
@@ -77,5 +115,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

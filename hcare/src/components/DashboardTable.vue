@@ -138,12 +138,7 @@ export default {
             .catch(error => {
               console.log("===== Backend-error ======");
               console.error(error.response);
-              this.$swal({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: ""
-              });
+              this.$swal({ ...errorSWAL });
             });
         }
       });
@@ -184,12 +179,7 @@ export default {
             .catch(error => {
               console.log("===== Backend-error ======");
               console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
-              this.$swal({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: ""
-              });
+              this.$swal({ ...errorSWAL });
             });
         }
       });
