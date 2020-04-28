@@ -129,7 +129,7 @@ export default {
     iconService
   },
   beforeDestroy() {
-    this.$store.state.dashboard.colorIconNav = "";
+    this.$store.state.dashboard.colorIconNav = "iconAppointment";
   },
   methods: {
     changeColorIcon(nameIcon) {
