@@ -8,26 +8,102 @@
       />
     </div>
     <div class="list-group menu">
-      <router-link to="/admin/dashboard/" class="p-2 bg-primary">
-        <iconAppointment />
-        <p class="menu-list">นัดหมาย</p>
-      </router-link>
-      <router-link to="/admin/dashboard/timetable" class="p-2 bg-primary">
-        <iconTimeTable />
-        <p class="menu-list">ตารางเวลา</p>
-      </router-link>
-      <a href="#" class="p-2 bg-primary">
-        <iconQueue />
-        <p class="menu-list">คิว</p>
-      </a>
-      <a href="#" class="p-2 bg-primary">
-        <iconService />
-        <p class="menu-list">บริการ</p>
-      </a>
-      <div class="list-group">
-        <a href="#" class="p-2 bg-primary" style="margin-top:300px">
-          <iconSetting />
+      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
+        <router-link to="/admin/dashboard/">
+          <iconAppointment
+            :color="
+              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            นัดหมาย
+          </p>
+        </router-link>
+      </div>
+      <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+        <router-link to="/admin/dashboard/timetable">
+          <iconTimeTable
+            :color="
+              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            ตารางเวลา
+          </p>
+        </router-link>
+      </div>
+      <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
+        <a href="#">
+          <iconQueue
+            :color="
+              this.$store.state.dashboard.colorIconNav == 'iconQueue'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$store.state.dashboard.colorIconNav == 'iconQueue'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            คิว
+          </p>
         </a>
+      </div>
+      <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
+        <a href="#">
+          <iconService
+            :color="
+              this.$store.state.dashboard.colorIconNav == 'iconService'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$store.state.dashboard.colorIconNav == 'iconService'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            บริการ
+          </p>
+        </a>
+      </div>
+      <div class="list-group">
+        <div
+          @click="changeColorIcon('iconSetting')"
+          class="p-2 bg-primary"
+          style="margin-top:300px"
+        >
+          <a href="#">
+            <iconSetting
+              :color="
+                this.$store.state.dashboard.colorIconNav == 'iconSetting'
+                  ? '#5E65A1'
+                  : 'white'
+              "
+            />
+          </a>
+        </div>
         <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
           <iconLogout />
         </a>
@@ -45,12 +121,20 @@ import iconService from "@/components/svg/icon/iconService.vue";
 
 export default {
   components: {
-    iconAppointment ,
+    iconAppointment,
     iconTimeTable,
     iconQueue,
     iconSetting,
     iconLogout,
-    iconService,
+    iconService
+  },
+  beforeDestroy() {
+    this.$store.state.dashboard.colorIconNav = "";
+  },
+  methods: {
+    changeColorIcon(nameIcon) {
+      this.$store.state.dashboard.colorIconNav = nameIcon;
+    }
   }
 };
 </script>
@@ -61,6 +145,13 @@ export default {
   font-size: 14px;
   line-height: 21px;
   color: #f9f9fc;
+}
+.menu-list-click {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
+  color: #5e65a1;
 }
 .qText {
   font-size: 18px;

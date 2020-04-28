@@ -9,7 +9,10 @@ export default new Vuex.Store({
     user: {
       first_name: null,
       last_name: null
-    }
+    },
+    dashboard: {
+      colorIconNav: ""
+    },
   },
   mutations: {},
   actions: {},

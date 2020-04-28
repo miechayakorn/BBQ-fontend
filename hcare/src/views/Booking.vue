@@ -263,7 +263,7 @@ export default {
                   icon: "success",
                   title: "การจองสำเร็จ"
                 });
-                this.$router.push("Appointment");
+                this.$router.push("/appointment");
               })
               .catch(error => {
                 console.log("===== Backend-error ======");

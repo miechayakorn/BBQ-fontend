@@ -41,7 +41,7 @@ export default {
     } else if (this.checkRouteAuth()) {
       console.log("pass");
     } else {
-      this.$router.push("login");
+      this.$router.push("/login");
     }
   },
   beforeUpdate() {
