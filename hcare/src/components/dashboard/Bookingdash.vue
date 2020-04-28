@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3">
-    <div class="mt-3 bg-white">
-      <div class="row bg-blueMan2">
+    <div class="mt-3 div-card">
+      <div class="row bg-blueMan2 ">
         <div class="col-4">
           <man2 />
         </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="mt-3">
-      <div class="row p-3 pt-4 bg-white">
+      <div class="row p-3 pt-4 div-card">
         <div class="col-6">
           <div class="row">
             <div class="col-12">

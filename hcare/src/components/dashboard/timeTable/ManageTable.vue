@@ -12,17 +12,34 @@
       </div>
     </div>
     <div class="container mt-3 div-card">
-      <div class="row p-3 pt-4 bg-light">
-        <div class="col-12">
-          <h6 class="text-left">จิตแพทย์</h6>
+      <div class="row p-3 pt-4">
+        <div class="col-8">
+          <h6>รายละเอียดเวลาการให้บริการ</h6>
+          <p class="mt-4">วันที่</p>
+          <datetime
+            input-class="my-class"
+            class="mb-3"
+            placeholder="Select date"
+            format="dd-MM-yyyy"
+            v-model="dataPrepareSend.date"
+          >
+          </datetime>
+          <button @click="fetchTimeSlot" class="btn text-primary">
+            ยืนยันข้อมูล
+          </button>
+        </div>
+
+        <div class="col-4">
+          <groupDocter />
         </div>
       </div>
+    </div>
+    <div class="container mt-3 div-card">
       <div class="row p-3 pt-4">
-        <div class="col-2 text-center">
-          <h6>วันจันทร์</h6>
-          <p>14 DEC 2020</p>
+        <div class="col-12">
+          <p>* กรุณาเลือก Time Slot สำหรับการให้บริการ</p>
         </div>
-        <div class="col-10">
+        <div class="col-12">
           <div class="row">
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
@@ -31,27 +48,37 @@
             </div>
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
+                <span style="color: rgb(85, 85, 85);">9.30</span>
               </div>
             </div>
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
+                <span style="color: rgb(85, 85, 85);">10.30</span>
               </div>
             </div>
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
+                <span style="color: rgb(85, 85, 85);">11.30</span>
               </div>
             </div>
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
+                <span style="color: rgb(85, 85, 85);">12.30</span>
               </div>
             </div>
             <div class="col-2 mt-1">
               <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
+                <span style="color: rgb(85, 85, 85);">13.30</span>
+              </div>
+            </div>
+            <div class="col-2 mt-1">
+              <div class="btnType btn-outline-primary p-1">
+                <span style="color: rgb(85, 85, 85);">14.30</span>
+              </div>
+            </div>
+            <div class="col-2 mt-1">
+              <div class="btnType btn-outline-primary p-1">
+                <span style="color: rgb(85, 85, 85);">15.30</span>
               </div>
             </div>
             <div class="col-2 mt-1">
@@ -61,6 +88,14 @@
             </div>
           </div>
         </div>
+        <div class="col-12">
+          <button
+            @click="sendToBackend"
+            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+          >
+            <span style="font-weight:900">บันทึก</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +104,7 @@
 <script>
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
+import groupDocter from "@/components/svg/groupDocter.vue";
 
 export default {
   data() {
@@ -83,7 +119,8 @@ export default {
     };
   },
   components: {
-    ServiceTypeBox
+    ServiceTypeBox,
+    groupDocter
   },
   methods: {
     async fetchDate(serviceDataType) {
@@ -99,6 +136,10 @@ export default {
           this.dataFetch.dataDates = res.data;
           console.log(this.dataFetch.dataDates);
         });
+    },
+    async fetchTimeSlot() {},
+    async sendToBackend() {
+      //Send DATA
     }
   },
   async mounted() {
@@ -114,5 +155,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

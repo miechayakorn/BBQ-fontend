@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3 bg-white">
+  <div class="container mt-3 div-card">
     <div class="row p-3 pt-4">
       <div class="col-12">
         <h6 class="text-left">บริการ</h6>

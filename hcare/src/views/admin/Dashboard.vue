@@ -70,7 +70,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .nav-item-underlined:after,
 .nav-underlined > li:after {
   display: block;
@@ -95,5 +95,10 @@ export default {
 .nav-underlined > li.active:after,
 .nav-underlined > li:hover:after {
   border-color: #99a3ff;
+}
+
+.div-card {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px #E9EBFB;
 }
 </style>

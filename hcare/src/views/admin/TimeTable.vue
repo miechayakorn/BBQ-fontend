@@ -28,15 +28,15 @@
             >
           </li>
           <li
-            :class="{ active: activeBtnNav === 'Bookingdash' }"
+            :class="{ active: activeBtnNav === 'ManageTable' }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'Bookingdash'"
+            @click="activeBtnNav = 'ManageTable'"
           >
             <router-link
-              to="#Bookingdash"
+              to="#ManageTable"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'Bookingdash' }
+                { activeText: activeBtnNav === 'ManageTable' }
               ]"
               >จัดการตารางให้บริการ</router-link
             >
@@ -44,7 +44,7 @@
         </ul>
       </nav>
       <ServiceTable v-if="activeBtnNav == 'ServiceTable'" />
-      <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
+      <ManageTable v-if="activeBtnNav == 'ManageTable'" />
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import ServiceTable from "@/components/dashboard/timeTable/ServiceTable.vue";
-import Bookingdash from "@/components/dashboard/Bookingdash.vue";
+import ManageTable from "@/components/dashboard/timeTable/ManageTable.vue";
 
 export default {
   data() {
@@ -65,7 +65,7 @@ export default {
     Menudash,
     Queuedash,
     ServiceTable,
-    Bookingdash
+    ManageTable
   }
 };
 </script>
