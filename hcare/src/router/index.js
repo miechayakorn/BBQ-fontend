@@ -17,6 +17,7 @@ import Admin from "../views/admin/Admin.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
 import DashAppointment from "../views/admin/DashAppointment.vue";
 import TimeTable from "../views/admin/TimeTable.vue";
+import Service from "../views/admin/Service.vue";
 //Service
 import NotFound from "../views/404.vue";
 import Test from "../views/test.vue";
@@ -97,6 +98,11 @@ const routes = [
     path: "/admin/dashboard/timetable",
     name: "TimeTable",
     component: TimeTable
+  },
+  {
+    path: "/admin/dashboard/service",
+    name: "Service",
+    component: Service
   },
   {
     path: "/test",

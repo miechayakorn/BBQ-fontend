@@ -69,7 +69,7 @@
         </a>
       </div>
       <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
-        <a href="#">
+        <routerLink to="/admin/dashboard/service">
           <iconService
             :color="
               this.$store.state.dashboard.colorIconNav == 'iconService'
@@ -86,7 +86,7 @@
           >
             บริการ
           </p>
-        </a>
+        </routerLink>
       </div>
       <div class="list-group">
         <div
