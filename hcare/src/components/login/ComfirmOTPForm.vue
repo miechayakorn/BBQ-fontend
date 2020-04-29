@@ -43,13 +43,14 @@
 
 <script>
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import { waiting, errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
       password: "",
-      status: "",
+      status: ""
     };
   },
   props: {
@@ -94,7 +95,18 @@ export default {
             password: this.password
           })
           .then(res => {
-            localStorage.setItem("user", JSON.stringify(res.data));
+            //encrypt dataSetLocal
+            let dataSetLocal = res.data;
+            dataSetLocal.first_name = CryptoJS.AES.encrypt(
+              dataSetLocal.first_name,
+              "hcare6018"
+            ).toString();
+            dataSetLocal.last_name = CryptoJS.AES.encrypt(
+              dataSetLocal.last_name,
+              "hcare6018"
+            ).toString();
+            localStorage.setItem("user", JSON.stringify(dataSetLocal));
+
             this.$router.push("/");
             this.$router.go();
           })
