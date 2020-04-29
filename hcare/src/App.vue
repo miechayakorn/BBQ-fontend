@@ -10,6 +10,7 @@
 </template>
 <script>
 import Menubar from "@/components/Menubar.vue";
+import CryptoJS from "crypto-js";
 
 export default {
   methods: {
@@ -33,6 +34,18 @@ export default {
   created() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
+
+      //decrypt
+      user.first_name = CryptoJS.AES.decrypt(
+        user.first_name,
+        "hcare6018"
+      ).toString(CryptoJS.enc.Utf8);
+
+      user.last_name = CryptoJS.AES.decrypt(
+        user.last_name,
+        "hcare6018"
+      ).toString(CryptoJS.enc.Utf8);
+
       this.$store.state.token = user.token;
       this.$store.state.user = {
         first_name: user.first_name,

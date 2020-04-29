@@ -4,13 +4,17 @@
     <div class="container">
       <div class="row" style="text-align: center;">
         <div class="mt-5 col-12">
-          <div v-if="status == 401" class="alert alert-danger" role="alert">{{ message }} </div>
+          <div v-if="status == 401" class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
           <!--<div
             v-if="status == 304"
             class="alert alert-warning"
             role="alert"
           >This token is not available.</div>-->
-          <div v-if="status == 200" class="alert alert-success" role="alert">{{ message }}</div>
+          <div v-if="status == 200" class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
           <!-- <router-link :to="'/login'">
             <button class="col-10 btn btn-primary btnBlock btnConfirm mt-3 fixed-button mb-2">
               <span style="font-weight: 900; color:white; ">Login</span>
@@ -24,6 +28,7 @@
 
 <script>
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import logoHeader from "@/components/svg/logoHeader.vue";
 
 export default {
@@ -47,7 +52,19 @@ export default {
           console.log(res);
           this.message = res.data.message;
           this.status = res.status;
-          localStorage.setItem("user", JSON.stringify(res.data));
+
+          //encrypt dataSetLocal
+          let dataSetLocal = res.data;
+          dataSetLocal.first_name = CryptoJS.AES.encrypt(
+            dataSetLocal.first_name,
+            "hcare6018"
+          ).toString();
+          dataSetLocal.last_name = CryptoJS.AES.encrypt(
+            dataSetLocal.last_name,
+            "hcare6018"
+          ).toString();
+
+          localStorage.setItem("user", JSON.stringify(dataSetLocal));
           this.$router.push("/");
         })
         .catch(error => {
