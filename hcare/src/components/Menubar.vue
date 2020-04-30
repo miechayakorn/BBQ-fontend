@@ -17,7 +17,10 @@
       </span>
     </button>
 
-    <div class="collapse navbar-collapse bg-white text-left text-md-center" id="navbarCollapse">
+    <div
+      class="collapse navbar-collapse bg-white text-left text-md-center"
+      id="navbarCollapse"
+    >
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
@@ -28,110 +31,115 @@
             class="rounded-circle centerImg"
             alt
           />
-          <p
-            class="d-flex justify-content-center mb-0 mt-2"
-          >{{ user.first_name }} {{ user.last_name }}</p>
+          <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
+            {{ user.first_name }} {{ user.last_name }}
+          </p>
+          <router-link v-if="log == false" to="/login">
+            <p class="d-flex justify-content-center mb-0 mt-2">
+              {{ user.first_name }} {{ user.last_name }}
+            </p>
+          </router-link>
         </li>
         <hr class="lineHr" />
         <div v-if="log">
-        <li
-          class="nav-item"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-expanded="false"
-        >
-          <router-link class="nav-link blackTextMenu" to="/">
-            <iconHome style="margin-right:14px;" />Home
+          <li
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+          >
+            <router-link class="nav-link blackTextMenu" to="/">
+              <iconHome style="margin-right:14px;" />Home
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="/booking"
+            >
+              <iconNote style="margin-right:14px;" />ทำนัด
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="/queue"
+            >
+              <iconPaper style="margin-right:14px;" />กดคิว
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="#"
+            >
+              <iconClock style="margin-right:14px;" />ตารางให้บริการ
+            </router-link>
+          </li>
+          <hr class="lineHr" />
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="/appointment"
+            >
+              <iconCalendar style="margin-right:14px;" />นัดของฉัน
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="#"
+            >
+              <iconNoti style="margin-right:14px;" />Notification
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="#"
+            >
+              <iconTime style="margin-right:14px;" />History
+            </router-link>
+          </li>
+          <hr class="lineHr" />
+          <router-link v-if="log" to="/logout">
+            <button
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="btn btnLogout mx-auto d-flex justify-content-center"
+            >
+              <span style="font-weight:900">ออกจากระบบ</span>
+            </button>
           </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="/booking"
-          >
-            <iconNote style="margin-right:14px;" />ทำนัด
+          <router-link v-else to="/login">
+            <button
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="btn btnLogout mx-auto"
+            >
+              <span style="font-weight:900">เข้าสู่ระบบ</span>
+            </button>
           </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="/queue"
-          >
-            <iconPaper style="margin-right:14px;" />กดคิว
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="#"
-          >
-            <iconClock style="margin-right:14px;" />ตารางให้บริการ
-          </router-link>
-        </li>
-        <hr class="lineHr" />
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="/appointment"
-          >
-            <iconCalendar style="margin-right:14px;" />นัดของฉัน
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="#"
-          >
-            <iconNoti style="margin-right:14px;" />Notification
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="nav-link blackTextMenu"
-            to="#"
-          >
-            <iconTime style="margin-right:14px;" />History
-          </router-link>
-        </li>
-        <hr class="lineHr" />
-        <router-link v-if="log" to="/logout">
-          <button
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="btn btnLogout mx-auto d-flex justify-content-center"
-          >
-            <span style="font-weight:900">ออกจากระบบ</span>
-          </button>
-        </router-link>
-        <router-link v-else to="/login">
-          <button
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-            class="btn btnLogout mx-auto"
-          >
-            <span style="font-weight:900">เข้าสู่ระบบ</span>
-          </button>
-        </router-link>
         </div>
       </ul>
     </div>

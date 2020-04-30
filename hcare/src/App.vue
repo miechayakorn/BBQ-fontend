@@ -10,6 +10,7 @@
 </template>
 <script>
 import Menubar from "@/components/Menubar.vue";
+import axios from "axios";
 import CryptoJS from "crypto-js";
 
 export default {
@@ -31,36 +32,68 @@ export default {
       return false;
     }
   },
-  created() {
+  async created() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
 
-      //decrypt
-      user.first_name = CryptoJS.AES.decrypt(
-        user.first_name,
-        "hcare6018"
-      ).toString(CryptoJS.enc.Utf8);
+      if (user.first_name && user.last_name && user.token) {
+        await axios
+          .post(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          })
+          .then(res => {
+            //decrypt
+            user.first_name = CryptoJS.AES.decrypt(
+              user.first_name,
+              "hcare6018"
+            ).toString(CryptoJS.enc.Utf8);
 
-      user.last_name = CryptoJS.AES.decrypt(
-        user.last_name,
-        "hcare6018"
-      ).toString(CryptoJS.enc.Utf8);
+            user.last_name = CryptoJS.AES.decrypt(
+              user.last_name,
+              "hcare6018"
+            ).toString(CryptoJS.enc.Utf8);
 
-      this.$store.state.token = user.token;
-      this.$store.state.user = {
-        first_name: user.first_name,
-        last_name: user.last_name
-      };
+            this.$store.state.token = user.token;
+            this.$store.state.user = {
+              first_name: user.first_name,
+              last_name: user.last_name
+            };
+          })
+          .catch(error => {
+            if (error.response.status == 401) {
+              console.log("------------ push login");
+              this.$router.push("/login");
+            } else {
+              console.log("===== Backend-error ======");
+              console.error(error.response);
+            }
+          });
+      } else {
+        this.$router.push("/login");
+      }
     } else if (this.checkRouteAuth()) {
       console.log("pass");
     } else {
       this.$router.push("/login");
     }
   },
-  beforeUpdate() {
+  async beforeUpdate() {
     // Check Token every action
     if (this.$store.state.token) {
       console.log("check token");
+      await axios
+        .post(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            console.log("------------ push login");
+            this.$router.push("/login");
+          } else {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+          }
+        });
     } else {
       console.log("Login");
       this.$router.push("/login");
@@ -82,23 +115,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-.Myrow1 {
-  height: 48px;
-  background-color: #ccd1ff;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

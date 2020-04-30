@@ -25,11 +25,6 @@ export default {
       this.email = email;
     }
   },
-  mounted() {
-    if (localStorage.getItem("user")) {
-      this.$router.push("/");
-    }
-  },
   components: {
     logoHeader,
     SendMailForm,
