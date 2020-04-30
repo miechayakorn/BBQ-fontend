@@ -12,10 +12,8 @@
         </div>
         <div class="col-9">
           <p class="mt-4">ชื่อบริการ</p>
-          <input class="form-control col-5 mx-auto" />
-          <button @click="sendServiceToBackend" class="btn text-primary">
-            ยืนยัน
-          </button>
+          <input class="form-control col-5 mx-auto" v-model="newservce" />
+          <button @click="sendServiceToBackend" class="btn text-primary">ยืนยัน</button>
         </div>
       </div>
     </div>
@@ -28,10 +26,7 @@
       <div class="row p-3 pt-4">
         <div class="col-12">
           <h6 class="text-left">เลือกบริการ</h6>
-          <ServiceTypeBox
-            :dataTypes="dataFetch.dataTypes"
-            v-on:serviceDataType="fetchDate"
-          />
+          <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
         </div>
       </div>
     </div>
@@ -41,12 +36,22 @@
           <h6>รายละเอียดเวลาการให้บริการ</h6>
           <div class="form-group text-left mt-2">
             <label for="InputDay">วัน</label>
-            <input
+            <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
+              <option value selected>-- กรุณาเลือกวันที่ --</option>
+              <option value="MONDAY">วันจันทร์</option>
+              <option value="TUESDAY">วันอังคาร</option>
+              <option value="WEDNESDAY">วันพุธ</option>
+              <option value="THURSDAY">วันพฤหัสบดี</option>
+              <option value="FRIDAY">วันศุกร์</option>
+              <option value="SATURDAY">วันเสาร์</option>
+              <option value="SUNDAY">วันอาทิตย์</option>
+            </select>
+            <!--<input
               type="date"
               id="InputDay"
               class="form-control"
               v-model="dataPrepareSend.service.day"
-            />
+            />-->
           </div>
           <div class="form-group text-left mt-2">
             <label for="InputStartTime">เวลาเริ่มบริการ</label>
@@ -84,9 +89,7 @@
               v-model="dataPrepareSend.service.slot"
             />
           </div>
-          <button @click="sendTimeServiceToBackend" class="btn text-primary">
-            ยืนยันข้อมูล
-          </button>
+          <button @click="sendTimeServiceToBackend" class="btn text-primary">ยืนยันข้อมูล</button>
         </div>
         <div class="col-8 pt-4 pb-3 pl-5 pr-5 div-card">
           <h6 class="text-left">จิตแพทย์</h6>
@@ -169,7 +172,8 @@ export default {
         },
         type_id: 1,
         date: null
-      }
+      },
+      newservce: null
     };
   },
   components: {
@@ -194,7 +198,29 @@ export default {
     async fetchTimeSlot() {},
     async sendServiceToBackend() {
       console.log("sendServiceToBackend");
-      //Send DATA
+      await axios
+        .post(
+          `${process.env.VUE_APP_BACKEND_URL}/servicetype/create`,
+          {
+            type_name: this.newservce
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`
+            }
+          }
+        )
+        .then(res => {
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            icon: "success",
+            title: "การเพิ่มประเภทการให้บริการสำเร็จ"
+          });
+          this.newservce = null;
+        });
     },
     async sendTimeServiceToBackend() {
       console.log("sendTimeServiceToBackend");
