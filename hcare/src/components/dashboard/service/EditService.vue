@@ -4,10 +4,7 @@
       <div class="row p-3 pt-4">
         <div class="col-12">
           <h6 class="text-left">เลือกบริการ</h6>
-          <ServiceTypeBox
-            :dataTypes="dataFetch.dataTypes"
-            v-on:serviceDataType="fetchService"
-          />
+          <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchService" />
         </div>
       </div>
     </div>
@@ -33,9 +30,7 @@
                   <p>นายแพทย์ยักษ์ใหญ่ ไล่ยักษ์เล็ก</p>
                 </div>
                 <div class="col-3">
-                  <iconArrow
-                    :color="colorCard == 'card1' ? 'white' : '#E9EBFB'"
-                  />
+                  <iconArrow :color="colorCard == 'card1' ? 'white' : '#E9EBFB'" />
                 </div>
               </div>
             </div>
@@ -52,9 +47,7 @@
                   <p>นายแพทย์ยักษ์ใหญ่ ไล่ยักษ์เล็ก</p>
                 </div>
                 <div class="col-3">
-                  <iconArrow
-                    :color="colorCard == 'card2' ? 'white' : '#E9EBFB'"
-                  />
+                  <iconArrow :color="colorCard == 'card2' ? 'white' : '#E9EBFB'" />
                 </div>
               </div>
             </div>
@@ -71,9 +64,7 @@
                   <p>นายแพทย์ยักษ์ใหญ่ ไล่ยักษ์เล็ก</p>
                 </div>
                 <div class="col-3">
-                  <iconArrow
-                    :color="colorCard == 'card3' ? 'white' : '#E9EBFB'"
-                  />
+                  <iconArrow :color="colorCard == 'card3' ? 'white' : '#E9EBFB'" />
                 </div>
               </div>
             </div>
@@ -89,12 +80,22 @@
           <div class="row">
             <div class="col-12 form-group text-left mt-2">
               <label for="InputDay">วัน</label>
-              <input
+              <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
+                <option value disabled selected>-- กรุณาเลือกวันที่ --</option>
+                <option value="MONDAY">วันจันทร์</option>
+                <option value="TUESDAY">วันอังคาร</option>
+                <option value="WEDNESDAY">วันพุธ</option>
+                <option value="THURSDAY">วันพฤหัสบดี</option>
+                <option value="FRIDAY">วันศุกร์</option>
+                <option value="SATURDAY">วันเสาร์</option>
+                <option value="SUNDAY">วันอาทิตย์</option>
+              </select>
+              <!--<input
                 type="date"
                 id="InputDay"
                 class="form-control"
                 v-model="dataPrepareSend.service.day"
-              />
+              />-->
             </div>
             <div class="col-6 form-group text-left mt-2">
               <label for="InputStartTime">เวลาเริ่มบริการ</label>
@@ -133,12 +134,7 @@
               />
             </div>
             <div class="col-12">
-              <button
-                @click="sendTimeServiceToBackend"
-                class="btn text-primary"
-              >
-                ยืนยันการแก้ไข
-              </button>
+              <button @click="sendTimeServiceToBackend" class="btn text-primary">ยืนยันการแก้ไข</button>
             </div>
           </div>
         </div>

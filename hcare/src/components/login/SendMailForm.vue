@@ -5,7 +5,7 @@
         <label for="InputName">Email</label>
         <div class="inner-addon left-addon">
           <i class="fas fa-user"></i>
-          <input
+          <!--<input
             type="text"
             id="InputName"
             v-model="email"
@@ -14,7 +14,54 @@
           />
           <div class="invalid-feedback">
             กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
-          </div>
+          </div>-->
+          <input
+            type="text"
+            id="InputName"
+            v-model="email"
+            placeholder="อีเมล มหาวิทยาลัย"
+            :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
+          />
+          <div class="invalid-feedback">ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
+        </div>
+      </div>
+      <div class="form-group text-left">
+        <div class="inner-addon left-addon">
+          <select
+            v-model="lastname_email"
+            class="form-control"
+            style="font-family: Poppins;
+                   font-style: strong;
+                   font-weight: 500;
+                   font-size: 14px;
+                   line-height: 21px;
+                   color: #555555;
+                   display: flex;
+                   align-items: center;"
+          >
+            <option
+              value="@mail.kmutt.ac.th"
+              style="font-family: Poppins;
+                   font-style: strong;
+                   font-weight: 500;
+                   font-size: 14px;
+                   line-height: 21px;
+                   color: #555555;
+                   display: flex;
+                   align-items: center;"
+            >@mail.kmutt.ac.th</option>
+            <option
+              value="@kmutt.ac.th"
+              style="font-family: Poppins;
+                   font-style: strong;
+                   font-weight: 500;
+                   font-size: 14px;
+                   line-height: 21px;
+                   color: #555555;
+                   display: flex;
+                   align-items: center;"
+            >@kmutt.ac.th</option>
+          </select>
         </div>
       </div>
     </div>
@@ -38,8 +85,8 @@ import { waiting, errorSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
-      email: ""
-      // ,password: ""
+      email: "",
+      lastname_email: "@mail.kmutt.ac.th"
     };
   },
   methods: {
@@ -49,11 +96,16 @@ export default {
       }
       let emailCheck = this.email;
       let emailKmutt = "@mail.kmutt.ac.th";
+      let emailKmutt2 = "@kmutt.ac.th";
       let emailSub = this.email.slice(
         emailCheck.length - 17,
         emailCheck.length
       );
-      if (emailSub != emailKmutt) {
+      let emailSub2 = this.email.slice(
+        emailCheck.length - 12,
+        emailCheck.length
+      );
+      if (emailSub == emailKmutt || emailSub2 == emailKmutt2) {
         return false;
       }
       return true;
@@ -69,11 +121,12 @@ export default {
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: this.email
+            email: `${this.email}${this.lastname_email}`
           })
           .then(res => {
             if (res.status == 200) {
-              this.$emit("email", this.email);
+              let email2 = this.email + this.lastname_email;
+              this.$emit("email", email2);
               this.$swal.close();
             } else {
               this.$swal({
@@ -97,7 +150,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกอีเมล มหาวิทยาลัย"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล"
         });
       }
     }
@@ -105,4 +158,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

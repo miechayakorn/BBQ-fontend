@@ -48,6 +48,7 @@ export default {
         ).toString(CryptoJS.enc.Utf8);
 
         this.$store.state.token = user.token;
+        this.$store.state.role = user.role;
         this.$store.state.user = {
           first_name: user.first_name,
           last_name: user.last_name

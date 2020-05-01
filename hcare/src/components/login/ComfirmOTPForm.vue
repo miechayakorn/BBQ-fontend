@@ -1,6 +1,9 @@
 <template>
   <div class="form-group">
-    {{ email }}
+    <p class="font-weight-bold">{{ email }}</p>
+    <p>
+      <span style="font-weight: lighter; color:#888888">กรุณานำ OTP ที่ได้รับจากอีเมลมากรอก</span>
+    </p>
     <div class="col-12" style="margin-top:28px">
       <div class="form-group text-left mt-2">
         <label for="InputOTP">OTP</label>
@@ -22,9 +25,7 @@
             id="otpSend"
             class="form-text text-right"
             style="cursor: pointer;"
-          >
-            Send OTP Again?
-          </small>
+          >Send OTP Again?</small>
         </div>
       </div>
       <div class="row">

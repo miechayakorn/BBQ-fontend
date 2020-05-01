@@ -36,22 +36,13 @@
           <h6>รายละเอียดเวลาการให้บริการ</h6>
           <div class="form-group text-left mt-2">
             <label for="InputDay">วัน</label>
-            <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
-              <option value selected>-- กรุณาเลือกวันที่ --</option>
-              <option value="MONDAY">วันจันทร์</option>
-              <option value="TUESDAY">วันอังคาร</option>
-              <option value="WEDNESDAY">วันพุธ</option>
-              <option value="THURSDAY">วันพฤหัสบดี</option>
-              <option value="FRIDAY">วันศุกร์</option>
-              <option value="SATURDAY">วันเสาร์</option>
-              <option value="SUNDAY">วันอาทิตย์</option>
-            </select>
-            <!--<input
+
+            <input
               type="date"
               id="InputDay"
               class="form-control"
               v-model="dataPrepareSend.service.day"
-            />-->
+            />
           </div>
           <div class="form-group text-left mt-2">
             <label for="InputStartTime">เวลาเริ่มบริการ</label>
