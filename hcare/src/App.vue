@@ -64,6 +64,16 @@ export default {
           .catch(error => {
             if (error.response.status == 401) {
               console.log("------------ push login");
+              //Clear data in store
+              this.$store.state.token = null;
+              this.$store.state.role = null;
+              this.$store.state.user = {
+                first_name: null,
+                last_name: null
+              };
+              //Clear local
+              localStorage.removeItem("user");
+
               this.$router.push("/login");
             } else {
               console.log("===== Backend-error ======");
@@ -92,6 +102,16 @@ export default {
         .catch(error => {
           if (error.response.status == 401) {
             console.log("------------ push login");
+            //Clear data in store
+            this.$store.state.token = null;
+            this.$store.state.role = null;
+            this.$store.state.user = {
+              first_name: null,
+              last_name: null
+            };
+            //Clear local
+            localStorage.removeItem("user");
+            
             this.$router.push("/login");
           } else {
             console.log("===== Backend-error ======");
