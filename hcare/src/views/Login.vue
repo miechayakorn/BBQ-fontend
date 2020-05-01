@@ -3,8 +3,13 @@
     <logoHeader />
     <div class="container fixed-container mb-3 bg" style="margin-top:40px">
       <SendMailForm v-if="!email" v-on:email="getEmail" />
-      <ComfirmOTPForm v-else-if="email" :email="email"/>
+      <ComfirmOTPForm v-else-if="email" :email="email" />
     </div>
+      <footer class="footer">
+        <div class="container">
+          Don’t have an account? <router-link to="/register">Register</router-link>
+        </div>
+      </footer>
   </div>
 </template>
 
@@ -34,6 +39,13 @@ export default {
 </script>
 
 <style>
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  line-height: 60px;
+  background-color: #F9F9FC;
+}
 /* enable absolute positioning */
 .inner-addon {
   position: relative;
