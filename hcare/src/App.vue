@@ -97,6 +97,8 @@ export default {
             console.error(error.response);
           }
         });
+    } else if (this.checkRouteAuth()) {
+      console.log("pass");
     } else {
       console.log("Login");
       this.$router.push("/login");
