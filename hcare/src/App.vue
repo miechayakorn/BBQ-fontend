@@ -35,30 +35,31 @@ export default {
   async created() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
-
       if (user.first_name && user.last_name && user.token) {
+        //decrypt
+        user.first_name = CryptoJS.AES.decrypt(
+          user.first_name,
+          "hcare6018"
+        ).toString(CryptoJS.enc.Utf8);
+
+        user.last_name = CryptoJS.AES.decrypt(
+          user.last_name,
+          "hcare6018"
+        ).toString(CryptoJS.enc.Utf8);
+
+        this.$store.state.token = user.token;
+        this.$store.state.user = {
+          first_name: user.first_name,
+          last_name: user.last_name
+        };
+
         await axios
-          .post(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
-            headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          .get(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
+            headers: {
+              Authorization: `Bearer ${user.token}`
+            }
           })
-          .then(res => {
-            //decrypt
-            user.first_name = CryptoJS.AES.decrypt(
-              user.first_name,
-              "hcare6018"
-            ).toString(CryptoJS.enc.Utf8);
-
-            user.last_name = CryptoJS.AES.decrypt(
-              user.last_name,
-              "hcare6018"
-            ).toString(CryptoJS.enc.Utf8);
-
-            this.$store.state.token = user.token;
-            this.$store.state.user = {
-              first_name: user.first_name,
-              last_name: user.last_name
-            };
-          })
+          .then(res => {})
           .catch(error => {
             if (error.response.status == 401) {
               console.log("------------ push login");
@@ -82,8 +83,10 @@ export default {
     if (this.$store.state.token) {
       console.log("check token");
       await axios
-        .post(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        .get(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {
