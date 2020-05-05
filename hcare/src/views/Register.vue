@@ -35,7 +35,7 @@
               required
             />
           </div>
-          <div class="form-group">
+          <!--<div class="form-group">
             <label for="InputPass">รหัสผ่าน</label>
             <input
               type="password"
@@ -64,7 +64,7 @@
               required
             />
             <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
-          </div>
+          </div>-->
           <div class="form-group">
             <label for="InputEmail">อีเมล</label>
             <input
@@ -72,12 +72,10 @@
               v-model="dataUserInfo.email"
               id="InputEmail"
               :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
-              placeholder="example@mail.kmutt.ac.th"
+              placeholder="example@mail.kmutt.ac.th หรือ example@kmutt.ac.th "
               required
             />
-            <div class="invalid-feedback">
-              กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
-            </div>
+            <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
           </div>
           <div class="form-group">
             <label for="InputTel">เบอร์โทรศัพท์</label>
@@ -96,9 +94,7 @@
                 type="button"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
                 style="font-weight:900"
-              >
-                Register
-              </button>
+              >Register</button>
             </div>
           </div>
         </div>
@@ -118,10 +114,10 @@ export default {
         first_name: "",
         last_name: "",
         email: "",
-        password: "",
         telephone: "",
-        hn_number: "",
-        confirmpassword: ""
+        hn_number: ""
+        // password: "",
+        // confirmpassword: ""
       }
     };
   },
@@ -132,19 +128,27 @@ export default {
       }
       let email = this.dataUserInfo.email;
       let emailKmutt = "@mail.kmutt.ac.th";
+      let emailKmuttAnother = "@kmutt.ac.th";
       let emailSub = this.dataUserInfo.email.slice(
         email.length - 17,
         email.length
       );
-      if (emailSub != emailKmutt) {
-        return false;
+      let emailSubAnother = this.dataUserInfo.email.slice(
+        email.length - 12,
+        email.length
+      );
+
+      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+        return true;
       }
-      return true;
+
+      return false;
     },
     checkForm() {
-      if (this.dataUserInfo.password == "") {
-        return false;
-      } else if (this.dataUserInfo.last_name == "") {
+      // if (this.dataUserInfo.password == "") {
+      //   return false;
+      // } else
+      if (this.dataUserInfo.last_name == "") {
         return false;
       } else if (this.dataUserInfo.email == "") {
         return false;
@@ -154,16 +158,17 @@ export default {
         return false;
       } else if (this.dataUserInfo.hn_number == "") {
         return false;
-      } else if (this.dataUserInfo.confirmpassword == "") {
-        return false;
       }
+      //else if (this.dataUserInfo.confirmpassword == "") {
+      //   return false;
+      // }
       this.checkEmail();
       return true;
     },
     sendToBackend() {
       if (
-        this.checkForm() &&
-        this.dataUserInfo.password == this.dataUserInfo.confirmpassword
+        this.checkForm()
+        //&& this.dataUserInfo.password == this.dataUserInfo.confirmpassword
       ) {
         this.$swal({
           ...waiting,
@@ -177,10 +182,10 @@ export default {
             first_name: this.dataUserInfo.first_name,
             last_name: this.dataUserInfo.last_name,
             email: this.dataUserInfo.email,
-            password: this.dataUserInfo.password,
             telephone: this.dataUserInfo.telephone,
-            hn_number: this.dataUserInfo.hn_number,
-            priviledge: "student"
+            hn_number: this.dataUserInfo.hn_number
+            // priviledge: "student"
+            // password: this.dataUserInfo.password,
           })
           .then(res => {
             console.log(res.data);
