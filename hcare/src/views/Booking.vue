@@ -1,5 +1,4 @@
 <template>
-  <!-- ========= ทดสอบการใช้ Component ให้โค้ดดูง่าย และแยกเป็นส่วนๆ ============== -->
   <div>
     <logoHeader />
     <div class="container fixed-container mb-3">
@@ -43,14 +42,25 @@
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1" class="d-flex justify-content-start"
-          >อาการ</label
-        >
+          >อาการ หรือ ประเด็นที่ปรึกษา<span style="color:red">*</span>
+        </label>
         <textarea
           rows="3"
-          class="form-control"
+          :class="[
+            'form-control',
+            totalcharacter > limitChar ? 'is-invalid' : ''
+          ]"
+          placeholder="กรุณากรอกข้อมูล"
           v-model="dataPrepareSend.symptom"
           :disabled="dataShow.disableSymptom"
+          @keyup="countText()"
         ></textarea>
+        <p
+          class="text-right"
+          :style="totalcharacter > limitChar ? 'color: red' : ''"
+        >
+          {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
+        </p>
       </div>
       <div class="row" style="text-align: center;">
         <div class="col-12">
@@ -77,6 +87,8 @@ import { waiting, errorSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
+      limitChar: 100,
+      totalcharacter: 0,
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
@@ -140,6 +152,10 @@ export default {
       this.dataShow.date = "";
       this.dataShow.time = null;
       this.dataShow.disableSymptom = true;
+      this.totalcharacter = 0;
+    },
+    countText() {
+      this.totalcharacter = this.dataPrepareSend.symptom.length;
     },
     async fetchDate(serviceDataType) {
       //เช็ค
@@ -215,63 +231,82 @@ export default {
     },
     sendToBackend() {
       if (this.dataPrepareSend.booking_id != null) {
-        console.log("Backend----" + this.dataShow.date);
-        this.$swal({
-          title: "การจอง " + this.dataShow.type,
-          text:
-            " วันที่: " + this.dataShow.date + " เวลา: " + this.dataShow.time,
-          icon: "info",
-          showCancelButton: true,
-          reverseButtons: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirm",
-          cancelButtonText: "No",
-          footer: "กรุณากดยืนยันการจองที่ email"
-        }).then(result => {
-          if (result.value) {
+        if (this.totalcharacter != 0) {
+          if (this.totalcharacter <= this.limitChar) {
+            console.log("Backend----" + this.dataShow.date);
             this.$swal({
-              title: "กรุณารอสักครู่",
-              allowEscapeKey: false,
-              allowOutsideClick: false,
-              onOpen: () => {
-                this.$swal.showLoading();
+              title: "การจอง " + this.dataShow.type,
+              text:
+                " วันที่: " +
+                this.dataShow.date +
+                " เวลา: " +
+                this.dataShow.time,
+              icon: "info",
+              showCancelButton: true,
+              reverseButtons: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Confirm",
+              cancelButtonText: "No",
+              footer: "กรุณากดยืนยันการจองที่ email"
+            }).then(result => {
+              if (result.value) {
+                this.$swal({
+                  title: "กรุณารอสักครู่",
+                  allowEscapeKey: false,
+                  allowOutsideClick: false,
+                  onOpen: () => {
+                    this.$swal.showLoading();
+                  }
+                });
+
+                axios
+                  .post(
+                    `${process.env.VUE_APP_BACKEND_URL}/Booking`,
+                    {
+                      booking_id: this.dataPrepareSend.booking_id,
+                      symptom: this.dataPrepareSend.symptom
+                    },
+                    {
+                      headers: {
+                        Authorization: `Bearer ${this.$store.state.token}`
+                      }
+                    }
+                  )
+                  .then(res => {
+                    console.log(res.data);
+
+                    this.$swal({
+                      toast: true,
+                      position: "top-end",
+                      showConfirmButton: false,
+                      timer: 3000,
+                      icon: "success",
+                      title: "การจองสำเร็จ"
+                    });
+                    this.$router.push("/appointment");
+                  })
+                  .catch(error => {
+                    console.log("===== Backend-error ======");
+                    console.error(error.response);
+                    this.$swal({ ...errorSWAL });
+                  });
               }
             });
-
-            axios
-              .post(
-                `${process.env.VUE_APP_BACKEND_URL}/Booking`,
-                {
-                  booking_id: this.dataPrepareSend.booking_id,
-                  symptom: this.dataPrepareSend.symptom
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${this.$store.state.token}`
-                  }
-                }
-              )
-              .then(res => {
-                console.log(res.data);
-
-                this.$swal({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  icon: "success",
-                  title: "การจองสำเร็จ"
-                });
-                this.$router.push("/appointment");
-              })
-              .catch(error => {
-                console.log("===== Backend-error ======");
-                console.error(error.response);
-                this.$swal({ ...errorSWAL });
-              });
+          } else {
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต"
+            });
           }
-        });
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณากรอกอาการ"
+          });
+        }
       } else {
         this.$swal({
           icon: "warning",
