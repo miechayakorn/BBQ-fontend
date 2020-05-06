@@ -105,8 +105,7 @@ export default {
         date: "",
         time: null,
         activeBtnTime: "",
-        disableSymptom: true,
-        oldTypeService: 1
+        disableSymptom: true
       }
     };
   },
@@ -117,7 +116,6 @@ export default {
       this.dataShow.time = null;
       this.dataShow.activeBtnTime = "";
       this.dataShow.disableSymptom = true;
-      this.dataShow.oldTypeService = 1;
       this.hn_number = null;
       this.dataPrepareSend.booking_id = null;
       this.dataPrepareSend.symptom = null;
@@ -129,7 +127,7 @@ export default {
         .then(res => {
           this.dataFetch.dataTypes = res.data;
         });
-      this.fetchDate(this.dataShow.oldTypeService);
+      this.fetchDate({ type_id: 1 });
     },
     clearData() {
       this.dataPrepareSend.booking_id = null;
@@ -194,7 +192,7 @@ export default {
     },
 
     sendToBackend() {
-      if (this.dataPrepareSend.booking_id != null) {
+      if (this.dataPrepareSend.booking_id != null && this.hn_number != null) {
         console.log("Backend----" + this.dataShow.date);
         console.log("booking_id = " + this.dataPrepareSend.booking_id);
         console.log("hn_number = " + this.hn_number);
@@ -236,16 +234,23 @@ export default {
                 }
               )
               .then(res => {
-                this.$swal({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  icon: "success",
-                  title: "การจองสำเร็จ"
-                });
-                this.clearDataShow();
-                this.$router.push("/admin/Dashboard");
+                if (res.status == 200) {
+                  this.$swal({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    icon: "success",
+                    title: "การจองสำเร็จ"
+                  });
+                  this.clearDataShow();
+                } else {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: "ไม่พบ รหัสนักศึกษา ในระบบ"
+                  });
+                }
               })
               .catch(error => {
                 console.log("===== Backend-error ======");
@@ -258,7 +263,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง"
+          text: "กรุณาเลือกเวลาที่ต้องการจอง และกรอกรหัสนักศึกษา"
         });
       }
     }
