@@ -131,7 +131,7 @@ export default {
             } else {
               this.$swal({
                 title: "คำเตือน",
-                text: "กรุณาลงละเบียนเพื่อใช้งาน",
+                text: "กรุณาลงทะเบียนเพื่อใช้งาน",
                 icon: "warning"
               });
             }
@@ -141,7 +141,7 @@ export default {
             console.error(error.response);
             this.$swal({
               title: "คำเตือน",
-              text: "กรุณาลงละเบียนเพื่อใช้งาน",
+              text: "กรุณาลงทะเบียนเพื่อใช้งาน",
               icon: "warning"
             });
           });
