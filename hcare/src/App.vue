@@ -28,6 +28,8 @@ export default {
         return true;
       } else if (this.$router.currentRoute.path == "/login/confirm") {
         return true;
+      } else if (this.$router.currentRoute.path == "/admin/login") {
+        return true;
       }
       return false;
     }
@@ -35,7 +37,7 @@ export default {
   async created() {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
-      if (user.first_name && user.last_name && user.token) {
+      if (user.first_name && user.last_name && user.role && user.token) {
         //decrypt
         user.first_name = CryptoJS.AES.decrypt(
           user.first_name,
@@ -46,6 +48,10 @@ export default {
           user.last_name,
           "hcare6018"
         ).toString(CryptoJS.enc.Utf8);
+
+        user.role = CryptoJS.AES.decrypt(user.role, "hcare6018").toString(
+          CryptoJS.enc.Utf8
+        );
 
         this.$store.state.token = user.token;
         this.$store.state.role = user.role;
@@ -64,6 +70,14 @@ export default {
           .catch(error => {
             if (error.response.status == 401) {
               console.log("------------ push login");
+              if (
+                this.$store.state.role == "STAFF" ||
+                this.$store.state.role == "ADMIN"
+              ) {
+                this.$router.push("/admin/login");
+              } else {
+                this.$router.push("/login");
+              }
               //Clear data in store
               this.$store.state.token = null;
               this.$store.state.role = null;
@@ -73,8 +87,6 @@ export default {
               };
               //Clear local
               localStorage.removeItem("user");
-
-              this.$router.push("/login");
             } else {
               console.log("===== Backend-error ======");
               console.error(error.response);
@@ -85,6 +97,8 @@ export default {
       }
     } else if (this.checkRouteAuth()) {
       console.log("pass");
+    } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
+      this.$router.push("/admin/login");
     } else {
       this.$router.push("/login");
     }
@@ -102,6 +116,14 @@ export default {
         .catch(error => {
           if (error.response.status == 401) {
             console.log("------------ push login");
+            if (
+              this.$store.state.role == "STAFF" ||
+              this.$store.state.role == "ADMIN"
+            ) {
+              this.$router.push("/admin/login");
+            } else {
+              this.$router.push("/login");
+            }
             //Clear data in store
             this.$store.state.token = null;
             this.$store.state.role = null;
@@ -111,8 +133,6 @@ export default {
             };
             //Clear local
             localStorage.removeItem("user");
-            
-            this.$router.push("/login");
           } else {
             console.log("===== Backend-error ======");
             console.error(error.response);
@@ -120,6 +140,8 @@ export default {
         });
     } else if (this.checkRouteAuth()) {
       console.log("pass");
+    } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
+      this.$router.push("/admin/login");
     } else {
       console.log("Login");
       this.$router.push("/login");

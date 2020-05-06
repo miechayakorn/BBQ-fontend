@@ -9,7 +9,8 @@ export default new Vuex.Store({
     role: null,
     user: {
       first_name: null,
-      last_name: null
+      last_name: null,
+      role: null,
     },
     dashboard: {
       colorIconNav: "iconAppointment"

@@ -106,6 +106,10 @@ export default {
               dataSetLocal.last_name,
               "hcare6018"
             ).toString();
+            dataSetLocal.role = CryptoJS.AES.encrypt(
+              dataSetLocal.role,
+              "hcare6018"
+            ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             this.$router.push("/");

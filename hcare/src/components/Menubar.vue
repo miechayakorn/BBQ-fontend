@@ -34,7 +34,13 @@
           <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
             {{ user.first_name }} {{ user.last_name }}
           </p>
-          <router-link v-if="log == false" to="/login">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            v-if="log == false"
+            to="/login"
+          >
             <p class="d-flex justify-content-center mb-0 mt-2">
               {{ user.first_name }} {{ user.last_name }}
             </p>
@@ -119,6 +125,16 @@
               <iconTime style="margin-right:14px;" />History
             </router-link>
           </li>
+          <router-link
+            v-if="role"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            class="nav-link blackTextMenu"
+            to="/admin/dashboard"
+          >
+            <iconHome style="margin-right:14px;" />Admin Dashboard
+          </router-link>
           <hr class="lineHr" />
           <router-link v-if="log" to="/logout">
             <button
@@ -162,7 +178,8 @@ export default {
         first_name: "",
         last_name: ""
       },
-      log: false
+      log: false,
+      role: false
     };
   },
   mounted() {
@@ -170,6 +187,12 @@ export default {
       this.user.first_name = this.$store.state.user.first_name;
       this.user.last_name = this.$store.state.user.last_name;
       this.log = true;
+      if (
+        this.$store.state.role == "ADMIN" ||
+        this.$store.state.role == "STAFF"
+      ) {
+        this.role = true;
+      }
     } else {
       this.user.first_name = "กรุณา";
       this.user.last_name = "เข้าสู่ระบบ";

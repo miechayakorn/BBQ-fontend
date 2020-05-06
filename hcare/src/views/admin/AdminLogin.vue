@@ -85,6 +85,7 @@
 
 <script>
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
 
@@ -95,11 +96,6 @@ export default {
       lastname_email: "@mail.kmutt.ac.th",
       password: ""
     };
-  },
-  mounted() {
-    // if (localStorage.getItem("user")) {
-    //   this.$router.push("/");
-    // }
   },
   methods: {
     checkEmail() {
@@ -137,7 +133,6 @@ export default {
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
-            //process.env.VUE_APP_BACKEND_URL อันนี้มาจากไฟล์ .env ของ VUE จะบังคับให้ขึ้นต้นด้วยชื่อ VUE_APP_
             email: `${this.email}${this.lastname_email}`,
             password: this.password
           })
@@ -152,9 +147,13 @@ export default {
               dataSetLocal.last_name,
               "hcare6018"
             ).toString();
+            dataSetLocal.role = CryptoJS.AES.encrypt(
+              dataSetLocal.role,
+              "hcare6018"
+            ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
-            this.$router.push("/");
+            this.$router.push("/admin/dashboard");
             this.$router.go();
           })
           .catch(error => {
