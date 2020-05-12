@@ -99,10 +99,10 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-12 mt-3" style="margin-bottom:200px;">
           <div class="card btnHome mb-5">Dash Board</div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

@@ -3,17 +3,11 @@
     <div class="row p-3 pt-4">
       <div class="col-12">
         <h6 class="text-left">บริการ</h6>
-        <ServiceTypeBox
-          :dataTypes="dataFetch.dataTypes"
-          v-on:serviceDataType="fetchDate"
-        />
+        <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
       </div>
       <div class="col-12 mt-3">
         <h6 class="text-left">วันที่</h6>
-        <ServiceDateBox
-          :dataDates="dataFetch.dataDates"
-          v-on:selectedDate="fetchTime"
-        />
+        <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
       </div>
       <div class="col-12 mt-3">
         <h6 class="text-left">นัดหมายแพทย์ทั้งหมด</h6>
