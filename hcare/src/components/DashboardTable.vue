@@ -1,6 +1,10 @@
 <template>
   <div class="col-12">
-    <form id="search" class="d-flex justify-content-end pb-3">
+    <form
+      id="search"
+      class="d-flex justify-content-end pb-3"
+      v-if="dataBookingTable.length != 0"
+    >
       <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
@@ -17,7 +21,9 @@
     >
       <template slot="ชื่อ" scope="props">
         <div class="dropdown">
-          <a class="ui inverted button">{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a>
+          <a class="ui inverted button"
+            >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a
+          >
           <div class="dropdown-content">
             <div class="container">
               <h6
@@ -28,26 +34,10 @@
                 <span
                   class="d-flex justify-content-start detail"
                   style="font-size: 14px;"
-                >{{ props.entry.telephone }} {{ props.entry.email }}</span>
+                >
+                  {{ props.entry.telephone }} {{ props.entry.email }}
+                </span>
               </h6>
-              <hr style="border: 1px solid #B6B6B6;" v-if="props.entry.symptom != null" />
-              <div class="row" style="text-align: center;">
-                <div class="col-12">
-                  <span class="text-primary">{{ props.entry.symptom}}</span>
-                  <!--<a
-                    :href="
-                      '/admin/dashboard/appointment/' + props.entry.booking_id
-                    "
-                  >
-                    <button
-                      style="width: 140px; height: 32px;"
-                      class="btn btn-primary btnBlock btnConfirm fixed-button"
-                    >
-                      <span>ดูเพิ่มเติม</span>
-                    </button>
-                  </a>-->
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -69,8 +59,29 @@
         >
           <i class="fas fa-pen edit" style="color: #ffc107;"></i>
         </button>
-        <button @click="deleteBooking(props.entry.booking_id)" type="button" class="btn">
+        <button
+          @click="deleteBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
           <i class="fas fa-trash" style="color: #e34724;"></i>
+        </button>
+        <button
+          @click="
+            viewBooking(
+              (user = {
+                fname: props.entry.ชื่อ,
+                lname: props.entry.นามสกุล,
+                email: props.entry.email,
+                tel: props.entry.telephone,
+                symptom: props.entry.symptom
+              })
+            )
+          "
+          type="button"
+          class="btn"
+        >
+          <i class="fas fa-ellipsis-h" style="color: #7d7d7d;"></i>
         </button>
       </template>
     </data-table>
@@ -91,6 +102,23 @@ export default {
   },
 
   methods: {
+    viewBooking(user) {
+      console.log(user);
+      this.$swal({
+        width: "678px",
+        html:
+          "ชื่อ" +
+          `<input class="swal2-input disabled" disabled value="${user.fname+ " " + user.lname}">` +
+          "อีเมล" +
+          `<input class="swal2-input disabled" disabled value="${user.email}">` +
+          "เบอร์โทร" +
+          `<input class="swal2-input disabled" disabled value="${user.tel}">` +
+          "อาการหรือประเด็นที่ปรึกษา ของคนไข้" +
+          `<textarea id="note" class="swal2-input disabled" disabled style="height: 122px;">${user.symptom}</textarea>`,
+        showConfirmButton: false,
+        showCloseButton: true
+      });
+    },
     editBooking(booking_id, link_meeting, comment_from_staff) {
       this.$swal({
         width: "678px",
