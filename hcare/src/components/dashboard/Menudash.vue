@@ -1,13 +1,6 @@
 <template>
   <div class=" border-right bg-primary col-md-1" id="navbarCollapseMenu-toggle">
-    <div class="sidebar-heading">
-      <img
-        src="https://www.w3schools.com/bootstrap4/paris.jpg"
-        style="margin-top:24px; width: 56px; height: 56px;"
-        class="rounded-circle mb-3"
-      />
-    </div>
-    <div class="list-group menu">
+    <div class="list-group menu mt-4">
       <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/">
           <iconAppointment
