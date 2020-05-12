@@ -4,32 +4,37 @@
       <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
+    <div class="col-12 mt-3" v-if="dataBookingTable.length == 0">
+      <h3>ไม่มีผู้นัดหมาย</h3>
+    </div>
     <data-table
       class="table table-hover list-doctor"
       :data="dataBookingTable"
       :columns-to-display="gridColumns"
       :filter-key="searchQuery"
       :columns-to-not-sort="['action']"
+      v-if="dataBookingTable.length != 0"
     >
       <template slot="ชื่อ" scope="props">
         <div class="dropdown">
-          <a class="ui inverted button"
-            >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a
-          >
-          <div class="dropdown-content ">
+          <a class="ui inverted button">{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a>
+          <div class="dropdown-content">
             <div class="container">
               <h6
                 style="font-family: Poppins; font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px; align-items: center; color: #444444;"
               >
                 {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
                 <hr style="border: 1px solid #B6B6B6;" />
-                <span class="d-flex justify-content-start detail">
-                  {{ props.entry.telephone }} {{ props.entry.email }}
-                </span>
+                <span
+                  class="d-flex justify-content-start detail"
+                  style="font-size: 14px;"
+                >{{ props.entry.telephone }} {{ props.entry.email }}</span>
               </h6>
+              <hr style="border: 1px solid #B6B6B6;" v-if="props.entry.symptom != null" />
               <div class="row" style="text-align: center;">
                 <div class="col-12">
-                  <a
+                  <span class="text-primary">{{ props.entry.symptom}}</span>
+                  <!--<a
                     :href="
                       '/admin/dashboard/appointment/' + props.entry.booking_id
                     "
@@ -40,7 +45,7 @@
                     >
                       <span>ดูเพิ่มเติม</span>
                     </button>
-                  </a>
+                  </a>-->
                 </div>
               </div>
             </div>
@@ -64,11 +69,7 @@
         >
           <i class="fas fa-pen edit" style="color: #ffc107;"></i>
         </button>
-        <button
-          @click="deleteBooking(props.entry.booking_id)"
-          type="button"
-          class="btn"
-        >
+        <button @click="deleteBooking(props.entry.booking_id)" type="button" class="btn">
           <i class="fas fa-trash" style="color: #e34724;"></i>
         </button>
       </template>
@@ -88,6 +89,7 @@ export default {
       gridColumns: ["เวลานัด", "HNnumber", "ชื่อ", "action"]
     };
   },
+
   methods: {
     editBooking(booking_id, link_meeting, comment_from_staff) {
       this.$swal({
