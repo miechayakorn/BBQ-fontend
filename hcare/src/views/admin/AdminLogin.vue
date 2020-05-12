@@ -137,6 +137,7 @@ export default {
             password: this.password
           })
           .then(res => {
+            
             //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(

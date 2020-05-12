@@ -1,5 +1,5 @@
 <template>
-  <div class=" border-right bg-primary col-md-1" id="navbarCollapseMenu-toggle">
+  <div class="border-right bg-primary col-custom" id="navbarCollapseMenu-toggle">
     <div class="list-group menu mt-4">
       <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/">
@@ -16,12 +16,10 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            นัดหมาย
-          </p>
+          >นัดหมาย</p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+      <!--<div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
             :color="
@@ -80,14 +78,14 @@
             บริการ
           </p>
         </routerLink>
-      </div>
+      </div>-->
       <div class="list-group">
         <div
           @click="changeColorIcon('iconSetting')"
           class="p-2 bg-primary"
-          style="margin-top:300px"
+          style="margin-top:755px"
         >
-          <a href="#">
+          <!--<a href="#">
             <iconSetting
               :color="
                 this.$store.state.dashboard.colorIconNav == 'iconSetting'
@@ -95,11 +93,11 @@
                   : 'white'
               "
             />
-          </a>
+          </a>-->
         </div>
-        <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
+        <!--<a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
           <iconLogout />
-        </a>
+        </a>-->
       </div>
     </div>
   </div>
@@ -132,6 +130,10 @@ export default {
 };
 </script>
 <style>
+.col-custom {
+  flex: 0 0 8.333333%;
+  max-width: 5.25%;
+}
 .menu-list {
   font-style: normal;
   font-weight: bold;
