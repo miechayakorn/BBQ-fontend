@@ -16,7 +16,9 @@ import CryptoJS from "crypto-js";
 export default {
   methods: {
     checkRouteAuth() {
-      if (this.$router.currentRoute.path == "/register") {
+      if (this.$router.currentRoute.path == "/") {
+        return true;
+      } else if (this.$router.currentRoute.path == "/register") {
         return true;
       } else if (this.$router.currentRoute.path == "/register/confirm") {
         return true;

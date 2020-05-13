@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-6 col-md-3 mt-1">
           <router-link to="/booking">
-            <div class="col-12 btnHomeActive" style="cursor: pointer;">
+            <div class="col-12 btnHomeActive">
               <div class="text-center" style="margin-top: 36px;">
                 <iconNote2 :color="'white'" />
                 <p style="color: #FFFFFF; margin-top: 8px;">ทำนัด</p>
@@ -13,34 +13,44 @@
           </router-link>
         </div>
         <div class="col-6 col-md-3 mt-1">
-          <router-link to="#">
-            <div class="col-12 btnHome" style="cursor: pointer;">
-              <div class="text-center" style="margin-top: 36px;">
-                <iconBill :color="'#99A3FF'" />
-                <p style="color: #555555; margin-top: 8px;">กดคิว</p>
-              </div>
-            </div>
-          </router-link>
-        </div>
-        <div class="col-6 col-md-3 mt-3 mt-md-1">
-          <router-link to="#">
-            <div class="col-12 btnHome" style="cursor: pointer;">
-              <div class="text-center" style="margin-top: 36px;">
-                <iconClock2 />
-                <p style="color: #555555; margin-top: 8px;">ตารางให้บริการ</p>
-              </div>
-            </div>
-          </router-link>
-        </div>
-        <div class="col-6 col-md-3 mt-3 mt-md-1">
           <router-link to="/appointment">
-            <div class="col-12 btnHome" style="cursor: pointer;">
+            <div class="col-12 btnHomeCalendar">
               <div class="text-center" style="margin-top: 36px;">
                 <iconCalendar2 />
-                <p style="color: #555555; margin-top: 8px;">นัดของฉัน</p>
+                <p style="color: #FFFFFF; margin-top: 8px;">นัดของฉัน</p>
               </div>
             </div>
           </router-link>
+        </div>
+        <div class="col-6 col-md-3 mt-3 mt-md-1">
+          <!-- <router-link to="#"> -->
+          <div class="col-12 btnHome">
+            <div class="text-center" style="margin-top: 36px;">
+              <iconClock2 />
+              <p style="color: #D8D8D8; margin-top: 8px;">
+                ตารางให้บริการ <br /><span
+                  style="color: #D8D8D8; font-size: 12px; margin-bottom 1px;"
+                  >coming soon</span
+                >
+              </p>
+            </div>
+          </div>
+          <!-- </router-link> -->
+        </div>
+        <div class="col-6 col-md-3 mt-3 mt-md-1">
+          <!-- <router-link to="#"> -->
+          <div class="col-12 btnHome">
+            <div class="text-center" style="margin-top: 36px;">
+              <iconBill />
+              <p style="color: #D8D8D8; margin-top: 8px;">
+                กดคิว <br /><span
+                  style="color: #D8D8D8; font-size: 12px; margin-bottom: 1px;"
+                  >coming soon</span
+                >
+              </p>
+            </div>
+          </div>
+          <!-- </router-link> -->
         </div>
       </div>
       <div class="row">
@@ -50,7 +60,12 @@
               <div class="col-5">
                 <woman class="card-img-bottom h-100" />
               </div>
-              <div v-if="checkAppointment" class="col-7">
+              <div v-if="this.$store.state.token == null" class="col-7">
+                <h6 class="card-title text-md-center text-left title-card-app">
+                  กรุณา เข้าสู่ระบบ
+                </h6>
+              </div>
+              <div v-if="this.$store.state.token && checkAppointment" class="col-7">
                 <h6 class="card-title text-md-center text-left title-card-app">
                   คุณยังไม่มีนัดหมาย
                 </h6>
@@ -59,7 +74,7 @@
                 </h6>
               </div>
               <div class="col-7">
-                <div v-if="checkAppointment == false" class="card-body ml-3">
+                <div v-if="this.$store.state.token && checkAppointment == false" class="card-body ml-3">
                   <h6
                     class="card-title text-md-center text-left title-card-app"
                   >
@@ -103,7 +118,6 @@
         <div class="col-12 mt-3" style="margin-bottom:200px;">
           <div class="card btnHome mb-5">Dash Board</div>
         </div> -->
-      </div>
     </div>
   </div>
 </template>
@@ -147,16 +161,18 @@ export default {
     };
   },
   async mounted() {
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` }
-      })
-      .then(res => {
-        if (res.status == 204) {
-          this.checkAppointment = true;
-        }
-        this.dataFetch = res.data[0];
-      });
+    if (this.$store.state.token) {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        })
+        .then(res => {
+          if (res.status == 204) {
+            this.checkAppointment = true;
+          }
+          this.dataFetch = res.data[0];
+        });
+    }
   }
 };
 </script>
@@ -164,6 +180,13 @@ export default {
 .btnHome {
   background-color: #ffffff;
   border: 2px solid #ffffff;
+  border-radius: 8px;
+  height: 100%;
+  box-shadow: 0px 4px 8px #f2f4ff;
+}
+.btnHomeCalendar {
+  background-color: #ffe592;
+  border: 2px solid #ffe592;
   border-radius: 8px;
   height: 100%;
   box-shadow: 0px 4px 8px #f2f4ff;
