@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3">
     <div class="mt-3 div-card">
-      <div class="row bg-blueMan2 ">
+      <div class="row bg-blueMan2">
         <div class="col-4">
           <man2 />
         </div>
@@ -25,38 +25,24 @@
           <div class="row">
             <div class="col-12">
               <h6 class="text-left">บริการ</h6>
-              <ServiceTypeBox
-                :dataTypes="dataFetch.dataTypes"
-                v-on:serviceDataType="fetchDate"
-              />
+              <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
             </div>
             <div class="col-12 mt-3">
               <h6 class="text-left">วันที่</h6>
-              <ServiceDateBox
-                :dataDates="dataFetch.dataDates"
-                v-on:selectedDate="fetchTime"
-              />
+              <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
             </div>
           </div>
         </div>
         <div class="col-6">
           <div class="col-12">
-            <label
-              for="exampleInputPassword1"
-              class="d-flex justify-content-start"
-              >เลือกเวลา</label
-            >
+            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
             <ServiceTimeBox
               :dataTimes="dataFetch.dataTimes"
               :activeTime="dataShow.activeBtnTime"
               v-on:booking="onChangeTime"
             />
             <div class="form-group">
-              <label
-                for="exampleInputPassword1"
-                class="d-flex justify-content-start"
-                >อาการ</label
-              >
+              <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
               <textarea
                 rows="3"
                 class="form-control"
@@ -70,9 +56,7 @@
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >
-            Confirm
-          </button>
+          >Confirm</button>
         </div>
       </div>
     </div>
@@ -297,6 +281,12 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+  .col-md-3 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+}
 .bg-blueMan2 {
   background-color: #e0e3ff;
 }
