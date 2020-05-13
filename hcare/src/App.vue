@@ -38,14 +38,6 @@ export default {
   },
   async created() {
     if (localStorage.getItem("user")) {
-      if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
-        if (
-          this.$store.state.role != "STAFF" ||
-          this.$store.state.role != "ADMIN"
-        ) {
-          this.$router.push("/");
-        }
-      }
       let user = JSON.parse(localStorage.getItem("user"));
       if (user.first_name && user.last_name && user.role && user.token) {
         //decrypt
@@ -69,6 +61,17 @@ export default {
           first_name: user.first_name,
           last_name: user.last_name
         };
+
+        //Check Role ADMIN
+        if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
+          if (
+            this.$store.state.role == "STAFF" ||
+            this.$store.state.role == "ADMIN"
+          ) {
+          } else {
+            this.$router.push("/");
+          }
+        }
 
         await axios
           .get(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
