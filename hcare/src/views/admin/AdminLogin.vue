@@ -137,7 +137,6 @@ export default {
             password: this.password
           })
           .then(res => {
-            
             //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
@@ -153,6 +152,8 @@ export default {
               "hcare6018"
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
+
+            this.$store.state.token = dataSetLocal.token;
 
             this.$router.push("/admin/dashboard");
             this.$router.go();

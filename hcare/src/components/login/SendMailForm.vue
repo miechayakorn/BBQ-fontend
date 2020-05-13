@@ -124,10 +124,26 @@ export default {
             email: `${this.email}${this.lastname_email}`
           })
           .then(res => {
+            console.log(res);
             if (res.status == 200) {
               let email2 = this.email + this.lastname_email;
               this.$emit("email", email2);
               this.$swal.close();
+            }
+          })
+          .catch(error => {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            if (error.response.status == 403) {
+              this.$swal({
+                title: "คำเตือน",
+                text: "กรุณาเข้าสู่ระบบสำหรับบุคลากร Healthcare",
+                icon: "warning"
+              }).then(result => {
+                if (result.value) {
+                  this.$router.push("/admin/login");
+                }
+              });
             } else {
               this.$swal({
                 title: "คำเตือน",
@@ -135,15 +151,6 @@ export default {
                 icon: "warning"
               });
             }
-          })
-          .catch(error => {
-            console.log("===== Backend-error ======");
-            console.error(error.response);
-            this.$swal({
-              title: "คำเตือน",
-              text: "กรุณาลงทะเบียนเพื่อใช้งาน",
-              icon: "warning"
-            });
           });
       } else {
         this.email = "";
