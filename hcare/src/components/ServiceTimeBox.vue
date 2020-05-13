@@ -67,9 +67,12 @@ export default {
 .btnTime {
   height: 48px;
   width: 72px;
+  background-color: #FFFFFF;
 }
 .btnDisabled {
   cursor: default;
+  background-color: #E7E7E7!important;
+  border-color: #E7E7E7!important;
 }
 .btnDisabled:active {
   outline: none;
