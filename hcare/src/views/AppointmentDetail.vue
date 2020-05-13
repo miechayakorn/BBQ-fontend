@@ -122,9 +122,10 @@ export default {
           this.$router.push("/");
         }
       })
-      .catch(err => {
+      .catch(error => {
         console.log("===== Backend-error ======");
         console.error(error.response);
+        this.$router.push("/appointment")
       });
   },
   methods: {
