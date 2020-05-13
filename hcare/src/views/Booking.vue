@@ -42,7 +42,7 @@
             totalcharacter > limitChar ? 'is-invalid' : ''
           ]"
           placeholder="กรุณากรอกข้อมูล"
-          v-model="dataPrepareSend.symptom"
+          @input='evt=>dataPrepareSend.symptom=evt.target.value'
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
