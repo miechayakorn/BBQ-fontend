@@ -6,10 +6,7 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox
-              :dataTypes="dataFetch.dataTypes"
-              v-on:serviceDataType="fetchDate"
-            />
+            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
           </div>
         </div>
       </div>
@@ -18,20 +15,13 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox
-            :dataDates="dataFetch.dataDates"
-            v-on:selectedDate="fetchTime"
-          />
+          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label
-              for="exampleInputPassword1"
-              class="d-flex justify-content-start"
-              >เลือกเวลา</label
-            >
+            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -41,8 +31,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start"
-          >อาการ หรือ ประเด็นที่ปรึกษา<span style="color:red">*</span>
+        <label for="exampleInputPassword1" class="d-flex justify-content-start">
+          อาการ หรือ ประเด็นที่ปรึกษา
+          <span style="color:red">*</span>
         </label>
         <textarea
           rows="3"
@@ -58,18 +49,14 @@
         <p
           class="text-right"
           :style="totalcharacter > limitChar ? 'color: red' : ''"
-        >
-          {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
-        </p>
+        >{{ totalcharacter }}/{{ limitChar }} ตัวอักษร</p>
       </div>
       <div class="row" style="text-align: center;">
         <div class="col-12">
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >
-            Confirm
-          </button>
+          >Confirm</button>
         </div>
       </div>
     </div>
@@ -236,19 +223,26 @@ export default {
             console.log("Backend----" + this.dataShow.date);
             this.$swal({
               title: "การจอง " + this.dataShow.type,
-              text:
-                " วันที่: " +
-                this.dataShow.date +
-                " เวลา: " +
-                this.dataShow.time,
+              // text:
+              //   " วันที่: " +
+              //   this.dataShow.date +
+              //   " เวลา: " +
+              //   this.dataShow.time,
+              // text: "กรุณากดยืนยันการจองที่ email",
+              html:
+                `${this.dataShow.date} , ` +
+                "<br/>" +
+                `เวลา:  ${this.dataShow.time}` +
+                "<br/>" +
+                "<hr/>" +
+                '<span class="" style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันการจองที่ email </span>',
               icon: "info",
               showCancelButton: true,
               reverseButtons: true,
               confirmButtonColor: "#3085d6",
               cancelButtonColor: "#d33",
               confirmButtonText: "Confirm",
-              cancelButtonText: "No",
-              footer: "กรุณากดยืนยันการจองที่ email"
+              cancelButtonText: "No"
             }).then(result => {
               if (result.value) {
                 this.$swal({
@@ -275,16 +269,24 @@ export default {
                   )
                   .then(res => {
                     console.log(res.data);
-
-                    this.$swal({
-                      toast: true,
-                      position: "top-end",
-                      showConfirmButton: false,
-                      timer: 3000,
-                      icon: "success",
-                      title: "การจองสำเร็จ"
-                    });
-                    this.$router.push("/appointment");
+                    if (res.data.message == "Please verrify account") {
+                      this.$swal({
+                        icon: "warning",
+                        title: "กรุณา Activate บัญชี",
+                        text:
+                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
+                      });
+                    } else {
+                      this.$swal({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        icon: "success",
+                        title: "การจองสำเร็จ"
+                      });
+                      this.$router.push("/appointment");
+                    }
                   })
                   .catch(error => {
                     console.log("===== Backend-error ======");
