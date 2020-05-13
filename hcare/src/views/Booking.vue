@@ -42,6 +42,7 @@
             totalcharacter > limitChar ? 'is-invalid' : ''
           ]"
           placeholder="กรุณากรอกข้อมูล"
+          v-model="dataPrepareSend.symptom"
           @input='evt=>dataPrepareSend.symptom=evt.target.value'
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
@@ -139,7 +140,6 @@ export default {
       this.dataShow.date = "";
       this.dataShow.time = null;
       this.dataShow.disableSymptom = true;
-      this.totalcharacter = 0;
     },
     countText() {
       this.totalcharacter = this.dataPrepareSend.symptom.length;
@@ -150,6 +150,7 @@ export default {
         this.clearData();
         this.dataFetch.dataTimes = null;
         this.dataPrepareSend.symptom = null;
+        this.totalcharacter = 0;
 
         this.$swal({
           ...waiting,
