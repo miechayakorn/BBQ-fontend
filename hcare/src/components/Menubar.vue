@@ -25,12 +25,9 @@
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
           <div class="float-right">V 1.0</div>
-          <img
-            src="https://www.w3schools.com/bootstrap4/paris.jpg"
-            style="margin-top:24px; width: 56px; height: 56px;"
-            class="rounded-circle centerImg"
-            alt
-          />
+          <logoAdmin v-if="this.$store.state.role == 'ADMIN'" class="centerImg" />
+          <logoStaff v-if="this.$store.state.role == 'STAFF'" class="centerImg" />
+          <logoUser v-else class="centerImg" />
           <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
             {{ user.first_name }} {{ user.last_name }}
           </p>
@@ -163,6 +160,9 @@
 </template>
 <script>
 import logoHeaderMini from "@/components/svg/logoHeaderMini.vue";
+import logoUser from "@/components/svg/logoUser.vue";
+import logoStaff from "@/components/svg/logoStaff.vue";
+import logoAdmin from "@/components/svg/logoAdmin.vue";
 import iconCalendar from "@/components/svg/icon/iconCalendar.vue";
 import iconClock from "@/components/svg/icon/iconClock.vue";
 import iconHome from "@/components/svg/icon/iconHome.vue";
@@ -206,7 +206,10 @@ export default {
     iconNote,
     iconNoti,
     iconPaper,
-    iconTime
+    iconTime,
+    logoUser,
+    logoStaff,
+    logoAdmin
   }
 };
 </script>
@@ -238,10 +241,13 @@ export default {
   color: #555555;
 }
 .centerImg {
-  display: block;
+  /* display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 50%; */
+  display: block;
+  margin: auto;
+  margin-top: 24px;
 }
 .lineHr {
   width: 242px;
