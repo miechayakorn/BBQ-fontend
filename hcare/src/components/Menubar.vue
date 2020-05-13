@@ -69,7 +69,7 @@
               <iconNote style="margin-right:14px;" />ทำนัด
             </router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link
               data-toggle="collapse"
               data-target="#navbarCollapse"
@@ -90,7 +90,7 @@
             >
               <iconClock style="margin-right:14px;" />ตารางให้บริการ
             </router-link>
-          </li>
+          </li> -->
           <hr class="lineHr" />
           <li class="nav-item">
             <router-link
