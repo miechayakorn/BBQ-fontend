@@ -141,7 +141,7 @@ export default {
         if (result.value) {
           axios
             .post(
-              `${process.env.VUE_APP_BACKEND_URL}/cancel`,
+              `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
               {
                 booking_id: this.dataFetch.appointmentCard[0].booking_id
               },
