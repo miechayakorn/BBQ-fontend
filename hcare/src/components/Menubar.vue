@@ -26,7 +26,7 @@
         <li class="nav-item">
           <div class="float-right">V 1.0</div>
           <logoAdmin v-if="this.$store.state.role == 'ADMIN'" class="centerImg" />
-          <logoStaff v-if="this.$store.state.role == 'STAFF'" class="centerImg" />
+          <logoStaff v-else-if="this.$store.state.role == 'STAFF'" class="centerImg" />
           <logoUser v-else class="centerImg" />
           <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
             {{ user.first_name }} {{ user.last_name }}
