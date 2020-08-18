@@ -21,27 +21,29 @@
     </div>
     <div class="mt-3">
       <div class="row p-3 pt-4 div-card">
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
           <div class="row">
             <div class="col-12">
               <h6 class="text-left">บริการ</h6>
               <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
             </div>
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-3 mb-3">
               <h6 class="text-left">วันที่</h6>
               <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="col-12">
+        <div class="col-12 col-lg-6">
+          <div class="row">
+            <div class="col-12">
             <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+            </div>
             <ServiceTimeBox
               :dataTimes="dataFetch.dataTimes"
               :activeTime="dataShow.activeBtnTime"
               v-on:booking="onChangeTime"
             />
-            <div class="form-group">
+            <div class="col-12">
               <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
               <textarea
                 rows="3"

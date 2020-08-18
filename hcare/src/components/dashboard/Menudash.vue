@@ -1,5 +1,5 @@
 <template>
-  <div class="border-right bg-primary col-custom" id="navbarCollapseMenu-toggle">
+  <div class="border-right bg-primary col-custom collapse show" id="navbarCollapseMenu-toggle">
     <div class="list-group menu mt-4">
       <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/">
@@ -124,16 +124,16 @@ export default {
 };
 </script>
 <style>
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+@media only screen and (min-width: 768px) {
   .col-custom {
-    flex: 0 0 8.333333%;
+    flex: 0 0 6%;
     max-width: 10% !important;
   }
 }
-.col-custom {
+/* .col-custom {
   flex: 0 0 8.333333%;
-  max-width: 5.25%;
-}
+  max-width: 10.25%;
+} */
 .menu-list {
   font-style: normal;
   font-weight: bold;
