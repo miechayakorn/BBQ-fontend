@@ -19,7 +19,7 @@
           >นัดหมาย</p>
         </router-link>
       </div>
-      <!--<div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+      <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
             :color="
@@ -34,9 +34,7 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            ตารางเวลา
-          </p>
+          >ตารางเวลา</p>
         </router-link>
       </div>
       <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
@@ -54,9 +52,7 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            คิว
-          </p>
+          >คิว</p>
         </a>
       </div>
       <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
@@ -74,18 +70,16 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            บริการ
-          </p>
+          >บริการ</p>
         </routerLink>
-      </div>-->
+      </div>
       <div class="list-group">
         <div
           @click="changeColorIcon('iconSetting')"
           class="p-2 bg-primary"
           style="margin-top:755px"
         >
-          <!--<a href="#">
+          <a href="#">
             <iconSetting
               :color="
                 this.$store.state.dashboard.colorIconNav == 'iconSetting'
@@ -93,11 +87,11 @@
                   : 'white'
               "
             />
-          </a>-->
+          </a>
         </div>
-        <!--<a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
+        <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
           <iconLogout />
-        </a>-->
+        </a>
       </div>
     </div>
   </div>
