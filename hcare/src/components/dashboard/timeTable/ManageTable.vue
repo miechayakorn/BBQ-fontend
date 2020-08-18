@@ -16,7 +16,7 @@
         <div class="col-8">
           <h6>รายละเอียดเวลาการให้บริการ</h6>
           <p class="mt-4">วันที่</p>
-          <input type="date" id="InputDay" class="form-control col-6  mx-auto" v-model="dataPrepareSend.date">
+          <input type="date" id="InputDay" class="form-control col-12 col-lg-6  mx-auto" v-model="dataPrepareSend.date">
           <button @click="fetchTimeSlot" class="btn text-primary mt-4">
             ยืนยันข้อมูล
           </button>
