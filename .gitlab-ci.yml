@@ -12,7 +12,7 @@ test:
   script: 
     - docker rm -f hcare_frontend-dev || true
     - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:develop .
-    - docker run -d -p 8080:80 --name hcare_frontend-dev --env-file .env --restart=always $CI_REGISTRY_IMAGE:develop
+    - docker run -d -p 8080:80 --name hcare_frontend-dev --env-file ./hcare/.env --restart=always $CI_REGISTRY_IMAGE:develop
 
 after_script:
   - docker ps
