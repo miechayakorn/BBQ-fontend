@@ -16,15 +16,8 @@
         <div class="col-8">
           <h6>รายละเอียดเวลาการให้บริการ</h6>
           <p class="mt-4">วันที่</p>
-          <datetime
-            input-class="my-class"
-            class="mb-3"
-            placeholder="Select date"
-            format="dd-MM-yyyy"
-            v-model="dataPrepareSend.date"
-          >
-          </datetime>
-          <button @click="fetchTimeSlot" class="btn text-primary">
+          <input type="date" id="InputDay" class="form-control col-12 col-lg-6  mx-auto" v-model="dataPrepareSend.date">
+          <button @click="fetchTimeSlot" class="btn text-primary mt-4">
             ยืนยันข้อมูล
           </button>
         </div>
@@ -137,7 +130,9 @@ export default {
           console.log(this.dataFetch.dataDates);
         });
     },
-    async fetchTimeSlot() {},
+    async fetchTimeSlot() {
+      this.dataPrepareSend
+    },
     async sendToBackend() {
       //Send DATA
     }
