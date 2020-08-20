@@ -3,15 +3,14 @@ stages:
   - deploy
 
 before_script:
-  - cd hcare/
+  # - cd hcare/
 
 test:
   stage: test
   only:
     - merge_requests
   script: 
-    - docker kill hcare_frontend-dev || true
-    - docker rm hcare_frontend-dev || true
+    - docker rm -f hcare_frontend-dev || true
     - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:develop .
     - docker run -d -p 8080:80 --name hcare_frontend-dev --env-file .env --restart=always $CI_REGISTRY_IMAGE:develop
 
