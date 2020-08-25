@@ -38,7 +38,7 @@
                 'disText',
                 { activeText: activeBtnNav === 'ManageTable' }
               ]"
-              >จัดการตารางให้บริการ</router-link
+              >เพิ่ม slot เวลาให้บริการ</router-link
             >
           </li>
         </ul>

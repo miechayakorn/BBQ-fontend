@@ -3,7 +3,7 @@
     <div class="container mt-3 div-card">
       <div class="row p-3 pt-4">
         <div class="col-12">
-          <h6 class="text-left">ตารางให้บริการ</h6>
+          <h6 class="text-left">ส่วนที่ 1 : เลือกบริการ</h6>
           <ServiceTypeBox
             :dataTypes="dataFetch.dataTypes"
             v-on:serviceDataType="fetchDate"
@@ -13,17 +13,16 @@
     </div>
     <div class="container mt-3 div-card">
       <div class="row p-3 pt-4">
-        <div class="col-8">
-          <h6>รายละเอียดเวลาการให้บริการ</h6>
-          <p class="mt-4">วันที่</p>
-          <input type="date" id="InputDay" class="form-control col-12 col-lg-6  mx-auto" v-model="dataPrepareSend.date">
-          <button @click="fetchTimeSlot" class="btn text-primary mt-4">
-            ยืนยันข้อมูล
+        <div class="col-12 col-md-8">
+          <h6 class="text-left">ส่วนที่ 2 : เลือกวันที่ให้บริการ</h6>
+          <input type="text" id="InputDay" class="form-control col-12 col-lg-6 text-center mx-auto mt-4" placeholder="กรุณาเลือกวัน" v-model="dataPrepareSend.date" onf>
+          <button @click="fetchTimeSlot" class="btn btnType-sm text-primary mt-4">
+            <span class="p-3" >ตกลง</span>
           </button>
         </div>
 
-        <div class="col-4">
-          <groupDocter />
+        <div class="col-12 col-md-4">
+          <groupDocter class="d-none d-md-block" />
         </div>
       </div>
     </div>
