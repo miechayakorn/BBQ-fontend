@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2';
+import ToggleButton from 'vue-js-toggle-button'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import DataTable from 'v-data-table'
 
@@ -11,6 +12,7 @@ Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(DataTable)
 Vue.use(require('vue-moment'));
+Vue.use(ToggleButton)
 
 new Vue({
   router,
