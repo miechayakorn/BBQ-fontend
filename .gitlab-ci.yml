@@ -9,7 +9,7 @@ test:
   only:
     - merge_requests
   script: 
-    - docker build --pull --no-cache -f Dockerfile.firebase -t $CI_REGISTRY_IMAGE:latest .
+    - docker build --pull --no-cache -f Dockerfile.firebase --build-arg FIREBASE_DEPLOY_KEY=$FIREBASE_DEPLOY_KEY -t $CI_REGISTRY_IMAGE:latest .
 
 # ##########  -  develop  -  ##########
 # build-image-develop:
