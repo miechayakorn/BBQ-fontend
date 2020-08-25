@@ -15,12 +15,21 @@
       <div class="row p-3 pt-4">
         <div class="col-12 col-md-8">
           <h6 class="text-left">ส่วนที่ 2 : เลือกวันที่ให้บริการ</h6>
-          <input type="text" id="InputDay" class="form-control col-12 col-lg-6 text-center mx-auto mt-4" placeholder="กรุณาเลือกวัน" v-model="dataPrepareSend.date" onf>
-          <button @click="fetchTimeSlot" class="btn btnType-sm text-primary mt-4">
-            <span class="p-3" >ตกลง</span>
+          <input
+            type="text"
+            id="InputDay"
+            class="form-control col-12 col-lg-6 text-center mx-auto mt-4"
+            placeholder="กรุณาเลือกวัน"
+            v-model="dataPrepareSend.date"
+            onfocus="(this.type='date')"
+          />
+          <button
+            @click="fetchTimeSlot"
+            class="btn btnType-sm text-primary mt-4"
+          >
+            <span class="p-3">ตกลง</span>
           </button>
         </div>
-
         <div class="col-12 col-md-4">
           <groupDocter class="d-none d-md-block" />
         </div>
@@ -29,56 +38,24 @@
     <div class="container mt-3 div-card">
       <div class="row p-3 pt-4">
         <div class="col-12">
-          <p>* กรุณาเลือก Time Slot สำหรับการให้บริการ</p>
-        </div>
-        <div class="col-12">
-          <div class="row">
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">8.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">9.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">10.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">11.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">12.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">13.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">14.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">15.30</span>
-              </div>
-            </div>
-            <div class="col-2 mt-1">
-              <div class="btnType btn-outline-primary p-1">
-                <span style="color: rgb(85, 85, 85);">ออกแบบ HTML</span>
-              </div>
-            </div>
-          </div>
+          <h6 class="text-left">ส่วนที่ 2 : เลือกวันที่ให้บริการ</h6>
+            <button
+              @click="fetchTimeSlot"
+              class="btn btnType-sm text-primary mr-1 mb-1"
+            >
+              <span class="p-1">8.30</span>
+            </button>
+            <button
+              @click="fetchTimeSlot"
+              class="btn btnType-sm text-primary mr-1 mb-1"
+            >
+              <span class="p-1">8.30</span>
+            </button><button
+              @click="fetchTimeSlot"
+              class="btn btnType-sm text-primary mr-1 mb-1"
+            >
+              <span class="p-1">8.30</span>
+            </button>
         </div>
         <div class="col-12">
           <button
@@ -130,7 +107,7 @@ export default {
         });
     },
     async fetchTimeSlot() {
-      this.dataPrepareSend
+      this.dataPrepareSend;
     },
     async sendToBackend() {
       //Send DATA

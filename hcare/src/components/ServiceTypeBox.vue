@@ -22,7 +22,7 @@
           <p v-if="'btn' + index == activeBtnType" style="color: #FFFFFF">
             {{ serviceDataType.type_name }}
           </p>
-          <p v-if="'btn' + index != activeBtnType" style="color: #555555">
+          <p v-if="'btn' + index != activeBtnType" style="color: #5E65A1">
             {{ serviceDataType.type_name }}
           </p>
         </div>
@@ -57,7 +57,7 @@ export default {
 .btnType {
   cursor: pointer;
   background-color: #ffffff;
-  border: 1px solid #99a3ff;
+  border: 1px solid #5E65A1;
   border-radius: 8px;
 }
 .btnType:hover,
