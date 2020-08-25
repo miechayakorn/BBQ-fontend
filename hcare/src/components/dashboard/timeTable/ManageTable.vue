@@ -38,12 +38,12 @@
     <div class="container mt-3 div-card">
       <div class="row p-3 pt-4">
         <div class="col-12">
-          <h6 class="text-left">ส่วนที่ 2 : เลือกวันที่ให้บริการ</h6>
-          <toggle-button class="mr-2" width="90" height="36" font-size="16" value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '8.30', unchecked: 'ปิด' }" />
-          <toggle-button class="mr-2" width="90" height="36" font-size="16" value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '9.30', unchecked: 'ปิด' }" />
-          <toggle-button class="mr-2" width="90" height="36" font-size="16" value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '10.30', unchecked: 'ปิด' }" />
-          <toggle-button class="mr-2" width="90" height="36" font-size="16" value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '11.30', unchecked: 'ปิด' }" />
-          <toggle-button class="mr-2" width="90" height="36" font-size="16" value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '12.30', unchecked: 'ปิด' }" />
+          <h6 class="text-left mb-4">ส่วนที่ 3 : เลือก slot เวลาที่ต้องการให้บริการ</h6>
+          <toggle-button class="mr-2" :width="90" :height="36" :font-size="16" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: 'เปิด', unchecked: 'ปิด' }" />
+          <toggle-button class="mr-2" :width="90" :height="36" :font-size="16" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '9.30', unchecked: 'ปิด' }" />
+          <toggle-button class="mr-2" :width="90" :height="36" :font-size="16" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '10.30', unchecked: 'ปิด' }" />
+          <toggle-button class="mr-2" :width="90" :height="36" :font-size="16" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '11.30', unchecked: 'ปิด' }" />
+          <toggle-button class="mr-2" :width="90" :height="36" :font-size="16" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '12.30', unchecked: 'ปิด' }" />
         </div>
         <div class="col-12">
           <button
@@ -80,6 +80,9 @@ export default {
     groupDocter
   },
   methods: {
+    onChangeEventHandler(){
+
+    },
     async fetchDate(serviceDataType) {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
