@@ -1,5 +1,5 @@
 <template>
-  <div class="border-right bg-white col-md-2" id="navbarCollapseMenu-toggle">
+  <div class="border-right bg-white col-md-2 collapse show" id="navbarCollapseMenu-toggle">
     <h5 class="qText" style="margin-top: 22px;">คิวปัจจุบัน</h5>
     <span class="current-queue-text textBold">A 0001</span>
     <br />
