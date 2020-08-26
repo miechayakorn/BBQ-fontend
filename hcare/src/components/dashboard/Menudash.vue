@@ -1,6 +1,6 @@
 <template>
   <div class="border-right bg-primary col-custom collapse show" id="navbarCollapseMenu-toggle">
-    <div class="list-group menu mt-4">
+    <div class="list-group menu">
       <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/">
           <iconAppointment
@@ -127,7 +127,7 @@ export default {
 @media only screen and (min-width: 768px) {
   .col-custom {
     flex: 0 0 6%;
-    max-width: 10% !important;
+    /*max-width: 10% !important;*/
   }
 }
 /* .col-custom {

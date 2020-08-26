@@ -1,28 +1,31 @@
 <template>
-  <div class="border-right bg-white col-md-2 collapse show" id="navbarCollapseMenu-toggle">
-    <h5 class="qText" style="margin-top: 22px;">คิวปัจจุบัน</h5>
-    <span class="current-queue-text textBold">A 0001</span>
-    <br />
-    <br />
-    <h5 class="qText" style="margin-top: 22px;">คิวถัดไป</h5>
-    <ul class="queue-list-next">
-      <li>
-        <span class="queue-text textBold">A 0002</span>
-      </li>
-      <li>
-        <span class="queue-text textBold">A 0003</span>
-      </li>
-      <li>
-        <span class="queue-text textBold">A 0004</span>
-      </li>
-    </ul>
+  <div
+    class="border-right bg-white col-md-12 collapse show"
+    id="navbarCollapseMenu-toggle"
+  >
+    <div class="container-fluid">
+      <h5 class="qText mt-3">คิวปัจจุบัน</h5>
+      <span class="current-queue-text textBold">A 0001</span>
+      <br />
+      <br />
+      <h5 class="qText" style="margin-top: 22px;">คิวถัดไป</h5>
+      <ul class="queue-list-next">
+        <li>
+          <span class="queue-text textBold">A 0002</span>
+        </li>
+        <li>
+          <span class="queue-text textBold">A 0003</span>
+        </li>
+        <li>
+          <span class="queue-text textBold">A 0004</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
