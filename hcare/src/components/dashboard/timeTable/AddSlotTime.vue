@@ -1,23 +1,47 @@
 <template>
   <div class="container mt-3">
     <div class="text-left mt-3">
-        <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
+      <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
     </div>
     <div class="mt-3 div-card">
       <div class="row bg-blueMan2">
         <div class="col-4">
           <man2 class="d-none d-md-block" />
         </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group text-left" style="margin-top:48px;">
-            <label for="InputName">กรอกรหัสนักศึกษา</label>
-            <input
-              type="text"
-              v-model="hn_number"
-              class="form-control"
-              placeholder="รหัสนักศึกษา"
-              required
-            />
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group text-left" style="margin-top:48px;">
+                <label for="InputName">กรอกรหัสนักศึกษา</label>
+                <input
+                  type="text"
+                  v-model="hn_number"
+                  class="form-control"
+                  placeholder="รหัสนักศึกษา"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group text-left" style="margin-top:48px;">
+                <label for="InputName">เลือกวันที่</label>
+                <input
+                  type="text"
+                  id="InputDay"
+                  class="form-control col-12 text-center"
+                  placeholder="กรุณาเลือกวัน"
+                  v-model="dataPrepareSend.date"
+                  onfocus="(this.type='date')"
+                />
+              </div>
+            </div>
+            <div class="col-12 mt-4 mb-4">
+              <button
+                class="btn btn-primary btnBlock btnConfirm fixed-button mb-3"
+              >
+                ตกลง
+              </button>
+            </div>
           </div>
         </div>
       </div>

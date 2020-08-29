@@ -58,6 +58,7 @@ export default {
   cursor: pointer;
   background-color: #ffffff;
   border: 1px solid #5E65A1;
+  box-shadow:0px 3px 8px #dfe2ff;
   border-radius: 8px;
 }
 .btnType:hover,
