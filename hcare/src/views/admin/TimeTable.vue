@@ -1,5 +1,6 @@
 <template>
 <div class="d-flex">
+    <MenuMobile/>
     <Menudash />
     <!-- <Queuedash /> -->
     <div class="container bg-light">
@@ -30,6 +31,7 @@ import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import AddSlotTime from "@/components/dashboard/timeTable/AddSlotTime.vue";
 import EditSlotTime from "@/components/dashboard/timeTable/EditSlotTime.vue";
+import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
     data() {
@@ -41,7 +43,8 @@ export default {
         Menudash,
         Queuedash,
         AddSlotTime,
-        EditSlotTime
+        EditSlotTime,
+        MenuMobile
     }
 };
 </script>

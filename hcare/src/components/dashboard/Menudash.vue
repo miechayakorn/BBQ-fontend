@@ -4,16 +4,8 @@
     id="navbarCollapseMenu-toggle"
     :style="{ minHeight: windowHeight + 'px' }"
   >
-    <button
-      class="btn btn-primary d-block d-sm-none"
-      data-toggle="collapse"
-      data-target="#navbarCollapseMenu-toggle"
-      id="menu-toggle"
-    >
-      <span>&#60;</span>
-    </button>
     <div class="list-group menu mt-4">
-      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
+      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary" style="margin-top: 1rem !important;">
         <router-link to="/admin/dashboard/">
           <iconAppointment
             :color="
