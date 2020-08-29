@@ -1,44 +1,28 @@
 <template>
-  <div class="d-flex">
+<div class="d-flex">
     <Menudash />
     <Queuedash />
     <div class="container bg-light">
-      <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
-        <ul class="navbar-nav nav-underlined">
-          <li
-            :class="{ active: activeBtnNav === 'Appointmentdash' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'Appointmentdash'"
-          >
-            <router-link
-              to="#Appointmentdash"
-              :class="[
+        <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
+            <ul class="navbar-nav nav-underlined">
+                <li :class="{ active: activeBtnNav === 'Appointmentdash' }" style="margin-left: 63px;" @click="activeBtnNav = 'Appointmentdash'">
+                    <router-link to="#Appointmentdash" :class="[
                 'disText',
                 { activeText: activeBtnNav === 'Appointmentdash' }
-              ]"
-              >ตารางนัดคนไข้</router-link
-            >
-          </li>
-          <li
-            :class="{ active: activeBtnNav === 'Bookingdash' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'Bookingdash'"
-          >
-            <router-link
-              to="#Bookingdash"
-              :class="[
+              ]">ตารางนัดคนไข้</router-link>
+                </li>
+                <li :class="{ active: activeBtnNav === 'Bookingdash' }" style="margin-left: 63px;" @click="activeBtnNav = 'Bookingdash'">
+                    <router-link to="#Bookingdash" :class="[
                 'disText',
                 { activeText: activeBtnNav === 'Bookingdash' }
-              ]"
-              >ทำนัดหมาย</router-link
-            >
-          </li>
-        </ul>
-      </nav>
-      <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
-      <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
+              ]">ทำนัดหมาย</router-link>
+                </li>
+            </ul>
+        </nav>
+        <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
+        <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -48,50 +32,52 @@ import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "Appointmentdash"
-    };
-  },
-  components: {
-    Menudash,
-    Queuedash,
-    Appointmentdash,
-    Bookingdash
-  }
+    data() {
+        return {
+            activeBtnNav: "Appointmentdash"
+        };
+    },
+    components: {
+        Menudash,
+        Queuedash,
+        Appointmentdash,
+        Bookingdash
+    }
 };
 </script>
 
 <style>
 .nav-item-underlined:after,
-.nav-underlined > li:after {
-  display: block;
-  content: " ";
-  padding-bottom: 15px;
-  /* bottom: 10px; */
-  border-bottom: 3px solid transparent;
-  width: 0;
-  width: auto;
+.nav-underlined>li:after {
+    display: block;
+    content: " ";
+    padding-bottom: 15px;
+    /* bottom: 10px; */
+    border-bottom: 3px solid transparent;
+    width: 0;
+    width: auto;
 }
+
 .disText {
-  color: #b6b6b6;
+    color: #b6b6b6;
 }
+
 .activeText {
-  color: #555555;
+    color: #555555;
 }
 
 .underlined-active:after,
-.nav-underlined:hover > li:hover:after,
-.nav-underlined:active > li:hover:after,
-.nav-underlined:hover > li.active:hover:after,
-.nav-underlined:active > li.active:hover:after,
-.nav-underlined > li.active:after,
-.nav-underlined > li:hover:after {
-  border-color: #99a3ff;
+.nav-underlined:hover>li:hover:after,
+.nav-underlined:active>li:hover:after,
+.nav-underlined:hover>li.active:hover:after,
+.nav-underlined:active>li.active:hover:after,
+.nav-underlined>li.active:after,
+.nav-underlined>li:hover:after {
+    border-color: #99a3ff;
 }
 
 .div-card {
-  background-color: #ffffff;
-  box-shadow: 0px 4px 8px #E9EBFB;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px #E9EBFB;
 }
 </style>
