@@ -1,5 +1,13 @@
 <template>
   <div class="border-right bg-primary col-custom collapse show" id="navbarCollapseMenu-toggle">
+    <button
+      class="btn btn-primary d-block d-sm-none"
+      data-toggle="collapse"
+      data-target="#navbarCollapseMenu-toggle"
+      id="menu-toggle"
+    >
+      <span>&#60;</span>
+    </button>
     <div class="list-group menu mt-4">
       <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
         <router-link to="/admin/dashboard/">

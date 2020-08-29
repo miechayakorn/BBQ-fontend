@@ -3,16 +3,8 @@
     <Menudash />
     <Queuedash />
     <div class="container bg-light">
-      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
-        <button
-          class="btn btn-primary"
-          data-toggle="collapse"
-          data-target="#navbarCollapseMenu-toggle"
-          id="menu-toggle"
-        >
-          <span>&#60;</span>
-        </button>
-        <ul class="nav navbar-nav nav-underlined">
+      <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
+        <ul class="navbar-nav nav-underlined">
           <li
             :class="{ active: activeBtnNav === 'ServiceTable' }"
             style="margin-left: 63px;"
