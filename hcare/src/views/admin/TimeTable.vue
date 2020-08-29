@@ -11,16 +11,16 @@
                 { activeText: activeBtnNav === 'AddSlotTime' }
               ]">เพิ่ม slot เวลา</router-link>
                 </li>
-                <li :class="{ active: activeBtnNav === 'ManageTable' }" style="margin-left: 63px;" @click="activeBtnNav = 'ManageTable'">
-                    <router-link to="#ManageTable" :class="[
+                <li :class="{ active: activeBtnNav === 'EditSlotTime' }" style="margin-left: 63px;" @click="activeBtnNav = 'EditSlotTime'">
+                    <router-link to="#EditSlotTime" :class="[
                 'disText',
-                { activeText: activeBtnNav === 'ManageTable' }
+                { activeText: activeBtnNav === 'EditSlotTime' }
               ]">แก้ไขตารางการให้บริการ</router-link>
                 </li>
             </ul>
         </nav>
         <AddSlotTime v-if="activeBtnNav == 'AddSlotTime'" />
-        <ManageTable v-if="activeBtnNav == 'ManageTable'" />
+        <EditSlotTime v-if="activeBtnNav == 'EditSlotTime'" />
     </div>
 </div>
 </template>
@@ -29,7 +29,7 @@
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import AddSlotTime from "@/components/dashboard/timeTable/AddSlotTime.vue";
-import ManageTable from "@/components/dashboard/timeTable/ManageTable.vue";
+import EditSlotTime from "@/components/dashboard/timeTable/EditSlotTime.vue";
 
 export default {
     data() {
@@ -41,7 +41,7 @@ export default {
         Menudash,
         Queuedash,
         AddSlotTime,
-        ManageTable
+        EditSlotTime
     }
 };
 </script>

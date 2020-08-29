@@ -87,7 +87,7 @@ export default {
                 this.dataFetch.dataDates = null;
                 await axios
                     .post(
-                        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`, {
+                        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checktimeslot`, {
                             type_id: this.dataPrepareSend.type_id,
                             date: this.dataPrepareSend.date,
                         }, {

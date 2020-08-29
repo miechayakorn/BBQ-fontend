@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="container mt-3">
-        <div class="row p-3 pt-4 div-card" style="opacity: 0.5;"> ส่วนที่ 1 : เลือกวันที่และบริการ </div>
+        <div class="row p-3 pt-4 div-card bg-gray"> ส่วนที่ 1 : เลือกวันที่และบริการ </div>
             <div class="mt-3 div-card">
                 <div class="row bg-blueMan2">
                     <div class="col-4">
