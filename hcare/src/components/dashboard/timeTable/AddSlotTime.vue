@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="container mt-3">
+  <div class="container">
+    <div class="mt-3">
       <div class="text-left font-weight-bold" style="margin-top:32px">
         <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
       </div>
@@ -20,7 +20,7 @@
                     class="form-control"
                   >
                     <option value disabled selected
-                      >-- กรุณาเลือกวันที่ --</option
+                      >-- กรุณาเลือกบริการ --</option
                     >
                     <option
                       v-for="(data, index) in dataFetch.dataTypes"
@@ -46,6 +46,7 @@
               </div>
               <div class="col-12 mt-4 mb-4">
                 <button
+                  @click="fetchSlot"
                   class="btn btn-primary btnBlock btnConfirm fixed-button mb-3"
                 >
                   ตกลง
@@ -55,12 +56,12 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mt-3" v-show="visibleState">
       <div class="text-left font-weight-bold" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
       </div>
-    </div>
-    <div class="container mt-3 div-card" v-show="dataFetch.dataDates">
-      <div class="row p-3 pt-4">
+      <div class="row p-3 mt-3 div-card">
         <div class="col-12 text-left">
           <div class="row">
             <div class="col-12 col-md-4 mt-4">
@@ -89,11 +90,11 @@
                 <div class="form-group">
                   <label
                     class="col-md-1 checkbox-inline m-3"
-                    v-for="(time, index) in dataFetch.dataDates"
+                    v-for="(time, index) in dataFetch.dataSlotTime"
                     :key="index"
                   >
                     <span class="text-center">
-                      {{ time }}
+                      {{ time.slot.substring(0, 5) }}
                     </span>
                     <input
                       type="checkbox"
@@ -103,7 +104,6 @@
                   </label>
                 </div>
               </div>
-              {{ dataPrepareSend }}
             </div>
           </div>
         </div>
@@ -117,6 +117,10 @@
         </div>
       </div>
     </div>
+    dataPrepareSend : {{ dataPrepareSend }}
+    <br />
+    <br />
+    dataFetch : {{ dataFetch }} <br />
   </div>
 </template>
 
@@ -124,13 +128,15 @@
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import man2 from "@/components/svg/man2.vue";
+import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
+      visibleState: false,
       dataFetch: {
         dataTypes: null,
-        dataDates: ["test1", "test2", "tes3", "test4", "test5"]
+        dataSlotTime: []
       },
       dataPrepareSend: {
         serviceType: "",
@@ -144,7 +150,63 @@ export default {
     ServiceTypeBox
   },
   methods: {
-    async sendToBackend() {}
+    async fetchSlot() {
+      if (
+        this.dataPrepareSend.serviceType != "" &&
+        this.dataPrepareSend.date != ""
+      ) {
+        try {
+          await axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
+              {
+                type_id: this.dataPrepareSend.serviceType,
+                date: this.dataPrepareSend.date
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`
+                }
+              }
+            )
+            .then(res => {
+              this.dataFetch.dataSlotTime = res.data.timeArray;
+              this.visibleState = true;
+            });
+        } catch (error) {
+          this.$swal({ ...errorSWAL });
+        }
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณาเลือกบริการ และวันที่"
+        });
+      }
+    },
+    async sendToBackend() {
+      try {
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
+            {
+              type_id: this.dataPrepareSend.serviceType,
+              date: this.dataPrepareSend.date
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`
+              }
+            }
+          )
+          .then(res => {
+            this.dataFetch.dataSlotTime = res.data;
+            this.visibleState = true;
+          });
+      } catch (error) {
+        this.$swal({ ...errorSWAL });
+      }
+    }
   },
   async mounted() {
     await axios
