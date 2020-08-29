@@ -1,57 +1,55 @@
 <template>
   <div class="container">
-    <div class="mt-3">
-      <div class="text-left font-weight-bold" style="margin-top:32px">
-        <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
-      </div>
-      <div class="mt-3 div-card">
-        <div class="row bg-blueMan2">
-          <div class="col-4">
-            <man2 class="d-none d-md-block" />
-          </div>
-          <div class="col-12 col-md-8">
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <div class="form-group text-left" style="margin-top:48px;">
-                  <label for="serviceType">เลือกบริการ</label>
-                  <select
-                    id="serviceType"
-                    v-model="dataPrepareSend.serviceType"
-                    class="form-control"
-                  >
-                    <option value disabled selected
-                      >-- กรุณาเลือกบริการ --</option
-                    >
-                    <option
-                      v-for="(data, index) in dataFetch.dataTypes"
-                      :key="index"
-                      :value="data.type_id"
-                      >{{ data.type_name }}</option
-                    >
-                  </select>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group text-left" style="margin-top:48px;">
-                  <label for="InputDate">เลือกวันที่</label>
-                  <input
-                    type="text"
-                    id="InputDate"
-                    class="form-control col-12"
-                    placeholder="กรุณาเลือกวัน"
-                    v-model="dataPrepareSend.date"
-                    onfocus="(this.type='date')"
-                  />
-                </div>
-              </div>
-              <div class="col-12 mt-4 mb-4">
-                <button
-                  @click="fetchSlot"
-                  class="btn btn-primary btnBlock btnConfirm fixed-button mb-3"
+    <div class="text-left font-weight-bold" style="margin-top:32px">
+      <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
+    </div>
+    <div class="mt-3 div-card">
+      <div class="row bg-blueMan2">
+        <div class="col-4">
+          <man2 class="d-none d-md-block" />
+        </div>
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group text-left" style="margin-top:48px;">
+                <label for="serviceType">เลือกบริการ</label>
+                <select
+                  id="serviceType"
+                  v-model="dataPrepareSend.serviceType"
+                  class="form-control"
                 >
-                  ตกลง
-                </button>
+                  <option value disabled selected
+                    >-- กรุณาเลือกบริการ --</option
+                  >
+                  <option
+                    v-for="(data, index) in dataFetch.dataTypes"
+                    :key="index"
+                    :value="data.type_id"
+                    >{{ data.type_name }}</option
+                  >
+                </select>
               </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group text-left" style="margin-top:48px;">
+                <label for="InputDate">เลือกวันที่</label>
+                <input
+                  type="text"
+                  id="InputDate"
+                  class="form-control col-12"
+                  placeholder="กรุณาเลือกวัน"
+                  v-model="dataPrepareSend.date"
+                  onfocus="(this.type='date')"
+                />
+              </div>
+            </div>
+            <div class="col-12 mt-4 mb-4">
+              <button
+                @click="fetchSlot"
+                class="btn btn-primary btnBlock btnConfirm fixed-button mb-3"
+              >
+                ตกลง
+              </button>
             </div>
           </div>
         </div>
