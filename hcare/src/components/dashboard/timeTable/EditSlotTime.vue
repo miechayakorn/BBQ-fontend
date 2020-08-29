@@ -1,41 +1,124 @@
 <template>
-<div>
-    <div class="container mt-3 div-card">
-        <div class="row p-3 pt-4">
-            <div class="col-12">
-                <h6 class="text-left">ส่วนที่ 1 : เลือกบริการ</h6>
-                <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-left mt-3">
+            <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
+        </div>
+        <div class="col-12 mt-3 div-card">
+            <div class="row box-01">
+                <div class="col-4">
+                    <man2 class="d-none d-md-block" />
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group text-left" style="margin-top:48px;">
+                                <label for="InputName">เลือกบริการ</label>
+                                <select class="form-control">
+                                    <option :value="null" disabled selected="selected">กรุณาเลือกบริการ</option>
+                                    <option v-for="(type, index) in dataFetch.dataTypes" :key="index" :value="type.type_id">{{ type.type_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group text-left" style="margin-top:48px;">
+                                <label for="InputName">เลือกวันที่</label>
+
+                                <input type="text" id="InputDay" class="form-control col-12 col-lg-12 text-center mx-auto" placeholder="กรุณาเลือกวัน" v-model="dataPrepareSend.date" onfocus="(this.type='date')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 mb-3">
+                        <button class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ตกลง</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container mt-3 div-card">
-        <div class="row p-3 pt-4">
-            <div class="col-12 col-md-8">
-                <h6 class="text-left">ส่วนที่ 2 : เลือกวันที่ให้บริการ</h6>
-                <input type="text" id="InputDay" class="form-control col-12 col-lg-6 text-center mx-auto mt-4" placeholder="กรุณาเลือกวัน" v-model="dataPrepareSend.date" onfocus="(this.type='date')" />
-                <button @click="fetchTimeSlot" class="btn btnType-sm text-primary mt-4">
-                    <span class="p-3">ตกลง</span>
-                </button>
-            </div>
-            <div class="col-12 col-md-4">
-                <groupDocter class="d-none d-md-block" />
+    <div class="row mt-4">
+        <div class="col-12 text-left mt-3">
+            <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
+        </div>
+        <div class="col-12 mt-3 div-card">
+            <div class="row box-02">
+                <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
+                    <div class="col-12 h75" style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);">
+                        <div>
+                            <div class="col-12">14 ธันวาคม 2563</div>
+                            <div class="col-12 mt-2">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-9" style=" display:block;">
+                    <div class="row mt-4 mb-4">
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">08.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">09.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">10.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">11.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">12.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">13.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="col-12">
+                                <span style="text-align: center;">14.00</span>
+                            </div>
+                            <div class="col-12">
+                                <toggle-button class="mr-2" :width="45" :height="25" :font-size="14" :value="true" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: '', unchecked: ''}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-3">
+                            <button class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container mt-3 div-card" v-show="dataFetch.dataDates">
-        <div class="row p-3 pt-4">
-            <div class="col-12">
-                <h6 class="text-left mb-4">ส่วนที่ 3 : เลือก slot เวลาที่ต้องการให้บริการ</h6>
-                <toggle-button v-for="(item, index) in dataFetch.dataDates" :key="index" class="mr-2" :width="115" :height="36" :font-size="16" :value="(item.status=='available') ? true : false" color="#99a3ff" @change="onChangeEventHandler" :labels="{ checked: 'เปิด '+item.slot.substring(0, 5), unchecked: 'ปิด '+item.slot.substring(0, 5) }" :disabled="(item.status == 'available')? false : true" v-on:click="slotActive()" ref="toggle-button" />
-            </div>
-            <div class="col-12">
-                <button @click="sendToBackend" class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2">
-                    <span style="font-weight:900">บันทึก</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    {{dataPrepareSend.slot}}
 </div>
 </template>
 
@@ -43,6 +126,7 @@
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import groupDocter from "@/components/svg/groupDocter.vue";
+import man2 from "@/components/svg/man2.vue";
 
 export default {
     data() {
@@ -59,6 +143,7 @@ export default {
         };
     },
     components: {
+        man2,
         ServiceTypeBox,
         groupDocter,
     },
@@ -147,3 +232,15 @@ export default {
     },
 };
 </script>
+
+<style>
+.box-01 {
+    background: #ffeaa6;
+    box-shadow: 0px 4px 8px #ffe6c8;
+}
+
+.box-02 {
+    background: #ffffff;
+    box-shadow: 0px 4px 8px #e9ebfb;
+}
+</style>
