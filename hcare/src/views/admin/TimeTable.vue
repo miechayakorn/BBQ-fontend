@@ -51,7 +51,6 @@ export default {
 .nav-underlined>li:after {
     display: block;
     content: " ";
-    bottom: 10px;
     border-bottom: 3px solid transparent;
     width: 0;
     width: auto;

@@ -52,7 +52,6 @@ export default {
     display: block;
     content: " ";
     padding-bottom: 15px;
-    /* bottom: 10px; */
     border-bottom: 3px solid transparent;
     width: 0;
     width: auto;
@@ -74,6 +73,10 @@ export default {
 .nav-underlined>li.active:after,
 .nav-underlined>li:hover:after {
     border-color: #99a3ff;
+}
+
+.bg-blueMan2 {
+    background-color: #e0e3ff;
 }
 
 .div-card {

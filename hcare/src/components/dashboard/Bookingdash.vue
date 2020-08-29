@@ -274,16 +274,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
-    .col-md-3 {
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-    }
-}
-
-.bg-blueMan2 {
-    background-color: #e0e3ff;
-}
-</style>
