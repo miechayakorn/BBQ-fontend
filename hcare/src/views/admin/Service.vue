@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
     <Menudash />
-    <Queuedash />
+    <!-- <Queuedash /> -->
     <div class="container bg-light">
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
