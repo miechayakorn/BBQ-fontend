@@ -19,6 +19,7 @@ import DashAppointment from "../views/admin/DashAppointment.vue";
 import TimeTable from "../views/admin/TimeTable.vue";
 import Service from "../views/admin/Service.vue";
 import AdminLogin from "../views/admin/AdminLogin.vue";
+import ManageEmp from "../views/admin/ManageEmp.vue";
 //Service
 import NotFound from "../views/404.vue";
 import Test from "../views/test.vue";
@@ -109,6 +110,11 @@ const routes = [
     path: "/admin/login",
     name: "AdminLogin",
     component: AdminLogin
+  },
+  {
+    path: "/admin/manageEmp",
+    name: "manageEmp",
+    component: ManageEmp
   },
   {
     path: "/test",
