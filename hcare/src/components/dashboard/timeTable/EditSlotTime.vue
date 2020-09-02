@@ -55,7 +55,7 @@
           <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
             <div class="col-12 h75 dis-pc">
               <div>
-                <div class="col-12">14 ธันวาคม 2563</div>
+                <div class="col-12">{{dataFetch.dataDateUse}}</div>
                 <div class="col-12 mt-2">
                   <toggle-button
                     class="mr-2"
@@ -71,99 +71,13 @@
           </div>
           <div class="col-12 col-md-9" style=" display:block;">
             <div class="row mt-4 mb-4">
-              <div class="col-6 col-md-4 col-lg-3">
+              <div
+                class="col-6 col-md-4 col-lg-3"
+                v-for="(time, index) in dataFetch.dataSlot"
+                :key="index"
+              >
                 <div class="col-12">
-                  <span style="text-align: center;">08.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">09.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">10.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">11.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">12.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">13.00</span>
-                </div>
-                <div class="col-12">
-                  <toggle-button
-                    class="mr-2"
-                    :width="45"
-                    :height="25"
-                    :font-size="14"
-                    :value="true"
-                    color="#99a3ff"
-                  />
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-3">
-                <div class="col-12">
-                  <span style="text-align: center;">14.00</span>
+                  <span style="text-align: center;">{{time.time_in}}</span>
                 </div>
                 <div class="col-12">
                   <toggle-button
@@ -203,6 +117,7 @@ export default {
         dataTypes: null,
         dataDates: null,
         dataSlot: [],
+        dataDateUse: null,
       },
       dataPrepareSend: {
         type_id: null,
@@ -245,6 +160,7 @@ export default {
                 this.dataPrepareSend.type_id = null;
                 this.dataPrepareSend.date = null;
                 this.dataFetch.dataSlot = null;
+
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
@@ -252,6 +168,7 @@ export default {
                 });
               } else {
                 this.dataFetch.dataSlot = res.data.timeArray;
+                this.dataFetch.dataDateUse = res.data.date_use;
               }
             });
         } catch (error) {
