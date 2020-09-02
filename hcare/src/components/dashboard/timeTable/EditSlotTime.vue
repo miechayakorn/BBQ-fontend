@@ -6,30 +6,26 @@
     <div class="mt-3 div-card">
       <div class="row box-01">
         <div class="col-4">
-          <man2 class="d-none d-md-block" />
+          <man2 class="d-none d-md-block mt-3" />
         </div>
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top:48px;">
                 <label for="InputName">เลือกบริการ</label>
-                <select class="form-control">
-                  <option :value="null" disabled selected="selected"
-                    >-- กรุณาเลือกบริการ --</option
-                  >
+                <select class="form-control" v-model="dataPrepareSend.type_id">
+                  <option :value="null" disabled selected="selected">-- กรุณาเลือกบริการ --</option>
                   <option
                     v-for="(type, index) in dataFetch.dataTypes"
                     :key="index"
                     :value="type.type_id"
-                    >{{ type.type_name }}</option
-                  >
+                  >{{ type.type_name }}</option>
                 </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top:48px;">
                 <label for="InputName">เลือกวันที่</label>
-
                 <input
                   type="text"
                   id="InputDay"
@@ -44,9 +40,8 @@
           <div class="col-12 mt-4 mb-4">
             <button
               class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-            >
-              ตกลง
-            </button>
+              @click="fetchSlot"
+            >ตกลง</button>
           </div>
         </div>
       </div>
@@ -57,14 +52,8 @@
       </div>
       <div class="col-12 mt-3 div-card">
         <div class="row box-02">
-          <div
-            class="col-12 col-md-3"
-            style="border-right: 3px solid rgba(224, 224, 224, 0.28);"
-          >
-            <div
-              class="col-12 h75"
-              style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);"
-            >
+          <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
+            <div class="col-12 h75 dis-pc">
               <div>
                 <div class="col-12">14 ธันวาคม 2563</div>
                 <div class="col-12 mt-2">
@@ -75,8 +64,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -96,8 +83,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -113,8 +98,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -130,8 +113,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -147,8 +128,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -164,8 +143,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -181,8 +158,6 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
@@ -198,139 +173,117 @@
                     :font-size="14"
                     :value="true"
                     color="#99a3ff"
-                    @change="onChangeEventHandler"
-                    :labels="{ checked: '', unchecked: '' }"
                   />
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-12 mt-3 mb-3">
-                <button
-                  class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-                >
-                  ยืนยันการแก้ไข
-                </button>
+                <button class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    {{dataPrepareSend}}
+    {{dataFetch.dataSlot}}
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
-import groupDocter from "@/components/svg/groupDocter.vue";
 import man2 from "@/components/svg/man2.vue";
+import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
       dataFetch: {
         dataTypes: null,
-        dataDates: null
+        dataDates: null,
+        dataSlot: [],
       },
       dataPrepareSend: {
-        type_id: 1,
+        type_id: null,
         date: null,
-        slot: []
-      }
+        slot: [],
+      },
     };
   },
   components: {
     man2,
-    ServiceTypeBox,
-    groupDocter
   },
   methods: {
-    onChangeEventHandler() {},
-    async fetchDate(serviceDataType) {
-      this.dataPrepareSend.type_id = serviceDataType.type_id;
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`
-            }
-          }
-        )
-        .then(res => {
-          console.log(res.data);
-        });
-    },
-    async fetchTimeSlot() {
-      this.dataPrepareSend;
-      if (
-        this.dataPrepareSend.type_id != null &&
-        this.dataPrepareSend.date != null
-      ) {
-        this.dataFetch.dataDates = null;
-        await axios
-          .post(
-            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checktimeslot`,
-            {
-              type_id: this.dataPrepareSend.type_id,
-              date: this.dataPrepareSend.date
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.$store.state.token}`
+    async fetchSlot() {
+      if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+        try {
+          await axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
+              {
+                type_id: this.dataPrepareSend.type_id,
+                date: this.dataPrepareSend.date,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
               }
-            }
-          )
-          .then(res => {
-            if (res.status == 204) {
-              this.dataPrepareSend.date = null;
-              this.$swal({
-                icon: "warning",
-                title: "คำเตือน",
-                text: "ไม่มีเวลาให้บริการสำหรับบริการที่ท่านเลือก"
-              });
-            } else {
-              this.dataFetch.dataDates = res.data.timeArray;
-              this.dataPrepareSend.date = res.data.date;
-              console.log(this.dataFetch.dataDates);
-              console.log(this.dataPrepareSend.date);
-            }
-          })
-          .catch(err => {
-            console.log("===== Backend-error ======");
-            console.error(error.response);
-            this.$swal({
-              ...errorSWAL
+            )
+            .then((res) => {
+              if (res.status == 204) {
+                this.dataPrepareSend.type_id = null;
+                this.dataPrepareSend.date = null;
+                this.dataFetch.dataSlot = null;
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: "ไม่มีวันให้บริการ สำหรับประเภทบริการที่คุณเลือก",
+                });
+              } else if (res.data == "Empty Slot") {
+                this.dataPrepareSend.type_id = null;
+                this.dataPrepareSend.date = null;
+                this.dataFetch.dataSlot = null;
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: "ยังไม่มีตารางให้บริการนี้อยู่",
+                });
+              } else {
+                this.dataFetch.dataSlot = res.data.timeArray;
+              }
             });
+        } catch (error) {
+          console.log(error);
+          this.$swal({
+            ...errorSWAL,
           });
+        }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกประเภทการให้บริการ และวันที่"
+          text: "กรุณาเลือกบริการ และวันที่",
         });
       }
     },
     async sendToBackend() {
       //Send DATA
     },
-    async slotActive() {
-      console.log(this.$refs["toggle-button"].focus());
-    }
   },
   async mounted() {
     //เรียกข้อมูล Default Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
         headers: {
-          Authorization: `Bearer ${this.$store.state.token}`
-        }
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.dataFetch.dataTypes = res.data;
       });
-  }
+  },
 };
 </script>
 
@@ -343,5 +296,14 @@ export default {
 .box-02 {
   background: #ffffff;
   box-shadow: 0px 4px 8px #e9ebfb;
+}
+
+@media (min-width: 776px) {
+  .dis-pc {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 </style>
