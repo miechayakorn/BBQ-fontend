@@ -50,7 +50,7 @@
       <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
       </div>
-      <div class="row box-02">
+      <div class="row box-02" v-if="noContent == false">
         <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
           <div class="col-12 h75 dis-pc">
             <div>
@@ -109,16 +109,18 @@
           </div>
           <div class="row">
             <div class="col-12 mt-3 mb-3">
-              <button class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
+              <button @click="sendToBackend" class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="row box-02" v-if="noContent == true">
+        <div class="col-12 col-md-3 p-4">ไม่มีบริการในวันที่เลือก</div>
+      </div>
     </div>
-    dataPrepareSend : {{ dataPrepareSend }}
     <br />
     <br />
-    dataFetch : {{ dataFetch }}
     <br />
   </div>
 </template>
@@ -132,6 +134,7 @@ import { errorSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
+      noContent: false,
       visibleState: false,
       dataFetch: {
         dataTypes: null,
@@ -157,7 +160,7 @@ export default {
         this.dataPrepareSend.slot_time.push(time.slot);
       } else if (statusButton == false) {
         this.dataPrepareSend.slot_time = Object.values(
-        // Removing Array element
+          // Removing Array element
           Object.fromEntries(
             Object.entries(this.dataPrepareSend.slot_time).filter(
               ([key, val]) => val !== time.slot
@@ -186,8 +189,13 @@ export default {
               }
             )
             .then((res) => {
-              this.dataFetch.dataSlotTime = res.data.timeArray;
-              this.dataFetch.dateText = res.data.date;
+              if (res.status == 204) {
+                this.noContent = true;
+              } else if (res.status == 200) {
+                this.noContent = false;
+                this.dataFetch.dataSlotTime = res.data.timeArray;
+                this.dataFetch.dateText = res.data.date;
+              }
               this.visibleState = true;
             });
         } catch (error) {
@@ -211,6 +219,7 @@ export default {
             {
               type_id: this.dataPrepareSend.serviceType,
               date: this.dataPrepareSend.date,
+              time_slot: this.dataPrepareSend.slot_time
             },
             {
               headers: {
