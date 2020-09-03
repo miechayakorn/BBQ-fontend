@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mb-4">
     <div class="text-left font-weight-bold" style="margin-top:32px">
       <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
     </div>
@@ -107,27 +107,25 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" v-show="dataPrepareSend.slot_time.length != 0">
             <div class="col-12 mt-3 mb-3">
-              <button @click="sendToBackend" class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
+              <button
+                @click="sendToBackend"
+                class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
+              >ยืนยันการแก้ไข</button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="row box-02" v-if="noContent == true">
         <div class="col-12 col-md-3 p-4">ไม่มีบริการในวันที่เลือก</div>
       </div>
     </div>
-    <br />
-    <br />
-    <br />
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 
@@ -150,7 +148,6 @@ export default {
   },
   components: {
     man2,
-    ServiceTypeBox,
   },
   methods: {
     onChangeEventHandler(time, statusButton) {
@@ -219,7 +216,7 @@ export default {
             {
               type_id: this.dataPrepareSend.serviceType,
               date: this.dataPrepareSend.date,
-              time_slot: this.dataPrepareSend.slot_time
+              time_slot: this.dataPrepareSend.slot_time,
             },
             {
               headers: {
@@ -229,6 +226,7 @@ export default {
           )
           .then((res) => {
             this.dataFetch.dataSlotTime = res.data;
+            this.dataPrepareSend.slot_time = []
             this.visibleState = true;
           });
       } catch (error) {
@@ -239,8 +237,9 @@ export default {
     },
   },
   async mounted() {
+    //เรียกข้อมูล Default Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
+      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
         headers: {
           Authorization: `Bearer ${this.$store.state.token}`,
         },
