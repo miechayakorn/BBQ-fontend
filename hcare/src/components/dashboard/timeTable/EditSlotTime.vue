@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mb-4">
     <div class="text-left font-weight-bold" style="margin-top:32px">
       <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
     </div>
@@ -12,8 +12,8 @@
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top:48px;">
-                <label for="InputName">เลือกบริการ</label>
-                <select class="form-control" v-model="dataPrepareSend.type_id">
+                <label for="serviceType">เลือกบริการ</label>
+                <select id="serviceType" class="form-control" v-model="dataPrepareSend.type_id">
                   <option :value="null" disabled selected="selected">-- กรุณาเลือกบริการ --</option>
                   <option
                     v-for="(type, index) in dataFetch.dataTypes"
@@ -46,16 +46,16 @@
         </div>
       </div>
     </div>
-    <div class="row mt-2">
+    <div class="row mt-2" v-show="visibleState">
       <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
       </div>
       <div class="col-12 mt-3 div-card">
-        <div class="row box-02">
+        <div class="row box-02" v-if="noContent == false">
           <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
             <div class="col-12 h75 dis-pc">
               <div>
-                <div class="col-12">{{dataFetch.dataDateUse}}</div>
+                <div class="col-12">{{dataFetch.dateText}}</div>
                 <div class="col-12 mt-2">
                   <toggle-button
                     class="mr-2"
@@ -73,7 +73,7 @@
             <div class="row mt-4 mb-4">
               <div
                 class="col-6 col-md-4 col-lg-3"
-                v-for="(time, index) in dataFetch.dataSlot"
+                v-for="(time, index) in dataFetch.dataSlotTime"
                 :key="index"
               >
                 <div class="col-12">
@@ -91,17 +91,13 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-12 mt-3 mb-3">
-                <button class="btn btn-primary btnBlock btnConfirm fixed-button mb-2">ยืนยันการแก้ไข</button>
-              </div>
-            </div>
           </div>
+        </div>
+        <div class="row box-02" v-if="noContent == true">
+          <div class="col-12 col-md-3 p-4">ไม่มีบริการในวันที่เลือก</div>
         </div>
       </div>
     </div>
-    {{dataPrepareSend}}
-    {{dataFetch.dataSlot}}
   </div>
 </template>
 
@@ -113,11 +109,13 @@ import { errorSWAL } from "@/utility/swal.js";
 export default {
   data() {
     return {
+      noContent: false,
+      visibleState: false,
       dataFetch: {
         dataTypes: null,
         dataDates: null,
-        dataSlot: [],
-        dataDateUse: null,
+        dataSlotTime: [],
+        dateText: null,
       },
       dataPrepareSend: {
         type_id: null,
@@ -130,6 +128,18 @@ export default {
     man2,
   },
   methods: {
+    async sendToBackendOpenTogle() {
+      this.visibleState = true;
+      //Send DATA
+    },
+    async sendToBackendCloseToggle() {
+      this.visibleState = true;
+      //Send DATA
+    },
+    async sendToBackendRemoveCloseAllToggle() {
+      this.visibleState = true;
+      //Send DATA
+    },
     async fetchSlot() {
       if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
         try {
@@ -148,18 +158,18 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
-                this.dataPrepareSend.type_id = null;
-                this.dataPrepareSend.date = null;
-                this.dataFetch.dataSlot = null;
+                this.noContent = true;
+                this.dataFetch.dataSlotTime = [];
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
                   text: "ไม่มีวันให้บริการ สำหรับประเภทบริการที่คุณเลือก",
                 });
               } else if (res.data == "Empty Slot") {
+                this.noContent = true;
                 this.dataPrepareSend.type_id = null;
                 this.dataPrepareSend.date = null;
-                this.dataFetch.dataSlot = null;
+                this.dataFetch.dataSlotTime = null;
 
                 this.$swal({
                   icon: "warning",
@@ -167,9 +177,11 @@ export default {
                   text: "ยังไม่มีตารางให้บริการนี้อยู่",
                 });
               } else {
-                this.dataFetch.dataSlot = res.data.timeArray;
-                this.dataFetch.dataDateUse = res.data.date_use;
+                this.noContent = false;
+                this.dataFetch.dataSlotTime = res.data.timeArray;
+                this.dataFetch.dateText = res.data.date_use;
               }
+              this.visibleState = true;
             });
         } catch (error) {
           console.log(error);
@@ -184,9 +196,6 @@ export default {
           text: "กรุณาเลือกบริการ และวันที่",
         });
       }
-    },
-    async sendToBackend() {
-      //Send DATA
     },
   },
   async mounted() {

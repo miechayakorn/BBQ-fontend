@@ -13,7 +13,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top:48px;">
                 <label for="serviceType">เลือกบริการ</label>
-                <select id="serviceType" v-model="dataPrepareSend.serviceType" class="form-control">
+                <select id="serviceType" class="form-control" v-model="dataPrepareSend.type_id">
                   <option value disabled selected>-- กรุณาเลือกบริการ --</option>
                   <option
                     v-for="(data, index) in dataFetch.dataTypes"
@@ -140,7 +140,7 @@ export default {
         dateText: "",
       },
       dataPrepareSend: {
-        serviceType: "",
+        type_id: "",
         date: "",
         slot_time: [],
       },
@@ -168,7 +168,7 @@ export default {
     },
     async fetchSlot() {
       if (
-        this.dataPrepareSend.serviceType != "" &&
+        this.dataPrepareSend.type_id != "" &&
         this.dataPrepareSend.date != ""
       ) {
         try {
@@ -176,7 +176,7 @@ export default {
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
               {
-                type_id: this.dataPrepareSend.serviceType,
+                type_id: this.dataPrepareSend.type_id,
                 date: this.dataPrepareSend.date,
               },
               {
@@ -188,6 +188,7 @@ export default {
             .then((res) => {
               if (res.status == 204) {
                 this.noContent = true;
+                this.dataFetch.dataSlotTime = [];
               } else if (res.status == 200) {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
@@ -214,7 +215,7 @@ export default {
           .post(
             `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
             {
-              type_id: this.dataPrepareSend.serviceType,
+              type_id: this.dataPrepareSend.type_id,
               date: this.dataPrepareSend.date,
               time_slot: this.dataPrepareSend.slot_time,
             },
@@ -226,7 +227,7 @@ export default {
           )
           .then((res) => {
             this.dataFetch.dataSlotTime = res.data;
-            this.dataPrepareSend.slot_time = []
+            this.dataPrepareSend.slot_time = [];
             this.visibleState = true;
           });
       } catch (error) {
