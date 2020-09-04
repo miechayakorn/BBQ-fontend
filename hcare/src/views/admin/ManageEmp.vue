@@ -1,13 +1,12 @@
 <template>
   <div class="d-flex">
-    <MenuMobile/>
+    <MenuMobile />
     <Menudash />
     <!-- <Queuedash /> -->
     <div class="container bg-light">
-        
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
-         <li
+          <li
             :class="{ active: activeBtnNav === 'Appointmentdash' }"
             style="margin-left: 63px;"
             @click="activeBtnNav = 'Appointmentdash'"
@@ -38,12 +37,48 @@
         </ul>
       </nav>
       <div class="text-left font-weight-bold" style="margin-top:32px">
-      <span>ส่วนที่ 1 : เพิ่มพนักงานใหม่</span>
-    </div>
-    
-   </div>
-    
-      
+        <span>ส่วนที่ 1 : เพิ่มพนักงานใหม่</span>
+        <div class="mt-3 div-card">
+          <div class="row bg-lightblue">
+            <div class="col-7">
+              <manageEmpPic />
+            </div>
+            <div class="col-12 col-md-5">
+              <div class="row1">
+                <div class="col-12">
+                  <div class="form-group " style="margin-top:48px; width:75%">
+                    <label for="firstName">ชื่อจริงพนักงาน</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="firstName"
+                      placeholder="ชื่อจริง"
+                    />
+                  </div>
+                   <div class="form-group " style="margin-top:24px; width:75%">
+                    <label for="lastNameInput">นามสกุลพนักงาน</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastNameInput"
+                        placeholder="นามสกุลพนักงาน"
+                      />
+                  </div> <div class="form-group " style="margin-top:24px; width:75%">
+                   <label for="inputEmail">อีเมล</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="inputEmail"
+                        placeholder="example@kmutt.ac.th"
+                      />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
       <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
     </div>
@@ -56,7 +91,7 @@ import Queuedash from "@/components/dashboard/Queuedash.vue";
 import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 import MenuMobile from "@/components/MenuMobile.vue";
-
+import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 
 export default {
   data() {
@@ -68,7 +103,7 @@ export default {
     Menudash,
     Queuedash,
     MenuMobile,
-    
+    manageEmpPic
   }
 };
 </script>
@@ -105,9 +140,16 @@ export default {
 .bg-blueMan2 {
   background-color: #e0e3ff;
 }
+.bg-lightblue {
+  background-color: #e1f2ff;
+}
 
 .div-card {
   background-color: #ffffff;
   box-shadow: 0px 4px 8px #e9ebfb;
+}
+
+label{
+  margin-bottom: 0.2rem;
 }
 </style>
