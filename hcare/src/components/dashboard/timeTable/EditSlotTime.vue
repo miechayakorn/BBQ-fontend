@@ -147,8 +147,19 @@ export default {
     VclFacebook,
   },
   methods: {
-    statusToggleAll(){
-
+    logicStatusToggleAll() {
+      // เช็คว่าถ้าทั้งหมดเป็น false ให้ toggleControlAll เป็นปิดtoggle
+      let toggleCheck = null;
+      this.dataFetch.dataSlotTime.forEach((time) => {
+        if (time.toggle == true && time.status == null) {
+          toggleCheck = "haveTrue";
+        }
+      });
+      if (toggleCheck == null) {
+        this.toggleControlAll = false;
+      } else {
+        this.toggleControlAll = true;
+      }
     },
     async onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
@@ -264,7 +275,7 @@ export default {
     },
     async fetchSlot() {
       if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
-        this.loading = true
+        this.loading = true;
         try {
           await axios
             .post(
@@ -301,6 +312,7 @@ export default {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
                 this.dataFetch.dateText = res.data.date_use;
+                this.logicStatusToggleAll();
               }
               this.visibleState = true;
             });
@@ -310,7 +322,7 @@ export default {
             ...errorSWAL,
           });
         }
-        this.loading = false
+        this.loading = false;
       } else {
         this.$swal({
           icon: "warning",
