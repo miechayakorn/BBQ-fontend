@@ -54,7 +54,7 @@
         <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
           <div class="col-12 h75 dis-pc">
             <div>
-              <div class="col-12">
+              <div class="col-12 mt-4">
                 <svg
                   class="mr-1"
                   width="24"
@@ -192,7 +192,7 @@ export default {
               } else if (res.status == 200) {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
-                this.dataFetch.dateText = res.data.date;
+                this.dataFetch.dateText = res.data.date_use;
               }
               this.visibleState = true;
             });

@@ -53,7 +53,7 @@
       <div class="col-12 mt-3 div-card">
         <div class="row box-02" v-if="noContent == false">
           <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
-            <div class="col-12 h75 dis-pc">
+            <div class="col-12 h75 dis-pc mt-4">
               <div>
                 <div class="col-12">{{dataFetch.dateText}}</div>
                 <div class="col-12 mt-2">
@@ -62,8 +62,10 @@
                     :width="45"
                     :height="25"
                     :font-size="14"
-                    :value="true"
+                    :sync="true"
+                    :value="toggleControlAll"
                     color="#99a3ff"
+                    @change="sendToBackendAllToggle($event.value)"
                   />
                 </div>
               </div>
@@ -77,18 +79,25 @@
                 :key="index"
               >
                 <div class="col-12">
-                  <span style="text-align: center;">{{time.time_in}}</span>
+                  <span style="text-align: center;">{{time.time_in.substring(0, 5)}}</span>
                 </div>
-                <div class="col-12">
+                <div class="col-12" v-if="time.status == null">
                   <toggle-button
                     class="mr-2"
                     :width="45"
                     :height="25"
                     :font-size="14"
-                    :value="true"
+                    :value="time.availability == 'AVAILABLE' ? true:false"
+                    :sync="true"
                     color="#99a3ff"
+                    @change="onChangeEventHandler(time,$event.value)"
                   />
                 </div>
+                <div
+                  style="font-weight: bold;"
+                  class="col-12 text-primary"
+                  v-if="time.status != null"
+                >{{time.status}}</div>
               </div>
             </div>
           </div>
@@ -111,6 +120,7 @@ export default {
     return {
       noContent: false,
       visibleState: false,
+      toggleControlAll: true,
       dataFetch: {
         dataTypes: null,
         dataDates: null,
@@ -128,15 +138,37 @@ export default {
     man2,
   },
   methods: {
-    async sendToBackendOpenTogle() {
+    async onChangeEventHandler(time, statusButton) {
+      if (statusButton == true) {
+        console.log("====" + statusButton);
+        console.log(time.booking_id);
+      } else if (statusButton == false) {
+        console.log("====" + statusButton);
+        console.log(time.booking_id);
+      }
       this.visibleState = true;
-      //Send DATA
     },
-    async sendToBackendCloseToggle() {
-      this.visibleState = true;
-      //Send DATA
-    },
-    async sendToBackendRemoveCloseAllToggle() {
+    async sendToBackendAllToggle(statusButton) {
+      let arrayTime = [];
+      this.dataFetch.dataSlotTime.forEach((time) => {
+        if (time.status == null) {
+          arrayTime.push(time.booking_id);
+        }
+      });
+      this.toggleControlAll = statusButton
+      if (statusButton == true) {
+        console.log("====" + statusButton);
+        console.log(arrayTime);
+
+
+
+      } else if (statusButton == false) {
+        console.log("====" + statusButton);
+        console.log(arrayTime);
+
+
+        
+      }
       this.visibleState = true;
       //Send DATA
     },
@@ -180,6 +212,7 @@ export default {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
                 this.dataFetch.dateText = res.data.date_use;
+                this.toggleControlAll = true
               }
               this.visibleState = true;
             });
