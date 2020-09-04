@@ -55,7 +55,10 @@
           <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
             <div class="col-12 h75 dis-pc mt-4">
               <div>
-                <div class="col-12">{{dataFetch.dateText}}</div>
+                <div class="col-12">
+                  <i class="far fa-clock"></i>
+                  {{dataFetch.dateText}}
+                </div>
                 <div class="col-12 mt-2">
                   <toggle-button
                     class="mr-2"
@@ -88,7 +91,6 @@
                     :height="25"
                     :font-size="14"
                     :value="time.availability == 'AVAILABLE' ? true:false"
-                    :sync="true"
                     color="#99a3ff"
                     @change="onChangeEventHandler(time,$event.value)"
                   />
@@ -140,11 +142,53 @@ export default {
   methods: {
     async onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
-        console.log("====" + statusButton);
-        console.log(time.booking_id);
+        try {
+          await axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/oneslotsave`,
+              {
+                booking_id: time.booking_id,
+                availability: "AVAILABLE",
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              this.fetchSlot();
+            });
+        } catch (error) {
+          console.log(error);
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
       } else if (statusButton == false) {
-        console.log("====" + statusButton);
-        console.log(time.booking_id);
+        try {
+          await axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/oneslotsave`,
+              {
+                booking_id: time.booking_id,
+                availability: "UNAVAILABLE",
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              this.fetchSlot();
+            });
+        } catch (error) {
+          console.log(error);
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
       }
       this.visibleState = true;
     },
@@ -155,19 +199,55 @@ export default {
           arrayTime.push(time.booking_id);
         }
       });
-      this.toggleControlAll = statusButton
+      this.toggleControlAll = statusButton;
       if (statusButton == true) {
-        console.log("====" + statusButton);
-        console.log(arrayTime);
-
-
-
+        try {
+          await axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/allslotsave`,
+              {
+                booking_id: arrayTime,
+                availability: "AVAILABLE",
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              this.fetchSlot();
+            });
+        } catch (error) {
+          console.log(error);
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
       } else if (statusButton == false) {
-        console.log("====" + statusButton);
-        console.log(arrayTime);
-
-
-        
+        try {
+          await axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/allslotsave`,
+              {
+                booking_id: arrayTime,
+                availability: "UNAVAILABLE",
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              this.fetchSlot();
+            });
+        } catch (error) {
+          console.log(error);
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
       }
       this.visibleState = true;
       //Send DATA
@@ -199,8 +279,6 @@ export default {
                 });
               } else if (res.data == "Empty Slot") {
                 this.noContent = true;
-                this.dataPrepareSend.type_id = null;
-                this.dataPrepareSend.date = null;
                 this.dataFetch.dataSlotTime = null;
 
                 this.$swal({
@@ -212,7 +290,7 @@ export default {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
                 this.dataFetch.dateText = res.data.date_use;
-                this.toggleControlAll = true
+                this.toggleControlAll = true;
               }
               this.visibleState = true;
             });
