@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" v-if="loading" class="mt-3"/>
+    <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" v-if="loading" class="mt-3" />
     <div class="mt-3" v-show="visibleState">
       <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
@@ -78,7 +78,7 @@
                   :width="45"
                   :height="25"
                   :font-size="14"
-                  :value="false"
+                  :value="time.toggle"
                   color="#99a3ff"
                   @change="onChangeEventHandler(time,$event.value)"
                 />
@@ -97,7 +97,7 @@
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-              >ยืนยันการแก้ไข</button>
+              >ยืนยันการเพิ่มเวลา</button>
             </div>
           </div>
         </div>
@@ -125,6 +125,8 @@ export default {
         dataTypes: null,
         dataSlotTime: [],
         dateText: "",
+        type_id: "",
+        date: "",
       },
       dataPrepareSend: {
         type_id: "",
@@ -159,6 +161,11 @@ export default {
         this.dataPrepareSend.type_id != "" &&
         this.dataPrepareSend.date != ""
       ) {
+        //Clear Toggle bug
+        if (this.dataPrepareSend.slot_time.length != 0) {
+          this.noContent = true;
+          this.dataPrepareSend.slot_time = [];
+        }
         this.loading = true
         try {
           await axios
@@ -186,6 +193,9 @@ export default {
               } else if (res.status == 200) {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
+                // Use data from fetch to sendSubmit
+                this.dataFetch.type_id = res.data.type_id;
+                this.dataFetch.date = res.data.date;
                 this.dataFetch.dateText = res.data.date_use;
               }
               this.visibleState = true;
@@ -195,7 +205,7 @@ export default {
             ...errorSWAL,
           });
         }
-        this.loading = false
+        this.loading = false;
       } else {
         this.$swal({
           icon: "warning",
@@ -210,8 +220,9 @@ export default {
           .post(
             `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
             {
-              type_id: this.dataPrepareSend.type_id,
-              date: this.dataPrepareSend.date,
+              // Use data from fetch to sendSubmit
+              type_id: this.dataFetch.type_id,
+              date: this.dataFetch.date,
               time_slot: this.dataPrepareSend.slot_time,
             },
             {

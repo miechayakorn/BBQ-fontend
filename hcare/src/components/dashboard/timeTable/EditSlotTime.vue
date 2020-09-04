@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+    {{dataFetch.dataSlotTime}}
     <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" v-if="loading" class="mt-3" />
     <div class="row mt-2" v-show="visibleState">
       <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
@@ -146,6 +147,9 @@ export default {
     VclFacebook,
   },
   methods: {
+    statusToggleAll(){
+
+    },
     async onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
         try {
