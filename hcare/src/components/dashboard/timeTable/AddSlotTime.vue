@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+    <VclFacebook v-if="loading" class="mt-3"/>
     <div class="mt-3" v-show="visibleState">
       <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
@@ -112,10 +113,12 @@
 import axios from "axios";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
+import VclFacebook from "vue-content-loading";
 
 export default {
   data() {
     return {
+      loading: false,
       noContent: false,
       visibleState: false,
       dataFetch: {
@@ -132,6 +135,7 @@ export default {
   },
   components: {
     man2,
+    VclFacebook,
   },
   methods: {
     onChangeEventHandler(time, statusButton) {
@@ -155,6 +159,7 @@ export default {
         this.dataPrepareSend.type_id != "" &&
         this.dataPrepareSend.date != ""
       ) {
+        this.loading = true
         try {
           await axios
             .post(
@@ -190,6 +195,7 @@ export default {
             ...errorSWAL,
           });
         }
+        this.loading = false
       } else {
         this.$swal({
           icon: "warning",
@@ -240,5 +246,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

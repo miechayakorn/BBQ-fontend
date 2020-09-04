@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+    <VclFacebook v-if="loading" class="mt-3" />
     <div class="row mt-2" v-show="visibleState">
       <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
@@ -74,7 +75,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-9" style=" display:block;">
+          <div class="col-12 col-md-9" style="display:block;">
             <div class="row mt-4 mb-4">
               <div
                 class="col-6 col-md-4 col-lg-3"
@@ -90,7 +91,8 @@
                     :width="45"
                     :height="25"
                     :font-size="14"
-                    :value="time.availability == 'AVAILABLE' ? true:false"
+                    :sync="true"
+                    :value="time.toggle"
                     color="#99a3ff"
                     @change="onChangeEventHandler(time,$event.value)"
                   />
@@ -104,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div class="row box-02" v-if="noContent == true">
+        <div class="row box-02" v-else-if="noContent == true">
           <div class="col-12 col-md-3 p-4">ไม่มีบริการในวันที่เลือก</div>
         </div>
       </div>
@@ -116,10 +118,12 @@
 import axios from "axios";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
+import VclFacebook from "vue-content-loading";
 
 export default {
   data() {
     return {
+      loading: false,
       noContent: false,
       visibleState: false,
       toggleControlAll: true,
@@ -128,6 +132,7 @@ export default {
         dataDates: null,
         dataSlotTime: [],
         dateText: null,
+        toggle: null,
       },
       dataPrepareSend: {
         type_id: null,
@@ -138,6 +143,7 @@ export default {
   },
   components: {
     man2,
+    VclFacebook,
   },
   methods: {
     async onChangeEventHandler(time, statusButton) {
@@ -203,10 +209,10 @@ export default {
       if (statusButton == true) {
         try {
           await axios
-            .patch(
+            .put(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/allslotsave`,
               {
-                booking_id: arrayTime,
+                array_booking_id: arrayTime,
                 availability: "AVAILABLE",
               },
               {
@@ -227,10 +233,10 @@ export default {
       } else if (statusButton == false) {
         try {
           await axios
-            .patch(
+            .put(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/allslotsave`,
               {
-                booking_id: arrayTime,
+                array_booking_id: arrayTime,
                 availability: "UNAVAILABLE",
               },
               {
@@ -254,6 +260,7 @@ export default {
     },
     async fetchSlot() {
       if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+        this.loading = true
         try {
           await axios
             .post(
@@ -290,7 +297,6 @@ export default {
                 this.noContent = false;
                 this.dataFetch.dataSlotTime = res.data.timeArray;
                 this.dataFetch.dateText = res.data.date_use;
-                this.toggleControlAll = true;
               }
               this.visibleState = true;
             });
@@ -300,6 +306,7 @@ export default {
             ...errorSWAL,
           });
         }
+        this.loading = false
       } else {
         this.$swal({
           icon: "warning",
