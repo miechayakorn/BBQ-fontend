@@ -1,7 +1,11 @@
 <template>
   <div>
-    <logoHeader />
-    <div class="container fixed-container mb-3">
+    <div class="container fixed-container mb-3" v-if="loading">
+    <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" />
+    <VclList :primary="'#e6e8ff'" :secondary="'#bfc4f5'" class="mt-2"/>
+    <VclList :primary="'#e6e8ff'" :secondary="'#bfc4f5'" class="mt-2"/>
+    </div>
+    <div v-if="!loading" class="container fixed-container mb-3">
       <div class="form-group text-left">
         <label>เลือกบริการ</label>
         <div class="form">
@@ -71,10 +75,12 @@ import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
+import {VclFacebook , VclList} from "vue-content-loading";
 
 export default {
   data() {
     return {
+      loading: false,
       limitChar: 100,
       totalcharacter: 0,
       //ข้อมูลเตรียมส่งไป Backend
@@ -103,17 +109,20 @@ export default {
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
-    logoHeader
+    logoHeader,
+    VclFacebook,
+    VclList,
   },
   async mounted() {
-    this.$swal({
-      title: "กรุณารอสักครู่",
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      onOpen: () => {
-        this.$swal.showLoading();
-      }
-    });
+    this.loading = true
+    // this.$swal({
+    //   title: "กรุณารอสักครู่",
+    //   allowEscapeKey: false,
+    //   allowOutsideClick: false,
+    //   onOpen: () => {
+    //     this.$swal.showLoading();
+    //   }
+    // });
 
     //เรียกข้อมูล Default
     //Type
@@ -133,6 +142,7 @@ export default {
         this.dataFetch.dataDates = res.data;
         this.$swal.close();
       });
+    this.loading = false
   },
   methods: {
     clearData() {

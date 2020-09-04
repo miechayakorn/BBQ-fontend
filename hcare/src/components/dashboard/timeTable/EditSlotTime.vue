@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <VclFacebook v-if="loading" class="mt-3" />
+    <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" v-if="loading" class="mt-3" />
     <div class="row mt-2" v-show="visibleState">
       <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
