@@ -1,18 +1,11 @@
 <template>
   <div class="d-flex">
+    <MenuMobile/>
     <Menudash />
-    <Queuedash />
+    <!-- <Queuedash /> -->
     <div class="container bg-light">
-      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
-        <button
-          class="btn btn-primary"
-          data-toggle="collapse"
-          data-target="#navbarCollapseMenu-toggle"
-          id="menu-toggle"
-        >
-          <span>&#60;</span>
-        </button>
-        <ul class="nav navbar-nav nav-underlined">
+      <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
+        <ul class="navbar-nav nav-underlined">
           <li
             :class="{ active: activeBtnNav === 'AddService' }"
             style="margin-left: 63px;"
@@ -54,6 +47,7 @@ import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import AddService from "@/components/dashboard/service/AddService.vue";
 import EditService from "@/components/dashboard/service/EditService.vue";
+import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
   data() {
@@ -66,6 +60,7 @@ export default {
     Queuedash,
     AddService,
     EditService,
+    MenuMobile
   }
 };
 </script>

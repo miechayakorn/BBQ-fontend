@@ -76,13 +76,8 @@ export default {
   padding-bottom: 24px;
 }
 .announcement {
-  font-family: Poppins;
-  font-style: normal;
   font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
+  font-size: 20px;
 }
 .fix-buttom-man {
   position: absolute;

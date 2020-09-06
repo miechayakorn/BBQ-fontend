@@ -1,7 +1,11 @@
 <template>
-  <div class="border-right bg-primary col-custom collapse show" id="navbarCollapseMenu-toggle">
+  <div
+    class="border-right bg-primary col-custom collapse show"
+    id="navbarCollapseMenu-toggle"
+    :style="{ minHeight: windowHeight + 'px' }"
+  >
     <div class="list-group menu mt-4">
-      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
+      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary" style="margin-top: 1rem !important;">
         <router-link to="/admin/dashboard/">
           <iconAppointment
             :color="
@@ -16,7 +20,9 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >นัดหมาย</p>
+          >
+            นัดหมาย
+          </p>
         </router-link>
       </div>
       <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
@@ -34,7 +40,9 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >ตารางเวลา</p>
+          >
+            ตารางเวลา
+          </p>
         </router-link>
       </div>
       <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
@@ -52,7 +60,9 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >คิว</p>
+          >
+            คิว
+          </p>
         </a>
       </div>
       <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
@@ -70,10 +80,13 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >บริการ</p>
+          >
+            บริการ
+          </p>
         </routerLink>
       </div>
-      <div class="list-group">
+      <br />
+      <!-- <div class="list-group">
         <div
           @click="changeColorIcon('iconSetting')"
           class="p-2 bg-primary"
@@ -92,7 +105,7 @@
         <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
           <iconLogout />
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -113,12 +126,26 @@ export default {
     iconLogout,
     iconService
   },
+  data() {
+    return {
+      windowHeight: window.innerHeight,
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+  },
   beforeDestroy() {
     this.$store.state.dashboard.colorIconNav = "iconAppointment";
+    window.removeEventListener("resize", this.onResize);
   },
   methods: {
     changeColorIcon(nameIcon) {
       this.$store.state.dashboard.colorIconNav = nameIcon;
+    },
+    onResize() {
+      this.windowHeight = window.innerHeight;
     }
   }
 };
@@ -127,7 +154,6 @@ export default {
 @media only screen and (min-width: 768px) {
   .col-custom {
     flex: 0 0 6%;
-    max-width: 10% !important;
   }
 }
 /* .col-custom {

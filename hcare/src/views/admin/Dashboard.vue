@@ -1,18 +1,11 @@
 <template>
   <div class="d-flex">
+    <MenuMobile/>
     <Menudash />
-    <Queuedash />
+    <!-- <Queuedash /> -->
     <div class="container bg-light">
-      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
-        <button
-          class="btn btn-primary"
-          data-toggle="collapse"
-          data-target="#navbarCollapseMenu-toggle"
-          id="menu-toggle"
-        >
-          <span>&#60;</span>
-        </button>
-        <ul class="nav navbar-nav nav-underlined">
+      <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
+        <ul class="navbar-nav nav-underlined">
           <li
             :class="{ active: activeBtnNav === 'Appointmentdash' }"
             style="margin-left: 63px;"
@@ -54,6 +47,7 @@ import Menudash from "@/components/dashboard/Menudash.vue";
 import Queuedash from "@/components/dashboard/Queuedash.vue";
 import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
+import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
   data() {
@@ -65,7 +59,8 @@ export default {
     Menudash,
     Queuedash,
     Appointmentdash,
-    Bookingdash
+    Bookingdash,
+    MenuMobile
   }
 };
 </script>
@@ -75,14 +70,16 @@ export default {
 .nav-underlined > li:after {
   display: block;
   content: " ";
-  bottom: 10px;
+  padding-bottom: 15px;
   border-bottom: 3px solid transparent;
   width: 0;
   width: auto;
 }
+
 .disText {
   color: #b6b6b6;
 }
+
 .activeText {
   color: #555555;
 }
@@ -97,8 +94,12 @@ export default {
   border-color: #99a3ff;
 }
 
+.bg-blueMan2 {
+  background-color: #e0e3ff;
+}
+
 .div-card {
   background-color: #ffffff;
-  box-shadow: 0px 4px 8px #E9EBFB;
+  box-shadow: 0px 4px 8px #e9ebfb;
 }
 </style>

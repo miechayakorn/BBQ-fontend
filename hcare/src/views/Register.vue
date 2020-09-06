@@ -244,6 +244,8 @@ export default {
   font-weight: 100;
 }
 .btnConfirm {
+  border: 1px solid #99A3FF;
+  box-shadow: 0px 3px 8px #B6BDFE;
   border-radius: 31px;
 }
 
