@@ -6,21 +6,35 @@
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
           <li
-            :class="{ active: activeBtnNav === 'manageEmp' }"
+            :class="{ active: activeBtnNav === 'addEmp' }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'manageEmp'"
+            @click="activeBtnNav = 'addEmp'"
           >
             <router-link
-              to="#manageEmp"
+              to="#addEmp"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'manageEmp' }
+                { activeText: activeBtnNav === 'addEmp' }
               ]"
             >เพิ่มพนักงาน</router-link>
           </li>
+          <li
+            :class="{ active: activeBtnNav === 'editRole' }"
+            style="margin-left: 63px;"
+            @click="activeBtnNav = 'editRole'"
+          >
+            <router-link
+              to="#editRole"
+              :class="[
+                'disText',
+                { activeText: activeBtnNav === 'editRole' }
+              ]"
+            >จัดการตำแหน่ง</router-link>
+          </li>
         </ul>
       </nav>
-      <AddEmp/>
+      <AddEmp v-if="activeBtnNav == 'addEmp'" />
+      <EditRole v-if="activeBtnNav == 'editRole'" />
     </div>
   </div>
 </template>
@@ -30,17 +44,19 @@ import Menudash from "@/components/dashboard/Menudash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 import MenuMobile from "@/components/MenuMobile.vue";
 import AddEmp from "@/components/dashboard/manageEmp/AddEmp.vue";
+import EditRole from "@/components/dashboard/manageEmp/EditRole.vue";
 
 export default {
   data() {
     return {
-      activeBtnNav: "manageEmp",
+      activeBtnNav: "addEmp",
     };
   },
   components: {
     Menudash,
     MenuMobile,
     AddEmp,
+    EditRole,
   },
 };
 </script>

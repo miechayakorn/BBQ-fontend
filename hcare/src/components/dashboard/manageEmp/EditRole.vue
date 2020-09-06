@@ -1,12 +1,12 @@
 <template>
   <div class="container mb-4">
     <div class="text-left font-weight-bold" style="margin-top:32px">
-      <span>ส่วนที่ 1 : เพิ่มพนักงานใหม่</span>
+      <span>ส่วนที่ 1 : เพิ่มตำแหน่ง</span>
     </div>
     <div class="mt-3 div-card">
       <div class="row bg-lightblue">
         <div class="col-7">
-          <manageEmpPic class="d-none d-md-block" />
+          <!-- <manageEmpPic class="d-none d-md-block" /> -->
         </div>
         <div class="col-12 col-md-5">
           <div class="row">
@@ -59,53 +59,11 @@
 </template>
 
 <script>
-import manageEmpPic from "@/components/svg/manageEmpPic.vue";
-import VclFacebook from "vue-content-loading";
-import DashboardTableEmp from "@/components/DashboardTableEmp.vue";
-
 export default {
-  data() {
-    return {
-      loading: false,
-      userEmployee: [
-        {
-          รหัสพนักงาน: "60130500001",
-          ชื่อนามสกุล: "หมี หมี",
-          ตำแหน่ง: "หมอหมา",
-        },
-        {
-          รหัสพนักงาน: "60130500002",
-          ชื่อนามสกุล: "หมี หมี2",
-          ตำแหน่ง: "หมอหมี",
-        },
-        {
-          รหัสพนักงาน: "60130500003",
-          ชื่อนามสกุล: "หมี หมี3",
-          ตำแหน่ง: "หมอหมู",
-        },
-        {
-          รหัสพนักงาน: "60130500004",
-          ชื่อนามสกุล: "หมี หมี4",
-          ตำแหน่ง: "หมอไก่",
-        },
-        {
-          รหัสพนักงาน: "60130500005",
-          ชื่อนามสกุล: "หมี หมี5",
-          ตำแหน่ง: "หมอตา",
-        },
-      ],
-    };
-  },
-  methods: {
-    sendToBackend() {},
-  },
-  components: {
-    manageEmpPic,
-    VclFacebook,
-    DashboardTableEmp,
-  },
-};
+
+}
 </script>
 
 <style>
+
 </style>
