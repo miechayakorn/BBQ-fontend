@@ -61,7 +61,7 @@
 <script>
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 import VclFacebook from "vue-content-loading";
-import DashboardTableEmp from "@/components/DashboardTableEmp.vue";
+import DashboardTableEmp from "@/components/table/DashboardTableEmp.vue";
 
 export default {
   data() {
