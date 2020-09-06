@@ -45,26 +45,6 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconEmp')" class="p-2 bg-primary">
-        <routerLink to="/admin/dashboard/manageEmployee">
-          <iconEmp
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconEmp'
-                ? '#5E65A1'
-                : 'white'
-            "
-          />
-          <p
-            :class="
-              this.$store.state.dashboard.colorIconNav == 'iconEmp'
-                ? 'menu-list-click'
-                : 'menu-list'
-            "
-          >
-            จัดการพนักงาน
-          </p>
-        </routerLink>
-      </div>
       <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
           <iconService
@@ -85,7 +65,27 @@
           </p>
         </routerLink>
       </div>
-      <br />
+
+      <div @click="changeColorIcon('iconEmp')" class="p-2 bg-primary">
+        <routerLink to="/admin/dashboard/manageEmployee">
+          <iconEmp
+            :color="
+              this.$store.state.dashboard.colorIconNav == 'iconEmp'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$store.state.dashboard.colorIconNav == 'iconEmp'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            จัดการพนักงาน
+          </p>
+        </routerLink>
+      </div>
       <!-- <div class="list-group">
         <div
           @click="changeColorIcon('iconSetting')"
