@@ -8,7 +8,7 @@
             <div class="col-12 col-md-4">
                 <div class="form-group text-left" style="margin-top:48px;">
                     <label for="InputName">กรอกรหัสนักศึกษา</label>
-                    <input type="text" v-model="hn_number" class="form-control" placeholder="รหัสนักศึกษา" required />
+                    <input type="number" v-model="hn_number" class="form-control" placeholder="รหัสนักศึกษา" required />
                 </div>
             </div>
         </div>

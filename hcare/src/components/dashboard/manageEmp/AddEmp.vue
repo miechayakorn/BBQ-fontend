@@ -46,20 +46,34 @@
         </div>
       </div>
     </div>
+    <VclFacebook v-if="loading" class="mt-3" />
+
+    <div class="mt-3">
+      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
+        <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
+      </div>
+      <div class="row">
+        <div class="col-12">tes</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
+import VclFacebook from "vue-content-loading";
 export default {
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
   methods: {
     sendToBackend() {},
   },
   components: {
     manageEmpPic,
+    VclFacebook,
   },
 };
 </script>
