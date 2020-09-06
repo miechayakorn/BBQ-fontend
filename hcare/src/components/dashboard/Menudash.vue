@@ -45,25 +45,25 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
-        <a href="#">
-          <iconQueue
+      <div @click="changeColorIcon('iconEmp')" class="p-2 bg-primary">
+        <routerLink to="/admin/dashboard/manageEmployee">
+          <iconEmp
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
+              this.$store.state.dashboard.colorIconNav == 'iconEmp'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
+              this.$store.state.dashboard.colorIconNav == 'iconEmp'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
           >
             จัดการพนักงาน
           </p>
-        </a>
+        </routerLink>
       </div>
       <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
@@ -112,7 +112,7 @@
 <script>
 import iconAppointment from "@/components/svg/icon/iconAppointment.vue";
 import iconTimeTable from "@/components/svg/icon/iconTimeTable.vue";
-import iconQueue from "@/components/svg/icon/iconQueue.vue";
+import iconEmp from "@/components/svg/icon/iconEmp.vue";
 import iconSetting from "@/components/svg/icon/iconSetting.vue";
 import iconLogout from "@/components/svg/icon/iconLogout.vue";
 import iconService from "@/components/svg/icon/iconService.vue";
@@ -121,7 +121,7 @@ export default {
   components: {
     iconAppointment,
     iconTimeTable,
-    iconQueue,
+    iconEmp,
     iconSetting,
     iconLogout,
     iconService

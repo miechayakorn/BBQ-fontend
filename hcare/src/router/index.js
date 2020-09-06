@@ -112,7 +112,7 @@ const routes = [
     component: AdminLogin
   },
   {
-    path: "/admin/manageEmp",
+    path: "/admin/dashboard/manageEmployee",
     name: "manageEmp",
     component: ManageEmp
   },
