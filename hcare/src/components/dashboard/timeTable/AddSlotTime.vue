@@ -97,7 +97,7 @@
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-              >ยืนยันการเพิ่มเวลา</button>
+              >ยืนยันการแก้ไข</button>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export default {
           this.noContent = true;
           this.dataPrepareSend.slot_time = [];
         }
-        this.loading = true
+        this.loading = true;
         try {
           await axios
             .post(
@@ -214,33 +214,65 @@ export default {
         });
       }
     },
-    async sendToBackend() {
-      try {
-        await axios
-          .post(
-            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
-            {
-              // Use data from fetch to sendSubmit
-              type_id: this.dataFetch.type_id,
-              date: this.dataFetch.date,
-              time_slot: this.dataPrepareSend.slot_time,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.$store.state.token}`,
-              },
-            }
-          )
-          .then((res) => {
-            this.dataFetch.dataSlotTime = res.data;
-            this.dataPrepareSend.slot_time = [];
-            this.fetchSlot();
-          });
-      } catch (error) {
-        this.$swal({
-          ...errorSWAL,
-        });
-      }
+    sendToBackend() {
+      this.$swal({
+        title: "การเพิ่ม slot เวลา",
+        text: this.dataPrepareSend.slot_time,
+        footer: this.dataFetch.dateText,
+        icon: "info",
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirm",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.value) {
+          try {
+            axios
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
+                {
+                  // Use data from fetch to sendSubmit
+                  type_id: this.dataFetch.type_id,
+                  date: this.dataFetch.date,
+                  time_slot: this.dataPrepareSend.slot_time,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                  },
+                }
+              )
+              .then((res) => {
+                this.dataFetch.dataSlotTime = res.data;
+                this.dataPrepareSend.slot_time = [];
+                this.fetchSlot();
+
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener(
+                      "mouseleave",
+                      this.$swal.resumeTimer
+                    );
+                  },
+                  timer: 3000,
+                  icon: "success",
+                  title: "บันทึกสำเร็จ",
+                });
+              });
+          } catch (error) {
+            this.$swal({
+              ...errorSWAL,
+            });
+          }
+        }
+      });
     },
   },
   async mounted() {
