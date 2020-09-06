@@ -47,13 +47,12 @@
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-
     <div class="mt-3">
       <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
-        <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
+        <span>ส่วนที่ 2 : รายชื่อพนักงานทั้งหมด</span>
       </div>
       <div class="row">
-        <div class="col-12">tes</div>
+        <DashboardTableEmp :dataUserTable="userEmployee" />
       </div>
     </div>
   </div>
@@ -62,10 +61,39 @@
 <script>
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 import VclFacebook from "vue-content-loading";
+import DashboardTableEmp from "@/components/DashboardTableEmp.vue";
+
 export default {
   data() {
     return {
       loading: false,
+      userEmployee: [
+        {
+          รหัสพนักงาน: "60130500001",
+          ชื่อนามสกุล: "หมี หมี",
+          ตำแหน่ง: "หมอหมา",
+        },
+        {
+          รหัสพนักงาน: "60130500002",
+          ชื่อนามสกุล: "หมี หมี2",
+          ตำแหน่ง: "หมอหมี",
+        },
+        {
+          รหัสพนักงาน: "60130500003",
+          ชื่อนามสกุล: "หมี หมี3",
+          ตำแหน่ง: "หมอหมู",
+        },
+        {
+          รหัสพนักงาน: "60130500004",
+          ชื่อนามสกุล: "หมี หมี4",
+          ตำแหน่ง: "หมอไก่",
+        },
+        {
+          รหัสพนักงาน: "60130500005",
+          ชื่อนามสกุล: "หมี หมี5",
+          ตำแหน่ง: "หมอตา",
+        },
+      ],
     };
   },
   methods: {
@@ -74,6 +102,7 @@ export default {
   components: {
     manageEmpPic,
     VclFacebook,
+    DashboardTableEmp,
   },
 };
 </script>
