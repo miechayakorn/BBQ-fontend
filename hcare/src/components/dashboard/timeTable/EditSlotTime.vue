@@ -46,7 +46,6 @@
         </div>
       </div>
     </div>
-    {{dataFetch.dataSlotTime}}
     <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" v-if="loading" class="mt-3" />
     <div class="row mt-2" v-show="visibleState">
       <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
@@ -147,6 +146,21 @@ export default {
     VclFacebook,
   },
   methods: {
+    showSwalToast() {
+      this.$swal({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener("mouseenter", this.$swal.stopTimer);
+          toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+        },
+        timer: 3000,
+        icon: "success",
+        title: "บันทึกสำเร็จ",
+      });
+    },
     logicStatusToggleAll() {
       // เช็คว่าถ้าทั้งหมดเป็น false ให้ toggleControlAll เป็นปิดtoggle
       let toggleCheck = null;
@@ -179,6 +193,7 @@ export default {
             )
             .then((res) => {
               this.fetchSlot();
+              this.showSwalToast();
             });
         } catch (error) {
           console.log(error);
@@ -203,6 +218,7 @@ export default {
             )
             .then((res) => {
               this.fetchSlot();
+              this.showSwalToast();
             });
         } catch (error) {
           console.log(error);
@@ -238,6 +254,7 @@ export default {
             )
             .then((res) => {
               this.fetchSlot();
+              this.showSwalToast();
             });
         } catch (error) {
           console.log(error);
@@ -262,6 +279,7 @@ export default {
             )
             .then((res) => {
               this.fetchSlot();
+              this.showSwalToast();
             });
         } catch (error) {
           console.log(error);
