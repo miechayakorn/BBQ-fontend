@@ -59,11 +59,19 @@
 </template>
 
 <script>
+import DashboardTableEmp from "@/components/table/DashboardTableEmp.vue";
 export default {
-
-}
+  data() {
+    return {
+      loading: false,
+      userEmployee: [],
+    };
+  },
+  methods: {
+    sendToBackend() {},
+  },
+  components: {
+    DashboardTableEmp,
+  },
+};
 </script>
-
-<style>
-
-</style>
