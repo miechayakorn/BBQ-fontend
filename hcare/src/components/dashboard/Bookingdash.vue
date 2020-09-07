@@ -3,7 +3,7 @@
     <div class="mt-3 div-card">
         <div class="row bg-blueMan2">
             <div class="col-4">
-                <man2 class="d-none d-md-block" />
+                <man2 class="d-none d-md-block mt-3 mb-3" />
             </div>
             <div class="col-12 col-md-4">
                 <div class="form-group text-left" style="margin-top:48px;">

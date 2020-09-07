@@ -11,7 +11,7 @@
         <div class="col-12 col-md-5">
           <div class="row">
             <div class="col-12">
-              <div class="form-group dis-pc-me" style="margin-top:48px;">
+              <div class="form-group" style="margin-top:48px;">
                 <div class="text-left mb-2">
                   <div class="mt-6">
                     <label for="firstName">ชื่อจริงพนักงาน</label>

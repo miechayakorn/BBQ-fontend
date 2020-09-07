@@ -1,68 +1,51 @@
 <template>
   <div class="d-flex">
-    <MenuMobile/>
+    <MenuMobile />
     <Menudash />
-    <!-- <Queuedash /> -->
     <div class="container bg-light">
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
           <li
-            :class="{ active: activeBtnNav === 'AddService' }"
+            :class="{ active: this.$route.query.p === 'AddService' || this.$route.query.p == undefined }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'AddService'"
           >
             <router-link
-              to="#AddService"
+              to="?p=AddService"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'AddService' }
+                { activeText: this.$route.query.p === 'AddService' || this.$route.query.p == undefined }
               ]"
-              >เพิ่มบริการ</router-link
-            >
+            >เพิ่มบริการ</router-link>
           </li>
-          <li
-            :class="{ active: activeBtnNav === 'EditService' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'EditService'"
-          >
+          <li :class="{ active: this.$route.query.p === 'EditService' }" style="margin-left: 63px;">
             <router-link
-              to="#EditService"
+              to="?p=EditService"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'EditService' }
+                { activeText: this.$route.query.p === 'EditService' }
               ]"
-              >แก้ไขบริการ</router-link
-            >
+            >แก้ไขบริการ</router-link>
           </li>
         </ul>
       </nav>
-      <AddService v-if="activeBtnNav == 'AddService'" />
-      <EditService v-if="activeBtnNav == 'EditService'" />
+      <AddService v-if="this.$route.query.p == 'AddService'  || this.$route.query.p == undefined" />
+      <EditService v-if="this.$route.query.p == 'EditService'" />
     </div>
   </div>
 </template>
 
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
-import Queuedash from "@/components/dashboard/Queuedash.vue";
 import AddService from "@/components/dashboard/service/AddService.vue";
 import EditService from "@/components/dashboard/service/EditService.vue";
 import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "AddService"
-    };
-  },
   components: {
     Menudash,
-    Queuedash,
     AddService,
     EditService,
-    MenuMobile
-  }
+    MenuMobile,
+  },
 };
 </script>
-
-<style></style>

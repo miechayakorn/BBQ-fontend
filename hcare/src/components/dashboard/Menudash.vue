@@ -112,7 +112,6 @@ export default {
     };
   },
   mounted() {
-  console.log(this.$route.matched[0].name)
     this.$nextTick(() => {
       window.addEventListener("resize", this.onResize);
     });

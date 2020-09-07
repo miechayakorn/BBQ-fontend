@@ -6,35 +6,30 @@
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
           <li
-            :class="{ active: activeBtnNav === 'addEmp' }"
+            :class="{ active: this.$route.query.p === 'addEmp' || this.$route.query.p == undefined }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'addEmp'"
           >
             <router-link
-              to="#addEmp"
+              to="?p=addEmp"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'addEmp' }
+                { activeText: this.$route.query.p === 'addEmp' || this.$route.query.p == undefined }
               ]"
             >เพิ่มพนักงาน</router-link>
           </li>
-          <li
-            :class="{ active: activeBtnNav === 'editRole' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'editRole'"
-          >
+          <li :class="{ active: this.$route.query.p === 'editRole' }" style="margin-left: 63px;">
             <router-link
-              to="#editRole"
+              to="?p=editRole"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'editRole' }
+                { activeText: this.$route.query.p === 'editRole' }
               ]"
             >จัดการตำแหน่ง</router-link>
           </li>
         </ul>
       </nav>
-      <AddEmp v-if="activeBtnNav == 'addEmp'" />
-      <EditRole v-if="activeBtnNav == 'editRole'" />
+      <AddEmp v-if="this.$route.query.p == 'addEmp' || this.$route.query.p == undefined" />
+      <EditRole v-if="this.$route.query.p == 'editRole'" />
     </div>
   </div>
 </template>
@@ -47,11 +42,6 @@ import AddEmp from "@/components/dashboard/manageEmp/AddEmp.vue";
 import EditRole from "@/components/dashboard/manageEmp/EditRole.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "addEmp",
-    };
-  },
   components: {
     Menudash,
     MenuMobile,
@@ -62,18 +52,6 @@ export default {
 </script>
 
 <style>
-@media (min-width: 776px) {
-  .dis-pc-me {
-    margin-top: 48px;
-    width: 75%;
-  }
-}
-@media (max-width: 420px) {
-  .dis-pc-me {
-    margin-top: 48px;
-  }
-}
-
 .bg-lightblue {
   background-color: #e1f2ff;
 }

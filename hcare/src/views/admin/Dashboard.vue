@@ -1,67 +1,54 @@
 <template>
   <div class="d-flex">
-    <MenuMobile/>
+    <MenuMobile />
     <Menudash />
-    <!-- <Queuedash /> -->
     <div class="container bg-light">
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
           <li
-            :class="{ active: activeBtnNav === 'Appointmentdash' }"
+            :class="{ active: this.$route.query.p === 'Appointmentdash' || this.$route.query.p == undefined }"
             style="margin-left: 63px;"
-            @click="activeBtnNav = 'Appointmentdash'"
           >
             <router-link
-              to="#Appointmentdash"
+              to="?p=Appointmentdash"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'Appointmentdash' }
+                { activeText: this.$route.query.p === 'Appointmentdash' || this.$route.query.p == undefined }
               ]"
-              >ตารางนัดคนไข้</router-link
-            >
+            >ตารางนัดคนไข้</router-link>
           </li>
-          <li
-            :class="{ active: activeBtnNav === 'Bookingdash' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'Bookingdash'"
-          >
+          <li :class="{ active: this.$route.query.p === 'Bookingdash' }" style="margin-left: 63px;">
             <router-link
-              to="#Bookingdash"
+              to="?p=Bookingdash"
               :class="[
                 'disText',
-                { activeText: activeBtnNav === 'Bookingdash' }
+                { activeText: this.$route.query.p === 'Bookingdash' }
               ]"
-              >ทำนัดหมาย</router-link
-            >
+            >ทำนัดหมาย</router-link>
           </li>
         </ul>
       </nav>
-      <Appointmentdash v-if="activeBtnNav == 'Appointmentdash'" />
-      <Bookingdash v-if="activeBtnNav == 'Bookingdash'" />
+      <Appointmentdash
+        v-if="this.$route.query.p == 'Appointmentdash' || this.$route.query.p == undefined"
+      />
+      <Bookingdash v-if="this.$route.query.p == 'Bookingdash'" />
     </div>
   </div>
 </template>
 
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
-import Queuedash from "@/components/dashboard/Queuedash.vue";
 import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "Appointmentdash"
-    };
-  },
   components: {
     Menudash,
-    Queuedash,
     Appointmentdash,
     Bookingdash,
-    MenuMobile
-  }
+    MenuMobile,
+  },
 };
 </script>
 
@@ -69,7 +56,7 @@ export default {
 .nav-item-underlined:after,
 .nav-underlined > li:after {
   display: block;
-  content: " ";
+  content: "";
   padding-bottom: 15px;
   border-bottom: 3px solid transparent;
   width: 0;
