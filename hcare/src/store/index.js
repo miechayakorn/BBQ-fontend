@@ -12,9 +12,6 @@ export default new Vuex.Store({
       last_name: null,
       role: null,
     },
-    dashboard: {
-      colorIconNav: "iconAppointment"
-    }
   },
   mutations: {},
   actions: {},

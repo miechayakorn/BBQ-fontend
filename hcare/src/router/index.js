@@ -106,17 +106,17 @@ const routes = [
   },
   {
     path: "/admin/dashboard/manageEmployee",
-    name: "manageEmp",
+    name: "ManageEmp",
     component: ManageEmp
   },
   {
     path: "/admin/dashboard/manageEmployee/edit/:id",
-    name: "editEmp",
+    name: "EditEmp",
     component: EditEmp
   },
   {
     path: "/appointment",
-    name: "appointment",
+    name: "Appointment",
     component: Appointment
   },
   {

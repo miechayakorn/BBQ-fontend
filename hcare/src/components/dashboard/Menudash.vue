@@ -5,18 +5,18 @@
     :style="{ minHeight: windowHeight + 'px' }"
   >
     <div class="list-group menu mt-4">
-      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary" style="margin-top: 1rem !important;">
+      <div class="p-2 bg-primary" style="margin-top: 1rem !important;">
         <router-link to="/admin/dashboard/">
           <iconAppointment
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+              this.$route.matched[0].name == 'Dashboard'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+              this.$route.matched[0].name == 'Dashboard'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -25,18 +25,18 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+              this.$route.matched[0].name == 'TimeTable'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+              this.$route.matched[0].name == 'TimeTable'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -45,18 +45,18 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
           <iconService
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
+              this.$route.matched[0].name == 'Service'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
+              this.$route.matched[0].name == 'Service'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -66,18 +66,18 @@
         </routerLink>
       </div>
 
-      <div @click="changeColorIcon('iconEmp')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/manageEmployee">
           <iconEmp
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconEmp'
+              this.$route.matched[0].name == 'ManageEmp'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconEmp'
+              this.$route.matched[0].name == 'ManageEmp'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -86,26 +86,6 @@
           </p>
         </routerLink>
       </div>
-      <!-- <div class="list-group">
-        <div
-          @click="changeColorIcon('iconSetting')"
-          class="p-2 bg-primary"
-          style="margin-top:755px"
-        >
-          <a href="#">
-            <iconSetting
-              :color="
-                this.$store.state.dashboard.colorIconNav == 'iconSetting'
-                  ? '#5E65A1'
-                  : 'white'
-              "
-            />
-          </a>
-        </div>
-        <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
-          <iconLogout />
-        </a>
-      </div> -->
     </div>
   </div>
 </template>
@@ -132,18 +112,15 @@ export default {
     };
   },
   mounted() {
+  console.log(this.$route.matched[0].name)
     this.$nextTick(() => {
       window.addEventListener("resize", this.onResize);
     });
   },
   beforeDestroy() {
-    this.$store.state.dashboard.colorIconNav = "iconAppointment";
     window.removeEventListener("resize", this.onResize);
   },
   methods: {
-    changeColorIcon(nameIcon) {
-      this.$store.state.dashboard.colorIconNav = nameIcon;
-    },
     onResize() {
       this.windowHeight = window.innerHeight;
     }
