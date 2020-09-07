@@ -21,17 +21,11 @@
       <template slot="ชื่อนามสกุล" scope="props">{{ props.entry.ชื่อนามสกุล }}</template>
       <template slot="ตำแหน่ง" scope="props">{{ props.entry.ตำแหน่ง }}</template>
       <template slot="action" scope="props">
-        <button
-          @click="
-            editBooking(
-              props.entry.รหัสพนักงาน
-            )
-          "
-          type="button"
-          class="btn"
-        >
-          <i class="fas fa-pen edit" style="color: #ffc107;"></i>
-        </button>
+        <router-link :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.รหัสพนักงาน">
+          <button type="button" class="btn">
+            <i class="fas fa-pen edit" style="color: #ffc107;"></i>
+          </button>
+        </router-link>
         <button @click="deleteBooking(props.entry.รหัสพนักงาน)" type="button" class="btn">
           <i class="fas fa-trash" style="color: #e34724;"></i>
         </button>
