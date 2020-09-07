@@ -15,15 +15,12 @@ import RegisterConfirm from "../views/RegisterConfirm.vue";
 //Admin
 import Admin from "../views/admin/Admin.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
-import DashAppointment from "../views/admin/DashAppointment.vue";
 import TimeTable from "../views/admin/TimeTable.vue";
 import Service from "../views/admin/Service.vue";
 import AdminLogin from "../views/admin/AdminLogin.vue";
 import ManageEmp from "../views/admin/ManageEmp.vue";
 //Service
 import NotFound from "../views/404.vue";
-import Test from "../views/test.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -92,11 +89,6 @@ const routes = [
     component: Dashboard
   },
   {
-    path: "/admin/dashboard/appointment/:id",
-    name: "DashAppointment",
-    component: DashAppointment
-  },
-  {
     path: "/admin/dashboard/timetable",
     name: "TimeTable",
     component: TimeTable
@@ -115,11 +107,6 @@ const routes = [
     path: "/admin/dashboard/manageEmployee",
     name: "manageEmp",
     component: ManageEmp
-  },
-  {
-    path: "/test",
-    name: "test",
-    component: Test
   },
   {
     path: "/appointment",
