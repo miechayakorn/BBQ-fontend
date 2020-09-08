@@ -30,11 +30,13 @@ export default {
         return true;
       } else if (this.$router.currentRoute.path == "/login/confirm") {
         return true;
+      } else if (this.$router.currentRoute.path == "/admin/register") {
+        return true;
       } else if (this.$router.currentRoute.path == "/admin/login") {
         return true;
       }
       return false;
-    }
+    },
   },
   async created() {
     if (localStorage.getItem("user")) {
@@ -59,7 +61,7 @@ export default {
         this.$store.state.role = user.role;
         this.$store.state.user = {
           first_name: user.first_name,
-          last_name: user.last_name
+          last_name: user.last_name,
         };
 
         //Check Role ADMIN
@@ -76,11 +78,11 @@ export default {
         await axios
           .get(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
             headers: {
-              Authorization: `Bearer ${user.token}`
-            }
+              Authorization: `Bearer ${user.token}`,
+            },
           })
-          .then(res => {})
-          .catch(error => {
+          .then((res) => {})
+          .catch((error) => {
             if (error.response.status == 401) {
               console.log("------------ push login");
               if (
@@ -96,7 +98,7 @@ export default {
               this.$store.state.role = null;
               this.$store.state.user = {
                 first_name: null,
-                last_name: null
+                last_name: null,
               };
               //Clear local
               localStorage.removeItem("user");
@@ -123,10 +125,10 @@ export default {
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/checktoken`, {
           headers: {
-            Authorization: `Bearer ${this.$store.state.token}`
-          }
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status == 401) {
             console.log("------------ push login");
             if (
@@ -142,7 +144,7 @@ export default {
             this.$store.state.role = null;
             this.$store.state.user = {
               first_name: null,
-              last_name: null
+              last_name: null,
             };
             //Clear local
             localStorage.removeItem("user");
@@ -161,8 +163,8 @@ export default {
     }
   },
   components: {
-    Menubar
-  }
+    Menubar,
+  },
 };
 </script>
 <style>

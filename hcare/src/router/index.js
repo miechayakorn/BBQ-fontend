@@ -14,10 +14,11 @@ import Register from "../views/Register.vue";
 import RegisterConfirm from "../views/RegisterConfirm.vue";
 //Admin
 import Admin from "../views/admin/Admin.vue";
+import AdminLogin from "../views/admin/AdminLogin.vue";
+import AdminRegister from "../views/admin/AdminRegister.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
 import TimeTable from "../views/admin/TimeTable.vue";
 import Service from "../views/admin/Service.vue";
-import AdminLogin from "../views/admin/AdminLogin.vue";
 import ManageEmp from "../views/admin/ManageEmp.vue";
 import EditEmp from "../components/dashboard/manageEmp/EditEmp.vue";
 //Service
@@ -85,6 +86,16 @@ const routes = [
     component: Admin
   },
   {
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin
+  },
+  {
+    path: "/admin/register",
+    name: "AdminRegister",
+    component: AdminRegister
+  },
+  {
     path: "/admin/dashboard",
     name: "Dashboard",
     component: Dashboard
@@ -98,11 +109,6 @@ const routes = [
     path: "/admin/dashboard/service",
     name: "Service",
     component: Service
-  },
-  {
-    path: "/admin/login",
-    name: "AdminLogin",
-    component: AdminLogin
   },
   {
     path: "/admin/dashboard/manageEmployee",
