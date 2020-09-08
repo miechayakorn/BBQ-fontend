@@ -5,7 +5,7 @@
       <VclList class="mt-2" />
       <VclList class="mt-2" />
     </div>
-    <div class="container mb-3 bg">
+    <div class="container mb-3 bg" v-if="!loading">
       <div class="row">
         <div class="col-12 col-md-6">
           <div class="row">
@@ -87,7 +87,7 @@
                         type="tel"
                         class="form-control"
                         id="inputTel"
-                        placeholder="080-0000000"
+                        placeholder="0800000000"
                         v-model="dataPrepareSend.telephone"
                       />
                     </div>
@@ -106,14 +106,24 @@
                     <div class="col-12 mt-3">
                       <label for="inputRole">ตำแหน่ง</label>
                       <div class="input-group">
-                        <select class="custom-select" id="inputGroupSelect04">
-                          <option selected>Choose...</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
+                        <select
+                          v-model="selectDropDown"
+                          class="custom-select"
+                          id="inputGroupSelect04"
+                        >
+                          <option value disabled selected>-- กรุณาเลือกตำแหน่ง --</option>
+                          <option
+                            v-for="(role, index) in dataFetch.hc_role"
+                            :key="index"
+                            :value="role"
+                          >{{role.role_name}}</option>
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-primary font-weight-bold" type="button">เพิ่ม +</button>
+                          <button
+                            @click="addRole()"
+                            class="btn btn-primary font-weight-bold"
+                            type="button"
+                          >เพิ่ม +</button>
                         </div>
                       </div>
                     </div>
@@ -144,12 +154,14 @@
 import axios from "axios";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import iconUser from "@/components/svg/icon/iconUser.vue";
+import { errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
     return {
       loading: false,
+      selectDropDown: { rn_id: "", role_name: "" },
       dataPrepareSend: {
         account_id: "",
         first_name: "",
@@ -166,23 +178,34 @@ export default {
     };
   },
 
-  //   async mounted() {
-  //     this.loading = true;
-  //     await axios
-  //       .get(
-  //         `${process.env.VUE_APP_BACKEND_URL}/admin/register/getnewemployee?account_id=${this.$route.query.account_id}&token=${this.$route.query.token}`
-  //       )
-  //       .then((res) => {
-  //         this.dataPrepareSend.account_id = res.data.account_id;
-  //         this.dataPrepareSend.first_name = res.data.first_name;
-  //         this.dataPrepareSend.last_name = res.data.last_name;
-  //         this.dataPrepareSend.email = res.data.email;
-  //         this.dataFetch.hc_role = res.data.hc_role;
-  //       });
-  //     this.loading = false;
-  //   },
+  async mounted() {
+    this.loading = true;
+    try {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/admin/register/getnewemployee?account_id=${this.$route.query.account_id}&token=${this.$route.query.token}`
+        )
+        .then((res) => {
+          this.dataPrepareSend.account_id = res.data.account_id;
+          this.dataPrepareSend.first_name = res.data.first_name;
+          this.dataPrepareSend.last_name = res.data.last_name;
+          this.dataPrepareSend.email = res.data.email;
+          this.dataFetch.hc_role = res.data.hc_role;
+          this.loading = false;
+        });
+    } catch (error) {
+      console.log("===== Backend-error ======");
+      console.error(error.response);
+      this.$swal({ ...errorSWAL });
+    }
+  },
 
-  methods: { sendToBackend() {} },
+  methods: {
+    sendToBackend() {},
+    addRole() {
+      console.log(this.selectDropDown.role_name);
+    },
+  },
   components: {
     logoHeader,
     iconUser,
