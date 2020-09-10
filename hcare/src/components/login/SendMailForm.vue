@@ -119,9 +119,11 @@ export default {
           }
         });
 
+        this.email = this.email.split(" ").join("");
+
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: `${this.email}${this.lastname_email}`
+            email: `${this.email.split(" ").join("")}${this.lastname_email}`
           })
           .then(res => {
             console.log(res);

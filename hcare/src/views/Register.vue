@@ -140,11 +140,11 @@ export default {
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
-            first_name: this.dataUserInfo.first_name,
-            last_name: this.dataUserInfo.last_name,
-            email: this.dataUserInfo.email,
-            telephone: this.dataUserInfo.telephone,
-            hn_number: this.dataUserInfo.hn_number,
+            first_name: this.dataUserInfo.first_name.split(" ").join(""),
+            last_name: this.dataUserInfo.last_name.split(" ").join(""),
+            email: this.dataUserInfo.email.split(" ").join(""),
+            telephone: this.dataUserInfo.telephone.split(" ").join(""),
+            hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
           })
           .then((res) => {
             this.$swal({
