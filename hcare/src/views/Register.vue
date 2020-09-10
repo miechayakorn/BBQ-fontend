@@ -26,12 +26,12 @@
             />
           </div>
           <div class="form-group">
-            <label for="InputName">รหัสนักคึกษา</label>
+            <label for="InputName">รหัสนักคึกษา / หมายเลขบุคลากร มจธ.</label>
             <input
               type="text"
               v-model="dataUserInfo.hn_number"
               class="form-control"
-              placeholder="รหัสนักศึกษา"
+              placeholder="รหัส / หมายเลข"
               required
             />
           </div>
@@ -152,7 +152,7 @@ export default {
         return false;
       } else if (this.dataUserInfo.email == "") {
         return false;
-      } else if (this.dataUserInfo.password == "") {
+      } else if (this.dataUserInfo.password.length > 8) {
         return false;
       } else if (this.dataUserInfo.telephone == "") {
         return false;

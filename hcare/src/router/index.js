@@ -91,7 +91,7 @@ const routes = [
     component: AdminLogin
   },
   {
-    path: "/admin/register",
+    path: "/admin/register/confirm",
     name: "AdminRegister",
     component: AdminRegister
   },

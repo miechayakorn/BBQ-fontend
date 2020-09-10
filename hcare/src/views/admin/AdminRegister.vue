@@ -101,7 +101,7 @@
                       />
                     </div>
                     <div class="col-12 col-md-6 mt-3">
-                      <label for="inputHNNumber">หมายเลขเลขบุคลากร มจธ.</label>
+                      <label for="inputHNNumber">หมายเลขบุคลากร มจธ.</label>
                       <input
                         v-model="dataPrepareSend.hn_number"
                         type="text"
@@ -217,7 +217,7 @@ export default {
           this.dataPrepareSend.last_name != "" &&
           this.dataPrepareSend.hn_number != "" &&
           this.dataPrepareSend.email != "" &&
-          this.dataPrepareSend.telephone != "" &&
+          this.dataPrepareSend.telephone.length >= 9 &&
           this.dataPrepareSend.password != "" &&
           this.checkPasswordMatch()
         ) {
