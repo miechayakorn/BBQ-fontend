@@ -104,7 +104,7 @@
                       <label for="inputHNNumber">หมายเลขเลขบุคลากร มจธ.</label>
                       <input
                         v-model="dataPrepareSend.hn_number"
-                        type="number"
+                        type="text"
                         class="form-control"
                         id="inputHNNumber"
                       />
@@ -138,7 +138,6 @@
                       <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
                     </div>
                   </div>
-                  {{dataPrepareSend}}
                 </div>
                 <button
                   @click="sendToBackend"
@@ -209,7 +208,7 @@ export default {
         return false;
       }
     },
-    sendToBackend() {
+    async sendToBackend() {
       if (this.dataPrepareSend.password != "" && this.confirmpassword != "") {
         if (
           this.dataPrepareSend.account_id != "" &&
@@ -222,6 +221,47 @@ export default {
           this.dataPrepareSend.password != "" &&
           this.checkPasswordMatch()
         ) {
+          try {
+            await axios
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/admin/register/savenewemployee`,
+                {
+                  account_id: this.dataPrepareSend.account_id,
+                  prefix: this.dataPrepareSend.prefix,
+                  first_name: this.dataPrepareSend.first_name,
+                  last_name: this.dataPrepareSend.last_name,
+                  hn_number: this.dataPrepareSend.hn_number,
+                  email: this.dataPrepareSend.email,
+                  telephone: this.dataPrepareSend.telephone,
+                  password: this.dataPrepareSend.password,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$route.query.token}`,
+                  },
+                }
+              )
+              .then((res) => {
+                if (res.status == 201) {
+                  this.$swal({
+                    confirmButtonText: "ตกลง",
+                    timer: 7000,
+                    icon: "success",
+                    title: "การสร้างบัญชีสำเร็จ",
+                  }).then((result) => {
+                    this.$router.push("/admin/login");
+                  });
+                } else {
+                  console.log("===== Backend-error ======");
+                  console.error(res.data[0]);
+                  this.$swal({ ...errorSWAL });
+                }
+              });
+          } catch (error) {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            this.$swal({ ...errorSWAL });
+          }
         } else {
           this.$swal({
             icon: "warning",
