@@ -4,7 +4,7 @@
       <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
-    <div class="col-12 mt-3" v-if="dataUserTable.length == 0">
+    <div class="col-12 mt-3 p-3 div-card" v-if="dataUserTable.length == 0">
       <h5>ไม่มีข้อมูลพนักงาน</h5>
     </div>
     <data-table
