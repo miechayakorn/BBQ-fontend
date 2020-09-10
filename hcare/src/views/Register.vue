@@ -1,8 +1,8 @@
 <template>
   <div class="container fixed-container mb-3 bg" style="margin-top:40px">
     <div class="form-group text-left">
-      <h1 class="RegStyle">Register</h1>
-      <form @submit>
+      <h1 style="font-size: 28px; font-weight: 900;">Register</h1>
+      <form>
         <div class="col-xs-12" style="margin-top:28px">
           <div class="form-group">
             <label for="InputName">ชื่อ</label>
@@ -26,45 +26,15 @@
             />
           </div>
           <div class="form-group">
-            <label for="InputName">รหัสนักคึกษา</label>
+            <label for="InputName">รหัสนักคึกษา / หมายเลขบุคลากร มจธ.</label>
             <input
               type="text"
               v-model="dataUserInfo.hn_number"
               class="form-control"
-              placeholder="รหัสนักศึกษา"
+              placeholder="รหัส / หมายเลข"
               required
             />
           </div>
-          <!--<div class="form-group">
-            <label for="InputPass">รหัสผ่าน</label>
-            <input
-              type="password"
-              v-model="dataUserInfo.password"
-              :class="
-                dataUserInfo.password == dataUserInfo.confirmpassword
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
-              placeholder="รหัสผ่าน"
-              required
-            />
-            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
-          </div>
-          <div class="form-group">
-            <label for="InputPass">ยืนยันรหัสผ่าน</label>
-            <input
-              type="password"
-              v-model="dataUserInfo.confirmpassword"
-              :class="
-                dataUserInfo.password == dataUserInfo.confirmpassword
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
-              placeholder="ยืนยันรหัสผ่าน"
-              required
-            />
-            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
-          </div>-->
           <div class="form-group">
             <label for="InputEmail">อีเมล</label>
             <input
@@ -72,7 +42,7 @@
               v-model="dataUserInfo.email"
               id="InputEmail"
               :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
-              placeholder="example@mail.kmutt.ac.th หรือ example@kmutt.ac.th "
+              placeholder="example@mail.kmutt.ac.th"
               required
             />
             <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
@@ -115,15 +85,13 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: ""
-        // password: "",
-        // confirmpassword: ""
-      }
+        hn_number: "",
+      },
     };
   },
   methods: {
     checkEmail() {
-      if (this.dataUserInfo.email == "") {
+      if (this.dataUserInfo.email.length == 0) {
         return true;
       }
       let email = this.dataUserInfo.email;
@@ -137,7 +105,6 @@ export default {
         email.length - 12,
         email.length
       );
-
       if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
         return true;
       }
@@ -145,61 +112,52 @@ export default {
       return false;
     },
     checkForm() {
-      // if (this.dataUserInfo.password == "") {
-      //   return false;
-      // } else
-      if (this.dataUserInfo.last_name == "") {
+      if (this.dataUserInfo.first_name.length > 3) {
         return false;
-      } else if (this.dataUserInfo.email == "") {
+      } else if (this.dataUserInfo.last_name.length > 3) {
         return false;
-      } else if (this.dataUserInfo.password == "") {
+      } else if (this.dataUserInfo.email.length > 3) {
         return false;
-      } else if (this.dataUserInfo.telephone == "") {
+      } else if (this.dataUserInfo.telephone.length > 9) {
         return false;
-      } else if (this.dataUserInfo.hn_number == "") {
+      } else if (this.dataUserInfo.hn_number.length > 5) {
         return false;
       }
-      //else if (this.dataUserInfo.confirmpassword == "") {
-      //   return false;
-      // }
-      this.checkEmail();
-      return true;
+      if (this.checkEmail()) {
+        return true;
+      } else {
+        return false;
+      }
     },
     sendToBackend() {
-      if (
-        this.checkForm()
-        //&& this.dataUserInfo.password == this.dataUserInfo.confirmpassword
-      ) {
+      if (this.checkForm()) {
         this.$swal({
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          }
+          },
         });
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
-            first_name: this.dataUserInfo.first_name,
-            last_name: this.dataUserInfo.last_name,
-            email: this.dataUserInfo.email,
-            telephone: this.dataUserInfo.telephone,
-            hn_number: this.dataUserInfo.hn_number
-            // priviledge: "student"
-            // password: this.dataUserInfo.password,
+            first_name: this.dataUserInfo.first_name.split(" ").join(""),
+            last_name: this.dataUserInfo.last_name.split(" ").join(""),
+            email: this.dataUserInfo.email.split(" ").join(""),
+            telephone: this.dataUserInfo.telephone.split(" ").join(""),
+            hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
           })
-          .then(res => {
-            console.log(res.data);
+          .then((res) => {
             this.$swal({
               icon: "success",
               title: "ลงทะเบียนสำเร็จ",
-              text: "กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
-            }).then(result => {
+              text: "กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
+            }).then((result) => {
               if (result.value) {
                 this.$router.push("/");
               }
             });
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("===== Backend-error ======");
             console.error(error.response);
             this.$swal({ ...errorSWAL });
@@ -208,11 +166,11 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+          text: "กรุณากรอกข้อมูลให้ถูกต้อง",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -244,14 +202,8 @@ export default {
   font-weight: 100;
 }
 .btnConfirm {
-  border: 1px solid #99A3FF;
-  box-shadow: 0px 3px 8px #B6BDFE;
+  border: 1px solid #99a3ff;
+  box-shadow: 0px 3px 8px #b6bdfe;
   border-radius: 31px;
-}
-
-.RegStyle {
-  font-size: 28px;
-  font-weight: 900;
-  font-family: "Poppins";
 }
 </style>

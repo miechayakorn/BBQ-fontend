@@ -5,18 +5,18 @@
     :style="{ minHeight: windowHeight + 'px' }"
   >
     <div class="list-group menu mt-4">
-      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary" style="margin-top: 1rem !important;">
+      <div class="p-2 bg-primary" style="margin-top: 1rem !important;">
         <router-link to="/admin/dashboard/">
           <iconAppointment
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+              this.$route.matched[0].name == 'Dashboard'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
+              this.$route.matched[0].name == 'Dashboard'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -25,18 +25,18 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+              this.$route.matched[0].name == 'TimeTable'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
+              this.$route.matched[0].name == 'TimeTable'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -45,38 +45,18 @@
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
-        <a href="#">
-          <iconQueue
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
-                ? '#5E65A1'
-                : 'white'
-            "
-          />
-          <p
-            :class="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
-                ? 'menu-list-click'
-                : 'menu-list'
-            "
-          >
-            คิว
-          </p>
-        </a>
-      </div>
-      <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
           <iconService
             :color="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
+              this.$route.matched[0].name == 'Service'
                 ? '#5E65A1'
                 : 'white'
             "
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
+              this.$route.matched[0].name == 'Service'
                 ? 'menu-list-click'
                 : 'menu-list'
             "
@@ -85,34 +65,34 @@
           </p>
         </routerLink>
       </div>
-      <br />
-      <!-- <div class="list-group">
-        <div
-          @click="changeColorIcon('iconSetting')"
-          class="p-2 bg-primary"
-          style="margin-top:755px"
-        >
-          <a href="#">
-            <iconSetting
-              :color="
-                this.$store.state.dashboard.colorIconNav == 'iconSetting'
-                  ? '#5E65A1'
-                  : 'white'
-              "
-            />
-          </a>
-        </div>
-        <a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
-          <iconLogout />
-        </a>
-      </div> -->
+
+      <div class="p-2 bg-primary">
+        <routerLink to="/admin/dashboard/manageEmployee">
+          <iconEmp
+            :color="
+              this.$route.matched[0].name == 'ManageEmp'
+                ? '#5E65A1'
+                : 'white'
+            "
+          />
+          <p
+            :class="
+              this.$route.matched[0].name == 'ManageEmp'
+                ? 'menu-list-click'
+                : 'menu-list'
+            "
+          >
+            จัดการเจ้าหน้าที่
+          </p>
+        </routerLink>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import iconAppointment from "@/components/svg/icon/iconAppointment.vue";
 import iconTimeTable from "@/components/svg/icon/iconTimeTable.vue";
-import iconQueue from "@/components/svg/icon/iconQueue.vue";
+import iconEmp from "@/components/svg/icon/iconEmp.vue";
 import iconSetting from "@/components/svg/icon/iconSetting.vue";
 import iconLogout from "@/components/svg/icon/iconLogout.vue";
 import iconService from "@/components/svg/icon/iconService.vue";
@@ -121,7 +101,7 @@ export default {
   components: {
     iconAppointment,
     iconTimeTable,
-    iconQueue,
+    iconEmp,
     iconSetting,
     iconLogout,
     iconService
@@ -137,13 +117,9 @@ export default {
     });
   },
   beforeDestroy() {
-    this.$store.state.dashboard.colorIconNav = "iconAppointment";
     window.removeEventListener("resize", this.onResize);
   },
   methods: {
-    changeColorIcon(nameIcon) {
-      this.$store.state.dashboard.colorIconNav = nameIcon;
-    },
     onResize() {
       this.windowHeight = window.innerHeight;
     }

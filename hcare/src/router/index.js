@@ -14,15 +14,15 @@ import Register from "../views/Register.vue";
 import RegisterConfirm from "../views/RegisterConfirm.vue";
 //Admin
 import Admin from "../views/admin/Admin.vue";
+import AdminLogin from "../views/admin/AdminLogin.vue";
+import AdminRegister from "../views/admin/AdminRegister.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
-import DashAppointment from "../views/admin/DashAppointment.vue";
 import TimeTable from "../views/admin/TimeTable.vue";
 import Service from "../views/admin/Service.vue";
-import AdminLogin from "../views/admin/AdminLogin.vue";
+import ManageEmp from "../views/admin/ManageEmp.vue";
+import EditEmp from "../components/dashboard/manageEmp/EditEmp.vue";
 //Service
 import NotFound from "../views/404.vue";
-import Test from "../views/test.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -86,14 +86,19 @@ const routes = [
     component: Admin
   },
   {
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin
+  },
+  {
+    path: "/admin/register/confirm",
+    name: "AdminRegister",
+    component: AdminRegister
+  },
+  {
     path: "/admin/dashboard",
     name: "Dashboard",
     component: Dashboard
-  },
-  {
-    path: "/admin/dashboard/appointment/:id",
-    name: "DashAppointment",
-    component: DashAppointment
   },
   {
     path: "/admin/dashboard/timetable",
@@ -106,18 +111,18 @@ const routes = [
     component: Service
   },
   {
-    path: "/admin/login",
-    name: "AdminLogin",
-    component: AdminLogin
+    path: "/admin/dashboard/manageEmployee",
+    name: "ManageEmp",
+    component: ManageEmp
   },
   {
-    path: "/test",
-    name: "test",
-    component: Test
+    path: "/admin/dashboard/manageEmployee/edit/:id",
+    name: "EditEmp",
+    component: EditEmp
   },
   {
     path: "/appointment",
-    name: "appointment",
+    name: "Appointment",
     component: Appointment
   },
   {

@@ -38,7 +38,7 @@
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
-                    class="btn btn-secondary btnBlock btnConfirm fixed-button mb-2 disabled"
+                    class="btn btn-secondary btnBlock btnCancel fixed-button mb-2 disabled"
                     :disabled="true"
                   >
                     <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
@@ -47,7 +47,7 @@
               </div>
               <div class="col-12">
                 <button
-                  class="btn btnBlock btnConfirm btnCancel fixed-button mb-2"
+                  class="btn btnBlock btnCancel fixed-button mb-2"
                   @click="cancelAppointment"
                 >
                   <span style="font-weight: 900; color:white;">ยกเลิกนัด</span>
@@ -175,6 +175,8 @@ export default {
 
 <style>
 .btnCancel {
+  box-shadow: 0px 3px 8px #a4a7aa;
   background-color: #ff4f5b;
+  border-radius: 31px;
 }
 </style>

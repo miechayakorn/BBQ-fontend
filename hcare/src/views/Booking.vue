@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container fixed-container mb-3" v-if="loading">
-    <VclFacebook :primary="'#e6e8ff'" :secondary="'#bfc4f5'" />
-    <VclList :primary="'#e6e8ff'" :secondary="'#bfc4f5'" class="mt-2"/>
-    <VclList :primary="'#e6e8ff'" :secondary="'#bfc4f5'" class="mt-2"/>
+    <VclFacebook />
+    <VclList class="mt-2"/>
+    <VclList class="mt-2"/>
     </div>
     <div v-if="!loading" class="container fixed-container mb-3">
       <div class="form-group text-left">

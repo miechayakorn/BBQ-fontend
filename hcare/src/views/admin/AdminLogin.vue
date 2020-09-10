@@ -94,7 +94,7 @@ export default {
     return {
       email: "",
       lastname_email: "@mail.kmutt.ac.th",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -128,15 +128,17 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          }
+          },
         });
+
+        this.email = this.email.split(" ").join("");
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
             email: `${this.email}${this.lastname_email}`,
-            password: this.password
+            password: this.password,
           })
-          .then(res => {
+          .then((res) => {
             //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
@@ -158,13 +160,13 @@ export default {
             this.$router.push("/admin/dashboard");
             this.$router.go();
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("===== Backend-error ======");
             console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
             this.$swal({
               title: "คำเตือน",
               text: "รหัสผ่านไม่ถูกต้อง",
-              icon: "warning"
+              icon: "warning",
             });
           });
       } else {
@@ -172,14 +174,14 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
         });
       }
-    }
+    },
   },
   components: {
-    logoHeader
-  }
+    logoHeader,
+  },
 };
 </script>
 

@@ -23,7 +23,7 @@
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
-import DashboardTable from "@/components/DashboardTable.vue";
+import DashboardTable from "@/components/table/DashboardTable.vue";
 
 export default {
   data() {
