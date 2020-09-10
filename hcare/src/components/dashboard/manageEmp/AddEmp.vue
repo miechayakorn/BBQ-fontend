@@ -83,34 +83,20 @@ export default {
         last_name: "",
         email: "",
       },
-      userEmployee: [
-        {
-          รหัสพนักงาน: "60130500001",
-          ชื่อนามสกุล: "หมี หมี",
-          ตำแหน่ง: "หมอหมา",
-        },
-        {
-          รหัสพนักงาน: "60130500002",
-          ชื่อนามสกุล: "หมี หมี2",
-          ตำแหน่ง: "หมอหมี",
-        },
-        {
-          รหัสพนักงาน: "60130500003",
-          ชื่อนามสกุล: "หมี หมี3",
-          ตำแหน่ง: "หมอหมู",
-        },
-        {
-          รหัสพนักงาน: "60130500004",
-          ชื่อนามสกุล: "หมี หมี4",
-          ตำแหน่ง: "หมอไก่",
-        },
-        {
-          รหัสพนักงาน: "60130500005",
-          ชื่อนามสกุล: "หมี หมี5",
-          ตำแหน่ง: "หมอตา",
-        },
-      ],
+      userEmployee: [],
     };
+  },
+
+  async mounted() {
+    //เรียกข้อมูล Default
+    //Type
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` },
+      })
+      .then((res) => {
+        this.userEmployee = res.data;
+      });
   },
   methods: {
     async sendToBackend() {
