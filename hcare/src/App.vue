@@ -30,7 +30,7 @@ export default {
         return true;
       } else if (this.$router.currentRoute.path == "/login/confirm") {
         return true;
-      } else if (this.$router.currentRoute.path == "/admin/register") {
+      } else if (this.$router.currentRoute.path == "/admin/register/confirm") {
         return true;
       } else if (this.$router.currentRoute.path == "/admin/login") {
         return true;

@@ -118,9 +118,9 @@ export default {
         return false;
       } else if (this.dataUserInfo.email.length > 3) {
         return false;
-      } else if (this.dataUserInfo.telephone.length > 3) {
+      } else if (this.dataUserInfo.telephone.length > 9) {
         return false;
-      } else if (this.dataUserInfo.hn_number.length > 3) {
+      } else if (this.dataUserInfo.hn_number.length > 5) {
         return false;
       }
       if (this.checkEmail()) {
