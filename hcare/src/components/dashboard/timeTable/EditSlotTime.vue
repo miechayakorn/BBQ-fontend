@@ -376,7 +376,7 @@ export default {
   box-shadow: 0px 4px 8px #e9ebfb;
 }
 
-@media (min-width: 776px) {
+@media (min-width: 768px) {
   .dis-pc {
     position: absolute;
     top: 35%;

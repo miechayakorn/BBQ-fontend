@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .fixed-container {
     width: 720px;
   }
