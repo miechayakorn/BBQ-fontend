@@ -71,7 +71,7 @@ import axios from "axios";
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 import VclFacebook from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
-import DashboardTableEmp from "@/components/table/DashboardTableEmp.vue";
+import DashboardTableEmp from "@/components/dashboardTable/DashboardTableEmp.vue";
 
 export default {
   data() {

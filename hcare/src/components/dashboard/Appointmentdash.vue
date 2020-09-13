@@ -40,7 +40,7 @@
                 />
               </div>
             </div>
-            <div class="col-12 mt-4 mb-4 mb-3">
+            <div class="col-12 mt-4 mb-4">
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
@@ -71,7 +71,7 @@
 import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
-import DashboardTable from "@/components/table/DashboardTable.vue";
+import DashboardTable from "@/components/dashboardTable/DashboardTableAppointment.vue";
 import doctor3 from "@/components/svg/doctor3.vue";
 
 export default {
