@@ -1,22 +1,15 @@
 <template>
-  <svg
-    class="float-right"
-    width="26"
-    height="48"
-    viewBox="0 0 26 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M25.4147 22.6828L3.21327 0.5428C2.48586 -0.182166 1.30818 -0.180947 0.581996 0.54655C-0.143626 1.27395 -0.141751 2.45229 0.585746 3.17782L21.4657 24.0001L0.584996 44.8222C-0.142408 45.5479 -0.144283 46.7255 0.581245 47.453C0.945275 47.8176 1.42218 48 1.89908 48C2.37477 48 2.8498 47.8189 3.21317 47.4567L25.4147 25.3173C25.765 24.9687 25.9616 24.4943 25.9616 24.0001C25.9616 23.5058 25.7645 23.032 25.4147 22.6828Z"
-      :fill="color"
-    />
+  <svg width="24" height="42" viewBox="0 0 24 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0)">
+      <path
+        d="M9 26.2703L10.5851 28L17 21L10.5851 14L9 15.7297L13.8297 21L9 26.2703Z"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <rect width="42" height="24" fill="white" transform="translate(0 42) rotate(-90)" />
+      </clipPath>
+    </defs>
   </svg>
 </template>
-<script>
-export default {
-  props: {
-    color: String
-  }
-}
-</script>

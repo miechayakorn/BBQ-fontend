@@ -21,7 +21,7 @@
       <template slot="ชื่อนามสกุล" scope="props">{{ props.entry.ชื่อนามสกุล }}</template>
       <template slot="บริการ" scope="props">{{ props.entry.บริการ }}</template>
       <template slot="action" scope="props">
-        <router-link :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.รหัสพนักงาน">
+        <router-link :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.account_id">
           <button type="button" class="btn">
             <i class="fas fa-pen edit" style="color: #ffc107;"></i>
           </button>
