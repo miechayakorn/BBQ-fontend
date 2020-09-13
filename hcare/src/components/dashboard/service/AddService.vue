@@ -42,6 +42,14 @@
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
+    <div class="mt-3">
+      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
+        <span>บริการทั้งหมด</span>
+      </div>
+      <div class="row">
+        <DashboardTableService :dataService="serviceArray" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,6 +58,7 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import manHome from "@/components/svg/manHome.vue";
 import VclFacebook from "vue-content-loading";
+import DashboardTableService from "@/components/dashboardTable/DashboardTableService.vue";
 
 export default {
   data() {
@@ -69,13 +78,20 @@ export default {
         type_id: 1,
         date: null,
       },
-      newservce: null,
+      serviceArray: [
+        { ชื่อบริการ: "service 1", ชื่อผู้รับผิดชอบ: "man 1" },
+        { ชื่อบริการ: "service 2", ชื่อผู้รับผิดชอบ: "man 1" },
+        { ชื่อบริการ: "service 3", ชื่อผู้รับผิดชอบ: "man 2" },
+        { ชื่อบริการ: "service 4", ชื่อผู้รับผิดชอบ: "man 1" },
+        { ชื่อบริการ: "service 5", ชื่อผู้รับผิดชอบ: "man 3" },
+      ],
     };
   },
   components: {
     ServiceTypeBox,
     manHome,
     VclFacebook,
+    DashboardTableService,
   },
   methods: {
     async fetchService() {},
