@@ -4,7 +4,7 @@
       <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
-    <div class="col-12 mt-3" v-if="dataUserTable.length == 0">
+    <div class="col-12 mt-3 p-3 div-card" v-if="dataUserTable.length == 0">
       <h5>ไม่มีข้อมูลพนักงาน</h5>
     </div>
     <data-table
@@ -19,7 +19,7 @@
         <b>{{ props.entry.รหัสพนักงาน }}</b>
       </template>
       <template slot="ชื่อนามสกุล" scope="props">{{ props.entry.ชื่อนามสกุล }}</template>
-      <template slot="ตำแหน่ง" scope="props">{{ props.entry.ตำแหน่ง }}</template>
+      <template slot="บริการ" scope="props">{{ props.entry.บริการ }}</template>
       <template slot="action" scope="props">
         <router-link :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.รหัสพนักงาน">
           <button type="button" class="btn">
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["รหัสพนักงาน", "ชื่อนามสกุล", "ตำแหน่ง", "action"],
+      gridColumns: ["รหัสพนักงาน", "ชื่อนามสกุล", "บริการ", "action"],
     };
   },
 

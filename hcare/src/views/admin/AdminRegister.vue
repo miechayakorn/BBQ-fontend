@@ -96,7 +96,7 @@
                         type="tel"
                         class="form-control"
                         id="inputTel"
-                        placeholder="0800000000"
+                        placeholder="เบอร์โทรศัพท์"
                         v-model="dataPrepareSend.telephone"
                       />
                     </div>
@@ -104,8 +104,9 @@
                       <label for="inputHNNumber">หมายเลขบุคลากร มจธ.</label>
                       <input
                         v-model="dataPrepareSend.hn_number"
-                        type="text"
+                        type="number"
                         class="form-control"
+                        placeholder="หมายเลข"
                         id="inputHNNumber"
                       />
                     </div>
@@ -113,6 +114,7 @@
                       <label for="inputPassword">รหัสผ่าน</label>
                       <input
                         type="password"
+                        id="inputPassword"
                         v-model="dataPrepareSend.password"
                         :class="checkPasswordMatch()
                   ? 'form-control'
@@ -127,6 +129,7 @@
                       <label for="inputConfirmPassword">ยืนยันรหัสผ่าน</label>
                       <input
                         type="password"
+                        placeholder="ยืนยันรหัสผ่าน"
                         v-model="confirmpassword"
                         :class="
                 checkPasswordMatch()
@@ -194,7 +197,9 @@ export default {
     } catch (error) {
       console.log("===== Backend-error ======");
       console.error(error.response);
-      this.$swal({ ...errorSWAL });
+      this.$swal({ ...errorSWAL }).then((result) => {
+        this.$router.push("/");
+      });
     }
   },
 
@@ -254,7 +259,11 @@ export default {
                 } else {
                   console.log("===== Backend-error ======");
                   console.error(res.data[0]);
-                  this.$swal({ ...errorSWAL });
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data[0].message,
+                  });
                 }
               });
           } catch (error) {
