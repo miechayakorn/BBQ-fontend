@@ -39,16 +39,39 @@
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-    <div class="mt-3">
-      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
+    <div class="mt-3 text-left font-weight-bold">
+      <div class="mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือกวันให้บริการ</span>
       </div>
-
       <div class="row">
         <div class="col-12 col-md-4 pt-4 pb-3 pl-5 pr-5 div-card">
-          <div class="row">
-            <div class="col-12">
+          <div class="row mt-2">
+            <label for="InputStartTime">เพิ่มวันให้บริการ</label>
+            <div class="row">
+              <div class="col-8">
+                <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
+                  <option value disabled selected>-- กรุณาเลือกวัน --</option>
+                  <option value="MONDAY">วันจันทร์</option>
+                  <option value="TUESDAY">วันอังคาร</option>
+                  <option value="WEDNESDAY">วันพุธ</option>
+                  <option value="THURSDAY">วันพฤหัสบดี</option>
+                  <option value="FRIDAY">วันศุกร์</option>
+                  <option value="SATURDAY">วันเสาร์</option>
+                  <option value="SUNDAY">วันอาทิตย์</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <button
+                  @click="addRole()"
+                  style="background: #5E65A1; border-radius: 10px;"
+                  class="col-12 btn btn-primary"
+                  type="button"
+                >+ เพิ่ม</button>
+              </div>
+            </div>
+            <div class="col-12 mt-4">
               <div class="row">
+                <label for="InputStartTime">เลือกวันให้บริการ</label>
                 <div
                   @click="changeCardColor('card1')"
                   :class="[
@@ -81,6 +104,22 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  @click="changeCardColor('card3')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
+                colorCard == 'card3' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <div class="row">
+                    <div class="col-10 align-self-center">
+                      <h6 class="font-weight-bold">วันพุธ</h6>
+                    </div>
+                    <div class="col-2">
+                      <iconArrow :color="colorCard == 'card3' ? 'white' : '#E9EBFB'" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -91,25 +130,12 @@
               <i class="fas fa-trash" style="color: #e34724;"></i>
             </button>
           </div>
-          <h6 class="text-left font-weight-bold">รายละเอียดเวลาการให้บริการ</h6>
-          <div class="row">
-            <div class="col-12 form-group text-left mt-2">
-              <label for="InputDay">วัน</label>
-              <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
-                <option value disabled selected>-- กรุณาเลือกวันที่ --</option>
-                <option value="MONDAY">วันจันทร์</option>
-                <option value="TUESDAY">วันอังคาร</option>
-                <option value="WEDNESDAY">วันพุธ</option>
-                <option value="THURSDAY">วันพฤหัสบดี</option>
-                <option value="FRIDAY">วันศุกร์</option>
-                <option value="SATURDAY">วันเสาร์</option>
-                <option value="SUNDAY">วันอาทิตย์</option>
-              </select>
-            </div>
+          <h6 class="text-left font-weight-bold">วันอังคาร : บริการนักจิตวิทยา</h6>
+          <div class="row mt-5">
             <div class="col-6 form-group text-left mt-2">
               <label for="InputStartTime">เวลาเริ่มบริการ</label>
               <input
-                type="text"
+                type="time"
                 id="InputStartTime"
                 class="form-control"
                 v-model="dataPrepareSend.service.startTime"
@@ -118,33 +144,44 @@
             <div class="col-6 form-group text-left mt-2">
               <label for="InputEndTime">เวลาเลิกบริการ</label>
               <input
-                type="text"
+                type="time"
                 id="InputEndTime"
                 class="form-control"
                 v-model="dataPrepareSend.service.endTime"
               />
             </div>
             <div class="col-6 form-group text-left mt-2">
-              <label for="InputSlot">เวลาให้บริการต่อ 1 slot</label>
-              <input
-                type="text"
-                id="InputSlot"
-                class="form-control"
-                v-model="dataPrepareSend.service.slot"
-              />
+              <label for="InputEndTime">เวลาให้บริการต่อ 1 slot</label>
+
+              <div class="col-12">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio1"
+                    value="option1"
+                  />
+                  <label class="form-check-label" for="inlineRadio1">30 นาที</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="inlineRadio2">60 นาที</label>
+                </div>
+              </div>
             </div>
-            <div class="col-6 form-group text-left mt-2">
-              <label for="InputDocter">แพทย์ผู้รับผิดชอบ</label>
-              <input
-                type="text"
-                id="InputDocter"
-                class="form-control"
-                v-model="dataPrepareSend.service.docter"
-              />
-            </div>
-            <div class="col-12">
-              <button @click="sendTimeServiceToBackend" class="btn text-primary">ยืนยันการแก้ไข</button>
-            </div>
+          </div>
+          <div class="col-12 text-center">
+            <button
+              @click="sendToBackend"
+              class="btn btn-primary btnBlock btnConfirm fixed-button col-md-6 mt-5 mb-3"
+            >บันทึก</button>
           </div>
         </div>
       </div>
