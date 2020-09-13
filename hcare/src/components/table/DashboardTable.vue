@@ -4,7 +4,7 @@
       <label class="col-1 col-form-label">Search:</label>
       <input name="query" v-model="searchQuery" class="form-control col-3" />
     </form>
-    <div class="col-12 mt-3" v-if="dataBookingTable.length == 0">
+    <div class="col-12 mt-3 p-3 div-card" v-if="dataBookingTable.length == 0">
       <h5>ไม่มีผู้นัดหมาย</h5>
     </div>
     <data-table
@@ -18,18 +18,53 @@
       <template slot="ชื่อ" scope="props">
         <div class="dropdown">
           <a class="ui inverted button">{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a>
-          <div class="dropdown-content">
-            <div class="container">
-              <h6
-                style="font-family: Poppins; font-style: normal; font-weight: bold; font-size: 14px; line-height: 21px; align-items: center; color: #444444;"
-              >
-                {{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}
-                <hr style="border: 1px solid #B6B6B6;" />
+          <div class="dropdown-content" style="background-color:#5E65A1; color:white; ">
+            <div class="row">
+              <div class="col-12">
                 <span
-                  class="d-flex justify-content-start detail"
-                  style="font-size: 14px;"
-                >{{ props.entry.telephone }} {{ props.entry.email }}</span>
-              </h6>
+                  class="text-center font-weight-bold"
+                >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="row">
+                <div class="col-1">
+                  <i class="fas fa-phone-alt"></i>
+                </div>
+                <div
+                  class="col-10 text-left"
+                  style="font-family: Poppins; font-style: normal; font-weight: normal; font-size: 12px; line-height: 15px; word-wrap: break-word;"
+                >{{ props.entry.telephone }}</div>
+              </div>
+              <div class="row">
+                <div class="col-1">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div
+                  class="col-10 text-left"
+                  style="font-family: Poppins; font-style: normal; font-weight: normal; font-size: 12px; line-height: 15px; word-wrap: break-word;"
+                >{{ props.entry.email }}</div>
+              </div>
+            </div>
+            <hr style="border: 1px solid white;" />
+            <div class="mt-1">
+              <div class="row">
+                <div class="col-12 text-left">
+                  <span
+                    class="font-weight-bold"
+                    style="color:#99A3FF; font-size:14px;"
+                  >อาการเบื้องต้น</span>
+                </div>
+                <div class="col-12 text-left">
+                  <span style="font-size:12px;">{{props.entry.symptom}}</span>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center mt-4">
+                <button
+                  class="btn btn-primary btnBlock btnConfirm w-75"
+                  style="font-size: 14px; box-shadow: none; webkit-box-shadow: none;"
+                >ดูประวัติการรักษา</button>
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +120,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["เวลานัด", "HNnumber", "ชื่อ", "action"]
+      gridColumns: ["เวลานัด", "HNnumber", "ชื่อ", "action"],
     };
   },
 
@@ -96,9 +131,9 @@ export default {
         width: "678px",
         html:
           "ชื่อ" +
-          `<input class="swal2-input disabled" disabled value="${user.fname +
-            " " +
-            user.lname}">` +
+          `<input class="swal2-input disabled" disabled value="${
+            user.fname + " " + user.lname
+          }">` +
           "อีเมล" +
           `<input class="swal2-input disabled" disabled value="${user.email}">` +
           "เบอร์โทร" +
@@ -106,7 +141,7 @@ export default {
           "อาการหรือประเด็นที่ปรึกษา ของคนไข้" +
           `<textarea id="note" class="swal2-input disabled" disabled style="height: 122px;">${user.symptom}</textarea>`,
         showConfirmButton: false,
-        showCloseButton: true
+        showCloseButton: true,
       });
     },
     editBooking(booking_id, link_meeting, comment_from_staff) {
@@ -122,7 +157,7 @@ export default {
             comment_from_staff == null ? "" : comment_from_staff
           }</textarea>`,
         inputAttributes: {
-          autocapitalize: "off"
+          autocapitalize: "off",
         },
         showCloseButton: true,
         confirmButtonText: "ยืนยัน",
@@ -138,29 +173,29 @@ export default {
               {
                 booking_id: booking_id,
                 link: linkInput,
-                note: note
+                note: note,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "บันทึกสำเร็จ"
+                title: "บันทึกสำเร็จ",
               });
               this.$router.go();
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
-        }
+        },
       });
     },
     deleteBooking(booking_id) {
@@ -168,7 +203,7 @@ export default {
         width: "678px",
         title: "ยกเลิกการจอง",
         inputAttributes: {
-          autocapitalize: "off"
+          autocapitalize: "off",
         },
         showCloseButton: true,
         confirmButtonText: "ยืนยัน",
@@ -179,35 +214,35 @@ export default {
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/cancel`,
               {
-                booking_id: booking_id
+                booking_id: booking_id,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "ยกเลิกสำเร็จ"
+                title: "ยกเลิกสำเร็จ",
               });
               this.$router.go();
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
               this.$swal({ ...errorSWAL });
             });
-        }
+        },
       });
-    }
+    },
   },
   props: {
-    dataBookingTable: Array
-  }
+    dataBookingTable: Array,
+  },
 };
 </script>
 
