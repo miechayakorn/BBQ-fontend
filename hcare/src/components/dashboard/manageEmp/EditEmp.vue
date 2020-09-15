@@ -21,13 +21,27 @@
                 <input id="files" style="visibility:hidden;" type="file" accept="image/*" />
                 <div class="p-4 text-left" style="margin-top:40px;">
                   <p>สิทธิ์และการแก้ไข</p>
-                  <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="radioStaff" name="role" class="custom-control-input" />
-                    <label class="custom-control-label" for="radioStaff">Staff</label>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="radioStaff"
+                      value="STAFF"
+                      v-model="dataFetch.role"
+                    />
+                    <label class="form-check-label" for="radioStaff">Staff</label>
                   </div>
-                  <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="radioAdmin" name="role" class="custom-control-input" />
-                    <label class="custom-control-label" for="radioAdmin">admin</label>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="radioAdmin"
+                      value="ADMIN"
+                      v-model="dataFetch.role"
+                    />
+                    <label class="form-check-label" for="radioAdmin">Admin</label>
                   </div>
                 </div>
               </div>
@@ -43,21 +57,19 @@
                     <div class="col-12">
                       <label for="firstPrefix">คำนำหน้าชื่อ</label>
                       <input
-                        v-model="dataPrepareSend.prefix"
+                        v-model="dataFetch.prefix"
                         type="text"
                         class="form-control"
                         id="firstPrefix"
-                        placeholder="คำนำหน้า"
                       />
                     </div>
                     <div class="col-12 col-md-6 mt-3">
                       <label for="firstName">ชื่อจริง</label>
                       <input
-                        v-model="dataPrepareSend.first_name"
+                        v-model="dataFetch.first_name"
                         type="text"
                         class="form-control"
                         id="firstName"
-                        placeholder="ชื่อจริง"
                       />
                     </div>
                     <div class="col-12 col-md-6 mt-3">
@@ -66,8 +78,7 @@
                         type="text"
                         class="form-control"
                         id="lastName"
-                        v-model="dataPrepareSend.last_name"
-                        placeholder="นามสกุล"
+                        v-model="dataFetch.last_name"
                       />
                     </div>
                     <div class="col-12 mt-3">
@@ -77,7 +88,7 @@
                         class="form-control"
                         id="inputEmail"
                         readonly
-                        :value="dataPrepareSend.email"
+                        :value="dataFetch.email"
                       />
                     </div>
 
@@ -87,36 +98,26 @@
                         type="tel"
                         class="form-control"
                         id="inputTel"
-                        placeholder="เบอร์โทรศัพท์"
-                        v-model="dataPrepareSend.telephone"
+                        v-model="dataFetch.telephone"
                       />
                     </div>
                     <div class="col-12 col-md-6 mt-3">
                       <label for="inputHNNumber">หมายเลขบุคลากร มจธ.</label>
                       <input
-                        v-model="dataPrepareSend.hn_number"
+                        v-model="dataFetch.hn_number"
                         type="number"
                         class="form-control"
-                        placeholder="หมายเลข"
                         id="inputHNNumber"
                       />
                     </div>
                     <div class="col-12 mt-3">
                       <p>บริการที่รับผิดชอบ</p>
-                      <button class="btn div-showTag text-white text-left m-1">
-                        <span class="mt-4 mb-4 p-2">ฝังเข็ม</span>
-                      </button>
-                      <button class="btn div-showTag text-white text-left m-1">
-                        <span class="mt-4 mb-4 p-2">หูตาจมูก</span>
-                      </button>
-                      <button class="btn div-showTag text-white text-left m-1">
-                        <span class="mt-4 mb-4 p-2">หูตาจมูก</span>
-                      </button>
-                      <button class="btn div-showTag text-white text-left m-1">
-                        <span class="mt-4 mb-4 p-2">หูตาจมูก</span>
-                      </button>
-                      <button class="btn div-showTag text-white text-left m-1">
-                        <span class="mt-4 mb-4 p-2">หูตาจมูก</span>
+                      <button
+                        v-for="(data, index) in dataFetch.service_type"
+                        :key="index"
+                        class="btn div-showTag text-white text-left m-1"
+                      >
+                        <span class="mt-4 mb-4 p-2">#{{data.type_name}}</span>
                       </button>
                     </div>
                   </div>
@@ -167,20 +168,31 @@ export default {
   data() {
     return {
       loading: false,
-      dataPrepareSend: [],
       dataFetch: {
-        dataTypes: [],
+        image: "",
+        account_id: "",
+        prefix: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        telephone: "",
+        hn_number: "",
+        role: "",
+        service_type: [],
       },
     };
   },
   async mounted() {
     this.loading = true;
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` },
-      })
+      .get(
+        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployeeforedit?account_id=${this.$route.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        }
+      )
       .then((res) => {
-        this.dataFetch.dataTypes = res.data;
+        this.dataFetch = res.data;
       })
       .catch((res) => {
         console.log("===== Backend-error ======");
@@ -191,7 +203,74 @@ export default {
     this.loading = false;
   },
   methods: {
-    sendToBackend() {},
+    async sendToBackend() {
+      if (
+        this.dataFetch.account_id != "" &&
+        this.dataFetch.prefix != "" &&
+        this.dataFetch.first_name != "" &&
+        this.dataFetch.last_name != "" &&
+        this.dataFetch.email != "" &&
+        this.dataFetch.telephone != "" &&
+        this.dataFetch.hn_number != "" &&
+        this.dataFetch.role != ""
+      ) {
+        await axios
+          .patch(
+            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/editemployee`,
+            {
+              account_id: this.dataFetch.account_id,
+              prefix: this.dataFetch.prefix,
+              first_name: this.dataFetch.first_name,
+              last_name: this.dataFetch.last_name,
+              email: this.dataFetch.email,
+              telephone: this.dataFetch.telephone,
+              hn_number: this.dataFetch.hn_number,
+              role: this.dataFetch.role,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status == 201) {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                },
+                timer: 3000,
+                icon: "success",
+                title: "บันทึกสำเร็จ",
+              });
+            } else {
+              console.log("===== Backend-error ======");
+              console.error(res.data);
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: res.data,
+              });
+            }
+          })
+          .catch((res) => {
+            console.log("===== Backend-error ======");
+            console.error(res);
+            this.$swal({ ...errorSWAL });
+          });
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      }
+    },
   },
   components: {
     iconUser,
@@ -201,7 +280,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .div-card-profile {
   background: #5e65a1;
   border-radius: 30px;
@@ -219,5 +298,9 @@ export default {
     padding-left: 60px;
     border-radius: 30px;
   }
+}
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
 }
 </style>
