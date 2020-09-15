@@ -33,7 +33,7 @@
                 </div>
                 <div
                   class="col-10 text-left"
-                  style="font-family: Poppins; font-style: normal; font-weight: normal; font-size: 12px; line-height: 15px; word-wrap: break-word;"
+                  style="font-size: 14px; line-height: 15px;"
                 >{{ props.entry.telephone }}</div>
               </div>
               <div class="row">
@@ -42,7 +42,7 @@
                 </div>
                 <div
                   class="col-10 text-left"
-                  style="font-family: Poppins; font-style: normal; font-weight: normal; font-size: 12px; line-height: 15px; word-wrap: break-word;"
+                  style="font-size: 14px; line-height: 15px;"
                 >{{ props.entry.email }}</div>
               </div>
             </div>
@@ -260,8 +260,11 @@ export default {
   display: none;
   position: absolute;
   background-color: #ffffff;
-  min-width: 252px;
+  min-width: 300px;
   z-index: 1;
+  margin-top: 1px;
+  font: 10px;
+  bottom: 100%;
 }
 
 .dropdown:hover .dropdown-content {

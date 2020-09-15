@@ -5,10 +5,10 @@
     </div>
     <div class="mt-3 div-card">
       <div class="row bg-lightblue">
-        <div class="col-7">
-          <manageEmpPic class="d-none d-md-block" />
+        <div class="col-7 d-none d-xl-block">
+          <manageEmpPic />
         </div>
-        <div class="col-12 col-md-5">
+        <div class="col-12 col-xl-5">
           <div class="row">
             <div class="col-12">
               <div class="form-group" style="margin-top:48px;">
@@ -71,7 +71,7 @@ import axios from "axios";
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 import VclFacebook from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
-import DashboardTableEmp from "@/components/table/DashboardTableEmp.vue";
+import DashboardTableEmp from "@/components/dashboardTable/DashboardTableEmp.vue";
 
 export default {
   data() {

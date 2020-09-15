@@ -333,13 +333,13 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 776px) {
+@media (max-width: 768px) {
   .fixed-button {
     width: 100%;
     height: 48px;
   }
 }
-@media (min-width: 776px) {
+@media (min-width: 768px) {
   .fixed-button {
     width: 320px;
     text-align: center;
@@ -347,7 +347,7 @@ export default {
     height: 48px;
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .fixed-container {
     width: 720px;
   }
