@@ -17,10 +17,7 @@
       </span>
     </button>
 
-    <div
-      class="collapse navbar-collapse bg-white text-left text-md-center"
-      id="navbarCollapse"
-    >
+    <div class="collapse navbar-collapse bg-white text-left text-md-center" id="navbarCollapse">
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
@@ -28,9 +25,10 @@
           <logoAdmin v-if="this.$store.state.role == 'ADMIN'" class="centerImg" />
           <logoStaff v-else-if="this.$store.state.role == 'STAFF'" class="centerImg" />
           <logoUser v-else class="centerImg" />
-          <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
-            {{ user.first_name }} {{ user.last_name }}
-          </p>
+          <p
+            v-if="log"
+            class="d-flex justify-content-center mb-0 mt-2"
+          >{{ user.first_name }} {{ user.last_name }}</p>
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -38,9 +36,9 @@
             v-if="log == false"
             to="/login"
           >
-            <p class="d-flex justify-content-center mb-0 mt-2">
-              {{ user.first_name }} {{ user.last_name }}
-            </p>
+            <p
+              class="d-flex justify-content-center mb-0 mt-2"
+            >{{ user.first_name }} {{ user.last_name }}</p>
           </router-link>
         </li>
         <hr class="lineHr" />
@@ -87,7 +85,7 @@
             >
               <iconClock style="margin-right:14px;" />ตารางให้บริการ
             </router-link>
-          </li> -->
+          </li>-->
           <hr class="lineHr" />
           <li class="nav-item">
             <router-link
@@ -117,7 +115,7 @@
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="#"
+              to="/history"
             >
               <iconTime style="margin-right:14px;" />History
             </router-link>
@@ -176,10 +174,10 @@ export default {
     return {
       user: {
         first_name: "",
-        last_name: ""
+        last_name: "",
       },
       log: false,
-      role: false
+      role: false,
     };
   },
   mounted() {
@@ -209,8 +207,8 @@ export default {
     iconTime,
     logoUser,
     logoStaff,
-    logoAdmin
-  }
+    logoAdmin,
+  },
 };
 </script>
 <style>
