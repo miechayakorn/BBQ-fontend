@@ -18,52 +18,42 @@
       <template slot="ชื่อ" scope="props">
         <div class="dropdown">
           <a class="ui inverted button">{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a>
-          <div class="dropdown-content" style="background-color:#5E65A1; color:white; ">
+          <div class="dropdown-content">
             <div class="row">
               <div class="col-12">
                 <span
                   class="text-center font-weight-bold"
                 >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</span>
-              </div>
-            </div>
-            <div class="mt-4">
-              <div class="row">
-                <div class="col-1">
-                  <i class="fas fa-phone-alt"></i>
+                <div class="row mt-4 text-left">
+                  <div class="col-1">
+                    <i class="fas fa-phone-alt"></i>
+                  </div>
+                  <div class="col-11">{{ props.entry.telephone }}</div>
+                  <div class="col-1">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="col-11" style="word-break:break-word;">{{ props.entry.email }}</div>
                 </div>
-                <div
-                  class="col-10 text-left"
-                  style="font-size: 14px; line-height: 15px;"
-                >{{ props.entry.telephone }}</div>
-              </div>
-              <div class="row">
-                <div class="col-1">
-                  <i class="fas fa-envelope"></i>
+                <hr style="border: 1px solid white; width: 100px;" />
+                <div class="row text-left" v-show="props.entry.symptom">
+                  <div class="col-12">
+                    <span class="font-weight-bold" style="color:#99A3FF;">อาการเบื้องต้น</span>
+                  </div>
+                  <div class="col-12">
+                    <span style="font-size:14px; word-break:break-word;">{{props.entry.symptom}}</span>
+                  </div>
                 </div>
-                <div
-                  class="col-10 text-left"
-                  style="font-size: 14px; line-height: 15px;"
-                >{{ props.entry.email }}</div>
-              </div>
-            </div>
-            <hr style="border: 1px solid white;" />
-            <div class="mt-1">
-              <div class="row">
-                <div class="col-12 text-left">
-                  <span
-                    class="font-weight-bold"
-                    style="color:#99A3FF; font-size:14px;"
-                  >อาการเบื้องต้น</span>
-                </div>
-                <div class="col-12 text-left">
-                  <span style="font-size:12px;">{{props.entry.symptom}}</span>
-                </div>
-              </div>
-              <div class="row d-flex justify-content-center mt-4">
-                <button
-                  class="btn btn-primary btnBlock btnConfirm w-75"
-                  style="font-size: 14px; box-shadow: none; webkit-box-shadow: none;"
-                >ดูประวัติการรักษา</button>
+                <router-link
+                  target="_blank"
+                  :to="'/admin/dashboard/history/'+props.entry.account_id"
+                >
+                  <div class="row d-flex justify-content-center mt-4">
+                    <button
+                      class="btn btn-primary btnBlock btnConfirm w-75"
+                      style="font-size: 14px; box-shadow: none; webkit-box-shadow: none;"
+                    >ดูประวัติการรักษา</button>
+                  </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -254,16 +244,15 @@ export default {
 }
 
 .dropdown-content {
-  padding: 20px;
-  border: 0px solid #99a3ff;
-  box-shadow: 0px 4px 8px #d9d9d9;
+  background-color: #5e65a2;
+  color: white;
+  border-radius: 20px;
+  padding: 30px;
   display: none;
   position: absolute;
-  background-color: #ffffff;
-  min-width: 300px;
+  min-width: 400px;
   z-index: 1;
   margin-top: 1px;
-  font: 10px;
   bottom: 100%;
 }
 
