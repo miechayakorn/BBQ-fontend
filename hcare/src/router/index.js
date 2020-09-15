@@ -22,6 +22,8 @@ import Service from "../views/admin/Service.vue";
 import ManageEmp from "../views/admin/ManageEmp.vue";
 import EditEmpProfile from "../views/admin/EditEmpProfile.vue";
 import HistoryUser from "../views/admin/HistoryUser.vue";
+import History from "../views/History.vue";
+import HistoryDetailed from "../views/HistoryDetailed.vue";
 //Service
 import NotFound from "../views/404.vue";
 Vue.use(VueRouter);
@@ -130,6 +132,16 @@ const routes = [
     path: "/appointment",
     name: "Appointment",
     component: Appointment
+  },
+  {
+    path: "/history",
+    name: "History",
+    component: History
+  },
+  {
+    path: "/history/detail/:id",
+    name: "HistoryDetailed",
+    component: HistoryDetailed
   },
   {
     path: "/appointment/detail/:id",
