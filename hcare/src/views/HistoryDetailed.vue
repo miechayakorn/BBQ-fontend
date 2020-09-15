@@ -5,7 +5,7 @@
         <label class="font-weight-bold mb-4">รายละเอียดประวัติการเข้าใช้บริการ</label>
         <div class="form">
           <div class="container">
-              //เราเอา Historyมาใส่ไม่รู้ถูกมั้ย
+            //เราเอา Historyมาใส่ไม่รู้ถูกมั้ย
             <HistoryCard :data="dataFetch.appointmentCard" />
             <div class="row">
               <div class="col-12">
@@ -47,10 +47,7 @@
                 </a>
               </div>
               <div class="col-12">
-                <button
-                  class="btn btnBlock btnCancel fixed-button mb-2"
-                  @click="cancelAppointment"
-                >
+                <button class="btn btnBlock btnCancel fixed-button mb-2" @click="cancelAppointment">
                   <span style="font-weight: 900; color:white;">ยกเลิกนัด</span>
                 </button>
               </div>
@@ -83,29 +80,28 @@ export default {
             type_name: "",
             date: "",
             time_in: "",
-            dateformat: ""
-          }
+            dateformat: "",
+          },
         ],
         link_meeting: "",
         doctor_id: null,
         doctor_firstname: "",
-        doctor_lastname: ""
-      }
+        doctor_lastname: "",
+      },
     };
   },
   components: {
-    AppointmentCard,
-    HistoryCard
+    HistoryCard,
   },
   async mounted() {
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.account_id) {
           this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
           this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
@@ -125,10 +121,10 @@ export default {
           this.$router.push("/");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("===== Backend-error ======");
         console.error(error.response);
-        this.$router.push("/appointment")
+        this.$router.push("/appointment");
       });
   },
   methods: {
@@ -140,39 +136,39 @@ export default {
         showCloseButton: true,
         confirmButtonColor: "#FF4F5B",
         confirmButtonText: "ยืนยัน",
-        footer: "ระบบจะไม่สามารถคืนการนัดได้"
-      }).then(result => {
+        footer: "ระบบจะไม่สามารถคืนการนัดได้",
+      }).then((result) => {
         if (result.value) {
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
               {
-                booking_id: this.dataFetch.appointmentCard[0].booking_id
+                booking_id: this.dataFetch.appointmentCard[0].booking_id,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "ยกเลิกการนัดสำเร็จ"
+                title: "ยกเลิกการนัดสำเร็จ",
               });
               this.$router.push("/appointment");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
