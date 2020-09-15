@@ -21,6 +21,7 @@ import TimeTable from "../views/admin/TimeTable.vue";
 import Service from "../views/admin/Service.vue";
 import ManageEmp from "../views/admin/ManageEmp.vue";
 import EditEmpProfile from "../views/admin/EditEmpProfile.vue";
+import HistoryUser from "../views/admin/HistoryUser.vue";
 //Service
 import NotFound from "../views/404.vue";
 Vue.use(VueRouter);
@@ -99,6 +100,11 @@ const routes = [
     path: "/admin/dashboard",
     name: "Dashboard",
     component: Dashboard
+  },
+  {
+    path: "/admin/dashboard/history/:id",
+    name: "HistoryUser",
+    component: HistoryUser
   },
   {
     path: "/admin/dashboard/timetable",
