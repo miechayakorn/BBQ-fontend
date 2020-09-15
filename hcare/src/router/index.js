@@ -128,16 +128,14 @@ const routes = [
     component: Appointment
   },
   {
-    path:"/views/History",
+    path: "/history",
     name: "History",
     component: History
-
   },
   {
-    path:"/history/detail/:id",
+    path: "/history/detail/:id",
     name: "HistoryDetailed",
     component: HistoryDetailed
-
   },
   {
     path: "/appointment/detail/:id",

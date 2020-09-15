@@ -23,6 +23,7 @@
         </div>
       </div>
     </div>
+    <!-- {{dataFetch}} -->
   </div>
 </template>
 
@@ -35,26 +36,26 @@ export default {
   data() {
     return {
       dataFetch: [],
-      checkAppointment: false
+      checkAppointment: false,
     };
   },
   components: {
     man,
-    HistoryCard
+    HistoryCard,
   },
   async mounted() {
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` }
+      .get(`${process.env.VUE_APP_BACKEND_URL}/history`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` },
       })
-      .then(res => {
+      .then((res) => {
         if (res.status == 204) {
           this.checkAppointment = true;
         } else {
           this.dataFetch = res.data;
         }
       });
-  }
+  },
 };
 </script>
 
