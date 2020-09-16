@@ -16,21 +16,24 @@
               </div>
             </div>
             <div class="col-xs-8 float-right w-65 pb-1 card-body">
-              <p class="card-text">
-                <span class="font-weight-bold text-primary">เวลานัดหมาย</span>
-                <br />
-                <span style="color: #444444;">
-                  <!--item.date.slice(0, 10)-->
-                  {{ item.dateformat }}
-                </span>
-                <br />
-                <span
-                  class="font-weight-bold"
-                  style="color: #444444;"
-                >{{ item.time_in.slice(0, 5) }} น.</span>
-                <br /><br />
-                <span v-if="item.link_meeting" style="font-weight: 900; color:#60CD4F;">ได้รับลิงค์แล้ว</span>
-              </p>
+              <div class="card-text">
+                <div>
+                  <span class="font-weight-bold text-primary">HN&nbsp;</span>
+                  <span style="color: #555555;">{{item.hn_number}}</span>
+                  <br />
+                  <span style="color: #555555;">{{item.first_name}} {{item.last_name}}</span>
+                </div>
+                <div class="mt-2">
+                  <span class="font-weight-bold text-primary" style="color: #555555; ">เวลานัดหมาย</span>
+                  <br />
+                  <span style="color: #555555;">{{ item.dateformat }}</span>
+                  <br />
+                  <span
+                    class="font-weight-bold"
+                    style="color: #444444;"
+                  >{{ item.time_in.slice(0, 5) }} น.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -40,13 +43,13 @@
 </template>
 
 <script>
-import logoEmotion from "@/components/svg/logoEmotion.vue"
+import logoEmotion from "@/components/svg/logoEmotion.vue";
 export default {
   props: {
-    data: Array
+    data: Array,
   },
   components: {
-    logoEmotion
+    logoEmotion,
   },
 };
 </script>
