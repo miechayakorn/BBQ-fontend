@@ -1,11 +1,28 @@
 <template>
   <div>
     <div class="container fixed-container mb-3" v-if="loading">
-    <VclFacebook />
-    <VclList class="mt-2"/>
-    <VclList class="mt-2"/>
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
     </div>
     <div v-if="!loading" class="container fixed-container mb-3">
+      <div class="form-group text-left">
+        <label>เลือกสถานที่</label>
+        <div class="container">
+          <div class="row">
+            <div class="col-6" v-for="(item, index) in dataFetch.dataLacation" :key="index">
+              <input
+                type="radio"
+                name="location_id"
+                :value="item.location_id"
+                v-model="location_id"
+                style="vertical-align: middle;"
+              />&nbsp;
+              <span style="vertical-align: middle;">{{item.location_name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="form-group text-left">
         <label>เลือกบริการ</label>
         <div class="form">
@@ -47,7 +64,7 @@
           ]"
           placeholder="กรุณากรอกข้อมูล"
           v-model="dataPrepareSend.symptom"
-          @input='evt=>dataPrepareSend.symptom=evt.target.value'
+          @input="evt=>dataPrepareSend.symptom=evt.target.value"
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
@@ -75,7 +92,7 @@ import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
-import {VclFacebook , VclList} from "vue-content-loading";
+import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
@@ -83,16 +100,19 @@ export default {
       loading: false,
       limitChar: 100,
       totalcharacter: 0,
+      location_id: 1,
+
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
-        symptom: null
+        symptom: null,
       },
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
         dataTypes: null,
         dataDates: null,
-        dataTimes: null
+        dataTimes: null,
+        dataLacation: null,
       },
       //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
@@ -101,8 +121,8 @@ export default {
         time: null,
         activeBtnTime: "",
         disableSymptom: true,
-        oldTypeService: 1
-      }
+        oldTypeService: 1,
+      },
     };
   },
   components: {
@@ -114,36 +134,51 @@ export default {
     VclList,
   },
   async mounted() {
-    this.loading = true
-    // this.$swal({
-    //   title: "กรุณารอสักครู่",
-    //   allowEscapeKey: false,
-    //   allowOutsideClick: false,
-    //   onOpen: () => {
-    //     this.$swal.showLoading();
-    //   }
-    // });
+    this.loading = true;
+
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
+      .then((res) => {
+        this.dataFetch.dataLacation = res.data;
+      });
 
     //เรียกข้อมูล Default
     //Type
+
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
-        // headers: { Authorization: `Bearer ${this.$store.state.token}` }
-      })
-      .then(res => {
+      .get(
+        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.dataFetch.dataLacation[0].location_id}`,
+        {
+          // headers: { Authorization: `Bearer ${this.$store.state.token}` }
+        }
+      )
+      .then((res) => {
         this.dataFetch.dataTypes = res.data;
       });
+
     //Date
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
         // headers: { Authorization: `Bearer ${this.$store.state.token}` }
       })
-      .then(res => {
+      .then((res) => {
         this.dataFetch.dataDates = res.data;
         this.$swal.close();
       });
-    this.loading = false
+    this.loading = false;
   },
+  watch: {
+    location_id: {
+      handler: async function (val, oldCal) {
+        await axios
+          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val}`)
+          .then((res) => {
+            this.dataFetch.dataTypes = res.data;
+          });
+      },
+    },
+  },
+
   methods: {
     clearData() {
       this.dataPrepareSend.booking_id = null;
@@ -166,7 +201,7 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          }
+          },
         });
 
         //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
@@ -181,7 +216,7 @@ export default {
             //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
             // }
           )
-          .then(res => {
+          .then((res) => {
             this.dataFetch.dataDates = res.data;
             console.log(this.dataFetch.dataDates);
             this.dataShow.oldTypeService = serviceDataType.type_id;
@@ -205,7 +240,7 @@ export default {
           //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
           // }
         )
-        .then(res => {
+        .then((res) => {
           this.dataFetch.dataTimes = res.data;
           console.log("Axios fetch time :");
           console.log(this.dataFetch.dataTimes);
@@ -253,8 +288,8 @@ export default {
               confirmButtonColor: "#3085d6",
               cancelButtonColor: "#d33",
               confirmButtonText: "Confirm",
-              cancelButtonText: "No"
-            }).then(result => {
+              cancelButtonText: "No",
+            }).then((result) => {
               if (result.value) {
                 this.$swal({
                   title: "กรุณารอสักครู่",
@@ -262,7 +297,7 @@ export default {
                   allowOutsideClick: false,
                   onOpen: () => {
                     this.$swal.showLoading();
-                  }
+                  },
                 });
 
                 axios
@@ -270,22 +305,22 @@ export default {
                     `${process.env.VUE_APP_BACKEND_URL}/Booking`,
                     {
                       booking_id: this.dataPrepareSend.booking_id,
-                      symptom: this.dataPrepareSend.symptom
+                      symptom: this.dataPrepareSend.symptom,
                     },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.$store.state.token}`
-                      }
+                        Authorization: `Bearer ${this.$store.state.token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     console.log(res.data);
                     if (res.data.message == "Please verrify account") {
                       this.$swal({
                         icon: "warning",
                         title: "กรุณา Activate บัญชี",
                         text:
-                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
+                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
                       });
                     } else {
                       this.$swal({
@@ -294,12 +329,12 @@ export default {
                         showConfirmButton: false,
                         timer: 3000,
                         icon: "success",
-                        title: "การจองสำเร็จ"
+                        title: "การจองสำเร็จ",
                       });
                       this.$router.push("/appointment");
                     }
                   })
-                  .catch(error => {
+                  .catch((error) => {
                     console.log("===== Backend-error ======");
                     console.error(error.response);
                     this.$swal({ ...errorSWAL });
@@ -310,25 +345,35 @@ export default {
             this.$swal({
               icon: "warning",
               title: "คำเตือน",
-              text: "กรอกอาการ ตัวอักษรเกินลิมิต"
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต",
             });
           }
         } else {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกอาการ"
+            text: "กรุณากรอกอาการ",
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง"
+          text: "กรุณาเลือกเวลาที่ต้องการจอง",
         });
       }
-    }
-  }
+    },
+  },
+  async getService() {
+    await axios
+      .get(
+        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.location_id}`,
+        {}
+      )
+      .then((res) => {
+        this.dataFetch.dataTypes = res.data;
+      });
+  },
 };
 </script>
 
