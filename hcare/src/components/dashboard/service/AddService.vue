@@ -1,55 +1,170 @@
 <template>
   <div class="container mb-4">
-    <div class="text-left font-weight-bold" style="margin-top:32px">
-      <span>เพิ่มบริการ</span>
-    </div>
-    <div class="row mt-3 div-card">
+    <div class="row mt-3 bg-blueMan2">
       <div class="col-6">
-        <manHome class="d-none d-md-block" />
+        <manHome class="d-none d-md-block mx-auto mt-4" />
       </div>
       <div class="col-12 col-md-6">
         <div class="col-12 col-md-7">
           <div class="form-group text-left" style="margin-top:48px;">
-            <label for="serviceType">ชื่อบริการ</label>
+            <label for="serviceType">เพิ่มบริการใหม่</label>
             <input
               type="text"
-              id="InputDate"
+              id="serviceType"
               class="form-control col-12"
               placeholder="กรุณาพิมพ์ชื่อบริการ"
-              v-model="dataPrepareSend.date"
+              v-model="dataPrepareSend.serviceName"
             />
           </div>
         </div>
-        <div class="col-12 col-md-7">
+        <div class="col-12">
           <div class="form-group text-left">
-            <label for="InputDate">ผู้รับผิดชอบ</label>
-
-            <select id="serviceType" class="form-control" v-model="dataPrepareSend.type_id">
-              <option value disabled selected>-- กรุณาเลือกบริการ --</option>
-              <option
-                v-for="(data, index) in dataFetch.dataTypes"
+            <label for="InputDate">เลือกสถานที่สำหรับบริการ</label>
+            <div class="col-12">
+              <div
+                class="form-check form-check-inline"
+                v-for="(item, index) in dataFetch.dataLocation"
                 :key="index"
-                :value="data.type_id"
-              >{{ data.type_name }}</option>
-            </select>
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="location_id"
+                  :id="item.location_id"
+                  :value="item.location_id"
+                  v-model="dataPrepareSend.location_id"
+                />
+                <label class="form-check-label" :for="item.location_id">{{item.location_name}}</label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-12">
           <button
+            @click="sendCreateService"
             class="btn btn-primary mt-4 mb-4 mb-md-0 btnBlock btnConfirm fixed-button col-12 col-md-7 float-left"
-          >ตกลง</button>
+          >เพิ่ม</button>
         </div>
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-    <div class="mt-3">
-      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
-        <span>บริการทั้งหมด</span>
+
+    <div class="mt-3 text-left font-weight-bold">
+      <div class="mb-3" style="margin-top:32px">
+        <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
-      <div class="row">
-        <DashboardTableService :dataService="serviceArray" />
+      <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
+        <div class="col-12" style="padding-left: 40px; padding-right: 40px;">
+          วิทยาเขต : บางมด
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <div class="m-3">
+                <div
+                  @click="changeCardColor('card1')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
+                colorCard == 'card1' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <h6 class="font-weight-bold">ฝังเข็ม</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="m-3">
+                <div
+                  @click="changeCardColor('card2')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
+                colorCard == 'card2' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <h6 class="font-weight-bold">จิตแพทย์/นักจิตวิทยา</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="m-3">
+                <div
+                  @click="changeCardColor('card3')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
+                colorCard == 'card3' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <h6 class="font-weight-bold">หู คอ จมูก</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="m-3">
+                <div
+                  @click="changeCardColor('card4')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
+                colorCard == 'card4' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <h6 class="font-weight-bold">โครงการเรารักษ์สุขภาพฯ</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" style="padding-left: 40px; padding-right: 40px;">
+          วิทยาเขต : บางขุนเทียน
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <div class="m-3">
+                <div
+                  @click="changeCardColor('card1')"
+                  :class="[
+                'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
+                colorCard == 'card1' ? 'div-card-click' : 'div-card-unclick'
+              ]"
+                >
+                  <h6 class="font-weight-bold">ฝังเข็ม</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="mt-3 text-left font-weight-bold">
+      <div class="mb-3" style="margin-top:32px">
+        <span>ส่วนที่ 2 : เพิ่มรายละเอียดบริการ</span>
+      </div>
+      <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
+        <div>
+
+        </div>
+      </div>
+    </div>
+    <!-- <label for="InputStartTime">เพิ่มวันให้บริการ</label>
+    <div class="row">
+      <div class="col-8">
+        <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
+          <option value disabled selected>-- กรุณาเลือกวัน --</option>
+          <option value="MONDAY">วันจันทร์</option>
+          <option value="TUESDAY">วันอังคาร</option>
+          <option value="WEDNESDAY">วันพุธ</option>
+          <option value="THURSDAY">วันพฤหัสบดี</option>
+          <option value="FRIDAY">วันศุกร์</option>
+          <option value="SATURDAY">วันเสาร์</option>
+          <option value="SUNDAY">วันอาทิตย์</option>
+        </select>
+      </div>
+      <div class="col-4">
+        <button
+          @click="addRole()"
+          style="background: #5E65A1; border-radius: 10px;"
+          class="col-12 btn btn-primary"
+          type="button"
+        >+ เพิ่ม</button>
+      </div>
+    </div>-->
   </div>
 </template>
 
@@ -58,98 +173,100 @@ import axios from "axios";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import manHome from "@/components/svg/manHome.vue";
 import VclFacebook from "vue-content-loading";
-import DashboardTableService from "@/components/dashboardTable/DashboardTableService.vue";
 
 export default {
   data() {
     return {
       loading: false,
+      colorCard: "",
       dataFetch: {
-        dataTypes: null,
+        dataLocation: [],
       },
       dataPrepareSend: {
-        service: {
-          day: "",
-          startTime: "",
-          endTime: "",
-          docter: "",
-          slot: "",
-        },
-        type_id: 1,
-        date: null,
+        serviceName: "",
+        location_id: "",
       },
-      serviceArray: [
-        { ชื่อบริการ: "service 1", ชื่อผู้รับผิดชอบ: "man 1" },
-        { ชื่อบริการ: "service 2", ชื่อผู้รับผิดชอบ: "man 1" },
-        { ชื่อบริการ: "service 3", ชื่อผู้รับผิดชอบ: "man 2" },
-        { ชื่อบริการ: "service 4", ชื่อผู้รับผิดชอบ: "man 1" },
-        { ชื่อบริการ: "service 5", ชื่อผู้รับผิดชอบ: "man 3" },
-      ],
     };
   },
   components: {
     ServiceTypeBox,
     manHome,
     VclFacebook,
-    DashboardTableService,
   },
   methods: {
-    async fetchService() {},
-    async fetchDate(serviceDataType) {
-      this.dataPrepareSend.type_id = serviceDataType.type_id;
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.token}` },
-          }
-        )
-        .then((res) => {
-          this.dataFetch.dataDates = res.data;
-          console.log(this.dataFetch.dataDates);
-        });
+    changeCardColor(nameCard) {
+      console.log(nameCard);
+      this.colorCard = nameCard;
     },
-    async fetchTimeSlot() {},
-    async sendServiceToBackend() {
-      console.log("sendServiceToBackend");
-      await axios
-        .post(
-          `${process.env.VUE_APP_BACKEND_URL}/servicetype/create`,
-          {
-            type_name: this.newservce,
+    async sendCreateService() {
+      if (
+        this.dataPrepareSend.serviceName != "" &&
+        this.dataPrepareSend.location_id != ""
+      ) {
+        // await axios
+        //   .post(
+        //     `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/createService`,
+        //     {
+        //       serviceName: this.dataPrepareSend.serviceName,
+        //       location_id: this.dataPrepareSend.location_id,
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: `Bearer ${this.$store.state.token}`,
+        //       },
+        //     }
+        //   )
+        //   .then((res) => {
+        //     if (res.status == 201) {
+        this.dataPrepareSend.serviceName = "";
+        this.dataPrepareSend.location_id = "";
+        this.$swal({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", this.$swal.stopTimer);
+            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
           },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          this.$swal({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            icon: "success",
-            title: "การเพิ่มประเภทการให้บริการสำเร็จ",
-          });
-          this.newservce = null;
+          timer: 3000,
+          icon: "success",
+          title: "สร้างบริการสำเร็จ",
         });
+        //   } else {
+        //     console.log("===== Backend-error ======");
+        //     console.error(res.data);
+        //     this.$swal({
+        //       icon: "warning",
+        //       title: "คำเตือน",
+        //       text: res.data,
+        //     });
+        //   }
+        // })
+        // .catch((res) => {
+        //   console.log("===== Backend-error ======");
+        //   console.error(res);
+        //   this.$swal({ ...errorSWAL });
+        // });
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      }
     },
+
     async sendTimeServiceToBackend() {
       console.log("sendTimeServiceToBackend");
       //Send DATA
     },
   },
   async mounted() {
-    //เรียกข้อมูล Default
-    //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` },
-      })
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
-        this.dataFetch.dataTypes = res.data;
+        this.dataFetch.dataLocation = res.data;
       });
   },
 };

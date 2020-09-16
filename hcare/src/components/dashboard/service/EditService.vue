@@ -46,29 +46,6 @@
       <div class="row">
         <div class="col-12 col-md-4 pt-4 pb-3 pl-5 pr-5 div-card">
           <div class="row mt-2">
-            <label for="InputStartTime">เพิ่มวันให้บริการ</label>
-            <div class="row">
-              <div class="col-8">
-                <select id="InputDay" v-model="dataPrepareSend.service.day" class="form-control">
-                  <option value disabled selected>-- กรุณาเลือกวัน --</option>
-                  <option value="MONDAY">วันจันทร์</option>
-                  <option value="TUESDAY">วันอังคาร</option>
-                  <option value="WEDNESDAY">วันพุธ</option>
-                  <option value="THURSDAY">วันพฤหัสบดี</option>
-                  <option value="FRIDAY">วันศุกร์</option>
-                  <option value="SATURDAY">วันเสาร์</option>
-                  <option value="SUNDAY">วันอาทิตย์</option>
-                </select>
-              </div>
-              <div class="col-4">
-                <button
-                  @click="addRole()"
-                  style="background: #5E65A1; border-radius: 10px;"
-                  class="col-12 btn btn-primary"
-                  type="button"
-                >+ เพิ่ม</button>
-              </div>
-            </div>
             <div class="col-12 mt-4">
               <div class="row">
                 <label for="InputStartTime">เลือกวันให้บริการ</label>
@@ -267,7 +244,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .div-card-unclick {
   border-radius: 8px;
   background-color: #5e65a1;
