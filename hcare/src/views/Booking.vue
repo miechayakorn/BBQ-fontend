@@ -8,18 +8,25 @@
     <div v-if="!loading" class="container fixed-container mb-3">
       <div class="form-group text-left">
         <label>เลือกสถานที่</label>
-        <div class="container">
-          <div class="row">
-            <div class="col-6" v-for="(item, index) in dataFetch.dataLacation" :key="index">
-              <input
-                type="radio"
-                name="location_id"
-                :value="item.location_id"
-                v-model="location_id"
-                style="vertical-align: middle;"
-              />&nbsp;
-              <span style="vertical-align: middle;">{{item.location_name}}</span>
-            </div>
+        <div class="col-12 text-center text-md-left">
+          <div
+            class="form-check form-check-inline"
+            v-for="(item, index) in dataFetch.dataLocation"
+            :key="index"
+          >
+            <input
+              class="form-check-input"
+              type="radio"
+              name="location_id"
+              :id="item.location_id"
+              :value="item.location_id"
+              v-model="location_id"
+            />
+            <label
+              style="cursor: pointer;"
+              class="form-check-label"
+              :for="item.location_id"
+            >{{item.location_name}}</label>
           </div>
         </div>
       </div>
@@ -112,7 +119,7 @@ export default {
         dataTypes: null,
         dataDates: null,
         dataTimes: null,
-        dataLacation: null,
+        dataLocation: null,
       },
       //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
@@ -139,7 +146,7 @@ export default {
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
-        this.dataFetch.dataLacation = res.data;
+        this.dataFetch.dataLocation = res.data;
       });
 
     //เรียกข้อมูล Default
@@ -147,7 +154,7 @@ export default {
 
     await axios
       .get(
-        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.dataFetch.dataLacation[0].location_id}`,
+        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.dataFetch.dataLocation[0].location_id}`,
         {
           // headers: { Authorization: `Bearer ${this.$store.state.token}` }
         }
