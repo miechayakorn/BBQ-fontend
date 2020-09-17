@@ -34,9 +34,11 @@
                   :value="item.location_id"
                   v-model="dataPrepareSend.location_id"
                 />
-                <label class="form-check-label" :for="item.location_id">{{
+                <label class="form-check-label" :for="item.location_id">
+                  {{
                   item.location_name
-                }}</label>
+                  }}
+                </label>
               </div>
             </div>
           </div>
@@ -45,9 +47,7 @@
           <button
             @click="sendCreateService"
             class="btn btn-primary mt-4 mb-4 mb-md-0 btnBlock btnConfirm fixed-button col-12 col-md-7 float-left"
-          >
-            เพิ่ม
-          </button>
+          >เพิ่ม</button>
         </div>
       </div>
     </div>
@@ -142,7 +142,7 @@
       </div>
       <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
         <div class="col-12 ml-5">
-          <span>บริการ</span>
+          <span>บริการ : ฝังเข็ม</span>
         </div>
         <div class="col-12">
           <div class="row pl-5 pr-5 p-2">
@@ -176,9 +176,7 @@
                 <div class="col-6">
                   <label for="Input1Slot">เวลาให้บริการต่อ 1 slot</label>
                   <select id="Input1Slot" class="form-control">
-                    <option value disabled selected
-                      >-- กรุณาเลือกเวลา --</option
-                    >
+                    <option value disabled selected>-- กรุณาเลือกเวลา --</option>
                     <option value="15">15 นาที</option>
                     <option value="30">30 นาที</option>
                     <option value="45">45 นาที</option>
@@ -192,11 +190,7 @@
         </div>
       </div>
       <div class="col-12 text-center mt-4">
-        <button
-          class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
-        >
-          บันทึก
-        </button>
+        <button class="btn btn-primary btnBlock btnConfirm fixed-button text-center">บันทึก</button>
       </div>
     </div>
   </div>
@@ -214,18 +208,18 @@ export default {
       loading: false,
       colorCard: "",
       dataFetch: {
-        dataLocation: []
+        dataLocation: [],
       },
       dataPrepareSend: {
         serviceName: "",
-        location_id: ""
-      }
+        location_id: "",
+      },
     };
   },
   components: {
     ServiceTypeBox,
     manHome,
-    VclFacebook
+    VclFacebook,
   },
   methods: {
     changeCardColor(nameCard) {
@@ -259,13 +253,13 @@ export default {
           position: "top-end",
           showConfirmButton: false,
           timerProgressBar: true,
-          onOpen: toast => {
+          onOpen: (toast) => {
             toast.addEventListener("mouseenter", this.$swal.stopTimer);
             toast.addEventListener("mouseleave", this.$swal.resumeTimer);
           },
           timer: 3000,
           icon: "success",
-          title: "สร้างบริการสำเร็จ"
+          title: "สร้างบริการสำเร็จ",
         });
         //   } else {
         //     console.log("===== Backend-error ======");
@@ -286,7 +280,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกข้อมูลให้ครบ"
+          text: "กรุณากรอกข้อมูลให้ครบ",
         });
       }
     },
@@ -294,13 +288,15 @@ export default {
     async sendTimeServiceToBackend() {
       console.log("sendTimeServiceToBackend");
       //Send DATA
-    }
+    },
   },
   async mounted() {
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/location`).then(res => {
-      this.dataFetch.dataLocation = res.data;
-    });
-  }
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
+      .then((res) => {
+        this.dataFetch.dataLocation = res.data;
+      });
+  },
 };
 </script>
 
