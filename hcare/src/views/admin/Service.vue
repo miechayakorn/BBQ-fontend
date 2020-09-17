@@ -38,11 +38,21 @@
               ]"
             >แก้ไขบริการ</router-link>
           </li>
+          <li :class="{ active: this.$route.query.p === 'LocationService' }" style="margin-left: 63px;">
+            <router-link
+              to="?p=LocationService"
+              :class="[
+                'disText',
+                { activeText: this.$route.query.p === 'LocationService' }
+              ]"
+            >เพิ่มสถานที่ให้บริการ</router-link>
+          </li>
         </ul>
       </nav>
       <TotalService  v-if="this.$route.query.p == 'TotalService'  || this.$route.query.p == undefined" />
       <AddService v-if="this.$route.query.p == 'AddService'" />
       <EditService v-if="this.$route.query.p == 'EditService'" />
+      <LocationService v-if="this.$route.query.p == 'LocationService'" />
     </div>
   </div>
 </template>
@@ -52,6 +62,7 @@ import Menudash from "@/components/dashboard/Menudash.vue";
 import TotalService from "@/components/dashboard/service/TotalService.vue";
 import AddService from "@/components/dashboard/service/AddService.vue";
 import EditService from "@/components/dashboard/service/EditService.vue";
+import LocationService from "@/components/dashboard/service/LocationService.vue";
 import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
@@ -59,7 +70,7 @@ export default {
     Menudash,
     TotalService,
     AddService,
-    EditService,
+    EditService,LocationService,
     MenuMobile,
   },
 };
