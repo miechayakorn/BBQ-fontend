@@ -23,41 +23,90 @@
                   class="font-weight-bold mb-3"
                   style="font-size: 20px; color: #5E65A1;"
                 >หู คอ จมูก</h6>
-                <img
-                  src="https://picsum.photos/200"
-                  class="rounded-circle m-2"
-                  alt="Cinque Terre"
-                  width="65"
-                  height="65"
-                />
-                <img
-                  src="https://picsum.photos/200"
-                  class="rounded-circle m-2"
-                  alt="Cinque Terre"
-                  width="65"
-                  height="65"
-                />
-                <img
-                  src="https://picsum.photos/200"
-                  class="rounded-circle m-2"
-                  alt="Cinque Terre"
-                  width="65"
-                  height="65"
-                />
-                <img
-                  src="https://picsum.photos/200"
-                  class="rounded-circle m-2"
-                  alt="Cinque Terre"
-                  width="65"
-                  height="65"
-                />
-                <img
-                  src="https://picsum.photos/200"
-                  class="rounded-circle m-2"
-                  alt="Cinque Terre"
-                  width="65"
-                  height="65"
-                />
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />
+                  <div class="dropdown-content-location">
+                    <div class="row">
+                      <div class="col-12">นาย ชยากร ปราชชญากุล</div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-12 mt-4">
                 <button type="button" @click="removeService()" class="btn">
@@ -100,4 +149,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.dropdown-content-location {
+  background-color: #5e65a2;
+  color: white;
+  border-radius: 20px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: none;
+  position: fixed;
+  z-index: 1;
+}
+.dropdown:hover .dropdown-content-location {
+  display: block;
+}
+</style>
