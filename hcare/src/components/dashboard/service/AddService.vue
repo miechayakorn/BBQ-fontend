@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-4">
-    <div class="row mt-3 bg-blueMan2">
+    <div class="row mt-3 bg-blueMan2" v-if="this.$store.state.role == 'ADMIN'">
       <div class="col-6">
         <manHome class="d-none d-md-block mx-auto mt-4" />
       </div>
