@@ -1,6 +1,73 @@
 <template>
-  <div class="container mt-3">
-    <div class="mt-3 div-card">
+  <div class="container mt-3 col-12 col-md-6">
+    <div class="form-group text-left" style="margin-top:48px;">
+      <div class="col-12">
+        <label for="InputEmail">อีเมลผู้ป่วย</label>
+        <input
+          type="email"
+          v-model="email"
+          class="form-control"
+          placeholder="example@kmutt.ac.th"
+          required
+        />
+      </div>
+      <div class="col-12 mt-3">
+        <label>เลือกสถานที่</label>
+        <div class="col-12 text-center text-md-left">
+          <div
+            class="form-check form-check-inline"
+            v-for="(item, index) in dataFetch.dataLocation"
+            :key="index"
+          >
+            <input
+              class="form-check-input"
+              type="radio"
+              name="location_id"
+              :id="item.location_id"
+              :value="item.location_id"
+              v-model="location_id"
+            />
+            <label
+              style="cursor: pointer;"
+              class="form-check-label"
+              :for="item.location_id"
+            >{{item.location_name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
+        <label for="InputEmail">เลือกบริการ</label>
+        <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+      </div>
+      <div class="col-12 mt-3">
+        <h6 class="text-left">วันที่</h6>
+        <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+      </div>
+      <div class="col-12 mt-3">
+        <label for="selectTime" class="d-flex justify-content-start">เลือกเวลา</label>
+        <ServiceTimeBox
+          :dataTimes="dataFetch.dataTimes"
+          :activeTime="dataShow.activeBtnTime"
+          v-on:booking="onChangeTime"
+        />
+      </div>
+      <div class="col-12 mt-3">
+        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+        <textarea
+          rows="3"
+          class="form-control"
+          v-model="dataPrepareSend.symptom"
+          :disabled="dataShow.disableSymptom"
+        ></textarea>
+      </div>
+      <div class="col-12 mt-3 text-center">
+        <button
+          @click="sendToBackend"
+          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+        >Confirm</button>
+      </div>
+    </div>
+    <!-- <div class="mt-3 div-card">
       <div class="row bg-blueMan2">
         <div class="col-4">
           <man2 class="d-none d-md-block mt-3 mb-3" />
@@ -61,7 +128,7 @@
           >Confirm</button>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -75,6 +142,7 @@ import man2 from "@/components/svg/man2.vue";
 export default {
   data() {
     return {
+      location_id: 1,
       email: null,
       dataPrepareSend: {
         booking_id: null,
@@ -82,6 +150,7 @@ export default {
         symptom: null,
       },
       dataFetch: {
+        dataLocation: [],
         dataTypes: null,
         dataDates: null,
         dataTimes: null,
@@ -270,7 +339,23 @@ export default {
     ServiceDateBox,
     ServiceTimeBox,
   },
+  watch: {
+    location_id: {
+      handler: async function (val, oldCal) {
+        await axios
+          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val}`)
+          .then((res) => {
+            this.dataFetch.dataTypes = res.data;
+          });
+      },
+    },
+  },
   async mounted() {
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
+      .then((res) => {
+        this.dataFetch.dataLocation = res.data;
+      });
     //เรียกข้อมูล Default
     //Type
     await axios
