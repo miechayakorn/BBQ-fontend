@@ -127,25 +127,24 @@
           </div>
           <div class="row mt-4 mb-4">
             <div class="col-12">
-              <router-link to="/admin/dashboard/manageEmployee?p=addEmp">
-                <button
-                  class="col-5 btn btn-primary btnBlock btnBack fixed-button text-center mr-4"
+              <button
+                @click="close()"
+                class="col-5 btn btn-primary btnBlock btnBack fixed-button text-center mr-4"
+              >
+                <svg
+                  width="19"
+                  height="13"
+                  viewBox="0 0 19 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    width="19"
-                    height="13"
-                    viewBox="0 0 19 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M18.9785 5.14307H4.80852L8.38852 1.55307L6.97852 0.143066L0.978516 6.14307L6.97852 12.1431L8.38852 10.7331L4.80852 7.14307H18.9785V5.14307Z"
-                      fill="#99A3FF"
-                    />
-                  </svg>
-                  ย้อนกลับ
-                </button>
-              </router-link>
+                  <path
+                    d="M18.9785 5.14307H4.80852L8.38852 1.55307L6.97852 0.143066L0.978516 6.14307L6.97852 12.1431L8.38852 10.7331L4.80852 7.14307H18.9785V5.14307Z"
+                    fill="#99A3FF"
+                  />
+                </svg>
+                ย้อนกลับ
+              </button>
               <button
                 @click="sendToBackend"
                 class="col-5 btn btn-primary btnBlock btnConfirm fixed-button text-center"
@@ -198,11 +197,14 @@ export default {
         console.log("===== Backend-error ======");
         console.error(res);
         this.$swal({ ...errorSWAL });
-        this.$router.push("/admin/dashboard/manageemployee/");
+        close();
       });
     this.loading = false;
   },
   methods: {
+    close() {
+      close();
+    },
     async sendToBackend() {
       if (
         this.dataFetch.account_id != "" &&
