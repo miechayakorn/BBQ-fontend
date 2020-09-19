@@ -300,38 +300,4 @@ th.active .arrow.dsc {
   border-right: 4px solid transparent;
   border-top: 4px solid #cdc;
 }
-
-.previousPage {
-  position: relative;
-}
-
-.previousPage:before {
-  content: "\f104";
-  font-family: FontAwesome;
-  position: absolute;
-}
-
-.nextPage {
-  position: relative;
-}
-
-.nextPage:before {
-  content: "\f105";
-  font-family: FontAwesome;
-  position: absolute;
-  left: 5px;
-}
-.detail {
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 15px;
-  /* identical to box height */
-
-  display: flex;
-  align-items: center;
-
-  color: #000000;
-}
 </style>
