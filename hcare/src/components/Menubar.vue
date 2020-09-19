@@ -70,17 +70,6 @@
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="/queue"
-            >
-              <iconPaper style="margin-right:14px;" />กดคิว
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
               to="#"
             >
               <iconClock style="margin-right:14px;" />ตารางให้บริการ
@@ -216,7 +205,6 @@ export default {
   .navbar-collapse {
     position: absolute;
     top: 45px;
-    /* left: 100%; */
     margin-left: 20%;
     padding-left: 15px;
     padding-right: 15px;
@@ -239,10 +227,6 @@ export default {
   color: #555555;
 }
 .centerImg {
-  /* display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%; */
   display: block;
   margin: auto;
   margin-top: 24px;
