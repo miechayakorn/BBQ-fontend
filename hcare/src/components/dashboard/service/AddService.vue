@@ -52,97 +52,46 @@
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-
     <div class="mt-3 text-left font-weight-bold">
       <div class="mb-3" style="margin-top:32px">
         <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
       <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
-        <div class="col-12" style="padding-left: 40px; padding-right: 40px;">
-          วิทยาเขต : บางมด
+        <div
+          class="col-12"
+          style="padding-left: 40px; padding-right: 40px;"
+          v-for="(item, index) in dataFetch.dataService"
+          :key="index"
+        >
+          {{item.location_name}}
           <div class="row">
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3" v-for="(service, index) in item.service" :key="index">
               <div class="m-3">
                 <div
-                  @click="changeCardColor('card1')"
+                  @click="changeCardColor(service.type_id,service.type_name,item.location_name)"
                   :class="[
                     'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == 'card1' ? 'div-card-click' : 'div-card-unclick'
+                    colorCard == service.type_id ? 'div-card-click' : 'div-card-unclick'
                   ]"
                 >
-                  <h6 class="font-weight-bold">ฝังเข็ม</h6>
+                  <h6 class="font-weight-bold">{{service.type_name}}</h6>
                 </div>
               </div>
             </div>
-            <div class="col-12 col-md-3">
-              <div class="m-3">
-                <div
-                  @click="changeCardColor('card2')"
-                  :class="[
-                    'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == 'card2' ? 'div-card-click' : 'div-card-unclick'
-                  ]"
-                >
-                  <h6 class="font-weight-bold">จิตแพทย์/นักจิตวิทยา</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-              <div class="m-3">
-                <div
-                  @click="changeCardColor('card3')"
-                  :class="[
-                    'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == 'card3' ? 'div-card-click' : 'div-card-unclick'
-                  ]"
-                >
-                  <h6 class="font-weight-bold">หู คอ จมูก</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-              <div class="m-3">
-                <div
-                  @click="changeCardColor('card4')"
-                  :class="[
-                    'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == 'card4' ? 'div-card-click' : 'div-card-unclick'
-                  ]"
-                >
-                  <h6 class="font-weight-bold">โครงการเรารักษ์สุขภาพฯ</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12" style="padding-left: 40px; padding-right: 40px;">
-          วิทยาเขต : บางขุนเทียน
-          <div class="row">
-            <div class="col-12 col-md-3">
-              <div class="m-3">
-                <div
-                  @click="changeCardColor('card1')"
-                  :class="[
-                    'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == 'card1' ? 'div-card-click' : 'div-card-unclick'
-                  ]"
-                >
-                  <h6 class="font-weight-bold">ฝังเข็ม</h6>
-                </div>
-              </div>
+            <div class="col-12 m-3" v-show="item.service.length == 0">
+              <div class="alert p-3 alert-warning">ไม่พบบริการในสถานที่นี้</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="mt-3 text-left font-weight-bold">
+    <div v-show="selectedService != ''" class="mt-3 text-left font-weight-bold">
       <div class="mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เพิ่มรายละเอียดบริการ</span>
       </div>
       <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
         <div class="col-12 ml-5">
-          <span>บริการ : ฝังเข็ม</span>
+          <span style="font-size: 20px;">บริการ : {{selectedService}}</span>
         </div>
         <div class="col-12">
           <div class="row pl-5 pr-5 p-2">
@@ -150,7 +99,7 @@
               <div class="row">
                 <div class="col-6">
                   <label for="InputDay">เพิ่มวันให้บริการ</label>
-                  <select id="InputDay" class="form-control">
+                  <select v-model="dataPrepareSend.worktime.day" id="InputDay" class="form-control">
                     <option value disabled selected>-- กรุณาเลือกวัน --</option>
                     <option value="MONDAY">วันจันทร์</option>
                     <option value="TUESDAY">วันอังคาร</option>
@@ -163,25 +112,50 @@
                 </div>
                 <div class="col-6">
                   <label for="InputMan">ผู้ให้บริการ</label>
-                  <input class="form-control" type="text" id="InputMan" />
+                  <select
+                    v-model="dataPrepareSend.worktime.account_id"
+                    id="InputMan"
+                    class="form-control"
+                  >
+                    <option value disabled selected>-- กรุณาผู้ให้บริการ --</option>
+                    <option
+                      :value="item.account_id"
+                      v-for="(item, index) in dataFetch.dataEmployee"
+                      :key="index"
+                    >{{item.prefix}} {{item.first_name}} {{item.last_name}}</option>
+                  </select>
                 </div>
                 <div class="col-6">
                   <label for="InputStartTime">เวลาเริ่มบริการ</label>
-                  <input class="form-control" type="time" id="InputStartTime" />
+                  <input
+                    v-model="dataPrepareSend.worktime.start_time"
+                    class="form-control"
+                    type="time"
+                    id="InputStartTime"
+                  />
                 </div>
                 <div class="col-6">
                   <label for="InputEndTime">เวลาเลิกบริการ</label>
-                  <input class="form-control" type="time" id="InputEndTime" />
+                  <input
+                    v-model="dataPrepareSend.worktime.end_time"
+                    class="form-control"
+                    type="time"
+                    id="InputEndTime"
+                  />
                 </div>
                 <div class="col-6">
                   <label for="Input1Slot">เวลาให้บริการต่อ 1 slot</label>
-                  <select id="Input1Slot" class="form-control">
+                  <select
+                    v-model="dataPrepareSend.worktime.time_slot"
+                    id="Input1Slot"
+                    class="form-control"
+                  >
                     <option value disabled selected>-- กรุณาเลือกเวลา --</option>
                     <option value="15">15 นาที</option>
                     <option value="30">30 นาที</option>
                     <option value="45">45 นาที</option>
-                    <option value="60">60 นาที</option>
-                    <option value="75">75 นาที</option>
+                    <option value="60">1 ชั่วโมง</option>
+                    <option value="75">1 ชั่วโมง 15 นาที</option>
                   </select>
                 </div>
               </div>
@@ -198,6 +172,7 @@
 
 <script>
 import axios from "axios";
+import { errorSWAL } from "@/utility/swal.js";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import manHome from "@/components/svg/manHome.vue";
 import VclFacebook from "vue-content-loading";
@@ -207,12 +182,23 @@ export default {
     return {
       loading: false,
       colorCard: "",
+      selectedService: "",
       dataFetch: {
         dataLocation: [],
+        dataService: [],
+        dataEmployee: [],
       },
       dataPrepareSend: {
         serviceName: "",
         location_id: "",
+        worktime: {
+          type_id: "",
+          day: "",
+          account_id: "",
+          start_time: "",
+          end_time: "",
+          time_slot: "",
+        },
       },
     };
   },
@@ -222,60 +208,85 @@ export default {
     VclFacebook,
   },
   methods: {
-    changeCardColor(nameCard) {
-      console.log(nameCard);
-      this.colorCard = nameCard;
+    changeCardColor(type_id, type_name, location_name) {
+      console.log(type_id);
+      this.colorCard = type_id;
+      this.dataPrepareSend.worktime.type_id = type_id;
+      this.selectedService = type_name + " (" + location_name + ")";
+    },
+    async getEmployee() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/getemployee`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        })
+        .then((res) => {
+          this.dataFetch.dataEmployee = res.data;
+        });
+    },
+    async getService() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/getservice`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        })
+        .then((res) => {
+          this.dataFetch.dataService = res.data;
+        });
     },
     async sendCreateService() {
       if (
         this.dataPrepareSend.serviceName != "" &&
         this.dataPrepareSend.location_id != ""
       ) {
-        // await axios
-        //   .post(
-        //     `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/createService`,
-        //     {
-        //       serviceName: this.dataPrepareSend.serviceName,
-        //       location_id: this.dataPrepareSend.location_id,
-        //     },
-        //     {
-        //       headers: {
-        //         Authorization: `Bearer ${this.$store.state.token}`,
-        //       },
-        //     }
-        //   )
-        //   .then((res) => {
-        //     if (res.status == 201) {
-        this.dataPrepareSend.serviceName = "";
-        this.dataPrepareSend.location_id = "";
-        this.$swal({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-          timer: 3000,
-          icon: "success",
-          title: "สร้างบริการสำเร็จ",
-        });
-        //   } else {
-        //     console.log("===== Backend-error ======");
-        //     console.error(res.data);
-        //     this.$swal({
-        //       icon: "warning",
-        //       title: "คำเตือน",
-        //       text: res.data,
-        //     });
-        //   }
-        // })
-        // .catch((res) => {
-        //   console.log("===== Backend-error ======");
-        //   console.error(res);
-        //   this.$swal({ ...errorSWAL });
-        // });
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/addservice`,
+            {
+              service_name: this.dataPrepareSend.serviceName,
+              location_id: this.dataPrepareSend.location_id,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status == 201) {
+              this.dataPrepareSend.serviceName = "";
+              this.dataPrepareSend.location_id = "";
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                },
+                timer: 3000,
+                icon: "success",
+                title: "สร้างบริการสำเร็จ",
+              });
+              this.getService();
+            } else {
+              console.log("===== Backend-error ======");
+              console.error(res.data);
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: res.data,
+              });
+            }
+          })
+          .catch((res) => {
+            console.log("===== Backend-error ======");
+            console.error(res);
+            this.$swal({ ...errorSWAL });
+          });
       } else {
         this.$swal({
           icon: "warning",
@@ -296,6 +307,8 @@ export default {
       .then((res) => {
         this.dataFetch.dataLocation = res.data;
       });
+    this.getService();
+    this.getEmployee();
   },
 };
 </script>

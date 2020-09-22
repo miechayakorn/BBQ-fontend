@@ -26,7 +26,7 @@
                 <div
                   class="alert p-2 alert-warning"
                   v-show="item.staff_list.length == 0"
-                >ยังไม่มีเจ้าหน้าที่ที่รับผิดชอบบริการนี้</div>
+                >ไม่พบเจ้าหน้าที่ที่รับผิดชอบบริการนี้</div>
                 <div
                   v-show="item.staff_list.length != 0"
                   class="dropdown"
