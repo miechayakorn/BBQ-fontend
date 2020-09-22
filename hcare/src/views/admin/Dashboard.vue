@@ -83,6 +83,7 @@ export default {
 
 .bg-blueMan2 {
   background-color: #e0e3ff;
+  box-shadow: 0px 4px 8px #e9ebfb;
 }
 
 .div-card {

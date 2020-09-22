@@ -20,9 +20,7 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            นัดหมาย
-          </p>
+          >นัดหมาย</p>
         </router-link>
       </div>
       <div class="p-2 bg-primary">
@@ -40,9 +38,7 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            ตารางเวลา
-          </p>
+          >ตารางเวลา</p>
         </router-link>
       </div>
       <div class="p-2 bg-primary">
@@ -60,13 +56,11 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            บริการ
-          </p>
+          >บริการ</p>
         </routerLink>
       </div>
 
-      <div class="p-2 bg-primary">
+      <div class="p-2 bg-primary" v-if="this.$store.state.role == 'ADMIN'">
         <routerLink to="/admin/dashboard/manageEmployee">
           <iconEmp
             :color="
@@ -81,9 +75,7 @@
                 ? 'menu-list-click'
                 : 'menu-list'
             "
-          >
-            จัดการเจ้าหน้าที่
-          </p>
+          >จัดการเจ้าหน้าที่</p>
         </routerLink>
       </div>
     </div>
@@ -104,7 +96,7 @@ export default {
     iconEmp,
     iconSetting,
     iconLogout,
-    iconService
+    iconService,
   },
   data() {
     return {
@@ -122,8 +114,8 @@ export default {
   methods: {
     onResize() {
       this.windowHeight = window.innerHeight;
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
