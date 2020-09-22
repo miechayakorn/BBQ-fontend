@@ -125,7 +125,7 @@
                     >{{item.prefix}} {{item.first_name}} {{item.last_name}}</option>
                   </select>
                 </div>
-                <div class="col-6">
+                <div class="col-6 mt-2">
                   <label for="InputStartTime">เวลาเริ่มบริการ</label>
                   <input
                     v-model="dataPrepareSend.worktime.start_time"
@@ -134,7 +134,7 @@
                     id="InputStartTime"
                   />
                 </div>
-                <div class="col-6">
+                <div class="col-6 mt-2">
                   <label for="InputEndTime">เวลาเลิกบริการ</label>
                   <input
                     v-model="dataPrepareSend.worktime.end_time"
@@ -143,7 +143,7 @@
                     id="InputEndTime"
                   />
                 </div>
-                <div class="col-6">
+                <div class="col-6 mt-2">
                   <label for="Input1Slot">เวลาให้บริการต่อ 1 slot</label>
                   <select
                     v-model="dataPrepareSend.worktime.time_slot"
@@ -164,7 +164,10 @@
         </div>
       </div>
       <div class="col-12 text-center mt-4">
-        <button class="btn btn-primary btnBlock btnConfirm fixed-button text-center">บันทึก</button>
+        <button
+          @click="sendWorktime"
+          class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
+        >บันทึก</button>
       </div>
     </div>
   </div>
@@ -295,10 +298,75 @@ export default {
         });
       }
     },
+    async sendWorktime() {
+      if (
+        this.dataPrepareSend.worktime.type_id != "" &&
+        this.dataPrepareSend.worktime.day != "" &&
+        this.dataPrepareSend.worktime.account_id != "" &&
+        this.dataPrepareSend.worktime.start_time != "" &&
+        this.dataPrepareSend.worktime.end_time != "" &&
+        this.dataPrepareSend.worktime.time_slot != ""
+      ) {
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
+            {
+              type_id: this.dataPrepareSend.worktime.type_id,
+              day: this.dataPrepareSend.worktime.day,
+              account_id: this.dataPrepareSend.worktime.account_id,
+              start_time: this.dataPrepareSend.worktime.start_time + ":00",
+              end_time: this.dataPrepareSend.worktime.end_time + ":00",
+              time_slot: this.dataPrepareSend.worktime.time_slot,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status == 201) {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                },
+                timer: 3000,
+                icon: "success",
+                title: "เพิ่มบริการสำเร็จ",
+              });
 
-    async sendTimeServiceToBackend() {
-      console.log("sendTimeServiceToBackend");
-      //Send DATA
+              this.dataPrepareSend.worktime.day = "";
+              this.dataPrepareSend.worktime.account_id = "";
+              this.dataPrepareSend.worktime.start_time = "";
+              this.dataPrepareSend.worktime.end_time = "";
+              this.dataPrepareSend.worktime.time_slot = "";
+            } else {
+              console.log("===== Backend-error ======");
+              console.error(res.data);
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: res.data,
+              });
+            }
+          })
+          .catch((res) => {
+            console.log("===== Backend-error ======");
+            console.error(res);
+            this.$swal({ ...errorSWAL });
+          });
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      }
     },
   },
   async mounted() {
