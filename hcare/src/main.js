@@ -11,7 +11,6 @@ import DataTable from 'v-data-table'
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(DataTable)
-Vue.use(require('vue-moment'));
 Vue.use(ToggleButton)
 
 new Vue({
