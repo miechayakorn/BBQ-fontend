@@ -40,9 +40,9 @@
               :width="45"
               :height="25"
               :font-size="14"
-              value
+              :value="item.is_active"
               color="#99a3ff"
-              @change="statusService(time,$event.value)"
+              @change="statusService(item.location_id,$event.value)"
             />
           </div>
         </div>
@@ -53,6 +53,7 @@
 
 <script>
 import axios from "axios";
+import { errorSWAL } from "@/utility/swal.js";
 import docterLocation from "@/components/svg/docterLocation.vue";
 import iconLocation from "@/components/svg/icon/iconLocation.vue";
 import VclFacebook from "vue-content-loading";
@@ -62,7 +63,7 @@ export default {
     return {
       loading: false,
       dataFetch: { dataLocation: [] },
-      dataPrepareSend: {},
+      dataPrepareSend: { location_name: "" },
     };
   },
   components: {
@@ -71,15 +72,107 @@ export default {
     iconLocation,
   },
   methods: {
-    sendCreateService() {},
-    statusService() {},
+    async sendCreateService() {
+      await axios
+        .post(
+          `${process.env.VUE_APP_BACKEND_URL}/addlocation`,
+          {
+            location_name: this.dataPrepareSend.location_name,
+          },
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.dataPrepareSend.location_name = "";
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+              timer: 3000,
+              icon: "success",
+              title: "สร้างสถานที่สำเร็จ",
+            });
+            this.getLocation();
+          } else {
+            console.log("===== Backend-error ======");
+            console.error(res.data);
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: res.data,
+            });
+          }
+        })
+        .catch((res) => {
+          console.log("===== Backend-error ======");
+          console.error(res);
+          this.$swal({ ...errorSWAL });
+        });
+    },
+    async statusService(location_id, status) {
+      await axios
+        .patch(
+          `${process.env.VUE_APP_BACKEND_URL}/updatelocationstatus`,
+          {
+            location_id: location_id,
+            status: status,
+          },
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.dataPrepareSend.location_name = "";
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+              timer: 3000,
+              icon: "success",
+              title: "แก้ไขสถานที่สำเร็จ",
+            });
+            this.getLocation();
+          } else {
+            console.log("===== Backend-error ======");
+            console.error(res.data);
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: res.data,
+            });
+          }
+        })
+        .catch((res) => {
+          console.log("===== Backend-error ======");
+          console.error(res);
+          this.$swal({ ...errorSWAL });
+        });
+    },
+    async getLocation() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/getlocations`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        })
+        .then((res) => {
+          this.dataFetch.dataLocation = res.data;
+        });
+    },
   },
-  async mounted() {
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
-      .then((res) => {
-        this.dataFetch.dataLocation = res.data;
-      });
+  mounted() {
+    this.getLocation();
   },
 };
 </script>
