@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar fixed-top bg-white bd-navbar site-header sticky-top">
     <router-link to="/">
-      <logoHeaderMini style="width: 55px; height: 17px; margin-top:0px;" />
+      <logoHeaderMini style="width: 55px; height: 17px; margin-top: 0px" />
     </router-link>
     <button
       class="navbar-toggler toggler-example"
@@ -12,23 +12,31 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span style="color:#99A3FF">
+      <span style="color: #99a3ff">
         <i class="fas fa-bars fa-1x"></i>
       </span>
     </button>
 
-    <div class="collapse navbar-collapse bg-white text-left text-md-center" id="navbarCollapse">
+    <div
+      class="collapse navbar-collapse bg-white text-left text-md-center"
+      id="navbarCollapse"
+    >
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
           <div class="float-right">V 1.0</div>
-          <logoAdmin v-if="this.$store.state.role == 'ADMIN'" class="centerImg" />
-          <logoStaff v-else-if="this.$store.state.role == 'STAFF'" class="centerImg" />
+          <logoAdmin
+            v-if="this.$store.state.role == 'ADMIN'"
+            class="centerImg"
+          />
+          <logoStaff
+            v-else-if="this.$store.state.role == 'STAFF'"
+            class="centerImg"
+          />
           <logoUser v-else class="centerImg" />
-          <p
-            v-if="log"
-            class="d-flex justify-content-center mb-0 mt-2"
-          >{{ user.first_name }} {{ user.last_name }}</p>
+          <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
+            {{ user.first_name }} {{ user.last_name }}
+          </p>
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -36,9 +44,9 @@
             v-if="log == false"
             to="/login"
           >
-            <p
-              class="d-flex justify-content-center mb-0 mt-2"
-            >{{ user.first_name }} {{ user.last_name }}</p>
+            <p class="d-flex justify-content-center mb-0 mt-2">
+              {{ user.first_name }} {{ user.last_name }}
+            </p>
           </router-link>
         </li>
         <hr class="lineHr" />
@@ -50,7 +58,7 @@
             aria-expanded="false"
           >
             <router-link class="nav-link blackTextMenu" to="/">
-              <iconHome style="margin-right:14px;" />Home
+              <iconHome style="margin-right: 14px" />Home
             </router-link>
           </li>
           <li class="nav-item">
@@ -61,7 +69,29 @@
               class="nav-link blackTextMenu"
               to="/booking"
             >
-              <iconNote style="margin-right:14px;" />ทำนัด
+              <iconNote style="margin-right: 14px" />ทำนัด
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="/appointment"
+            >
+              <iconCalendar style="margin-right: 14px" />นัดของฉัน
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+              aria-expanded="false"
+              class="nav-link blackTextMenu"
+              to="/history"
+            >
+              <iconTime style="margin-right: 14px" />ประวัติรับบริการ
             </router-link>
           </li>
           <!-- <li class="nav-item">
@@ -76,18 +106,7 @@
             </router-link>
           </li>-->
           <hr class="lineHr" />
-          <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
-              to="/appointment"
-            >
-              <iconCalendar style="margin-right:14px;" />นัดของฉัน
-            </router-link>
-          </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link
               data-toggle="collapse"
               data-target="#navbarCollapse"
@@ -97,18 +116,7 @@
             >
               <iconNoti style="margin-right:14px;" />Notification
             </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
-              to="/history"
-            >
-              <iconTime style="margin-right:14px;" />History
-            </router-link>
-          </li>
+          </li> -->
           <router-link
             v-if="role"
             data-toggle="collapse"
@@ -117,7 +125,7 @@
             class="nav-link blackTextMenu"
             to="/admin/dashboard"
           >
-            <iconHome style="margin-right:14px;" />Admin Dashboard
+            <iconHome style="margin-right: 14px" />Admin Dashboard
           </router-link>
           <hr class="lineHr" />
           <router-link v-if="log" to="/logout">
@@ -127,7 +135,7 @@
               aria-expanded="false"
               class="btn btnLogout mx-auto d-flex justify-content-center"
             >
-              <span style="font-weight:900">ออกจากระบบ</span>
+              <span style="font-weight: 900">ออกจากระบบ</span>
             </button>
           </router-link>
           <router-link v-else to="/login">
@@ -137,7 +145,7 @@
               aria-expanded="false"
               class="btn btnLogout mx-auto"
             >
-              <span style="font-weight:900">เข้าสู่ระบบ</span>
+              <span style="font-weight: 900">เข้าสู่ระบบ</span>
             </button>
           </router-link>
         </div>
