@@ -64,6 +64,12 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <div
+          class="alert p-2 alert-warning"
+          v-show="dataService.length == 0"
+        >ไม่พบบริการที่รับผิดชอบ</div>
+      </div>
     </div>
   </div>
 </template>

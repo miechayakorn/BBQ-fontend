@@ -38,7 +38,7 @@
               ]"
             >แก้ไขบริการ</router-link>
           </li>
-          <li :class="{ active: this.$route.query.p === 'LocationService' }" style="margin-left: 63px;">
+          <li v-if="this.$store.state.role == 'ADMIN'" :class="{ active: this.$route.query.p === 'LocationService' }" style="margin-left: 63px;">
             <router-link
               to="?p=LocationService"
               :class="[
