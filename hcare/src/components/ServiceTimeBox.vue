@@ -3,20 +3,25 @@
     <div class="container">
       <div class="row" v-if="dataTimes == null">
         <div class="col-12">
-          <div class="alert alert-warning text-center" role="alert">กรุณาเลือกวันให้เรียบร้อย</div>
+          <div class="alert alert-warning text-center" role="alert">
+            กรุณาเลือกวันให้เรียบร้อย
+          </div>
         </div>
       </div>
       <div class="row" v-if="dataTimes != null">
-        <div v-for="(timeLoop, index) in dataTimes" :key="index" class="col-xs-3 text-center">
+        <div
+          v-for="(timeLoop, index) in dataTimes"
+          :key="index"
+          class="col-xs-3 text-center"
+        >
           <button
             href="#"
             :class="[
-            checkButtonStatus(timeLoop.availability,timeLoop.status)
-               
+              checkButtonStatus(timeLoop.availability, timeLoop.status)
                 ? 'btn btn-outline-primary mr-2 mb-2 btnTime'
                 : 'btn btn-secondary mr-2 mb-2 disable btnTime btnDisabled',
 
-              { active: activeTime === 'btn' + index }
+              { active: activeTime === 'btn' + index },
             ]"
             @click="
               [
@@ -26,11 +31,15 @@
                       timeLoop.time_in.slice(0, 5),
                       (activeTime = 'btn' + index)
                     )
-                  : ''
+                  : '',
               ]
             "
-            :disabled="timeLoop.status != null ? true : false"
-          >{{ timeLoop.time_in.slice(0, 5) }}</button>
+            :disabled="
+              checkButtonStatus(timeLoop.availability, timeLoop.status) == false
+            "
+          >
+            {{ timeLoop.time_in.slice(0, 5) }}
+          </button>
         </div>
       </div>
     </div>
