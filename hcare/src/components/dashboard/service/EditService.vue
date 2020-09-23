@@ -214,20 +214,11 @@ export default {
         dataEmployee: [],
         dataWorkTime: [],
         dataWorkTimeDetail: {
-          day: "",
-          doctor_id: "",
-          end_time: "",
-          first_name: "",
-          last_name: "",
-          location_id: "",
-          location_name: "",
-          prefix: "",
-          start_time: "",
-          status: "",
-          time_slot: "",
-          type_id: "",
-          type_name: "",
           working_id: "",
+          start_time: "",
+          end_time: "",
+          time_slot: "",
+          doctor_id: "",
         },
       },
     };
@@ -371,7 +362,6 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
-                this.dataFetch.dataSlotTime = [];
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
@@ -418,11 +408,10 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
-                this.dataFetch.dataSlotTime = [];
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
-                  text: "ไม่มีวันในบริการที่คุณเลือก",
+                  text: "ไม่พบวันในบริการที่คุณเลือก",
                 });
               } else if (res.status == 200) {
                 this.dataFetch.dataWorkTime = res.data;
@@ -445,62 +434,77 @@ export default {
         });
       }
     },
+
     async sendEditWorkTimeDetail() {
-      if (this.type_id != "" && this.responsibleMan != "") {
-        this.loading = true;
-        try {
-          await axios
-            .patch(
-              `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
-              {
-                working_id: 9,
-                start_time: "08:00:00",
-                end_time: "17:00:00",
-                time_slot: 60,
-                account_id: 41,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
+      if (
+        this.dataFetch.dataWorkTimeDetail.working_id != "" &&
+        this.dataFetch.dataWorkTimeDetail.time_slot != "" &&
+        this.dataFetch.dataWorkTimeDetail.doctor_id != "" &&
+        this.dataFetch.dataWorkTimeDetail.start_time != "" &&
+        this.dataFetch.dataWorkTimeDetail.end_time != ""
+      ) {
+        if (
+          this.dataFetch.dataWorkTimeDetail.end_time >
+          this.dataFetch.dataWorkTimeDetail.start_time
+        ) {
+          try {
+            await axios
+              .patch(
+                `${process.env.VUE_APP_BACKEND_URL}/editservice/update`,
+                {
+                  working_id: this.dataFetch.dataWorkTimeDetail.working_id,
+                  start_time: this.dataFetch.dataWorkTimeDetail.start_time,
+                  end_time: this.dataFetch.dataWorkTimeDetail.end_time,
+                  time_slot: this.dataFetch.dataWorkTimeDetail.time_slot,
+                  account_id: this.dataFetch.dataWorkTimeDetail.doctor_id,
                 },
-              }
-            )
-            .then((res) => {
-              if (res.status == 204) {
-                this.dataFetch.dataSlotTime = [];
-                this.$swal({
-                  icon: "warning",
-                  title: "คำเตือน",
-                  text: "ไม่มีวันในบริการที่คุณเลือก",
-                });
-              } else if (res.status == 200) {
-                this.$swal({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                    toast.addEventListener(
-                      "mouseleave",
-                      this.$swal.resumeTimer
-                    );
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
                   },
-                  timer: 3000,
-                  icon: "success",
-                  title: "สร้างบริการสำเร็จ",
-                });
-              }
-              this.visibleState1 = true;
-              this.visibleState2 = false;
-              this.colorCard = null;
+                }
+              )
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: "ไม่พบตารางเวลาที่คุณเลือก",
+                  });
+                } else if (res.status == 201) {
+                  this.$swal({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener(
+                        "mouseenter",
+                        this.$swal.stopTimer
+                      );
+                      toast.addEventListener(
+                        "mouseleave",
+                        this.$swal.resumeTimer
+                      );
+                    },
+                    timer: 3000,
+                    icon: "success",
+                    title: "แก้ไขบริการสำเร็จ",
+                  });
+                }
+              });
+          } catch (error) {
+            this.$swal({
+              ...errorSWAL,
             });
-        } catch (error) {
+          }
+        } else {
           this.$swal({
-            ...errorSWAL,
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณาตรวจสอบเวลาเริ่มบริการ",
           });
         }
-        this.loading = false;
       } else {
         this.$swal({
           icon: "warning",
