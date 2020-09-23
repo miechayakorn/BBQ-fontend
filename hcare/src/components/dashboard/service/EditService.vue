@@ -45,14 +45,14 @@
               <select id="serviceType" class="form-control col-12 col-md-6" v-model="type_id">
                 <option value disabled selected>-- กรุณาเลือกบริการ --</option>
                 <option
-                  v-for="(data, index) in dataFetch.dataServiceLocation"
+                  v-for="(data, index) in dataFetch.dataService"
                   :key="index"
                   :value="data.type_id"
                 >{{ data.type_name }}</option>
               </select>
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12" v-if="this.$store.state.role == 'ADMIN'">
             <div class="form-group text-left">
               <label for="serviceType">เลือกผู้รับผิดชอบบริการ</label>
               <select
@@ -69,9 +69,15 @@
               </select>
             </div>
           </div>
-          <div class="col-12 mt-4 mb-4">
+          <div class="col-12 mt-4 mb-4" v-if="this.$store.state.role == 'STAFF'">
             <button
               @click="fetchWorkTime"
+              class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
+            >ตกลง</button>
+          </div>
+          <div class="col-12 mt-4 mb-4" v-else-if="this.$store.state.role == 'ADMIN'">
+            <button
+              @click="fetchWorkTimeAdmin"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
             >ตกลง</button>
           </div>
@@ -100,7 +106,7 @@
                 >
                   <div class="row">
                     <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">{{data.day}}</h6>
+                      <h6 class="font-weight-bold">วัน{{data.วันที่}}</h6>
                     </div>
                     <div class="col-2">
                       <iconArrow :color="colorCard == index ? 'white' : '#E9EBFB'" />
@@ -118,7 +124,7 @@
               :width="45"
               :height="25"
               :font-size="14"
-              value
+              :value="dataFetch.dataWorkTimeDetail.status"
               color="#99a3ff"
               @change="statusService(time,$event.value)"
             />
@@ -127,7 +133,7 @@
             </button>
           </div>
           <h6 class="text-left">
-            <span class="font-weight-bold">{{dataFetch.dataWorkTimeDetail.day}}&nbsp;:&nbsp;</span>
+            <span class="font-weight-bold">วัน{{dataFetch.dataWorkTimeDetail.วันที่}}&nbsp;:&nbsp;</span>
             {{dataFetch.dataWorkTimeDetail.prefix}} {{dataFetch.dataWorkTimeDetail.first_name}} {{dataFetch.dataWorkTimeDetail.last_name}}
           </h6>
           <h6 class="text-left">
@@ -171,7 +177,7 @@
           </div>
           <div class="col-12 text-center">
             <button
-              @click="sendTimeServiceToBackend"
+              @click="sendEditWorkTimeDetail"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-md-6 mt-5 mb-3"
             >บันทึก</button>
           </div>
@@ -204,7 +210,6 @@ export default {
       dataFetch: {
         dataLocation: [],
         dataService: [],
-        dataServiceLocation: [],
         dataEmployee: [],
         dataWorkTime: [],
         dataWorkTimeDetail: {
@@ -238,17 +243,14 @@ export default {
       handler: async function (val, oldCal) {
         this.type_id = "";
         this.responsibleMan = "";
-        this.dataFetch.dataService.forEach((item) => {
-          if (item.location_id == val) {
-            this.dataFetch.dataServiceLocation = item.service;
-          }
-        });
+        this.getService();
       },
     },
     type_id: {
       handler: async function (val, oldCal) {
-        console.log("axios get staff");
-        this.getEmployee(val);
+        if (this.$store.state.role == "ADMIN") {
+          this.getEmployee(val);
+        }
       },
     },
   },
@@ -257,9 +259,12 @@ export default {
     async changeCardColor(nameCard, working_id) {
       this.colorCard = nameCard;
       this.visibleState2 = true;
+      this.getWorktimesDetail(working_id);
+    },
+    async getService() {
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes/detail?working_id=${working_id}`,
+          `${process.env.VUE_APP_BACKEND_URL}/editservice/getservice?location_id=${this.location_id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.state.token}`,
@@ -267,19 +272,7 @@ export default {
           }
         )
         .then((res) => {
-          this.dataFetch.dataWorkTimeDetail = res.data;
-        });
-    },
-    async getService() {
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/getservice`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.token}`,
-          },
-        })
-        .then((res) => {
           this.dataFetch.dataService = res.data;
-          this.dataFetch.dataServiceLocation = this.dataFetch.dataService[0].service;
         });
     },
     async getEmployee(type_id) {
@@ -297,8 +290,23 @@ export default {
         });
     },
 
+    async getWorktimesDetail(working_id) {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes/detail?working_id=${working_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.dataFetch.dataWorkTimeDetail = res.data;
+        });
+    },
+
     async fetchWorkTime() {
-      if (this.type_id != "" && this.responsibleMan != "") {
+      if (this.type_id != "") {
         this.loading = true;
         try {
           await axios
@@ -306,7 +314,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
               {
                 type_id: this.type_id,
-                account_id: this.responsibleMan,
+                account_id: this.dataFetch.dataService[0].account_id,
               },
               {
                 headers: {
@@ -316,7 +324,6 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
-                this.noContent = true;
                 this.dataFetch.dataSlotTime = [];
                 this.$swal({
                   icon: "warning",
@@ -344,9 +351,116 @@ export default {
         });
       }
     },
-    async sendTimeServiceToBackend() {
-      console.log("sendTimeServiceToBackend");
-      //Send DATA
+
+    async fetchWorkTimeAdmin() {
+      if (this.type_id != "" && this.responsibleMan != "") {
+        this.loading = true;
+        try {
+          await axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
+              {
+                type_id: this.type_id,
+                account_id: this.responsibleMan,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 204) {
+                this.dataFetch.dataSlotTime = [];
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: "ไม่มีวันในบริการที่คุณเลือก",
+                });
+              } else if (res.status == 200) {
+                this.dataFetch.dataWorkTime = res.data;
+              }
+              this.visibleState1 = true;
+              this.visibleState2 = false;
+              this.colorCard = null;
+            });
+        } catch (error) {
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
+        this.loading = false;
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      }
+    },
+    async sendEditWorkTimeDetail() {
+      if (this.type_id != "" && this.responsibleMan != "") {
+        this.loading = true;
+        try {
+          await axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
+              {
+                working_id: 9,
+                start_time: "08:00:00",
+                end_time: "17:00:00",
+                time_slot: 60,
+                account_id: 41,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 204) {
+                this.dataFetch.dataSlotTime = [];
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: "ไม่มีวันในบริการที่คุณเลือก",
+                });
+              } else if (res.status == 200) {
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener(
+                      "mouseleave",
+                      this.$swal.resumeTimer
+                    );
+                  },
+                  timer: 3000,
+                  icon: "success",
+                  title: "สร้างบริการสำเร็จ",
+                });
+              }
+              this.visibleState1 = true;
+              this.visibleState2 = false;
+              this.colorCard = null;
+            });
+        } catch (error) {
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
+        this.loading = false;
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      }
     },
   },
   async mounted() {
