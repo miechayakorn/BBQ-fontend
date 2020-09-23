@@ -24,7 +24,7 @@
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
-          <div class="float-right">V 1.0</div>
+          <div class="float-right">V 2.0</div>
           <logoAdmin
             v-if="this.$store.state.role == 'ADMIN'"
             class="centerImg"
