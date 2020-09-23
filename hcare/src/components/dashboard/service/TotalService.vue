@@ -53,13 +53,13 @@
                 </div>
               </div>
               <div class="col-12 mt-4">
-                <button
+                <!-- <button
                   type="button"
                   @click="removeService(item.type_id , item.type_name)"
                   class="btn"
                 >
                   <i class="fas fa-trash fa-lg" style="color: rgb(227, 71, 36);"></i>
-                </button>
+                </button>-->
               </div>
             </div>
           </div>
