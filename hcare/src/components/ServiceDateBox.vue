@@ -24,7 +24,6 @@ export default {
     },
     mounted() {
         let a = this;
-        console.log(a);
         this.selectedDate = a.dataDates;
     },
 };

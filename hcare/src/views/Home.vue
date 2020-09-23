@@ -28,29 +28,23 @@
             <div class="text-center" style="margin-top: 36px;">
               <iconClock2 />
               <p style="color: #D8D8D8; margin-top: 8px;">
-                ตารางให้บริการ <br /><span
-                  style="color: #D8D8D8; font-size: 12px; margin-bottom 1px;"
-                  >coming soon</span
-                >
+                ตารางให้บริการ
+                <br />
+                <span style="color: #D8D8D8; font-size: 12px; margin-bottom 1px;">coming soon</span>
               </p>
             </div>
           </div>
           <!-- </router-link> -->
         </div>
         <div class="col-6 col-md-3 mt-3 mt-md-1">
-          <!-- <router-link to="#"> -->
-          <div class="col-12 btnHome">
-            <div class="text-center" style="margin-top: 36px;">
-              <iconBill />
-              <p style="color: #D8D8D8; margin-top: 8px;">
-                กดคิว <br /><span
-                  style="color: #D8D8D8; font-size: 12px; margin-bottom: 1px;"
-                  >coming soon</span
-                >
-              </p>
+          <router-link to="/history">
+            <div class="col-12 btnHomeHistory">
+              <div class="text-center" style="margin-top: 36px;">
+                <iconMedicine />
+                <p style="color: #FFFFFF; margin-top: 8px;">ประวัติรับบริการ</p>
+              </div>
             </div>
-          </div>
-          <!-- </router-link> -->
+          </router-link>
         </div>
       </div>
       <div class="row">
@@ -61,25 +55,22 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div v-if="this.$store.state.token == null" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  กรุณา เข้าสู่ระบบ
-                </h6>
+                <h6 class="card-title text-md-center text-left title-card-app">กรุณา เข้าสู่ระบบ</h6>
               </div>
               <div v-if="this.$store.state.token && checkAppointment" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  คุณยังไม่มีนัดหมาย
-                </h6>
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  หรือยังไม่ได้กดยืนยันที่ Email
-                </h6>
+                <h6 class="card-title text-md-center text-left title-card-app">คุณยังไม่มีนัดหมาย</h6>
+                <h6
+                  class="card-title text-md-center text-left title-card-app"
+                >หรือยังไม่ได้กดยืนยันที่ Email</h6>
               </div>
               <div class="col-7">
-                <div v-if="this.$store.state.token && checkAppointment == false" class="card-body ml-3">
+                <div
+                  v-if="this.$store.state.token && checkAppointment == false"
+                  class="card-body ml-3"
+                >
                   <h6
                     class="card-title text-md-center text-left title-card-app"
-                  >
-                    นัดของคุณที่กำลังจะมาถึง
-                  </h6>
+                  >นัดของคุณที่กำลังจะมาถึง</h6>
                   <p
                     class="text-md-center text-left"
                     style="
@@ -114,10 +105,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-12 mt-3" style="margin-bottom:200px;">
-          <div class="card btnHome mb-5">Dash Board</div>
-        </div> -->
     </div>
   </div>
 </template>
@@ -125,7 +112,7 @@
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
 import iconNote2 from "@/components/svg/icon/iconNote-2.vue";
-import iconBill from "@/components/svg/icon/iconBill.vue";
+import iconMedicine from "@/components/svg/icon/iconMedicine.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
 import iconCalendar2 from "@/components/svg/icon/iconCalendar-2.vue";
 import woman from "@/components/svg/woman.vue";
@@ -136,10 +123,10 @@ export default {
   components: {
     HelloWorld,
     iconNote2,
-    iconBill,
+    iconMedicine,
     iconClock2,
     iconCalendar2,
-    woman
+    woman,
   },
   data() {
     return {
@@ -152,28 +139,28 @@ export default {
         gender: null,
         date_of_birth: null,
         email: "",
-        telephone: null
+        telephone: null,
       },
       dataFetch: {
-        time_in: ""
+        time_in: "",
       },
-      checkAppointment: false
+      checkAppointment: false,
     };
   },
   async mounted() {
     if (this.$store.state.token) {
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 204) {
             this.checkAppointment = true;
           }
           this.dataFetch = res.data[0];
         });
     }
-  }
+  },
 };
 </script>
 <style>
@@ -194,6 +181,13 @@ export default {
 .btnHomeActive {
   background-color: #99a3ff;
   border: 2px solid #99a3ff;
+  border-radius: 8px;
+  height: 100%;
+  box-shadow: 0px 4px 8px #dfe2ff;
+}
+.btnHomeHistory {
+  background-color: #ffa78b;
+  border: 2px solid #ffa78b;
   border-radius: 8px;
   height: 100%;
   box-shadow: 0px 4px 8px #dfe2ff;

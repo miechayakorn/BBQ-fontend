@@ -95,9 +95,9 @@
         </div>
         <div class="col-12">
           <div class="row pl-5 pr-5 p-2">
-            <div class="col-12 pl-5 pr-5 mt-3">
+            <div class="col-12 pl-md-5 pr-md-5 mt-3">
               <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                   <label for="InputDay">เพิ่มวันให้บริการ</label>
                   <select v-model="dataPrepareSend.worktime.day" id="InputDay" class="form-control">
                     <option value disabled selected>-- กรุณาเลือกวัน --</option>
@@ -110,7 +110,7 @@
                     <option value="SUNDAY">วันอาทิตย์</option>
                   </select>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                   <label for="InputMan">ผู้ให้บริการ</label>
                   <select
                     v-model="dataPrepareSend.worktime.account_id"
@@ -125,7 +125,7 @@
                     >{{item.prefix}} {{item.first_name}} {{item.last_name}}</option>
                   </select>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-12 col-md-6 mt-2">
                   <label for="InputStartTime">เวลาเริ่มบริการ</label>
                   <input
                     v-model="dataPrepareSend.worktime.start_time"
@@ -134,7 +134,7 @@
                     id="InputStartTime"
                   />
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-12 col-md-6 mt-2">
                   <label for="InputEndTime">เวลาเลิกบริการ</label>
                   <input
                     v-model="dataPrepareSend.worktime.end_time"
@@ -143,7 +143,7 @@
                     id="InputEndTime"
                   />
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-12 col-md-6 mt-2">
                   <label for="Input1Slot">เวลาให้บริการต่อ 1 slot</label>
                   <select
                     v-model="dataPrepareSend.worktime.time_slot"
@@ -212,7 +212,6 @@ export default {
   },
   methods: {
     changeCardColor(type_id, type_name, location_name) {
-      console.log(type_id);
       this.colorCard = type_id;
       this.dataPrepareSend.worktime.type_id = type_id;
       this.selectedService = type_name + " (" + location_name + ")";

@@ -213,7 +213,7 @@ export default {
 
         //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
         this.dataShow.type = serviceDataType.type_name;
-        console.log("oldservice = " + this.dataShow.oldTypeService);
+        // console.log("oldservice = " + this.dataShow.oldTypeService);
 
         this.dataShow.activeBtnTime = "";
         await axios
@@ -225,7 +225,7 @@ export default {
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
-            console.log(this.dataFetch.dataDates);
+            // console.log(this.dataFetch.dataDates);
             this.dataShow.oldTypeService = serviceDataType.type_id;
             this.$swal.close();
           });

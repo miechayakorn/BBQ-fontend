@@ -2,7 +2,7 @@
   <div>
     <div class="container fixed-container mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">My Appointment</label>
+        <label class="font-weight-bold mb-4">นัดของฉัน</label>
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />

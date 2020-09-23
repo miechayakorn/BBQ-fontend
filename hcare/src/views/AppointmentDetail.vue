@@ -2,7 +2,7 @@
   <div class="mt-5">
     <div class="container fixed-container mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">My Appointment</label>
+        <label class="font-weight-bold mb-4">รายละเอียดการนัดของฉัน</label>
         <div class="form">
           <div class="container">
             <AppointmentCard :data="dataFetch.appointmentCard" />
@@ -18,7 +18,7 @@
                 </span>
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-show="dataFetch.link_meeting != null">
               <div class="col-12">
                 <span class="font-weight-bold">
                   โปรดอ่าน
@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="row mt-5" style="text-align: center;">
-              <div class="col-12">
+              <div class="col-12" v-show="dataFetch.link_meeting != null">
                 <a :href="dataFetch.link_meeting">
                   <button
                     v-if="dataFetch.link_meeting"
