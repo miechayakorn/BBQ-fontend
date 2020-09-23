@@ -12,26 +12,66 @@
       </div>
       <div class="col-12 col-md-6">
         <div class="row">
-          <div class="col-12 col-md-12">
+          <div class="col-12">
             <div class="form-group text-left" style="margin-top:48px;">
+              <label for="InputDate">เลือกสถานที่สำหรับบริการ</label>
+              <div class="col-12">
+                <div
+                  class="form-check form-check-inline"
+                  v-for="(item, index) in dataFetch.dataLocation"
+                  :key="index"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="location_id"
+                    style="cursor: pointer;"
+                    :id="item.location_id"
+                    :value="item.location_id"
+                    v-model="location_id"
+                  />
+                  <label
+                    style="cursor: pointer;"
+                    class="form-check-label"
+                    :for="item.location_id"
+                  >{{ item.location_name }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group text-left">
               <label for="serviceType">เลือกบริการ</label>
-              <select
-                id="serviceType"
-                class="form-control col-12 col-md-6"
-                v-model="dataPrepareSend.type_id"
-              >
+              <select id="serviceType" class="form-control col-12 col-md-6" v-model="type_id">
                 <option value disabled selected>-- กรุณาเลือกบริการ --</option>
                 <option
-                  v-for="(data, index) in dataFetch.dataTypes"
+                  v-for="(data, index) in dataFetch.dataServiceLocation"
                   :key="index"
                   :value="data.type_id"
                 >{{ data.type_name }}</option>
               </select>
             </div>
           </div>
+          <div class="col-12">
+            <div class="form-group text-left">
+              <label for="serviceType">เลือกผู้รับผิดชอบบริการ</label>
+              <select
+                id="serviceType"
+                class="form-control col-12 col-md-6"
+                v-model="responsibleMan"
+              >
+                <option value disabled selected>-- กรุณาเลือกผู้รับผิดชอบ --</option>
+                <option
+                  v-for="(data, index) in dataFetch.dataEmployee"
+                  :key="index"
+                  :value="data.account_id"
+                >{{ data.prefix }} {{ data.name }}</option>
+              </select>
+            </div>
+          </div>
           <div class="col-12 mt-4 mb-4">
             <button
-              @click="sendToBackend"
+              @click="fetchWorkTime"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
             >ตกลง</button>
           </div>
@@ -41,7 +81,7 @@
     <VclFacebook v-if="loading" class="mt-3" />
     <div class="mt-3 text-left font-weight-bold">
       <div class="mb-3" style="margin-top:32px">
-        <span>ส่วนที่ 2 : เลือกวันให้บริการ</span>
+        <span>ส่วนที่ 2 : เลือกวันให้บริการ และแก้ไข</span>
       </div>
       <div class="row">
         <div class="col-12 col-md-4 pt-4 pb-3 pl-5 pr-5 div-card">
@@ -78,22 +118,6 @@
                     </div>
                     <div class="col-2">
                       <iconArrow :color="colorCard == 'card2' ? 'white' : '#E9EBFB'" />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  @click="changeCardColor('card3')"
-                  :class="[
-                'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
-                colorCard == 'card3' ? 'div-card-click' : 'div-card-unclick'
-              ]"
-                >
-                  <div class="row">
-                    <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">วันพุธ</h6>
-                    </div>
-                    <div class="col-2">
-                      <iconArrow :color="colorCard == 'card3' ? 'white' : '#E9EBFB'" />
                     </div>
                   </div>
                 </div>
@@ -169,7 +193,7 @@
           </div>
           <div class="col-12 text-center">
             <button
-              @click="sendToBackend"
+              @click="sendTimeServiceToBackend"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-md-6 mt-5 mb-3"
             >บันทึก</button>
           </div>
@@ -181,6 +205,7 @@
 
 <script>
 import axios from "axios";
+import { errorSWAL } from "@/utility/swal.js";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import manHome from "@/components/svg/manHome.vue";
 import iconArrow from "@/components/svg/icon/iconArrow.vue";
@@ -191,9 +216,15 @@ export default {
   data() {
     return {
       loading: false,
-      colorCard: "card1",
+      colorCard: "",
+      location_id: 1,
+      type_id: "",
+      responsibleMan: "",
       dataFetch: {
-        dataTypes: null,
+        dataLocation: [],
+        dataService: [],
+        dataServiceLocation: [],
+        dataEmployee: [],
       },
       dataPrepareSend: {
         service: {
@@ -213,31 +244,101 @@ export default {
     doctor3,
     VclFacebook,
   },
+  watch: {
+    location_id: {
+      handler: async function (val, oldCal) {
+        this.type_id = "";
+        this.responsibleMan = "";
+        this.dataFetch.dataService.forEach((item) => {
+          if (item.location_id == val) {
+            this.dataFetch.dataServiceLocation = item.service;
+          }
+        });
+      },
+    },
+    type_id: {
+      handler: async function (val, oldCal) {
+        console.log("axios get staff");
+        this.getEmployee(val);
+      },
+    },
+  },
   methods: {
-    sendToBackend() {},
     statusService() {},
     changeCardColor(nameCard) {
-      console.log(nameCard);
       this.colorCard = nameCard;
     },
-    async fetchService(serviceDataType) {
-      serviceDataType.type_id;
-      // await axios
-      //   .get(
-      //     `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
-      //     {
-      //       headers: { Authorization: `Bearer ${this.$store.state.token}` }
-      //     }
-      //   )
-      //   .then(res => {
-      //     this.dataFetch.dataDates = res.data;
-      //     console.log(this.dataFetch.dataDates);
-      //   });
+    async getService() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/getservice`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        })
+        .then((res) => {
+          this.dataFetch.dataService = res.data;
+          this.dataFetch.dataServiceLocation = this.dataFetch.dataService[0].service;
+        });
     },
-    async fetchTimeSlot() {},
-    async sendServiceToBackend() {
-      console.log("sendServiceToBackend");
-      //Send DATA
+    async getEmployee(type_id) {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/editservice/admingetemployee?type_id=${type_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.dataFetch.dataEmployee = res.data;
+        });
+    },
+
+    async fetchWorkTime() {
+      if (this.type_id == "" && this.responsibleMan == "") {
+        this.loading = true;
+        try {
+          await axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
+              {
+                type_id: this.type_id,
+                date: this.responsibleMan,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 204) {
+                this.noContent = true;
+                this.dataFetch.dataSlotTime = [];
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: "ไม่มีวันในบริการที่คุณเลือก",
+                });
+              } else if (res.status == 200) {
+                
+              }
+              this.visibleState = true;
+            });
+        } catch (error) {
+          this.$swal({
+            ...errorSWAL,
+          });
+        }
+        this.loading = false;
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณาเลือกบริการ และวันที่",
+        });
+      }
     },
     async sendTimeServiceToBackend() {
       console.log("sendTimeServiceToBackend");
@@ -245,15 +346,12 @@ export default {
     },
   },
   async mounted() {
-    //เรียกข้อมูล Default
-    //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` },
-      })
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
-        this.dataFetch.dataTypes = res.data;
+        this.dataFetch.dataLocation = res.data;
       });
+    this.getService();
   },
 };
 </script>

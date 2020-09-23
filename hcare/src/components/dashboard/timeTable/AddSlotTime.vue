@@ -142,7 +142,6 @@ export default {
   methods: {
     onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
-        console.log(time);
         // Adding  Array element
         this.dataPrepareSend.slot_time.push(time.slot);
       } else if (statusButton == false) {

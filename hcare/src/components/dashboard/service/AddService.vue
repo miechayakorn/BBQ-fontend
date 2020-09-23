@@ -212,7 +212,6 @@ export default {
   },
   methods: {
     changeCardColor(type_id, type_name, location_name) {
-      console.log(type_id);
       this.colorCard = type_id;
       this.dataPrepareSend.worktime.type_id = type_id;
       this.selectedService = type_name + " (" + location_name + ")";
