@@ -124,13 +124,14 @@
               :width="45"
               :height="25"
               :font-size="14"
+              :sync="true"
               :value="dataFetch.dataWorkTimeDetail.status"
               color="#99a3ff"
-              @change="statusService(time,$event.value)"
+              @change="statusService(dataFetch.dataWorkTimeDetail.working_id,$event.value)"
             />
-            <button @click="deleteBooking()" type="button" class="btn">
+            <!-- <button @click="deleteBooking()" type="button" class="btn">
               <i class="fas fa-trash fa-lg" style="color: #e34724;"></i>
-            </button>
+            </button>-->
           </div>
           <h6 class="text-left">
             <span class="font-weight-bold">วัน{{dataFetch.dataWorkTimeDetail.วันที่}}&nbsp;:&nbsp;</span>
@@ -255,7 +256,53 @@ export default {
     },
   },
   methods: {
-    statusService() {},
+    async statusService(working_id, status) {
+      console.log(working_id, status);
+      await axios
+        .patch(
+          `${process.env.VUE_APP_BACKEND_URL}/editservice/updatestatus`,
+          {
+            working_id: working_id,
+            status: status,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+              timer: 3000,
+              icon: "success",
+              title: "บันทึกสำเร็จ",
+            });
+            this.getWorktimesDetail(working_id);
+          } else {
+            console.log("===== Backend-error ======");
+            console.error(res.data);
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: res.data,
+            });
+          }
+        })
+        .catch((res) => {
+          console.log("===== Backend-error ======");
+          console.error(res);
+          this.$swal({ ...errorSWAL });
+        });
+    },
     async changeCardColor(nameCard, working_id) {
       this.colorCard = nameCard;
       this.visibleState2 = true;
