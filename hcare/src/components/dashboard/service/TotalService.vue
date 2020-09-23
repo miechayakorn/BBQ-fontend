@@ -12,7 +12,8 @@
                     :width="45"
                     :height="25"
                     :font-size="14"
-                    value
+                    :sync="true"
+                    :value="item.status"
                     color="#99a3ff"
                     @change="statusService(item.type_id,$event.value)"
                   />
@@ -91,6 +92,7 @@ export default {
           type_name: " ",
           location_id: "",
           availability: "",
+          status: "",
           staff_list: [
             {
               account_id: "",
@@ -121,6 +123,50 @@ export default {
     },
     async statusService(type_id, status) {
       console.log(type_id, status);
+      await axios
+        .patch(
+          `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
+          {
+            type_id: type_id,
+            status: status,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+              timer: 3000,
+              icon: "success",
+              title: "บันทึกสำเร็จ",
+            });
+            this.fetchService();
+          } else {
+            console.log("===== Backend-error ======");
+            console.error(res.data);
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: res.data,
+            });
+          }
+        })
+        .catch((res) => {
+          console.log("===== Backend-error ======");
+          console.error(res);
+          this.$swal({ ...errorSWAL });
+        });
     },
     async removeService(type_id, type_name) {
       this.$swal({
