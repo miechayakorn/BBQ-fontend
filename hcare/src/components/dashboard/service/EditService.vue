@@ -79,7 +79,7 @@
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-    <div class="mt-3 text-left font-weight-bold">
+    <div v-if="visibleState1 && loading == false" class="mt-3 text-left font-weight-bold">
       <div class="mb-3" style="margin-top:32px">
         <span>ส่วนที่ 2 : เลือกวันให้บริการ และแก้ไข</span>
       </div>
@@ -90,34 +90,20 @@
               <div class="row">
                 <label for="InputStartTime">เลือกวันให้บริการ</label>
                 <div
-                  @click="changeCardColor('card1')"
+                  v-for="(data, index) in dataFetch.dataWorkTime"
+                  :key="index"
+                  @click="changeCardColor(index , data.working_id)"
                   :class="[
                 'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
-                colorCard == 'card1' ? 'div-card-click' : 'div-card-unclick'
+                colorCard == index ? 'div-card-click' : 'div-card-unclick'
               ]"
                 >
                   <div class="row">
                     <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">วันอังคาร</h6>
+                      <h6 class="font-weight-bold">{{data.day}}</h6>
                     </div>
                     <div class="col-2">
-                      <iconArrow :color="colorCard == 'card1' ? 'white' : '#E9EBFB'" />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  @click="changeCardColor('card2')"
-                  :class="[
-                'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
-                colorCard == 'card2' ? 'div-card-click' : 'div-card-unclick'
-              ]"
-                >
-                  <div class="row">
-                    <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">วันพุธ</h6>
-                    </div>
-                    <div class="col-2">
-                      <iconArrow :color="colorCard == 'card2' ? 'white' : '#E9EBFB'" />
+                      <iconArrow :color="colorCard == index ? 'white' : '#E9EBFB'" />
                     </div>
                   </div>
                 </div>
@@ -125,7 +111,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-8 pt-4 pb-3 pl-5 pr-5 div-card">
+        <div v-if="visibleState2" class="col-12 col-md-8 pt-4 pb-3 pl-5 pr-5 div-card">
           <div class="float-right">
             <toggle-button
               class="mr-2"
@@ -141,10 +127,12 @@
             </button>
           </div>
           <h6 class="text-left">
-            <span class="font-weight-bold">วันอังคาร&nbsp;:&nbsp;</span>นายแพทย์ชยากร มโนธรรมปกรณ์
+            <span class="font-weight-bold">{{dataFetch.dataWorkTimeDetail.day}}&nbsp;:&nbsp;</span>
+            {{dataFetch.dataWorkTimeDetail.prefix}} {{dataFetch.dataWorkTimeDetail.first_name}} {{dataFetch.dataWorkTimeDetail.last_name}}
           </h6>
           <h6 class="text-left">
-            <span class="font-weight-bold">บริการ&nbsp;:&nbsp;</span>ฝังเข็ม
+            <span class="font-weight-bold">บริการ&nbsp;:&nbsp;</span>
+            {{dataFetch.dataWorkTimeDetail.type_name}}
           </h6>
           <div class="row mt-5">
             <div class="col-6 form-group text-left mt-2">
@@ -153,7 +141,7 @@
                 type="time"
                 id="InputStartTime"
                 class="form-control"
-                v-model="dataPrepareSend.service.startTime"
+                v-model="dataFetch.dataWorkTimeDetail.start_time"
               />
             </div>
             <div class="col-6 form-group text-left mt-2">
@@ -162,33 +150,23 @@
                 type="time"
                 id="InputEndTime"
                 class="form-control"
-                v-model="dataPrepareSend.service.endTime"
+                v-model="dataFetch.dataWorkTimeDetail.end_time"
               />
             </div>
             <div class="col-6 form-group text-left mt-2">
               <label for="InputEndTime">เวลาให้บริการต่อ 1 slot</label>
-              <div class="col-12">
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio1"
-                    value="option1"
-                  />
-                  <label class="form-check-label" for="inlineRadio1">30 นาที</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio2"
-                    value="option2"
-                  />
-                  <label class="form-check-label" for="inlineRadio2">60 นาที</label>
-                </div>
-              </div>
+              <select
+                v-model="dataFetch.dataWorkTimeDetail.time_slot"
+                id="Input1Slot"
+                class="form-control"
+              >
+                <option value disabled selected>-- กรุณาเลือกเวลา --</option>
+                <option value="15">15 นาที</option>
+                <option value="30">30 นาที</option>
+                <option value="45">45 นาที</option>
+                <option value="60">1 ชั่วโมง</option>
+                <option value="75">1 ชั่วโมง 15 นาที</option>
+              </select>
             </div>
           </div>
           <div class="col-12 text-center">
@@ -216,7 +194,10 @@ export default {
   data() {
     return {
       loading: false,
-      colorCard: "",
+      visibleState1: false,
+      visibleState2: false,
+      colorCard: null,
+
       location_id: 1,
       type_id: "",
       responsibleMan: "",
@@ -225,14 +206,22 @@ export default {
         dataService: [],
         dataServiceLocation: [],
         dataEmployee: [],
-      },
-      dataPrepareSend: {
-        service: {
+        dataWorkTime: [],
+        dataWorkTimeDetail: {
           day: "",
-          startTime: "",
-          endTime: "",
-          docter: "",
-          slot: "",
+          doctor_id: "",
+          end_time: "",
+          first_name: "",
+          last_name: "",
+          location_id: "",
+          location_name: "",
+          prefix: "",
+          start_time: "",
+          status: "",
+          time_slot: "",
+          type_id: "",
+          type_name: "",
+          working_id: "",
         },
       },
     };
@@ -265,8 +254,21 @@ export default {
   },
   methods: {
     statusService() {},
-    changeCardColor(nameCard) {
+    async changeCardColor(nameCard, working_id) {
       this.colorCard = nameCard;
+      this.visibleState2 = true;
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes/detail?working_id=${working_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.dataFetch.dataWorkTimeDetail = res.data;
+        });
     },
     async getService() {
       await axios
@@ -296,7 +298,7 @@ export default {
     },
 
     async fetchWorkTime() {
-      if (this.type_id == "" && this.responsibleMan == "") {
+      if (this.type_id != "" && this.responsibleMan != "") {
         this.loading = true;
         try {
           await axios
@@ -304,7 +306,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/editservice/getworktimes`,
               {
                 type_id: this.type_id,
-                date: this.responsibleMan,
+                account_id: this.responsibleMan,
               },
               {
                 headers: {
@@ -322,9 +324,11 @@ export default {
                   text: "ไม่มีวันในบริการที่คุณเลือก",
                 });
               } else if (res.status == 200) {
-                
+                this.dataFetch.dataWorkTime = res.data;
               }
-              this.visibleState = true;
+              this.visibleState1 = true;
+              this.visibleState2 = false;
+              this.colorCard = null;
             });
         } catch (error) {
           this.$swal({
@@ -336,7 +340,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกบริการ และวันที่",
+          text: "กรุณากรอกข้อมูลให้ครบ",
         });
       }
     },
