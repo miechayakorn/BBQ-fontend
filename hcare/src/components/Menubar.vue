@@ -127,7 +127,7 @@
           >
             <iconHome style="margin-right: 14px" />Admin Dashboard
           </router-link>
-          <hr class="lineHr" />
+          <hr v-if="role" class="lineHr" />
           <router-link v-if="log" to="/logout">
             <button
               data-toggle="collapse"

@@ -26,15 +26,13 @@
               </div>
             </div>
             <div class="row mt-5" style="text-align: center;">
-              <div class="col-12">
-                <router-link to="/history">
+              <div class="col-12" @click="$router.go(-1)">
                   <button
                     class="btn btnBlock btn-primary fixed-button mb-2"
                     style="border-radius:10px;"
                   >
                     <span style="font-weight: 900; color:white;">ย้อนกลับ</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </div>
