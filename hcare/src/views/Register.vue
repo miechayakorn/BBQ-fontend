@@ -1,14 +1,14 @@
 <template>
-  <div class="container fixed-container mb-3 bg" style="margin-top:40px">
+  <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
     <div class="form-group text-left">
-      <h1 style="font-size: 28px; font-weight: 900;">Register</h1>
+      <h1 style="font-size: 28px; font-weight: 900">Register</h1>
       <form>
-        <div class="col-xs-12" style="margin-top:28px">
+        <div class="col-xs-12" style="margin-top: 28px">
           <div class="form-group">
-            <label for="InputName">ชื่อ</label>
+            <label for="InputFirstName">ชื่อ</label>
             <input
               type="text"
-              id="InputName"
+              id="InputFirstName"
               v-model="dataUserInfo.first_name"
               class="form-control"
               placeholder="ชื่อ"
@@ -16,9 +16,10 @@
             />
           </div>
           <div class="form-group">
-            <label for="InputName">นามสกุล</label>
+            <label for="InputLastName">นามสกุล</label>
             <input
               type="text"
+              id="InputLastName"
               v-model="dataUserInfo.last_name"
               class="form-control"
               placeholder="นามสกุล"
@@ -26,9 +27,10 @@
             />
           </div>
           <div class="form-group">
-            <label for="InputName">รหัสนักคึกษา / หมายเลขบุคลากร มจธ.</label>
+            <label for="InputHN">รหัสนักคึกษา / หมายเลขบุคลากร มจธ.</label>
             <input
               type="text"
+              id="InputHN"
               v-model="dataUserInfo.hn_number"
               class="form-control"
               placeholder="รหัส / หมายเลข"
@@ -45,26 +47,31 @@
               placeholder="example@mail.kmutt.ac.th"
               required
             />
-            <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
+            <div class="invalid-feedback">
+              กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th
+            </div>
           </div>
           <div class="form-group">
             <label for="InputTel">เบอร์โทรศัพท์</label>
             <input
               type="tel"
+              id="InputTel"
               v-model="dataUserInfo.telephone"
               class="form-control"
               placeholder="เบอร์โทรศัพท์"
               required
             />
           </div>
-          <div class="row" style="text-align: center;">
-            <div class="col-12">
+          <div class="row">
+            <div class="col-12 text-center">
               <button
                 @click="sendToBackend"
                 type="button"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-                style="font-weight:900"
-              >Register</button>
+                style="font-weight: 900"
+              >
+                Register
+              </button>
             </div>
           </div>
         </div>
@@ -112,15 +119,15 @@ export default {
       return false;
     },
     checkForm() {
-      if (this.dataUserInfo.first_name.length > 3) {
+      if (this.dataUserInfo.first_name.length < 3) {
         return false;
-      } else if (this.dataUserInfo.last_name.length > 3) {
+      } else if (this.dataUserInfo.last_name.length < 3) {
         return false;
-      } else if (this.dataUserInfo.email.length > 3) {
+      } else if (this.dataUserInfo.email.length < 3) {
         return false;
-      } else if (this.dataUserInfo.telephone.length > 9) {
+      } else if (this.dataUserInfo.telephone.length < 9) {
         return false;
-      } else if (this.dataUserInfo.hn_number.length > 5) {
+      } else if (this.dataUserInfo.hn_number.length < 5) {
         return false;
       }
       if (this.checkEmail()) {
@@ -130,7 +137,7 @@ export default {
       }
     },
     sendToBackend() {
-      if (this.checkForm()) {
+      if (this.dataUserInfo.email.length != 0 && this.checkForm()) {
         this.$swal({
           ...waiting,
           onOpen: () => {
