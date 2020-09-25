@@ -9,10 +9,12 @@
             <div class v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3">คุณยังไม่มีนัดหมาย</span>
-                  <span
-                    class="announcement d-flex justify-content-center mt-3"
-                  >หรือยังไม่ได้กดยืนยันที่ Email</span>
+                  <span class="announcement d-flex justify-content-center mt-3"
+                    >คุณยังไม่มีนัดหมาย</span
+                  >
+                  <span class="announcement d-flex justify-content-center mt-3"
+                    >หรือยังไม่ได้กดยืนยันที่ Email</span
+                  >
                 </div>
                 <div class="fix-buttom-man">
                   <man />
@@ -35,26 +37,34 @@ export default {
   data() {
     return {
       dataFetch: [],
-      checkAppointment: false
+      checkAppointment: false,
     };
   },
   components: {
     AppointmentCard,
-    man
+    man,
   },
-  async mounted() {
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` }
-      })
-      .then(res => {
-        if (res.status == 204) {
-          this.checkAppointment = true;
-        } else {
-          this.dataFetch = res.data;
-        }
-      });
-  }
+  mounted() {
+    this.fetchAppointment()
+    setInterval(() => {
+      this.fetchAppointment();
+    }, 5000);
+  },
+  methods: {
+    async fetchAppointment() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        })
+        .then((res) => {
+          if (res.status == 204) {
+            this.checkAppointment = true;
+          } else {
+            this.dataFetch = res.data;
+          }
+        });
+    },
+  },
 };
 </script>
 

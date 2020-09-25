@@ -1,19 +1,26 @@
 <template>
   <div class="container mb-4">
-    <div class="text-left font-weight-bold" style="margin-top:32px">
+    <div class="text-left font-weight-bold" style="margin-top: 32px">
       <span>ส่วนที่ 1 : เลือกบริการ</span>
     </div>
     <div class="row mt-3 bg-blueMan2">
       <div class="col-6 row">
         <doctor3
           class="d-none d-md-block"
-          style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"
+          style="
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+          "
         />
       </div>
       <div class="col-12 col-md-6">
         <div class="row">
           <div class="col-12">
-            <div class="form-group text-left" style="margin-top:48px;">
+            <div class="form-group text-left" style="margin-top: 48px">
               <label for="InputDate">เลือกสถานที่สำหรับบริการ</label>
               <div class="col-12">
                 <div
@@ -25,16 +32,17 @@
                     class="form-check-input"
                     type="radio"
                     name="location_id"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                     :id="item.location_id"
                     :value="item.location_id"
                     v-model="location_id"
                   />
                   <label
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                     class="form-check-label"
                     :for="item.location_id"
-                  >{{ item.location_name }}</label>
+                    >{{ item.location_name }}</label
+                  >
                 </div>
               </div>
             </div>
@@ -42,13 +50,19 @@
           <div class="col-12">
             <div class="form-group text-left">
               <label for="serviceType">เลือกบริการ</label>
-              <select id="serviceType" class="form-control col-12 col-md-6" v-model="type_id">
+              <select
+                id="serviceType"
+                class="form-control col-12 col-md-6"
+                v-model="type_id"
+              >
                 <option value disabled selected>-- กรุณาเลือกบริการ --</option>
                 <option
                   v-for="(data, index) in dataFetch.dataService"
                   :key="index"
                   :value="data.type_id"
-                >{{ data.type_name }}</option>
+                >
+                  {{ data.type_name }}
+                </option>
               </select>
             </div>
           </div>
@@ -60,33 +74,50 @@
                 class="form-control col-12 col-md-6"
                 v-model="responsibleMan"
               >
-                <option value disabled selected>-- กรุณาเลือกผู้รับผิดชอบ --</option>
+                <option value disabled selected>
+                  -- กรุณาเลือกผู้รับผิดชอบ --
+                </option>
                 <option
                   v-for="(data, index) in dataFetch.dataEmployee"
                   :key="index"
                   :value="data.account_id"
-                >{{ data.prefix }} {{ data.name }}</option>
+                >
+                  {{ data.prefix }} {{ data.name }}
+                </option>
               </select>
             </div>
           </div>
-          <div class="col-12 mt-4 mb-4" v-if="this.$store.state.role == 'STAFF'">
+          <div
+            class="col-12 mt-4 mb-4"
+            v-if="this.$store.state.role == 'STAFF'"
+          >
             <button
               @click="fetchWorkTime"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
-            >ตกลง</button>
+            >
+              ตกลง
+            </button>
           </div>
-          <div class="col-12 mt-4 mb-4" v-else-if="this.$store.state.role == 'ADMIN'">
+          <div
+            class="col-12 mt-4 mb-4"
+            v-else-if="this.$store.state.role == 'ADMIN'"
+          >
             <button
               @click="fetchWorkTimeAdmin"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
-            >ตกลง</button>
+            >
+              ตกลง
+            </button>
           </div>
         </div>
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
-    <div v-if="visibleState1 && loading == false" class="mt-3 text-left font-weight-bold">
-      <div class="mb-3" style="margin-top:32px">
+    <div
+      v-if="visibleState1 && loading == false"
+      class="mt-3 text-left font-weight-bold"
+    >
+      <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 2 : เลือกวันให้บริการ และแก้ไข</span>
       </div>
       <div class="row">
@@ -98,18 +129,20 @@
                 <div
                   v-for="(data, index) in dataFetch.dataWorkTime"
                   :key="index"
-                  @click="changeCardColor(index , data.working_id)"
+                  @click="changeCardColor(index, data.working_id)"
                   :class="[
-                'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
-                colorCard == index ? 'div-card-click' : 'div-card-unclick'
-              ]"
+                    'col-12 mt-2 pt-4 pb-3 pl-4 text-left text-white',
+                    colorCard == index ? 'div-card-click' : 'div-card-unclick',
+                  ]"
                 >
                   <div class="row">
                     <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">วัน{{data.วันที่}}</h6>
+                      <h6 class="font-weight-bold">วัน{{ data.วันที่ }}</h6>
                     </div>
                     <div class="col-2">
-                      <iconArrow :color="colorCard == index ? 'white' : '#E9EBFB'" />
+                      <iconArrow
+                        :color="colorCard == index ? 'white' : '#E9EBFB'"
+                      />
                     </div>
                   </div>
                 </div>
@@ -117,7 +150,10 @@
             </div>
           </div>
         </div>
-        <div v-if="visibleState2" class="col-12 col-md-8 pt-4 pb-3 pl-5 pr-5 div-card">
+        <div
+          v-if="visibleState2"
+          class="col-12 col-md-8 pt-4 pb-3 pl-5 pr-5 div-card"
+        >
           <div class="float-right">
             <toggle-button
               class="mr-2"
@@ -127,19 +163,28 @@
               :sync="true"
               :value="dataFetch.dataWorkTimeDetail.status"
               color="#99a3ff"
-              @change="statusService(dataFetch.dataWorkTimeDetail.working_id,$event.value)"
+              @change="
+                statusService(
+                  dataFetch.dataWorkTimeDetail.working_id,
+                  $event.value
+                )
+              "
             />
             <!-- <button @click="deleteBooking()" type="button" class="btn">
               <i class="fas fa-trash fa-lg" style="color: #e34724;"></i>
             </button>-->
           </div>
           <h6 class="text-left">
-            <span class="font-weight-bold">วัน{{dataFetch.dataWorkTimeDetail.วันที่}}&nbsp;:&nbsp;</span>
-            {{dataFetch.dataWorkTimeDetail.prefix}} {{dataFetch.dataWorkTimeDetail.first_name}} {{dataFetch.dataWorkTimeDetail.last_name}}
+            <span class="font-weight-bold"
+              >วัน{{ dataFetch.dataWorkTimeDetail.วันที่ }}&nbsp;:&nbsp;</span
+            >
+            {{ dataFetch.dataWorkTimeDetail.prefix }}
+            {{ dataFetch.dataWorkTimeDetail.first_name }}
+            {{ dataFetch.dataWorkTimeDetail.last_name }}
           </h6>
           <h6 class="text-left">
             <span class="font-weight-bold">บริการ&nbsp;:&nbsp;</span>
-            {{dataFetch.dataWorkTimeDetail.type_name}}
+            {{ dataFetch.dataWorkTimeDetail.type_name }}
           </h6>
           <div class="row mt-5">
             <div class="col-6 form-group text-left mt-2">
@@ -180,7 +225,9 @@
             <button
               @click="sendEditWorkTimeDetail"
               class="btn btn-primary btnBlock btnConfirm fixed-button col-md-6 mt-5 mb-3"
-            >บันทึก</button>
+            >
+              บันทึก
+            </button>
           </div>
         </div>
       </div>
@@ -235,11 +282,15 @@ export default {
       handler: async function (val, oldCal) {
         this.type_id = "";
         this.responsibleMan = "";
+        this.dataFetch.dataEmployee = [];
+        this.visibleState1 = false;
+        this.visibleState2 = false;
         this.getService();
       },
     },
     type_id: {
       handler: async function (val, oldCal) {
+        this.responsibleMan = "";
         if (this.$store.state.role == "ADMIN") {
           this.getEmployee(val);
         }
