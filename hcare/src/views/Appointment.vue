@@ -46,9 +46,6 @@ export default {
   },
   mounted() {
     this.fetchAppointment()
-    setInterval(() => {
-      this.fetchAppointment();
-    }, 5000);
   },
   methods: {
     async fetchAppointment() {
