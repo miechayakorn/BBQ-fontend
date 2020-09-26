@@ -12,8 +12,8 @@
                   <span class="announcement d-flex justify-content-center mt-3"
                     >คุณยังไม่มีนัดหมาย</span
                   >
-                  <span class="announcement d-flex justify-content-center mt-3"
-                    >หรือยังไม่ได้กดยืนยันที่ Email</span
+                  <span class="d-flex justify-content-center mt-3"
+                    >กรุณาตรวจสอบและกดยืนยันที่ Email</span
                   >
                 </div>
                 <div class="fix-buttom-man">
@@ -91,7 +91,6 @@ export default {
   padding-bottom: 24px;
 }
 .announcement {
-  font-weight: bold;
   font-size: 20px;
 }
 .fix-buttom-man {

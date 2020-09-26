@@ -6,13 +6,12 @@
         <div class="form">
           <div class="container">
             <HistoryCard v-if="!checkAppointment" :data="dataFetch" />
-            <div class v-if="checkAppointment">
+            <div class v-else-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3">คุณยังไม่มีนัดหมาย</span>
-                  <span
-                    class="announcement d-flex justify-content-center mt-3"
-                  >หรือยังไม่ได้กดยืนยันที่ Email</span>
+                  <span class="announcement d-flex justify-content-center mt-3"
+                    >คุณไม่มีประวัติการเข้าใช้บริการ</span
+                  >
                 </div>
                 <div class="fix-buttom-man">
                   <man />
@@ -49,9 +48,11 @@ export default {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       })
       .then((res) => {
-        if (res.status == 204) {
-          this.checkAppointment = true;
+        if (res.data.length != 0) {
+          this.checkAppointment = false;
+          this.dataFetch = res.data;
         } else {
+          this.checkAppointment = true;
           this.dataFetch = res.data;
         }
       });
@@ -77,7 +78,6 @@ export default {
   padding-bottom: 24px;
 }
 .announcement {
-  font-weight: bold;
   font-size: 20px;
 }
 .fix-buttom-man {
