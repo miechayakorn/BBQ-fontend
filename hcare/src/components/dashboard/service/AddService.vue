@@ -6,7 +6,7 @@
       </div>
       <div class="col-12 col-md-6">
         <div class="col-12 col-md-7">
-          <div class="form-group text-left" style="margin-top:48px;">
+          <div class="form-group text-left" style="margin-top: 48px">
             <label for="serviceType">เพิ่มบริการใหม่</label>
             <input
               type="text"
@@ -35,9 +35,7 @@
                   v-model="dataPrepareSend.location_id"
                 />
                 <label class="form-check-label" :for="item.location_id">
-                  {{
-                  item.location_name
-                  }}
+                  {{ item.location_name }}
                 </label>
               </div>
             </div>
@@ -47,34 +45,48 @@
           <button
             @click="sendCreateService"
             class="btn btn-primary mt-4 mb-4 mb-md-0 btnBlock btnConfirm fixed-button col-12 col-md-7 float-left"
-          >เพิ่ม</button>
+          >
+            เพิ่ม
+          </button>
         </div>
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
     <div class="mt-3 text-left font-weight-bold">
-      <div class="mb-3" style="margin-top:32px">
+      <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
-      <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
+      <div class="row div-card" style="padding-top: 50px; padding-bottom: 50px">
         <div
           class="col-12"
-          style="padding-left: 40px; padding-right: 40px;"
+          style="padding-left: 40px; padding-right: 40px"
           v-for="(item, index) in dataFetch.dataService"
           :key="index"
         >
-          {{item.location_name}}
+          {{ item.location_name }}
           <div class="row">
-            <div class="col-12 col-md-3" v-for="(service, index) in item.service" :key="index">
+            <div
+              class="col-12 col-md-3"
+              v-for="(service, index) in item.service"
+              :key="index"
+            >
               <div class="m-3">
                 <div
-                  @click="changeCardColor(service.type_id,service.type_name,item.location_name)"
+                  @click="
+                    changeCardColor(
+                      service.type_id,
+                      service.type_name,
+                      item.location_name
+                    )
+                  "
                   :class="[
                     'col-12 mt-2 pt-4 pb-3 pl-4 text-center text-white',
-                    colorCard == service.type_id ? 'div-card-click' : 'div-card-unclick'
+                    colorCard == service.type_id
+                      ? 'div-card-click'
+                      : 'div-card-unclick',
                   ]"
                 >
-                  <h6 class="font-weight-bold">{{service.type_name}}</h6>
+                  <h6 class="font-weight-bold">{{ service.type_name }}</h6>
                 </div>
               </div>
             </div>
@@ -86,12 +98,12 @@
       </div>
     </div>
     <div v-show="selectedService != ''" class="mt-3 text-left font-weight-bold">
-      <div class="mb-3" style="margin-top:32px">
+      <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 2 : เพิ่มรายละเอียดบริการ</span>
       </div>
-      <div class="row div-card" style="padding-top:50px; padding-bottom:50px;">
+      <div class="row div-card" style="padding-top: 50px; padding-bottom: 50px">
         <div class="col-12 ml-5">
-          <span style="font-size: 20px;">บริการ : {{selectedService}}</span>
+          <span style="font-size: 20px">บริการ : {{ selectedService }}</span>
         </div>
         <div class="col-12">
           <div class="row pl-5 pr-5 p-2">
@@ -99,7 +111,11 @@
               <div class="row">
                 <div class="col-12 col-md-6">
                   <label for="InputDay">เพิ่มวันให้บริการ</label>
-                  <select v-model="dataPrepareSend.worktime.day" id="InputDay" class="form-control">
+                  <select
+                    v-model="dataPrepareSend.worktime.day"
+                    id="InputDay"
+                    class="form-control"
+                  >
                     <option value disabled selected>-- กรุณาเลือกวัน --</option>
                     <option value="MONDAY">วันจันทร์</option>
                     <option value="TUESDAY">วันอังคาร</option>
@@ -117,12 +133,17 @@
                     id="InputMan"
                     class="form-control"
                   >
-                    <option value disabled selected>-- กรุณาผู้ให้บริการ --</option>
+                    <option value disabled selected>
+                      -- กรุณาผู้ให้บริการ --
+                    </option>
                     <option
                       :value="item.account_id"
                       v-for="(item, index) in dataFetch.dataEmployee"
                       :key="index"
-                    >{{item.prefix}} {{item.first_name}} {{item.last_name}}</option>
+                    >
+                      {{ item.prefix }} {{ item.first_name }}
+                      {{ item.last_name }}
+                    </option>
                   </select>
                 </div>
                 <div class="col-12 col-md-6 mt-2">
@@ -150,7 +171,9 @@
                     id="Input1Slot"
                     class="form-control"
                   >
-                    <option value disabled selected>-- กรุณาเลือกเวลา --</option>
+                    <option value disabled selected>
+                      -- กรุณาเลือกเวลา --
+                    </option>
                     <option value="15">15 นาที</option>
                     <option value="30">30 นาที</option>
                     <option value="45">45 นาที</option>
@@ -167,7 +190,9 @@
         <button
           @click="sendWorktime"
           class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
-        >บันทึก</button>
+        >
+          บันทึก
+        </button>
       </div>
     </div>
   </div>
@@ -306,59 +331,73 @@ export default {
         this.dataPrepareSend.worktime.end_time != "" &&
         this.dataPrepareSend.worktime.time_slot != ""
       ) {
-        await axios
-          .post(
-            `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
-            {
-              type_id: this.dataPrepareSend.worktime.type_id,
-              day: this.dataPrepareSend.worktime.day,
-              account_id: this.dataPrepareSend.worktime.account_id,
-              start_time: this.dataPrepareSend.worktime.start_time + ":00",
-              end_time: this.dataPrepareSend.worktime.end_time + ":00",
-              time_slot: this.dataPrepareSend.worktime.time_slot,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.$store.state.token}`,
+        if (
+          this.dataPrepareSend.worktime.end_time >
+          this.dataPrepareSend.worktime.start_time
+        ) {
+          await axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
+              {
+                type_id: this.dataPrepareSend.worktime.type_id,
+                day: this.dataPrepareSend.worktime.day,
+                account_id: this.dataPrepareSend.worktime.account_id,
+                start_time: this.dataPrepareSend.worktime.start_time + ":00",
+                end_time: this.dataPrepareSend.worktime.end_time + ":00",
+                time_slot: this.dataPrepareSend.worktime.time_slot,
               },
-            }
-          )
-          .then((res) => {
-            if (res.status == 201) {
-              this.$swal({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
                 },
-                timer: 3000,
-                icon: "success",
-                title: "เพิ่มบริการสำเร็จ",
-              });
+              }
+            )
+            .then((res) => {
+              if (res.status == 201) {
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener(
+                      "mouseleave",
+                      this.$swal.resumeTimer
+                    );
+                  },
+                  timer: 3000,
+                  icon: "success",
+                  title: "เพิ่มบริการสำเร็จ",
+                });
 
-              this.dataPrepareSend.worktime.day = "";
-              this.dataPrepareSend.worktime.account_id = "";
-              this.dataPrepareSend.worktime.start_time = "";
-              this.dataPrepareSend.worktime.end_time = "";
-              this.dataPrepareSend.worktime.time_slot = "";
-            } else {
+                this.dataPrepareSend.worktime.day = "";
+                this.dataPrepareSend.worktime.account_id = "";
+                this.dataPrepareSend.worktime.start_time = "";
+                this.dataPrepareSend.worktime.end_time = "";
+                this.dataPrepareSend.worktime.time_slot = "";
+              } else {
+                console.log("===== Backend-error ======");
+                console.error(res.data);
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              }
+            })
+            .catch((res) => {
               console.log("===== Backend-error ======");
-              console.error(res.data);
-              this.$swal({
-                icon: "warning",
-                title: "คำเตือน",
-                text: res.data,
-              });
-            }
-          })
-          .catch((res) => {
-            console.log("===== Backend-error ======");
-            console.error(res);
-            this.$swal({ ...errorSWAL });
+              console.error(res);
+              this.$swal({ ...errorSWAL });
+            });
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณาตรวจสอบเวลาเริ่มบริการ",
           });
+        }
       } else {
         this.$swal({
           icon: "warning",
