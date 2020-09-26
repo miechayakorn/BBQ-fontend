@@ -238,7 +238,6 @@ export default {
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
-      console.log("selectedDate is " + this.dataShow.date);
 
       await axios
         .get(
@@ -249,17 +248,10 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataTimes = res.data;
-          console.log("Axios fetch time :");
-          console.log(this.dataFetch.dataTimes);
-
           this.$swal.close();
         });
     },
     onChangeTime(booking) {
-      console.log("------booking");
-      console.log(booking);
-      // console.log(this.dataShow.activeBtnTime)
-
       this.dataPrepareSend.booking_id = booking.booking_id;
       this.dataShow.time = booking.time;
 

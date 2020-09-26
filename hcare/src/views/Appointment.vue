@@ -6,7 +6,7 @@
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
-            <div class v-if="checkAppointment">
+            <div class v-else-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
                   <span class="announcement d-flex justify-content-center mt-3"
@@ -38,6 +38,7 @@ export default {
     return {
       dataFetch: [],
       checkAppointment: false,
+      interval: undefined,
     };
   },
   components: {
@@ -45,7 +46,13 @@ export default {
     man,
   },
   mounted() {
-    this.fetchAppointment()
+    this.fetchAppointment();
+    this.interval = setInterval(() => {
+      this.fetchAppointment();
+    }, 10000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     async fetchAppointment() {
@@ -57,6 +64,7 @@ export default {
           if (res.status == 204) {
             this.checkAppointment = true;
           } else {
+            this.checkAppointment = false;
             this.dataFetch = res.data;
           }
         });
