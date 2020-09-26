@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar fixed-top bg-white bd-navbar site-header sticky-top">
     <router-link to="/">
-      <logoHeaderMini style="width: 55px; height: 17px; margin-top: 0px" />
+      <logoHeaderMini class="mt-1" />
     </router-link>
     <button
       class="navbar-toggler toggler-example"
