@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-3 col-12 col-md-6">
-    <div class="form-group text-left" style="margin-top:48px;">
+    <div class="form-group text-left" style="margin-top: 48px">
       <div class="col-12">
         <label for="InputEmail">อีเมลผู้ป่วย</label>
         <input
@@ -28,23 +28,42 @@
               v-model="location_id"
             />
             <label
-              style="cursor: pointer;"
+              style="cursor: pointer"
               class="form-check-label"
               :for="item.location_id"
-            >{{item.location_name}}</label>
+              >{{ item.location_name }}</label
+            >
           </div>
         </div>
       </div>
       <div class="col-12 mt-2">
         <label for="InputEmail">เลือกบริการ</label>
-        <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+        <select
+          id="serviceType"
+          class="form-control col-12 col-md-12"
+          v-model="type_id"
+        >
+          <option value disabled selected>-- กรุณาเลือกบริการ --</option>
+          <option
+            v-for="(data, index) in dataFetch.dataTypes"
+            :key="index"
+            :value="data.type_id"
+          >
+            {{ data.type_name }}
+          </option>
+        </select>
       </div>
       <div class="col-12 mt-3">
         <h6 class="text-left">วันที่</h6>
-        <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+        <ServiceDateBox
+          :dataDates="dataFetch.dataDates"
+          v-on:selectedDate="fetchTime"
+        />
       </div>
       <div class="col-12 mt-3">
-        <label for="selectTime" class="d-flex justify-content-start">เลือกเวลา</label>
+        <label for="selectTime" class="d-flex justify-content-start"
+          >เลือกเวลา</label
+        >
         <ServiceTimeBox
           :dataTimes="dataFetch.dataTimes"
           :activeTime="dataShow.activeBtnTime"
@@ -52,7 +71,9 @@
         />
       </div>
       <div class="col-12 mt-3">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
+        <label for="exampleInputPassword1" class="d-flex justify-content-start"
+          >อาการ</label
+        >
         <textarea
           rows="3"
           class="form-control"
@@ -64,7 +85,9 @@
         <button
           @click="sendToBackend"
           class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-        >Confirm</button>
+        >
+          Confirm
+        </button>
       </div>
     </div>
     <!-- <div class="mt-3 div-card">
@@ -143,6 +166,7 @@ export default {
   data() {
     return {
       location_id: 1,
+      type_id: "",
       email: null,
       dataPrepareSend: {
         booking_id: null,
@@ -196,10 +220,9 @@ export default {
     },
 
     async fetchDate(serviceDataType) {
-      this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.state.token}`,
@@ -236,7 +259,6 @@ export default {
     },
 
     onChangeTime(booking) {
-
       this.dataPrepareSend.booking_id = booking.booking_id;
       this.dataShow.time = booking.time;
 
@@ -340,6 +362,11 @@ export default {
           .then((res) => {
             this.dataFetch.dataTypes = res.data;
           });
+      },
+    },
+    type_id: {
+      handler: async function (val, oldVal) {
+        this.fetchDate(val);
       },
     },
   },
