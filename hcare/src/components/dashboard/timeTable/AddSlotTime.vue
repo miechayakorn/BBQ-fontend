@@ -97,7 +97,7 @@
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-              >ยืนยันการแก้ไข</button>
+              >ยืนยัน</button>
             </div>
           </div>
         </div>
