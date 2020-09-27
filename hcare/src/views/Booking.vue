@@ -23,10 +23,11 @@
               v-model="location_id"
             />
             <label
-              style="cursor: pointer;"
+              style="cursor: pointer"
               class="form-check-label"
               :for="item.location_id"
-            >{{item.location_name}}</label>
+              >{{ item.location_name }}</label
+            >
           </div>
         </div>
       </div>
@@ -34,7 +35,10 @@
         <label>เลือกบริการ</label>
         <div class="form">
           <div class="container">
-            <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
+            <ServiceTypeBox
+              :dataTypes="dataFetch.dataTypes"
+              v-on:serviceDataType="fetchDate"
+            />
           </div>
         </div>
       </div>
@@ -43,13 +47,20 @@
           <div class="col-12">
             <label for="selectDate">เลือกวัน</label>
           </div>
-          <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
+          <ServiceDateBox
+            :dataDates="dataFetch.dataDates"
+            v-on:selectedDate="fetchTime"
+          />
         </div>
       </div>
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
+            <label
+              for="exampleInputPassword1"
+              class="d-flex justify-content-start"
+              >เลือกเวลา</label
+            >
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -61,31 +72,35 @@
       <div class="form-group">
         <label for="exampleInputPassword1" class="d-flex justify-content-start">
           อาการ หรือ ประเด็นที่ปรึกษา
-          <span style="color:red">*</span>
+          <span style="color: red">*</span>
         </label>
         <textarea
           rows="3"
           :class="[
             'form-control',
-            totalcharacter > limitChar ? 'is-invalid' : ''
+            totalcharacter > limitChar ? 'is-invalid' : '',
           ]"
           placeholder="กรุณากรอกข้อมูล"
           v-model="dataPrepareSend.symptom"
-          @input="evt=>dataPrepareSend.symptom=evt.target.value"
+          @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
         <p
           class="text-right"
           :style="totalcharacter > limitChar ? 'color: red' : ''"
-        >{{ totalcharacter }}/{{ limitChar }} ตัวอักษร</p>
+        >
+          {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
+        </p>
       </div>
-      <div class="row" style="text-align: center;">
+      <div class="row" style="text-align: center">
         <div class="col-12">
           <button
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
@@ -182,6 +197,9 @@ export default {
           .then((res) => {
             this.dataFetch.dataTypes = res.data;
           });
+        this.dataFetch.dataTypes = null;
+        this.dataFetch.dataDates = null;
+        this.dataFetch.dataTimes = null;
       },
     },
   },
