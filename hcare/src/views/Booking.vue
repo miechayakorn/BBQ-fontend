@@ -192,14 +192,15 @@ export default {
   watch: {
     location_id: {
       handler: async function (val, oldCal) {
+        
+        this.dataFetch.dataTypes = null;
+        this.dataFetch.dataDates = null;
+        this.dataFetch.dataTimes = null;
         await axios
           .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val}`)
           .then((res) => {
             this.dataFetch.dataTypes = res.data;
           });
-        this.dataFetch.dataTypes = null;
-        this.dataFetch.dataDates = null;
-        this.dataFetch.dataTimes = null;
       },
     },
   },
