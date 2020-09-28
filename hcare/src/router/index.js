@@ -13,7 +13,6 @@ import Logout from "../views/Logout.vue";
 import Register from "../views/Register.vue";
 import RegisterConfirm from "../views/RegisterConfirm.vue";
 //Admin
-import Admin from "../views/admin/Admin.vue";
 import AdminLogin from "../views/admin/AdminLogin.vue";
 import AdminRegister from "../views/admin/AdminRegister.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
@@ -85,8 +84,7 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "Admin",
-    component: Admin
+    redirect: "/admin/dashboard"
   },
   {
     path: "/admin/login",
