@@ -129,6 +129,7 @@
                 <div class="col-12 col-md-6">
                   <label for="InputMan">ผู้ให้บริการ</label>
                   <select
+                    v-if="this.$store.state.role == 'ADMIN'"
                     v-model="dataPrepareSend.worktime.account_id"
                     id="InputMan"
                     class="form-control"
@@ -143,6 +144,24 @@
                     >
                       {{ item.prefix }} {{ item.first_name }}
                       {{ item.last_name }}
+                    </option>
+                  </select>
+                  <select
+                    v-else-if="this.$store.state.role == 'STAFF'"
+                    disabled
+                    id="InputMan"
+                    class="form-control"
+                  >
+                    <option
+                      :value="
+                        (dataPrepareSend.worktime.account_id =
+                          dataFetch.dataEmployee[0].account_id)
+                      "
+                      selected
+                    >
+                      {{ dataFetch.dataEmployee[0].prefix }}
+                      {{ dataFetch.dataEmployee[0].first_name }}
+                      {{ dataFetch.dataEmployee[0].last_name }}
                     </option>
                   </select>
                 </div>
