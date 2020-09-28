@@ -1,7 +1,11 @@
 <template>
   <div class="container mb-4">
     <div class="row mt-3">
-      <div class="col-12 col-md-4" v-for="(item, index) in dataService" :key="index">
+      <div
+        class="col-12 col-md-4"
+        v-for="(item, index) in dataService"
+        :key="index"
+      >
         <div class="row m-3">
           <div class="col-12 p-4 div-card">
             <div class="row">
@@ -15,19 +19,25 @@
                     :sync="true"
                     :value="item.status"
                     color="#99a3ff"
-                    @change="statusService(item.type_id,$event.value)"
+                    @change="
+                      statusService(item.type_name, item.type_id, $event.value)
+                    "
                   />
                 </div>
               </div>
               <div class="col-12">
                 <h6
                   class="font-weight-bold mb-3"
-                  style="font-size: 20px; color: #5E65A1;"
-                >{{item.type_name}}</h6>
+                  style="font-size: 20px; color: #5e65a1"
+                >
+                  {{ item.type_name }}
+                </h6>
                 <div
                   class="alert p-2 alert-warning"
                   v-show="item.staff_list.length == 0"
-                >ไม่พบเจ้าหน้าที่ที่รับผิดชอบบริการนี้</div>
+                >
+                  ไม่พบเจ้าหน้าที่ที่รับผิดชอบบริการนี้
+                </div>
                 <div
                   v-show="item.staff_list.length != 0"
                   class="dropdown"
@@ -41,13 +51,21 @@
                     width="65"
                     height="65"
                   />-->
-                  <logoAdmin v-if="staff.role == 'ADMIN'" class="rounded-circle m-2" />
-                  <logoStaff v-else-if="staff.role == 'STAFF'" class="rounded-circle m-2" />
+                  <logoAdmin
+                    v-if="staff.role == 'ADMIN'"
+                    class="rounded-circle m-2"
+                  />
+                  <logoStaff
+                    v-else-if="staff.role == 'STAFF'"
+                    class="rounded-circle m-2"
+                  />
                   <div class="dropdown-content-location">
                     <div class="row">
-                      <div
-                        class="col-12"
-                      >{{staff.prefix}}&nbsp;{{staff.first_name}}&nbsp;{{staff.last_name}}</div>
+                      <div class="col-12">
+                        {{ staff.prefix }}&nbsp;{{ staff.first_name }}&nbsp;{{
+                          staff.last_name
+                        }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -66,10 +84,9 @@
         </div>
       </div>
       <div class="col-12">
-        <div
-          class="alert p-2 alert-warning"
-          v-show="dataService.length == 0"
-        >ไม่พบบริการที่รับผิดชอบ</div>
+        <div class="alert p-2 alert-warning" v-show="dataService.length == 0">
+          ไม่พบบริการที่รับผิดชอบ
+        </div>
       </div>
     </div>
   </div>
@@ -121,52 +138,64 @@ export default {
           this.dataService = res.data;
         });
     },
-    async statusService(type_id, status) {
-      console.log(type_id, status);
-      await axios
-        .patch(
-          `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
-          {
-            type_id: type_id,
-            status: status,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.$swal({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+    statusService(type_name, type_id, status) {
+      console.log(status);
+      this.$swal({
+        icon: "warning",
+        title: status ? "เปิดบริการ " + type_name : "ปิดบริการ " + type_name,
+        showCloseButton: true,
+        confirmButtonText: "ยืนยัน",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
+              {
+                type_id: type_id,
+                status: status,
               },
-              timer: 3000,
-              icon: "success",
-              title: "บันทึกสำเร็จ",
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 201) {
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener(
+                      "mouseleave",
+                      this.$swal.resumeTimer
+                    );
+                  },
+                  timer: 3000,
+                  icon: "success",
+                  title: "บันทึกสำเร็จ",
+                });
+                this.fetchService();
+              } else {
+                console.log("===== Backend-error ======");
+                console.error(res.data);
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              }
+            })
+            .catch((res) => {
+              console.log("===== Backend-error ======");
+              console.error(res);
+              this.$swal({ ...errorSWAL });
             });
-            this.fetchService();
-          } else {
-            console.log("===== Backend-error ======");
-            console.error(res.data);
-            this.$swal({
-              icon: "warning",
-              title: "คำเตือน",
-              text: res.data,
-            });
-          }
-        })
-        .catch((res) => {
-          console.log("===== Backend-error ======");
-          console.error(res);
-          this.$swal({ ...errorSWAL });
-        });
+        },
+      });
     },
     async removeService(type_id, type_name) {
       this.$swal({
