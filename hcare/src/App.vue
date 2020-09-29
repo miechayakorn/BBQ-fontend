@@ -12,30 +12,6 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 
 export default {
-  methods: {
-    checkRouteAuth() {
-      // if (this.$ {
-      //   return true;
-      // } else if (this.$router.) {
-      //   return true;
-      // } else if (this.$router.curren") {
-      //   return true;
-      // } else if (this.$router.cm") {
-      //   return true;
-      // } else if (this.$router.currentRoute.pal") {
-      //   return true;
-      // } else if (this.$router.{
-      //   return true;
-      // } else if (this.$router.currentRo) {
-      //   return true;
-      // } else if (this.$router.currentRoute.") {
-      //   return true;
-      // } else if (this.$router.currentRoute.pan") {
-      //   return true;
-      // }
-      // return false;
-    },
-  },
   async beforeUpdate() {
     // Check Token every action
     if (this.$store.state.token) {
@@ -71,13 +47,6 @@ export default {
             console.error(error.response);
           }
         });
-      // } else if (this.checkRouteAuth()) {
-      //   console.log("pass");
-      // } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
-      //   this.$router.push("/admin/login");
-      // } else {
-      //   console.log("Login");
-      //   this.$router.push("/login");
     }
   },
   components: {

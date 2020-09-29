@@ -98,13 +98,6 @@ const routes = [
   //======================== Admin =============================
 
   {
-    path: "/admin",
-    name: "Admin",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Admin.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
     path: "/admin/login",
     name: "AdminLogin",
     component: () =>
@@ -117,46 +110,65 @@ const routes = [
       import(/* webpackChunkName: "hcare-admin" */ "../views/admin/AdminRegister.vue"),
   },
   {
-    path: "/admin/dashboard",
-    name: "Dashboard",
+    path: "/admin",
+    name: "Admin",
+    redirect: "/admin/dashboard",
     component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Dashboard.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/admin/dashboard/history/:id",
-    name: "HistoryUser",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/HistoryUser.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/admin/dashboard/timetable",
-    name: "TimeTable",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/TimeTable.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/admin/dashboard/service",
-    name: "Service",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Service.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/admin/dashboard/manageEmployee",
-    name: "ManageEmp",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/ManageEmp.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/admin/dashboard/manageEmployee/edit/:id",
-    name: "EditEmpProfile",
-    component: () =>
-      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/EditEmpProfile.vue"),
-    meta: { requiresAuth: true }
+      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Admin.vue"),
+    beforeEnter: (to, from, next) => {
+      console.log(store.state.role)
+      if(store.state.role == "ADMIN" || store.state.role == "STAFF"){
+        next()
+      }else {
+        next({
+          path: '/admin/login',
+          query: { redirect: to.fullPath }
+        })
+      }
+    },
+    children: [
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Dashboard.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/admin/dashboard/history/:id",
+        name: "HistoryUser",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/HistoryUser.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "dashboard/timetable",
+        name: "TimeTable",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/TimeTable.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "dashboard/service",
+        name: "Service",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Service.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/admin/dashboard/manageEmployee",
+        name: "ManageEmp",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/ManageEmp.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/admin/dashboard/manageEmployee/edit/:id",
+        name: "EditEmpProfile",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/EditEmpProfile.vue"),
+        meta: { requiresAuth: true }
+      },],
   },
   {
     path: "*",
@@ -196,13 +208,14 @@ router.beforeEach((to, from, next) => {
         first_name: user.first_name,
         last_name: user.last_name,
       };
-    } 
+    }
   }
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (store.state.token) {
+    console.log()
+    if (store.state.token || to.matched[0].name == "Admin") {
       next()
     } else {
       next({
