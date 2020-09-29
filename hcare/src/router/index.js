@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import CryptoJS from "crypto-js";
 import store from "@/store";
 
 import NotFound from "../views/404.vue";
@@ -178,24 +179,46 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (store.state.token == null && localStorage.getItem("user")) {
+    console.log("token null")
+    let user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.first_name && user.last_name && user.role && user.token) {
+      //decrypt
+      user.first_name = CryptoJS.AES.decrypt(
+        user.first_name,
+        "hcare6018"
+      ).toString(CryptoJS.enc.Utf8);
+
+      user.last_name = CryptoJS.AES.decrypt(
+        user.last_name,
+        "hcare6018"
+      ).toString(CryptoJS.enc.Utf8);
+
+      user.role = CryptoJS.AES.decrypt(user.role, "hcare6018").toString(
+        CryptoJS.enc.Utf8
+      );
+
+      store.state.token = user.token;
+      store.state.role = user.role;
+      store.state.user = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+      };
+    } 
+  }
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-
-
-    if (store.state.token == null) {
+    if (store.state.token) {
+      next()
+    } else {
       next({
         path: '/login',
         query: { redirect: to.fullPath }
       })
-    } else {
-      next()
     }
-
-
-
   } else {
-    console.log("make sure to always call next()!")
     next() // make sure to always call next()!
   }
 })
