@@ -1,9 +1,9 @@
 <template>
   <div>
     <logoHeader />
-    <div class="container fixed-container mb-3 bg" style="margin-top:40px">
+    <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
       <div class="form-group text-left">
-        <div class="col-xs-12" style="margin-top:28px">
+        <div class="col-xs-12" style="margin-top: 28px">
           <div class="form-group text-left">
             <label for="InputName">Email</label>
             <div class="inner-addon left-addon">
@@ -13,9 +13,13 @@
                 id="InputName"
                 v-model="email"
                 placeholder="อีเมล มหาวิทยาลัย"
-                :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
+                :class="
+                  checkEmail() ? 'form-control' : 'form-control is-invalid'
+                "
               />
-              <div class="invalid-feedback">ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
+              <div class="invalid-feedback">
+                ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+              </div>
             </div>
           </div>
 
@@ -24,37 +28,47 @@
               <select
                 v-model="lastname_email"
                 class="form-control"
-                style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
+                style="
+                  font-family: Poppins;
+                  font-style: strong;
+                  font-weight: 500;
+                  font-size: 14px;
+                  line-height: 21px;
+                  color: #555555;
+                  display: flex;
+                  align-items: center;
+                "
               >
                 <option
                   value="@mail.kmutt.ac.th"
-                  style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
-                >@mail.kmutt.ac.th</option>
+                  style="
+                    font-family: Poppins;
+                    font-style: strong;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #555555;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  @mail.kmutt.ac.th
+                </option>
                 <option
                   value="@kmutt.ac.th"
-                  style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
-                >@kmutt.ac.th</option>
+                  style="
+                    font-family: Poppins;
+                    font-style: strong;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #555555;
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  @kmutt.ac.th
+                </option>
               </select>
             </div>
           </div>
@@ -63,17 +77,22 @@
             <label for="InputName">Password</label>
             <div class="inner-addon left-addon">
               <i class="fas fa-key"></i>
-              <input type="password" v-model="password" class="form-control" placeholder="รหัสผ่าน" />
+              <input
+                type="password"
+                v-model="password"
+                class="form-control"
+                placeholder="รหัสผ่าน"
+              />
             </div>
           </div>
 
-          <div class="row" style="text-align: center;">
+          <div class="row" style="text-align: center">
             <div class="col-12">
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
               >
-                <span style="font-weight:900">Log In</span>
+                <span style="font-weight: 900">Log In</span>
               </button>
             </div>
           </div>
@@ -156,9 +175,14 @@ export default {
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             this.$store.state.token = dataSetLocal.token;
+            this.$store.state.role = dataSetLocal.role;
+            this.$store.state.user = {
+              first_name: dataSetLocal.first_name,
+              last_name: dataSetLocal.last_name,
+            };
 
             this.$router.push("/admin/dashboard");
-            this.$router.go();
+            this.$swal.close();
           })
           .catch((error) => {
             console.log("===== Backend-error ======");
