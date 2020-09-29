@@ -3,7 +3,7 @@
     <Menubar />
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link to="/about">About</router-link> -->
-    <div style="margin-top:0.625rem">
+    <div style="margin-top: 0.625rem">
       <router-view />
     </div>
   </div>
@@ -16,26 +16,26 @@ import CryptoJS from "crypto-js";
 export default {
   methods: {
     checkRouteAuth() {
-      if (this.$router.currentRoute.path == "/") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/register") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/register/confirm") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/bookings/confirm") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/bookings/emailcancel") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/login") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/login/confirm") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/admin/register/confirm") {
-        return true;
-      } else if (this.$router.currentRoute.path == "/admin/login") {
-        return true;
-      }
-      return false;
+      // if (this.$ {
+      //   return true;
+      // } else if (this.$router.) {
+      //   return true;
+      // } else if (this.$router.curren") {
+      //   return true;
+      // } else if (this.$router.cm") {
+      //   return true;
+      // } else if (this.$router.currentRoute.pal") {
+      //   return true;
+      // } else if (this.$router.{
+      //   return true;
+      // } else if (this.$router.currentRo) {
+      //   return true;
+      // } else if (this.$router.currentRoute.") {
+      //   return true;
+      // } else if (this.$router.currentRoute.pan") {
+      //   return true;
+      // }
+      // return false;
     },
   },
   async created() {
@@ -110,12 +110,12 @@ export default {
       } else {
         this.$router.push("/login");
       }
-    } else if (this.checkRouteAuth()) {
-      console.log("pass");
-    } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
-      this.$router.push("/admin/login");
-    } else {
-      this.$router.push("/login");
+      // } else if (this.checkRouteAuth()) {
+      //   console.log("pass");
+      // } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
+      //   this.$router.push("/admin/login");
+      // } else {
+      //   this.$router.push("/login");
     }
   },
   async beforeUpdate() {
@@ -153,13 +153,13 @@ export default {
             console.error(error.response);
           }
         });
-    } else if (this.checkRouteAuth()) {
-      console.log("pass");
-    } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
-      this.$router.push("/admin/login");
-    } else {
-      console.log("Login");
-      this.$router.push("/login");
+      // } else if (this.checkRouteAuth()) {
+      //   console.log("pass");
+      // } else if (this.$router.currentRoute.path.slice(0, 6) == "/admin") {
+      //   this.$router.push("/admin/login");
+      // } else {
+      //   console.log("Login");
+      //   this.$router.push("/login");
     }
   },
   components: {
@@ -171,12 +171,30 @@ export default {
 body {
   font-family: "Poppins", "Mitr", sans-serif;
   background-color: #f9f9fc;
+  text-align: center;
 }
 #app {
   font-family: "Poppins", "Mitr", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  position: relative;
+  height: 48px;
+}
+
+@media (max-width: 768px) {
+  .fixed-button {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .fixed-container {
+    width: 720px;
+  }
+}
+.btnConfirm {
+  border: 1px solid #99a3ff;
+  box-shadow: 0px 3px 8px #b6bdfe;
+  border-radius: 31px;
 }
 </style>
