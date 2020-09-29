@@ -47,8 +47,6 @@ export default {
   data() {
     return {
       dataHistory: [{ name: "" }],
-      searchQuery: "",
-      gridColumns: ["ชื่อบริการ", "ชื่อผู้รับผิดชอบ", "action"],
     };
   },
   components: {
