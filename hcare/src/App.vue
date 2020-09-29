@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <Menubar />
-    <!-- <router-link to="/">Home</router-link> | -->
-    <!-- <router-link to="/about">About</router-link> -->
     <div style="margin-top: 0.625rem">
       <router-view />
     </div>

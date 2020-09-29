@@ -14,18 +14,11 @@ const routes = [
       import(/* webpackChunkName: "hcare-default" */ "../views/Home.vue")
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "user" */ "../views/About.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
     path: "/booking",
     name: "Booking",
+    // route level code-splitting
+    // this generates a separate chunk (booking.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "hcare-default" */ "../views/Booking.vue"),
     meta: { requiresAuth: true }
@@ -180,7 +173,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (store.state.token == null && localStorage.getItem("user")) {
-    console.log("token null")
     let user = JSON.parse(localStorage.getItem("user"));
     if (user && user.first_name && user.last_name && user.role && user.token) {
       //decrypt
