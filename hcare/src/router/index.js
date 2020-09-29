@@ -135,7 +135,7 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: "/admin/dashboard/history/:id",
+        path: "dashboard/history/:id",
         name: "HistoryUser",
         component: () =>
           import(/* webpackChunkName: "hcare-admin" */ "../views/admin/HistoryUser.vue"),
@@ -156,14 +156,14 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: "/admin/dashboard/manageEmployee",
+        path: "dashboard/manageEmployee",
         name: "ManageEmp",
         component: () =>
           import(/* webpackChunkName: "hcare-admin" */ "../views/admin/ManageEmp.vue"),
         meta: { requiresAuth: true }
       },
       {
-        path: "/admin/dashboard/manageEmployee/edit/:id",
+        path: "dashboard/manageEmployee/edit/:id",
         name: "EditEmpProfile",
         component: () =>
           import(/* webpackChunkName: "hcare-admin" */ "../views/admin/EditEmpProfile.vue"),
@@ -214,7 +214,6 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    console.log()
     if (store.state.token || to.matched[0].name == "Admin") {
       next()
     } else {

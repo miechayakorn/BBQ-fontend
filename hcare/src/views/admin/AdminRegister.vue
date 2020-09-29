@@ -296,7 +296,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .text-header {
   font-weight: bold;
   font-size: 30px;

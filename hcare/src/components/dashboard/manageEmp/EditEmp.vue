@@ -301,6 +301,17 @@ export default {
   background: #5e65a1;
   border-radius: 30px;
 }
+.div-showInfoUser {
+  background: #5e65a1;
+  box-shadow: 0px 4px 8px #e4e7ff;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.div-showTag {
+  background: #5e65a1;
+  border-radius: 20px;
+}
 .btnBack {
   background: #ffffff;
   border: 2px solid #99a3ff;

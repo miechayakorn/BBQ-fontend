@@ -102,16 +102,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 @media only screen and (min-width: 768px) {
   .col-custom {
     flex: 0 0 6%;
   }
 }
-/* .col-custom {
-  flex: 0 0 8.333333%;
-  max-width: 10.25%;
-} */
 .menu-list {
   font-style: normal;
   font-weight: bold;
@@ -125,21 +121,5 @@ export default {
   font-size: 14px;
   line-height: 21px;
   color: #5e65a1;
-}
-.qText {
-  font-size: 18px;
-  font-weight: 300;
-  font-family: "Mitr";
-  color: #444444;
-}
-.current-queue-text {
-  color: #99a3ff;
-  font-style: bold;
-  font-size: 2em;
-}
-.textBold {
-  font-size: 36px;
-  font-weight: 900;
-  font-family: "Poppins";
 }
 </style>
