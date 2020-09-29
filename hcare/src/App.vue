@@ -172,11 +172,10 @@ body {
   font-family: "Poppins", "Mitr", sans-serif;
   background-color: #f9f9fc;
   text-align: center;
+  color: #2c3e50;
 }
-#app {
-  font-family: "Poppins", "Mitr", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.fixed-button {
+  width: 320px;
   text-align: center;
   position: relative;
   height: 48px;
