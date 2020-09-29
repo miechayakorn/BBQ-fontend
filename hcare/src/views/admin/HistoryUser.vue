@@ -81,3 +81,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+.btnBack {
+  background: #ffffff;
+  border: 2px solid #99a3ff;
+  box-sizing: border-box;
+  border-radius: 20px;
+  color: #99a3ff;
+}
+</style>
