@@ -3,8 +3,9 @@
     <MenuMobile />
     <Menudash />
     <div class="container bg-light mb-4">
-      <div class="text-left" style="margin-top:32px; font-size: 18px;">
-        <span class="font-weight-bold">ประวัติการรักษา : </span><span>{{dataHistory[0].name}}</span>
+      <div class="text-left" style="margin-top: 32px; font-size: 18px">
+        <span class="font-weight-bold">ดูประวัติการเข้าใช้บริการ : </span
+        ><span>{{ dataHistory[0].name }}</span>
       </div>
       <div class="row">
         <DashboardTableHistoryUser :dataHistory="dataHistory" />
@@ -45,7 +46,7 @@ import { VclFacebook, VclList } from "vue-content-loading";
 export default {
   data() {
     return {
-      dataHistory: [],
+      dataHistory: [{ name: "" }],
       searchQuery: "",
       gridColumns: ["ชื่อบริการ", "ชื่อผู้รับผิดชอบ", "action"],
     };

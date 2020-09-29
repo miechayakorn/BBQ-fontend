@@ -28,7 +28,6 @@ import axios from "axios";
 import { errorSWAL } from "@/utility/swal.js";
 
 export default {
-  name: "DashboardTable",
   data() {
     return {
       searchQuery: "",
