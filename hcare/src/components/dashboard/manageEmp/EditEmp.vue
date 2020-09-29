@@ -14,12 +14,17 @@
                 <div class="d-flex justify-content-center pt-5">
                   <iconUser />
                 </div>
-                <label style="color:white;" for="files" class="btn">
+                <label style="color: white" for="files" class="btn">
                   แก้ไขรูปภาพ
                   <i class="fas fa-pen" />
                 </label>
-                <input id="files" style="visibility:hidden;" type="file" accept="image/*" />
-                <div class="p-4 text-left" style="margin-top:40px;">
+                <input
+                  id="files"
+                  style="visibility: hidden"
+                  type="file"
+                  accept="image/*"
+                />
+                <div class="p-4 text-left" style="margin-top: 40px">
                   <p>สิทธิ์และการแก้ไข</p>
                   <div class="form-check form-check-inline">
                     <input
@@ -30,7 +35,9 @@
                       value="STAFF"
                       v-model="dataFetch.role"
                     />
-                    <label class="form-check-label" for="radioStaff">Staff</label>
+                    <label class="form-check-label" for="radioStaff"
+                      >Staff</label
+                    >
                   </div>
                   <div class="form-check form-check-inline">
                     <input
@@ -41,7 +48,9 @@
                       value="ADMIN"
                       v-model="dataFetch.role"
                     />
-                    <label class="form-check-label" for="radioAdmin">Admin</label>
+                    <label class="form-check-label" for="radioAdmin"
+                      >Admin</label
+                    >
                   </div>
                 </div>
               </div>
@@ -117,8 +126,11 @@
                         :key="index"
                         class="btn div-showTag text-white text-left m-1"
                       >
-                        <span class="mt-4 mb-4 p-2">#{{data.type_name}}</span>
+                        <span class="mt-4 mb-4 p-2">#{{ data.type_name }}</span>
                       </button>
+                      <div class="alert p-2 alert-warning" v-show="dataFetch.service_type.length == 0">
+                        ไม่มีบริการที่รับผิดชอบ
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -148,7 +160,9 @@
               <button
                 @click="sendToBackend"
                 class="col-5 btn btn-primary btnBlock btnConfirm fixed-button text-center"
-              >เสร็จสิ้น</button>
+              >
+                เสร็จสิ้น
+              </button>
             </div>
           </div>
         </div>

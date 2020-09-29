@@ -51,7 +51,7 @@
                     <button
                       class="btn btn-primary btnBlock btnConfirm w-75"
                       style="font-size: 14px; box-shadow: none; webkit-box-shadow: none;"
-                    >ดูประวัติการรักษา</button>
+                    >ดูประวัติการเข้าใช้บริการ</button>
                   </div>
                 </router-link>
               </div>
