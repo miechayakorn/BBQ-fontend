@@ -89,4 +89,10 @@ export default {
   border-radius: 20px;
   color: #99a3ff;
 }
+
+.btnBack:hover {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
 </style>
