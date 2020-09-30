@@ -51,8 +51,7 @@ const routes = [
     path: "/logout",
     name: "Logout",
     component: () =>
-      import(/* webpackChunkName: "hcare-default" */ "../views/Logout.vue"),
-    meta: { requiresAuth: true }
+      import(/* webpackChunkName: "hcare-default" */ "../views/Logout.vue")
   },
   {
     path: "/register",
@@ -116,10 +115,9 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "hcare-admin" */ "../views/admin/Admin.vue"),
     beforeEnter: (to, from, next) => {
-      console.log(store.state.role)
-      if(store.state.role == "ADMIN" || store.state.role == "STAFF"){
+      if (store.state.role == "ADMIN" || store.state.role == "STAFF") {
         next()
-      }else {
+      } else {
         next({
           path: '/admin/login',
           query: { redirect: to.fullPath }

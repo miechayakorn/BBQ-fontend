@@ -158,6 +158,13 @@ export default {
             password: this.password,
           })
           .then((res) => {
+            this.$store.state.token = res.data.token;
+            this.$store.state.role = res.data.role;
+            this.$store.state.user = {
+              first_name: res.data.first_name,
+              last_name: res.data.last_name,
+            };
+
             //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
@@ -173,13 +180,6 @@ export default {
               "hcare6018"
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
-
-            this.$store.state.token = dataSetLocal.token;
-            this.$store.state.role = dataSetLocal.role;
-            this.$store.state.user = {
-              first_name: dataSetLocal.first_name,
-              last_name: dataSetLocal.last_name,
-            };
 
             this.$router.push("/admin/dashboard");
             this.$swal.close();
