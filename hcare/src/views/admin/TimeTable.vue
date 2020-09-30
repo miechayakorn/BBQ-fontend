@@ -1,7 +1,9 @@
 <template>
-  <div class="d-flex">
-    <MenuMobile />
-    <Menudash />
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <Menudash style="position: fixed" />
+    </div>
+    <div class="col-9 col-md-9">
     <div class="container bg-light">
       <nav class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom">
         <ul class="navbar-nav nav-underlined">
@@ -35,20 +37,19 @@
       <EditSlotTime v-if="this.$route.query.p == 'EditSlotTime'" />
     </div>
   </div>
+  </div>
 </template>
 
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
 import AddSlotTime from "@/components/dashboard/timeTable/AddSlotTime.vue";
 import EditSlotTime from "@/components/dashboard/timeTable/EditSlotTime.vue";
-import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
   components: {
     Menudash,
     AddSlotTime,
     EditSlotTime,
-    MenuMobile,
   },
 };
 </script>

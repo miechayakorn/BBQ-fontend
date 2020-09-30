@@ -34,23 +34,27 @@
             class="centerImg"
           />
           <logoUser v-else class="centerImg" />
-          <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
-            {{ user.first_name }} {{ user.last_name }}
+          <p
+            v-if="this.$store.state.token"
+            class="d-flex justify-content-center mb-0 mt-2"
+          >
+            {{ this.$store.state.user.first_name }}
+            {{ this.$store.state.user.last_name }}
           </p>
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
-            v-if="log == false"
+            v-if="this.$store.state.token == null"
             to="/login"
           >
             <p class="d-flex justify-content-center mb-0 mt-2">
-              {{ user.first_name }} {{ user.last_name }}
+              กรุณา เข้าสู่ระบบ
             </p>
           </router-link>
         </li>
         <hr class="lineHr" />
-        <div v-if="log">
+        <div v-if="this.$store.state.token">
           <li
             class="nav-item"
             data-toggle="collapse"
@@ -118,7 +122,10 @@
             </router-link>
           </li> -->
           <router-link
-            v-if="role"
+            v-if="
+              this.$store.state.role == 'ADMIN' ||
+              this.$store.state.role == 'STAFF'
+            "
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
@@ -127,8 +134,14 @@
           >
             <iconHome style="margin-right: 14px" />Admin Dashboard
           </router-link>
-          <hr v-if="role" class="lineHr" />
-          <router-link v-if="log" to="/logout">
+          <hr
+            v-if="
+              this.$store.state.role == 'ADMIN' ||
+              this.$store.state.role == 'STAFF'
+            "
+            class="lineHr"
+          />
+          <router-link v-if="this.$store.state.token" to="/logout">
             <button
               data-toggle="collapse"
               data-target="#navbarCollapse"
@@ -167,32 +180,6 @@ import iconPaper from "@/components/svg/icon/iconPaper.vue";
 import iconTime from "@/components/svg/icon/iconTime.vue";
 
 export default {
-  data() {
-    return {
-      user: {
-        first_name: "",
-        last_name: "",
-      },
-      log: false,
-      role: false,
-    };
-  },
-  mounted() {
-    if (this.$store.state.user.first_name && this.$store.state.user.last_name) {
-      this.user.first_name = this.$store.state.user.first_name;
-      this.user.last_name = this.$store.state.user.last_name;
-      this.log = true;
-      if (
-        this.$store.state.role == "ADMIN" ||
-        this.$store.state.role == "STAFF"
-      ) {
-        this.role = true;
-      }
-    } else {
-      this.user.first_name = "กรุณา";
-      this.user.last_name = "เข้าสู่ระบบ";
-    }
-  },
   components: {
     logoHeaderMini,
     iconCalendar,

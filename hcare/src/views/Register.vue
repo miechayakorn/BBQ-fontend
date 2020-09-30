@@ -1,5 +1,5 @@
 <template>
-  <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
+  <div class="container fixed-container mb-3" style="margin-top: 40px">
     <div class="form-group text-left">
       <h1 style="font-size: 28px; font-weight: 900">Register</h1>
       <form>
@@ -180,37 +180,3 @@ export default {
   },
 };
 </script>
-
-<style>
-@media (max-width: 768px) {
-  .fixed-button {
-    width: 100%;
-    height: 48px;
-  }
-}
-@media (min-width: 768px) {
-  .fixed-button {
-    width: 320px;
-    text-align: center;
-    position: relative;
-    height: 48px;
-  }
-}
-@media (min-width: 768px) {
-  .fixed-container {
-    width: 720px;
-  }
-}
-.bg {
-  background-color: #f9f9fc;
-}
-::placeholder {
-  font-size: 16px;
-  font-weight: 100;
-}
-.btnConfirm {
-  border: 1px solid #99a3ff;
-  box-shadow: 0px 3px 8px #b6bdfe;
-  border-radius: 31px;
-}
-</style>

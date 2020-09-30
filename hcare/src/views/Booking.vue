@@ -394,32 +394,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@media (max-width: 768px) {
-  .fixed-button {
-    width: 100%;
-    height: 48px;
-  }
-}
-@media (min-width: 768px) {
-  .fixed-button {
-    width: 320px;
-    text-align: center;
-    position: relative;
-    height: 48px;
-  }
-}
-@media (min-width: 768px) {
-  .fixed-container {
-    width: 720px;
-  }
-}
-
-button {
-  border-radius: 8px;
-}
-.btnConfirm {
-  border-radius: 31px;
-}
-</style>
