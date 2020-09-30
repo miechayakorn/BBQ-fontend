@@ -5,77 +5,61 @@
     :style="{ minHeight: windowHeight + 'px' }"
   >
     <div class="list-group menu mt-4">
-      <div class="p-2 bg-primary" style="margin-top: 1rem !important;">
+      <div class="p-2 bg-primary" style="margin-top: 1rem !important">
         <router-link to="/admin/dashboard/">
           <iconAppointment
-            :color="
-              this.$route.matched[0].name == 'Dashboard'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'Dashboard' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$route.matched[0].name == 'Dashboard'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'Dashboard' ? 'menu-list-click' : 'menu-list'
             "
-          >นัดหมาย</p>
+          >
+            นัดหมาย
+          </p>
         </router-link>
       </div>
       <div class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
-            :color="
-              this.$route.matched[0].name == 'TimeTable'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'TimeTable' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$route.matched[0].name == 'TimeTable'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'TimeTable' ? 'menu-list-click' : 'menu-list'
             "
-          >ตารางเวลา</p>
+          >
+            ตารางเวลา
+          </p>
         </router-link>
       </div>
       <div class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
           <iconService
-            :color="
-              this.$route.matched[0].name == 'Service'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'Service' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$route.matched[0].name == 'Service'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'Service' ? 'menu-list-click' : 'menu-list'
             "
-          >บริการ</p>
+          >
+            บริการ
+          </p>
         </routerLink>
       </div>
 
       <div class="p-2 bg-primary" v-if="this.$store.state.role == 'ADMIN'">
         <routerLink to="/admin/dashboard/manageEmployee">
           <iconEmp
-            :color="
-              this.$route.matched[0].name == 'ManageEmp'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'ManageEmp' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$route.matched[0].name == 'ManageEmp'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'ManageEmp' ? 'menu-list-click' : 'menu-list'
             "
-          >จัดการเจ้าหน้าที่</p>
+          >
+            จัดการเจ้าหน้าที่
+          </p>
         </routerLink>
       </div>
     </div>
@@ -118,16 +102,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 @media only screen and (min-width: 768px) {
   .col-custom {
     flex: 0 0 6%;
   }
 }
-/* .col-custom {
-  flex: 0 0 8.333333%;
-  max-width: 10.25%;
-} */
 .menu-list {
   font-style: normal;
   font-weight: bold;
@@ -141,21 +121,5 @@ export default {
   font-size: 14px;
   line-height: 21px;
   color: #5e65a1;
-}
-.qText {
-  font-size: 18px;
-  font-weight: 300;
-  font-family: "Mitr";
-  color: #444444;
-}
-.current-queue-text {
-  color: #99a3ff;
-  font-style: bold;
-  font-size: 2em;
-}
-.textBold {
-  font-size: 36px;
-  font-weight: 900;
-  font-family: "Poppins";
 }
 </style>

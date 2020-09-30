@@ -66,7 +66,7 @@
               <div class="col-7">
                 <div
                   v-if="this.$store.state.token && checkAppointment == false"
-                  class="card-body ml-3"
+                  class="ml-3"
                 >
                   <h6
                     class="card-title text-md-center text-left title-card-app"
