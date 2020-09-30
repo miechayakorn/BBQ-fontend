@@ -1,21 +1,22 @@
 <template>
-  <div class="d-flex">
-    <MenuMobile />
-    <Menudash />
-    <div class="container bg-light">
-      <EditEmp />
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <Menudash style="position: fixed" />
+    </div>
+    <div class="col-9 col-md-9">
+      <div class="bg-light">
+        <EditEmp />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
-import MenuMobile from "@/components/MenuMobile.vue";
 import EditEmp from "@/components/dashboard/manageEmp/EditEmp.vue";
 
 export default {
   components: {
     Menudash,
-    MenuMobile,
     EditEmp,
   },
 };

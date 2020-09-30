@@ -1,33 +1,36 @@
 <template>
-  <div class="d-flex">
-    <MenuMobile />
-    <Menudash />
-    <div class="container bg-light mb-4">
-      <div class="text-left" style="margin-top: 32px; font-size: 18px">
-        <span class="font-weight-bold">ดูประวัติการเข้าใช้บริการ : </span
-        ><span>{{ dataHistory[0].name }}</span>
-      </div>
-      <div class="row">
-        <DashboardTableHistoryUser :dataHistory="dataHistory" />
-        <div class="col-12">
-          <button
-            @click="close()"
-            class="col-5 btn btn-primary btnBlock btnBack fixed-button text-center"
-          >
-            <svg
-              width="19"
-              height="13"
-              viewBox="0 0 19 13"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <Menudash style="position: fixed" />
+    </div>
+    <div class="col-9 col-md-9">
+      <div class="bg-light mb-4">
+        <div class="text-left" style="margin-top: 32px; font-size: 18px">
+          <span class="font-weight-bold">ดูประวัติการเข้าใช้บริการ : </span
+          ><span>{{ dataHistory[0].name }}</span>
+        </div>
+        <div class="row">
+          <DashboardTableHistoryUser :dataHistory="dataHistory" />
+          <div class="col-12">
+            <button
+              @click="close()"
+              class="col-5 btn btn-primary btnBlock btnBack fixed-button text-center"
             >
-              <path
-                d="M18.9785 5.14307H4.80852L8.38852 1.55307L6.97852 0.143066L0.978516 6.14307L6.97852 12.1431L8.38852 10.7331L4.80852 7.14307H18.9785V5.14307Z"
-                fill="#99A3FF"
-              />
-            </svg>
-            ย้อนกลับ
-          </button>
+              <svg
+                width="19"
+                height="13"
+                viewBox="0 0 19 13"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.9785 5.14307H4.80852L8.38852 1.55307L6.97852 0.143066L0.978516 6.14307L6.97852 12.1431L8.38852 10.7331L4.80852 7.14307H18.9785V5.14307Z"
+                  fill="#99A3FF"
+                />
+              </svg>
+              ย้อนกลับ
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -39,7 +42,6 @@ import axios from "axios";
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
 import DashboardTableHistoryUser from "@/components/dashboardTable/DashboardTableHistoryUser.vue";
-import MenuMobile from "@/components/MenuMobile.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
 
@@ -51,7 +53,6 @@ export default {
   },
   components: {
     Menudash,
-    MenuMobile,
     DashboardTableHistoryUser,
   },
   methods: {

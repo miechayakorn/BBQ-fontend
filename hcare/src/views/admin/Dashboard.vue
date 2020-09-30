@@ -61,14 +61,12 @@
 import Menudash from "@/components/dashboard/Menudash.vue";
 import Appointmentdash from "@/components/dashboard/Appointmentdash.vue";
 import Bookingdash from "@/components/dashboard/Bookingdash.vue";
-import MenuMobile from "@/components/MenuMobile.vue";
 
 export default {
   components: {
     Menudash,
     Appointmentdash,
     Bookingdash,
-    MenuMobile,
   },
 };
 </script>
