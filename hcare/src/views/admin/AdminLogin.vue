@@ -18,7 +18,7 @@
                 "
               />
               <div class="invalid-feedback">
-                ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+                ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
               </div>
             </div>
           </div>
@@ -28,47 +28,10 @@
               <select
                 v-model="lastname_email"
                 class="form-control"
-                style="
-                  font-family: Poppins;
-                  font-style: strong;
-                  font-weight: 500;
-                  font-size: 14px;
-                  line-height: 21px;
-                  color: #555555;
-                  display: flex;
-                  align-items: center;
-                "
+                style="font-weight: 500; font-size: 14px"
               >
-                <option
-                  value="@mail.kmutt.ac.th"
-                  style="
-                    font-family: Poppins;
-                    font-style: strong;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 21px;
-                    color: #555555;
-                    display: flex;
-                    align-items: center;
-                  "
-                >
-                  @mail.kmutt.ac.th
-                </option>
-                <option
-                  value="@kmutt.ac.th"
-                  style="
-                    font-family: Poppins;
-                    font-style: strong;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 21px;
-                    color: #555555;
-                    display: flex;
-                    align-items: center;
-                  "
-                >
-                  @kmutt.ac.th
-                </option>
+                <option value="@mail.kmutt.ac.th">@mail.kmutt.ac.th</option>
+                <option value="@kmutt.ac.th">@kmutt.ac.th</option>
               </select>
             </div>
           </div>
@@ -115,6 +78,33 @@ export default {
       lastname_email: "@mail.kmutt.ac.th",
       password: "",
     };
+  },
+  mounted() {
+    if (this.$route.query.email) {
+      let emailKmutt = "@mail.kmutt.ac.th";
+      let emailKmutt2 = "@kmutt.ac.th";
+      let emailSub = this.$route.query.email.slice(
+        this.$route.query.email.length - 17,
+        this.$route.query.email.length
+      );
+      let emailSub2 = this.$route.query.email.slice(
+        this.$route.query.email.length - 12,
+        this.$route.query.email.length
+      );
+      if (emailSub == emailKmutt) {
+        this.email = this.$route.query.email.slice(
+          0,
+          this.$route.query.email.length - 17
+        );
+        this.lastname_email = emailKmutt;
+      } else if (emailSub2 == emailKmutt2) {
+        this.email = this.$route.query.email.slice(
+          0,
+          this.$route.query.email.length - 12
+        );
+        this.lastname_email = emailKmutt2;
+      }
+    }
   },
   methods: {
     checkEmail() {

@@ -1,20 +1,10 @@
 <template>
   <div class="form-group">
-    <div class="col-12" style="margin-top:28px">
+    <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left">
         <label for="InputName">Email</label>
         <div class="inner-addon left-addon">
           <i class="fas fa-user"></i>
-          <!--<input
-            type="text"
-            id="InputName"
-            v-model="email"
-            :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
-            placeholder="อีเมล มหาวิทยาลัย"
-          />
-          <div class="invalid-feedback">
-            กรุณากรอก email ลงท้าย @mail.kmutt.ac.th
-          </div>-->
           <input
             type="text"
             id="InputName"
@@ -22,7 +12,9 @@
             placeholder="อีเมล มหาวิทยาลัย"
             :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
           />
-          <div class="invalid-feedback">ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
+          <div class="invalid-feedback">
+            ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+          </div>
         </div>
       </div>
       <div class="form-group text-left">
@@ -30,37 +22,10 @@
           <select
             v-model="lastname_email"
             class="form-control"
-            style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
+            style="font-weight: 500; font-size: 14px"
           >
-            <option
-              value="@mail.kmutt.ac.th"
-              style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
-            >@mail.kmutt.ac.th</option>
-            <option
-              value="@kmutt.ac.th"
-              style="font-family: Poppins;
-                   font-style: strong;
-                   font-weight: 500;
-                   font-size: 14px;
-                   line-height: 21px;
-                   color: #555555;
-                   display: flex;
-                   align-items: center;"
-            >@kmutt.ac.th</option>
+            <option value="@mail.kmutt.ac.th">@mail.kmutt.ac.th</option>
+            <option value="@kmutt.ac.th">@kmutt.ac.th</option>
           </select>
         </div>
       </div>
@@ -71,7 +36,7 @@
           @click="sendToBackend"
           class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
         >
-          <span style="font-weight:900;">Send OTP</span>
+          <span style="font-weight: 900">Send OTP</span>
         </button>
       </div>
     </div>
@@ -86,7 +51,7 @@ export default {
   data() {
     return {
       email: "",
-      lastname_email: "@mail.kmutt.ac.th"
+      lastname_email: "@mail.kmutt.ac.th",
     };
   },
   methods: {
@@ -116,16 +81,16 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          }
+          },
         });
 
         this.email = this.email.split(" ").join("");
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: `${this.email.split(" ").join("")}${this.lastname_email}`
+            email: `${this.email.split(" ").join("")}${this.lastname_email}`,
           })
-          .then(res => {
+          .then((res) => {
             console.log(res);
             if (res.status == 200) {
               let email2 = this.email + this.lastname_email;
@@ -133,24 +98,32 @@ export default {
               this.$swal.close();
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("===== Backend-error ======");
             console.error(error.response);
             if (error.response.status == 403) {
               this.$swal({
                 title: "คำเตือน",
                 text: "กรุณาเข้าสู่ระบบสำหรับบุคลากร Healthcare",
-                icon: "warning"
-              }).then(result => {
+                icon: "warning",
+              }).then((result) => {
                 if (result.value) {
-                  this.$router.push("/admin/login");
+                  this.$router.push({
+                    name: "AdminLogin",
+                    query: {
+                      email: `${this.email.split(" ").join("")}${
+                        this.lastname_email
+                      }`,
+                      redirect: this.$route.query.redirect,
+                    },
+                  });
                 }
               });
             } else {
               this.$swal({
                 title: "คำเตือน",
                 text: "กรุณาลงทะเบียนเพื่อใช้งาน",
-                icon: "warning"
+                icon: "warning",
               });
             }
           });
@@ -159,11 +132,11 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
