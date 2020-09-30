@@ -134,7 +134,6 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDates = res.data;
-          console.log(this.dataFetch.dataDates);
         });
     },
 
@@ -144,7 +143,6 @@ export default {
     },
 
     async sendToBackend() {
-      console.log(process.env.VUE_APP_BACKEND_URL);
       await axios
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`,
@@ -153,7 +151,6 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res.data);
           this.userBookings = res.data;
         })
         .catch((error) => {
