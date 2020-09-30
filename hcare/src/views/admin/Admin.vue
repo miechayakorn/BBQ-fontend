@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <div style="margin-top: -0.625rem">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style>
