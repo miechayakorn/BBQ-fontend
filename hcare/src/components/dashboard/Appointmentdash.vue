@@ -5,38 +5,51 @@
         <div class="col-6 row">
           <doctor3
             class="d-none d-md-block"
-            style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"
+            style="
+              margin: 0;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+            "
           />
         </div>
         <div class="col-12 col-md-6">
           <div class="row">
             <div class="col-12 col-md-12">
-              <div class="form-group text-left" style="margin-top:48px;">
+              <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
                 <select
                   id="serviceType"
                   class="form-control col-12 col-md-6"
                   v-model="dataPrepareSend.type_id"
                 >
-                  <option value disabled selected>-- กรุณาเลือกบริการ --</option>
+                  <option value disabled selected>
+                    -- กรุณาเลือกบริการ --
+                  </option>
                   <option
                     v-for="(data, index) in dataFetch.dataTypes"
                     :key="index"
                     :value="data.type_id"
-                  >{{ data.type_name }}</option>
+                  >
+                    {{ data.type_name }}
+                  </option>
                 </select>
               </div>
             </div>
-            <div class="col-12 col-md-12">
+            <div class="col-12 col-md-6">
               <div class="form-group text-left">
                 <label for="InputDate">เลือกวันที่</label>
-                <input
-                  type="text"
-                  id="InputDate"
-                  class="form-control col-12 col-md-6"
-                  placeholder="กรุณาเลือกวัน"
+                <DatePicker
+                  locale="th"
+                  color="indigo"
+                  :popover="{ visibility: 'click' }"
+                  placeholder="test"
                   v-model="dataPrepareSend.date"
-                  onfocus="(this.type='date')"
+                  :input-props="{
+                    placeholder: 'กรุณาเลือกวัน',
+                  }"
                 />
               </div>
             </div>
@@ -44,7 +57,9 @@
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button col-12 col-md-6 float-left"
-              >ตกลง</button>
+              >
+                ตกลง
+              </button>
             </div>
           </div>
         </div>
@@ -52,7 +67,7 @@
     </div>
 
     <div class="row">
-      <div class="text-left" style="margin-top:32px">
+      <div class="text-left" style="margin-top: 32px">
         <h6>
           <b>นัดหมายแพทย์ทั้งหมด</b>
         </h6>
@@ -69,6 +84,7 @@
 
 <script>
 import axios from "axios";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import DashboardTable from "@/components/dashboardTable/DashboardTableAppointment.vue";
@@ -102,6 +118,7 @@ export default {
     ServiceDateBox,
     DashboardTable,
     doctor3,
+    DatePicker,
   },
   async mounted() {
     //เรียกข้อมูล Default
@@ -123,6 +140,17 @@ export default {
       });
   },
   methods: {
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
+    },
     async fetchDate(serviceDataType) {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
@@ -145,7 +173,9 @@ export default {
     async sendToBackend() {
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${this.dataPrepareSend.type_id}/${this.dataPrepareSend.date}`,
+          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${
+            this.dataPrepareSend.type_id
+          }/${this.formatDate(this.dataPrepareSend.date)}`,
           {
             headers: { Authorization: `Bearer ${this.$store.state.token}` },
           }
