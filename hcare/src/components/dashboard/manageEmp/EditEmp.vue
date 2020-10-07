@@ -13,7 +13,14 @@
               <div class="div-showInfoUser">
                 <div v-if="editComponent == false">
                   <div class="d-flex justify-content-center pt-5">
-                    <iconUser />
+                    <logoAdmin
+                      v-if="dataFetch.role == 'ADMIN'"
+                      class="centerImg"
+                    />
+                    <logoStaff
+                      v-else-if="dataFetch.role == 'STAFF'"
+                      class="centerImg"
+                    />
                   </div>
                   <label
                     style="color: white"
@@ -195,7 +202,8 @@
 
 <script>
 import axios from "axios";
-import iconUser from "@/components/svg/icon/iconUser.vue";
+import logoAdmin from "@/components/svg/logoAdmin.vue";
+import logoStaff from "@/components/svg/logoStaff.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import { VueAvatar } from "vue-avatar-editor-improved";
 import { VclFacebook, VclList } from "vue-content-loading";
@@ -323,7 +331,8 @@ export default {
     },
   },
   components: {
-    iconUser,
+    logoAdmin,
+    logoStaff,
     VclFacebook,
     VclList,
     VueAvatar,
