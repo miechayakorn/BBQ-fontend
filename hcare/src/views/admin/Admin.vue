@@ -106,4 +106,10 @@ th.active .arrow.dsc {
   background-color: #ffffff;
   box-shadow: 0px 4px 8px #e9ebfb;
 }
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
 </style>
