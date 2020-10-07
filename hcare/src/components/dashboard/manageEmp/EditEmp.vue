@@ -326,8 +326,4 @@ export default {
     border-radius: 30px;
   }
 }
-input[type="radio"] {
-  width: 18px;
-  height: 18px;
-}
 </style>
