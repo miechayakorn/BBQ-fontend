@@ -4,7 +4,7 @@
       <Menudash style="position: fixed" />
     </div>
     <div class="col-9 col-md-9">
-      <div class="container bg-light">
+      <div class="bg-light">
         <nav
           class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom"
         >

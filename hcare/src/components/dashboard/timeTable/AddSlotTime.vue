@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-4">
-    <div class="text-left font-weight-bold" style="margin-top:32px">
+    <div class="text-left font-weight-bold" style="margin-top: 32px">
       <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
     </div>
     <div class="mt-3 div-card">
@@ -11,28 +11,38 @@
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 col-md-6">
-              <div class="form-group text-left" style="margin-top:48px;">
+              <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
-                <select id="serviceType" class="form-control" v-model="dataPrepareSend.type_id">
-                  <option value disabled selected>-- กรุณาเลือกบริการ --</option>
+                <select
+                  id="serviceType"
+                  class="form-control"
+                  v-model="dataPrepareSend.type_id"
+                >
+                  <option value disabled selected>
+                    -- กรุณาเลือกบริการ --
+                  </option>
                   <option
                     v-for="(data, index) in dataFetch.dataTypes"
                     :key="index"
                     :value="data.type_id"
-                  >{{ data.type_name }}</option>
+                  >
+                    {{ data.type_name }}
+                  </option>
                 </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <div class="form-group text-left" style="margin-top:48px;">
+              <div class="form-group text-left" style="margin-top: 48px">
                 <label for="InputDate">เลือกวันที่</label>
-                <input
-                  type="text"
-                  id="InputDate"
-                  class="form-control col-12"
-                  placeholder="กรุณาเลือกวัน"
+                <DatePicker
+                  locale="th"
+                  color="indigo"
+                  :popover="{ placement: 'top', visibility: 'click' }"
+                  placeholder="test"
                   v-model="dataPrepareSend.date"
-                  onfocus="(this.type='date')"
+                  :input-props="{
+                    placeholder: 'กรุณาเลือกวัน',
+                  }"
                 />
               </div>
             </div>
@@ -40,7 +50,9 @@
               <button
                 @click="fetchSlot"
                 class="btn btn-primary btnBlock btnConfirm fixed-button mb-3"
-              >ตกลง</button>
+              >
+                ตกลง
+              </button>
             </div>
           </div>
         </div>
@@ -48,21 +60,24 @@
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
     <div class="mt-3" v-show="visibleState">
-      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
+      <div class="text-left font-weight-bold mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
       </div>
       <div class="row box-02" v-if="noContent == false">
-        <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
+        <div
+          class="col-12 col-md-3"
+          style="border-right: 3px solid rgba(224, 224, 224, 0.28)"
+        >
           <div class="col-12 h75 dis-pc">
             <div>
               <div class="col-12 mt-4">
                 <i class="far fa-clock"></i>
-                {{this.dataFetch.dateText}}
+                {{ this.dataFetch.dateText }}
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-9" style=" display:block;">
+        <div class="col-12 col-md-9" style="display: block">
           <div class="row mt-4 mb-4">
             <div
               class="col-6 col-md-4 col-lg-3"
@@ -70,7 +85,9 @@
               :key="index"
             >
               <div class="col-12">
-                <span style="text-align: center;">{{ time.slot.substring(0, 5) }}</span>
+                <span style="text-align: center">{{
+                  time.slot.substring(0, 5)
+                }}</span>
               </div>
               <div v-if="time.status == 'available'" class="col-12">
                 <toggle-button
@@ -80,12 +97,12 @@
                   :font-size="14"
                   :value="time.toggle"
                   color="#99a3ff"
-                  @change="onChangeEventHandler(time,$event.value)"
+                  @change="onChangeEventHandler(time, $event.value)"
                 />
               </div>
               <div
                 v-if="time.status == 'unavailable'"
-                style="font-weight: bold;"
+                style="font-weight: bold"
                 class="col-12 text-primary"
               >
                 <i class="fas fa-check-circle"></i> สร้างเรียบร้อยแล้ว
@@ -97,7 +114,9 @@
               <button
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-              >ยืนยัน</button>
+              >
+                ยืนยัน
+              </button>
             </div>
           </div>
         </div>
@@ -111,6 +130,7 @@
 
 <script>
 import axios from "axios";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import VclFacebook from "vue-content-loading";
@@ -138,8 +158,20 @@ export default {
   components: {
     man2,
     VclFacebook,
+    DatePicker,
   },
   methods: {
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
+    },
     onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
         // Adding  Array element
@@ -172,7 +204,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
               {
                 type_id: this.dataPrepareSend.type_id,
-                date: this.dataPrepareSend.date,
+                date: this.formatDate(this.dataPrepareSend.date)
               },
               {
                 headers: {
@@ -234,7 +266,7 @@ export default {
                 {
                   // Use data from fetch to sendSubmit
                   type_id: this.dataFetch.type_id,
-                  date: this.dataFetch.date,
+                  date: this.formatDate(this.dataFetch.date),
                   time_slot: this.dataPrepareSend.slot_time,
                 },
                 {

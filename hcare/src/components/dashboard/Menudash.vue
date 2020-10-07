@@ -62,6 +62,21 @@
           </p>
         </routerLink>
       </div>
+
+      <!-- <div class="p-2 bg-primary">
+        <routerLink to="/logout">
+          <iconLogout
+            :color="this.$route.name == 'Service' ? '#5E65A1' : 'white'"
+          />
+          <p
+            :class="
+              this.$route.name == 'Service' ? 'menu-list-click' : 'menu-list'
+            "
+          >
+            ออกจากระบบ
+          </p>
+        </routerLink>
+      </div> -->
     </div>
   </div>
 </template>

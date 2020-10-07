@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-4">
-    <div class="text-left font-weight-bold" style="margin-top:32px">
+    <div class="text-left font-weight-bold" style="margin-top: 32px">
       <span>ส่วนที่ 1 : เลือกวันที่และบริการ</span>
     </div>
     <div class="mt-3 div-card">
@@ -11,28 +11,38 @@
         <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12 col-md-6">
-              <div class="form-group text-left" style="margin-top:48px;">
+              <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
-                <select id="serviceType" class="form-control" v-model="dataPrepareSend.type_id">
-                  <option :value="null" disabled selected="selected">-- กรุณาเลือกบริการ --</option>
+                <select
+                  id="serviceType"
+                  class="form-control"
+                  v-model="dataPrepareSend.type_id"
+                >
+                  <option :value="null" disabled selected="selected">
+                    -- กรุณาเลือกบริการ --
+                  </option>
                   <option
                     v-for="(type, index) in dataFetch.dataTypes"
                     :key="index"
                     :value="type.type_id"
-                  >{{ type.type_name }}</option>
+                  >
+                    {{ type.type_name }}
+                  </option>
                 </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <div class="form-group text-left" style="margin-top:48px;">
+              <div class="form-group text-left" style="margin-top: 48px">
                 <label for="InputName">เลือกวันที่</label>
-                <input
-                  type="text"
-                  id="InputDay"
-                  class="form-control col-12 col-lg-12 text-left mx-auto"
-                  placeholder="กรุณาเลือกวัน"
+                <DatePicker
+                  locale="th"
+                  color="indigo"
+                  :popover="{ placement: 'top', visibility: 'click' }"
+                  placeholder="test"
                   v-model="dataPrepareSend.date"
-                  onfocus="(this.type='date')"
+                  :input-props="{
+                    placeholder: 'กรุณาเลือกวัน',
+                  }"
                 />
               </div>
             </div>
@@ -41,24 +51,29 @@
             <button
               class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
               @click="fetchSlot"
-            >ตกลง</button>
+            >
+              ตกลง
+            </button>
           </div>
         </div>
       </div>
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
     <div class="row mt-2" v-show="visibleState">
-      <div class="col-12 text-left font-weight-bold" style="margin-top:32px">
+      <div class="col-12 text-left font-weight-bold" style="margin-top: 32px">
         <span>ส่วนที่ 2 : เลือก slot เวลาให้บริการ</span>
       </div>
       <div class="col-12 mt-3 div-card">
         <div class="row box-02" v-if="noContent == false">
-          <div class="col-12 col-md-3" style="border-right: 3px solid rgba(224, 224, 224, 0.28);">
+          <div
+            class="col-12 col-md-3"
+            style="border-right: 3px solid rgba(224, 224, 224, 0.28)"
+          >
             <div class="col-12 h75 dis-pc mt-4">
               <div>
                 <div class="col-12">
                   <i class="far fa-clock"></i>
-                  {{dataFetch.dateText}}
+                  {{ dataFetch.dateText }}
                 </div>
                 <div class="col-12 mt-2">
                   <toggle-button
@@ -75,7 +90,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-9" style="display:block;">
+          <div class="col-12 col-md-9" style="display: block">
             <div class="row mt-4 mb-4">
               <div
                 class="col-6 col-md-4 col-lg-3"
@@ -83,7 +98,9 @@
                 :key="index"
               >
                 <div class="col-12">
-                  <span style="text-align: center;">{{time.time_in.substring(0, 5)}}</span>
+                  <span style="text-align: center">{{
+                    time.time_in.substring(0, 5)
+                  }}</span>
                 </div>
                 <div class="col-12" v-if="time.status == null">
                   <toggle-button
@@ -94,14 +111,16 @@
                     :sync="true"
                     :value="time.toggle"
                     color="#99a3ff"
-                    @change="onChangeEventHandler(time,$event.value)"
+                    @change="onChangeEventHandler(time, $event.value)"
                   />
                 </div>
                 <div
-                  style="font-weight: bold;"
+                  style="font-weight: bold"
                   class="col-12 text-primary"
                   v-if="time.status != null"
-                >{{time.status}}</div>
+                >
+                  {{ time.status }}
+                </div>
               </div>
             </div>
           </div>
@@ -116,6 +135,7 @@
 
 <script>
 import axios from "axios";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import VclFacebook from "vue-content-loading";
@@ -144,8 +164,20 @@ export default {
   components: {
     man2,
     VclFacebook,
+    DatePicker,
   },
   methods: {
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
+    },
     showSwalToast() {
       this.$swal({
         toast: true,
@@ -300,7 +332,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
               {
                 type_id: this.dataPrepareSend.type_id,
-                date: this.dataPrepareSend.date,
+                date: this.formatDate(this.dataPrepareSend.date),
               },
               {
                 headers: {
