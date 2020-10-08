@@ -2,9 +2,9 @@
   <div>
     <logoHeader />
     <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
+      <button @click="adal" class="btn btn-primary">OAuth</button>
       <SendMailForm v-if="!email" v-on:email="getEmail" />
       <ComfirmOTPForm v-else-if="email" :email="email" />
-      <button @click="adal" class="btn btn-primary">OAuth</button>
     </div>
     <footer class="footer">
       <div class="container">
