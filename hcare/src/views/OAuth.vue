@@ -1,7 +1,9 @@
 <template>
   <div>
     <logoHeader />
-    <p class="mt-5" style="font-sixe: 30px; color: black">Wellcome back, {{ name }}</p>
+    <p class="mt-5" style="font-sixe: 30px; color: black">
+      Wellcome back, {{ name }}
+    </p>
   </div>
 </template>
 
@@ -18,8 +20,9 @@ export default {
   mounted() {
     authentication.initialize();
     this.name = authentication.getUserProfile().name;
-
-    //Set DataHcare in LocalStorage
+    if (localStorage.getItem("adal.idtoken")) {
+      this.$router.push("/login");
+    }
   },
   components: {
     logoHeader,
