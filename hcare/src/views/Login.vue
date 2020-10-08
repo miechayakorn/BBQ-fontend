@@ -36,7 +36,6 @@ export default {
       authentication.initialize();
       let email = authentication.getUserProfile().upn;
 
-      
       await axios
         .post(`${process.env.VUE_APP_BACKEND_URL}/login/oauth`, {
           hash: CryptoJS.AES.encrypt(
@@ -75,7 +74,23 @@ export default {
             this.$router.push(redirectPath);
           } else if (res.status == 202) {
             //User not register
-            this.$router.push("/register");
+
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              icon: "info",
+              title: "กรุณา ลงทะเบียนก่อนใช้งาน!",
+            });
+
+            this.$router.push({
+              name: "Register",
+              query: {
+                email: email,
+                redirect: this.$route.query.redirect,
+              },
+            });
           }
         })
         .catch((error) => {

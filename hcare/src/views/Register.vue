@@ -40,6 +40,17 @@
           <div class="form-group">
             <label for="InputEmail">อีเมล</label>
             <input
+              v-if="this.$route.query.email"
+              type="email"
+              v-model="dataUserInfo.email"
+              id="InputEmail"
+              disabled
+              class="form-control"
+              placeholder="example@mail.kmutt.ac.th"
+              required
+            />
+            <input
+              v-else
               type="email"
               v-model="dataUserInfo.email"
               id="InputEmail"
@@ -95,6 +106,11 @@ export default {
         hn_number: "",
       },
     };
+  },
+  mounted() {
+    if (this.$route.query.email) {
+      this.dataUserInfo.email = this.$route.query.email;
+    }
   },
   methods: {
     checkEmail() {
