@@ -3,7 +3,7 @@ import AuthenticationContext from 'adal-angular/lib/adal.js'
 const config = {
   tenant: '6f4432dc-20d2-441d-b1db-ac3380ba633d',
   clientId: '72092aa5-0e71-4647-b357-009af6cfd24a',
-  redirectUri: 'http://localhost:8080/login',
+  redirectUri: 'http://localhost:8080/login/oauth',
   cacheLocation: 'localStorage'
 };
 

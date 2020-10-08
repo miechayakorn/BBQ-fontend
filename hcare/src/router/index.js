@@ -42,6 +42,12 @@ const routes = [
       import(/* webpackChunkName: "hcare-default" */ "../views/Login.vue")
   },
   {
+    path: "/login/oauth",
+    name: "LoginOAuth",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/OAuth.vue")
+  },
+  {
     path: "/login/confirm",
     name: "LoginConfirm",
     component: () =>

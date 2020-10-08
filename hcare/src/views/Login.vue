@@ -5,8 +5,6 @@
       <SendMailForm v-if="!email" v-on:email="getEmail" />
       <ComfirmOTPForm v-else-if="email" :email="email" />
       <button @click="adal" class="btn btn-primary">OAuth</button>
-      <button @click="getProfile" class="btn btn-primary">getProfile</button>
-      <button @click="adalLogout" class="btn btn-primary">Logout</button>
     </div>
     <footer class="footer">
       <div class="container">
@@ -30,18 +28,16 @@ export default {
       email: null,
     };
   },
+  mounted() {
+    //Redirect when Login OAuth success
+    if (localStorage.getItem("user")) {
+      const redirectPath = this.$route.query.redirect || "/";
+      this.$router.push(redirectPath);
+    }
+  },
   methods: {
-    adal() {
-      authentication.initialize();
-      authentication.getUserProfile();
-    },
-    getProfile() {
-      authentication.initialize();
-      console.log(authentication.getUserProfile().name);
-    },
-    adalLogout() {
-      authentication.initialize();
-      authentication.signOut();
+    async adal() {
+      await authentication.initialize();
     },
     getEmail(email) {
       this.email = email;
