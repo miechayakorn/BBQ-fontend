@@ -100,15 +100,15 @@ export default {
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
               dataSetLocal.first_name,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             dataSetLocal.last_name = CryptoJS.AES.encrypt(
               dataSetLocal.last_name,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             dataSetLocal.role = CryptoJS.AES.encrypt(
               dataSetLocal.role,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 

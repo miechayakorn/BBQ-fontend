@@ -194,17 +194,18 @@ router.beforeEach((to, from, next) => {
       //decrypt
       user.first_name = CryptoJS.AES.decrypt(
         user.first_name,
-        "hcare6018"
+        process.env.VUE_APP_SECRET_KEY
       ).toString(CryptoJS.enc.Utf8);
 
       user.last_name = CryptoJS.AES.decrypt(
         user.last_name,
-        "hcare6018"
+        process.env.VUE_APP_SECRET_KEY
       ).toString(CryptoJS.enc.Utf8);
 
-      user.role = CryptoJS.AES.decrypt(user.role, "hcare6018").toString(
-        CryptoJS.enc.Utf8
-      );
+      user.role = CryptoJS.AES.decrypt(
+        user.role,
+        process.env.VUE_APP_SECRET_KEY
+      ).toString(CryptoJS.enc.Utf8);
 
       store.state.token = user.token;
       store.state.role = user.role;
