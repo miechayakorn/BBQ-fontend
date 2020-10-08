@@ -9,7 +9,6 @@
 <script>
 import Menubar from "@/components/Menubar.vue";
 import axios from "axios";
-import CryptoJS from "crypto-js";
 
 export default {
   async beforeUpdate() {
