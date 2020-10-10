@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading" class="container fixed-container mb-3">
       <div class="form-group text-left">
-        <label>เลือกวิทยาเขต</label>
+        <label class="font-weight-bold">เลือกวิทยาเขต</label>
         <div class="col-12 text-center text-md-left">
           <div
             class="custom-control custom-radio custom-control-inline"
@@ -32,20 +32,21 @@
         </div>
       </div>
       <div class="form-group text-left">
-        <label>เลือกบริการ</label>
-        <div class="form">
+        <label class="font-weight-bold">เลือกบริการ</label>
+        <div class="div-service text-center">+ เลือกบริการ</div>
+        <!-- <div class="form">
           <div class="container">
             <ServiceTypeBox
               :dataTypes="dataFetch.dataTypes"
               v-on:serviceDataType="fetchDate"
             />
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="row">
         <div class="form-group text-left w-100">
           <div class="col-12">
-            <label for="selectDate">เลือกวัน</label>
+            <label class="font-weight-bold" for="selectDate">เลือกวัน</label>
           </div>
           <ServiceDateBox
             :dataDates="dataFetch.dataDates"
@@ -58,7 +59,7 @@
           <div class="col-12">
             <label
               for="exampleInputPassword1"
-              class="d-flex justify-content-start"
+              class="d-flex justify-content-start font-weight-bold"
               >เลือกเวลา</label
             >
           </div>
@@ -70,7 +71,10 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start">
+        <label
+          for="exampleInputPassword1"
+          class="d-flex justify-content-start font-weight-bold"
+        >
           อาการ หรือ ประเด็นที่ปรึกษา
           <span style="color: red">*</span>
         </label>
@@ -394,17 +398,23 @@ export default {
 };
 </script>
 <style scoped>
-
 input[type="radio"] {
   width: 16px;
   height: 16px;
 }
 
-.custom-control-input:checked~.custom-control-label::before {
-  color: #555555;
+.custom-control-input:checked ~ .custom-control-label::before {
   border-color: #555555;
   background-color: #555555;
 }
 
-
+.div-service {
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  padding: 10px;
+  color: #99a3ff;
+  font-weight: 500;
+  font-size: 14px;
+}
 </style>
