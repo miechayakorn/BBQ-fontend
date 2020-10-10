@@ -46,7 +46,7 @@
       <div class="row">
         <div class="form-group text-left w-100">
           <div class="col-12">
-            <label class="font-weight-bold" for="selectDate">เลือกวัน</label>
+            <label class="font-weight-bold">เลือกวัน</label>
           </div>
           <ServiceDateBox
             :dataDates="dataFetch.dataDates"
@@ -58,7 +58,6 @@
         <div class="form-group">
           <div class="col-12">
             <label
-              for="exampleInputPassword1"
               class="d-flex justify-content-start font-weight-bold"
               >เลือกเวลา</label
             >
@@ -72,26 +71,26 @@
       </div>
       <div class="form-group">
         <label
-          for="exampleInputPassword1"
+          for="symptom"
           class="d-flex justify-content-start font-weight-bold"
         >
           อาการ หรือ ประเด็นที่ปรึกษา
           <span style="color: red">*</span>
         </label>
         <textarea
-          rows="3"
+          id="symptom"
           :class="[
-            'form-control',
+            'form-control div-symptom',
             totalcharacter > limitChar ? 'is-invalid' : '',
           ]"
-          placeholder="กรุณากรอกข้อมูล"
+          placeholder="กรุณากรอกอาการ..."
           v-model="dataPrepareSend.symptom"
           @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
         <p
-          class="text-right"
+          class="text-right mt-1"
           :style="totalcharacter > limitChar ? 'color: red' : ''"
         >
           {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
@@ -417,5 +416,11 @@ input[type="radio"] {
   font-weight: 500;
   height: 40px;
   font-size: 14px;
+}
+
+.div-symptom {
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  height: 144px;
 }
 </style>
