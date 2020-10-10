@@ -58,7 +58,10 @@ body {
   font-family: "Poppins", "Mitr", sans-serif;
   background-color: #f9f9fc;
   text-align: center;
-  color: #2c3e50;
+  color: #555555;
+}
+.font-weight-bold {
+  color: #444444;
 }
 .fixed-button {
   width: 320px;
