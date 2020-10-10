@@ -89,6 +89,7 @@ import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import DashboardTable from "@/components/dashboardTable/DashboardTableAppointment.vue";
 import doctor3 from "@/components/svg/doctor3.vue";
+import formatDate from "@/utility/formatDate";
 
 export default {
   data() {
@@ -140,17 +141,6 @@ export default {
       });
   },
   methods: {
-    formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      return [year, month, day].join("-");
-    },
     async fetchDate(serviceDataType) {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
@@ -175,7 +165,7 @@ export default {
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/showbooking/${
             this.dataPrepareSend.type_id
-          }/${this.formatDate(this.dataPrepareSend.date)}`,
+          }/${formatDate.format(this.dataPrepareSend.date)}`,
           {
             headers: { Authorization: `Bearer ${this.$store.state.token}` },
           }

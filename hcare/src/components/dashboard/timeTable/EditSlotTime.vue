@@ -139,6 +139,7 @@ import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import VclFacebook from "vue-content-loading";
+import formatDate from "@/utility/formatDate";
 
 export default {
   data() {
@@ -167,17 +168,6 @@ export default {
     DatePicker,
   },
   methods: {
-    formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      return [year, month, day].join("-");
-    },
     showSwalToast() {
       this.$swal({
         toast: true,
@@ -332,7 +322,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
               {
                 type_id: this.dataPrepareSend.type_id,
-                date: this.formatDate(this.dataPrepareSend.date),
+                date: formatDate.format(this.dataPrepareSend.date),
               },
               {
                 headers: {

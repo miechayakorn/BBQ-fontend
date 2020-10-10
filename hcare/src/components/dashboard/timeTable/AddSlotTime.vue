@@ -134,6 +134,7 @@ import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import VclFacebook from "vue-content-loading";
+import formatDate from "@/utility/formatDate";
 
 export default {
   data() {
@@ -161,17 +162,6 @@ export default {
     DatePicker,
   },
   methods: {
-    formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      return [year, month, day].join("-");
-    },
     onChangeEventHandler(time, statusButton) {
       if (statusButton == true) {
         // Adding  Array element
@@ -204,7 +194,7 @@ export default {
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
               {
                 type_id: this.dataPrepareSend.type_id,
-                date: this.formatDate(this.dataPrepareSend.date)
+                date: formatDate.format(this.dataPrepareSend.date),
               },
               {
                 headers: {
@@ -266,7 +256,7 @@ export default {
                 {
                   // Use data from fetch to sendSubmit
                   type_id: this.dataFetch.type_id,
-                  date: this.formatDate(this.dataFetch.date),
+                  date: formatDate.format(this.dataFetch.date),
                   time_slot: this.dataPrepareSend.slot_time,
                 },
                 {
