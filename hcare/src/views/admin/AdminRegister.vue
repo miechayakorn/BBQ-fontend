@@ -12,8 +12,7 @@
             <div class="col-12">
               <div class="text-left text-title">
                 <logoHeader />
-                <br />Manage Your Patients Easily !
-                <br />Paper Less
+                <br />Manage Your Patients Easily ! <br />Paper Less
               </div>
               <div class="col-12"></div>
             </div>
@@ -25,16 +24,22 @@
                 <div class="p-4 text-left">
                   <table class="table table-borderless text-white">
                     <td>ชื่อ</td>
-                    <td
-                      style="text-align: left"
-                    >{{dataPrepareSend.prefix}} {{dataPrepareSend.first_name}} {{dataPrepareSend.last_name}}</td>
+                    <td style="text-align: left">
+                      {{ dataPrepareSend.prefix }}
+                      {{ dataPrepareSend.first_name }}
+                      {{ dataPrepareSend.last_name }}
+                    </td>
                     <tr>
                       <td>เบอร์ติดต่อ</td>
-                      <td style="text-align: left">{{dataPrepareSend.telephone}}</td>
+                      <td style="text-align: left">
+                        {{ dataPrepareSend.telephone }}
+                      </td>
                     </tr>
                     <tr>
                       <td>เลขบุคลากร</td>
-                      <td style="text-align: left">{{dataPrepareSend.hn_number}}</td>
+                      <td style="text-align: left">
+                        {{ dataPrepareSend.hn_number }}
+                      </td>
                     </tr>
                   </table>
                 </div>
@@ -46,7 +51,7 @@
           <div class="row mt-5">
             <div class="col-12 text-header">กรอกข้อมูลส่วนตัว</div>
             <div class="col-12">
-              <div class="form-group" style="margin-top:48px;">
+              <div class="form-group" style="margin-top: 48px">
                 <div class="text-left mb-2">
                   <div class="row">
                     <div class="col-12">
@@ -116,14 +121,17 @@
                         type="password"
                         id="inputPassword"
                         v-model="dataPrepareSend.password"
-                        :class="checkPasswordMatch()
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
+                        :class="
+                          checkPasswordMatch()
+                            ? 'form-control'
+                            : 'form-control is-invalid'
+                        "
                         placeholder="รหัสผ่าน"
                         required
                       />
-                      <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
+                      <div class="invalid-feedback">
+                        กรุณากรอกรหัสผ่านให้ตรงกัน
+                      </div>
                     </div>
                     <div class="col-12 col-md-6 mt-3">
                       <label for="inputConfirmPassword">ยืนยันรหัสผ่าน</label>
@@ -132,20 +140,24 @@
                         placeholder="ยืนยันรหัสผ่าน"
                         v-model="confirmpassword"
                         :class="
-                checkPasswordMatch()
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
+                          checkPasswordMatch()
+                            ? 'form-control'
+                            : 'form-control is-invalid'
+                        "
                         id="inputConfirmPassword"
                       />
-                      <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
+                      <div class="invalid-feedback">
+                        กรุณากรอกรหัสผ่านให้ตรงกัน
+                      </div>
                     </div>
                   </div>
                 </div>
                 <button
                   @click="sendToBackend"
                   class="btn btn-primary btnBlock btnConfirm fixed-button text-center mt-4 mb-4"
-                >เสร็จสิ้น</button>
+                >
+                  เสร็จสิ้น
+                </button>
               </div>
             </div>
           </div>
@@ -188,11 +200,21 @@ export default {
           `${process.env.VUE_APP_BACKEND_URL}/admin/register/getnewemployee?account_id=${this.$route.query.account_id}&token=${this.$route.query.token}`
         )
         .then((res) => {
-          this.dataPrepareSend.account_id = res.data.account_id;
-          this.dataPrepareSend.first_name = res.data.first_name;
-          this.dataPrepareSend.last_name = res.data.last_name;
-          this.dataPrepareSend.email = res.data.email;
-          this.loading = false;
+          if (res.status == 200) {
+            this.dataPrepareSend.account_id = res.data.account_id;
+            this.dataPrepareSend.first_name = res.data.first_name;
+            this.dataPrepareSend.last_name = res.data.last_name;
+            this.dataPrepareSend.email = res.data.email;
+            this.loading = false;
+          } else if (res.status == 202) {
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: "ระบบได้สร้างข้อมูลของท่านเรียบร้อยแล้ว",
+            }).then((result) => {
+              this.$router.push("/admin/dashboard");
+            });
+          }
         });
     } catch (error) {
       console.log("===== Backend-error ======");
@@ -254,7 +276,12 @@ export default {
                     icon: "success",
                     title: "การสร้างบัญชีสำเร็จ",
                   }).then((result) => {
-                    this.$router.push("/admin/login");
+                    this.$router.push({
+                      name: "AdminLogin",
+                      query: {
+                        email: this.dataPrepareSend.email,
+                      },
+                    });
                   });
                 } else {
                   console.log("===== Backend-error ======");
