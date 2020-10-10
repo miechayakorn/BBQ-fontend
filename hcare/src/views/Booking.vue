@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top: 25px">
     <div class="container fixed-container mb-3" v-if="loading">
       <VclFacebook />
       <VclList class="mt-2" />
@@ -7,15 +7,15 @@
     </div>
     <div v-if="!loading" class="container fixed-container mb-3">
       <div class="form-group text-left">
-        <label>เลือกสถานที่</label>
+        <label>เลือกวิทยาเขต</label>
         <div class="col-12 text-center text-md-left">
           <div
-            class="form-check form-check-inline"
+            class="custom-control custom-radio custom-control-inline"
             v-for="(item, index) in dataFetch.dataLocation"
             :key="index"
           >
             <input
-              class="form-check-input"
+              class="custom-control-input"
               type="radio"
               name="location_id"
               :id="item.location_id"
@@ -24,7 +24,7 @@
             />
             <label
               style="cursor: pointer"
-              class="form-check-label"
+              class="custom-control-label"
               :for="item.location_id"
               >{{ item.location_name }}</label
             >
@@ -192,7 +192,6 @@ export default {
   watch: {
     location_id: {
       handler: async function (val, oldCal) {
-        
         this.dataFetch.dataTypes = null;
         this.dataFetch.dataDates = null;
         this.dataFetch.dataTimes = null;
@@ -394,3 +393,18 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+  color: #555555;
+  border-color: #555555;
+  background-color: #555555;
+}
+
+
+</style>
