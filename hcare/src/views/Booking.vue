@@ -415,6 +415,7 @@ input[type="radio"] {
   padding: 10px;
   color: #99a3ff;
   font-weight: 500;
+  height: 40px;
   font-size: 14px;
 }
 </style>

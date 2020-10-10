@@ -1,32 +1,48 @@
 <template>
-<div class="col-12">
-    <select class="form-control" v-model="selectedDate" @change="fetchTime()" id="selectDate" style="width:100%;">
-        <option :value="null" disabled selected="selected">กรุณาเลือกวัน</option>
-        <option v-for="(dataDate, index) in dataDates" :key="index" :value="dataDate">{{ dataDate.dateformat }}</option>
+  <div class="col-12">
+    <select
+      class="form-control select-date"
+      v-model="selected"
+      @change="fetchTime()"
+      id="selectDate"
+    >
+      <option value="" disabled selected="selected">กรุณาเลือกวันที่</option>
+      <option
+        v-for="(dataDate, index) in dataDates"
+        :key="index"
+        :value="dataDate"
+      >
+        {{ dataDate.dateformat }}
+      </option>
     </select>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            selectedDate: [],
-        };
+  data() {
+    return {
+      selected: "",
+    };
+  },
+  methods: {
+    fetchTime() {
+      this.$emit("selectedDate", this.selected);
     },
-    methods: {
-        fetchTime() {
-            this.$emit("selectedDate", this.selectedDate);
-        },
-    },
-    props: {
-        dataDates: Array,
-    },
-    mounted() {
-        let a = this;
-        this.selectedDate = a.dataDates;
-    },
+  },
+  props: {
+    dataDates: Array,
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+.select-date {
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 48px;
+}
+</style>
