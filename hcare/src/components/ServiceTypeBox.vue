@@ -36,7 +36,7 @@ import logoEmotion from "@/components/svg/logoEmotion.vue";
 export default {
   data() {
     return {
-      activeBtnType: "btn0"
+      activeBtnType: ""
     };
   },
   components: {

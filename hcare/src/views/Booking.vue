@@ -33,8 +33,6 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        <!-- {{ this.$store.state.booking.serviceDataType }} -->
-
         <div
           class="btnType btn-outline-primary active btnBooking"
           v-if="this.$store.state.booking.serviceDataType.type_id"
@@ -48,8 +46,15 @@
         </div>
 
         <router-link to="/booking/service">
-          <div class="div-service text-center" style="cursor: pointer">
-            + เลือกบริการ
+          <div
+            v-if="this.$store.state.booking.serviceDataType.type_id"
+            class="div-service div-service-edit text-center"
+            style="cursor: pointer"
+          >
+            <span>เปลี่ยนบริการ</span>
+          </div>
+          <div v-else class="div-service text-center" style="cursor: pointer">
+            <span>+ เลือกบริการ</span>
           </div>
         </router-link>
       </div>
@@ -395,6 +400,10 @@ input[type="radio"] {
   font-weight: 500;
   height: 40px;
   font-size: 14px;
+}
+
+.div-service-edit {
+  border: 1px solid #99a3ff;
 }
 
 .div-symptom {

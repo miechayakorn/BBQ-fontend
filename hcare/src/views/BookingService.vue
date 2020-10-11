@@ -9,10 +9,28 @@
       <p class="text-left font-weight-bold">
         เลือกบริการ : {{ this.$store.state.booking.location.location_name }}
       </p>
+
       <ServiceTypeBox
+        v-if="haveData"
         :dataTypes="dataFetch.dataTypes"
         v-on:serviceDataType="fetchDate"
       />
+
+      <div v-else class="row" style="text-align: center">
+        <div class="col-12">
+          <div class="alert alert-warning text-center" role="alert">
+            ไม่พบบริการ ณ สถานที่นี้
+          </div>
+        </div>
+        <div class="col-12" @click="$router.go(-1)" style="margin-top: 250px">
+          <button
+            class="btn btnBlock btn-primary fixed-button mb-2"
+            style="border-radius: 10px"
+          >
+            <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +44,7 @@ export default {
   data() {
     return {
       loading: false,
+      haveData: false,
       dataFetch: {
         dataTypes: null,
       },
@@ -46,6 +65,7 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataTypes = res.data;
+          this.haveData = this.dataFetch.dataTypes.length != 0;
         });
     } else {
       this.$router.push("/booking");
