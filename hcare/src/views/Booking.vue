@@ -195,10 +195,15 @@ export default {
         this.dataFetch.dataDates = null;
         this.dataFetch.dataTimes = null;
 
-        // this.$store.state.booking.serviceDataType = {
-        //   type_id: "",
-        //   type_name: "",
-        // };
+        if (
+          oldCal != null &&
+          this.$store.state.booking.serviceDataType.type_id
+        ) {
+          this.$store.state.booking.serviceDataType = {
+            type_id: "",
+            type_name: "",
+          };
+        }
         this.$store.state.booking.location = val;
       },
     },
