@@ -6,7 +6,9 @@
       <VclList class="mt-2" />
     </div>
     <div class="container" v-if="!loading">
-      {{ this.$store.state.booking.location_id }}
+      <p class="text-left font-weight-bold">
+        เลือกบริการ : {{ this.$store.state.booking.location.location_name }}
+      </p>
       <ServiceTypeBox
         :dataTypes="dataFetch.dataTypes"
         v-on:serviceDataType="fetchDate"
@@ -37,11 +39,10 @@ export default {
 
   async mounted() {
     this.loading = true;
-
-    if (this.$store.state.booking.location_id) {
+    if (this.$store.state.booking.location.location_id) {
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.$store.state.booking.location_id}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.$store.state.booking.location.location_id}`
         )
         .then((res) => {
           this.dataFetch.dataTypes = res.data;

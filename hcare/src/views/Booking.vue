@@ -17,10 +17,10 @@
             <input
               class="custom-control-input"
               type="radio"
-              name="location_id"
+              name="locationSelected"
               :id="item.location_id"
-              :value="item.location_id"
-              v-model="location_id"
+              :value="item"
+              v-model="locationSelected"
             />
             <label
               style="cursor: pointer"
@@ -33,7 +33,20 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        {{ this.$store.state.booking.serviceDataType }}
+        <!-- {{ this.$store.state.booking.serviceDataType }} -->
+
+        <div
+          class="btnType btn-outline-primary active btnBooking"
+          v-if="this.$store.state.booking.serviceDataType.type_id"
+        >
+          <div class="text-center" style="margin-top: 32px">
+            <logoEmotion :color="'white'" />
+            <p style="color: #ffffff">
+              {{ this.$store.state.booking.serviceDataType.type_name }}
+            </p>
+          </div>
+        </div>
+
         <router-link to="/booking/service">
           <div class="div-service text-center" style="cursor: pointer">
             + เลือกบริการ
@@ -108,6 +121,7 @@
 
 <script>
 import axios from "axios";
+import logoEmotion from "@/components/svg/logoEmotion.vue";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
@@ -121,7 +135,7 @@ export default {
       loading: false,
       limitChar: 100,
       totalcharacter: 0,
-      location_id: null,
+      locationSelected: null,
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -146,6 +160,7 @@ export default {
     };
   },
   components: {
+    logoEmotion,
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
@@ -162,10 +177,10 @@ export default {
         this.dataFetch.dataLocation = res.data;
       });
 
-    if (this.$store.state.booking.location_id) {
-      this.location_id = this.$store.state.booking.location_id;
+    if (this.$store.state.booking.location.location_id) {
+      this.locationSelected = this.$store.state.booking.location;
     } else {
-      this.location_id = this.dataFetch.dataLocation[0].location_id;
+      this.locationSelected = this.dataFetch.dataLocation[0];
     }
 
     if (this.$store.state.booking.serviceDataType.type_id) {
@@ -175,11 +190,16 @@ export default {
     this.loading = false;
   },
   watch: {
-    location_id: {
+    locationSelected: {
       handler: async function (val, oldCal) {
         this.dataFetch.dataDates = null;
         this.dataFetch.dataTimes = null;
-        this.$store.state.booking.location_id = val;
+
+        // this.$store.state.booking.serviceDataType = {
+        //   type_id: "",
+        //   type_name: "",
+        // };
+        this.$store.state.booking.location = val;
       },
     },
   },
@@ -202,13 +222,6 @@ export default {
         this.dataPrepareSend.symptom = null;
         this.totalcharacter = 0;
 
-        this.$swal({
-          ...waiting,
-          onOpen: () => {
-            this.$swal.showLoading();
-          },
-        });
-
         //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
         this.dataShow.type = serviceDataType.type_name;
         // console.log("oldservice = " + this.dataShow.oldTypeService);
@@ -225,7 +238,6 @@ export default {
             this.dataFetch.dataDates = res.data;
             // console.log(this.dataFetch.dataDates);
             this.dataShow.oldTypeService = serviceDataType.type_id;
-            this.$swal.close();
           });
       }
     },
@@ -384,5 +396,11 @@ input[type="radio"] {
   box-shadow: 0px 4px 8px #ebedff;
   border-radius: 10px;
   height: 144px;
+}
+
+.btnBooking {
+  height: 144px;
+  width: 152px;
+  margin-bottom: 15px;
 }
 </style>
