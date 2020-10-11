@@ -22,7 +22,6 @@
         </div>
       </div>
     </div>
-    <!-- {{dataFetch}} -->
   </div>
 </template>
 

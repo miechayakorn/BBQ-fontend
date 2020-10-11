@@ -6,7 +6,7 @@
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
-            <div class v-else-if="checkAppointment">
+            <div v-if="checkAppointment">
               <div class="row">
                 <div class="col-12">
                   <span class="announcement d-flex justify-content-center mt-3"
@@ -24,6 +24,16 @@
           </div>
         </div>
       </div>
+      <div class="text-left">
+        <label class="font-weight-bold mb-4"
+          >นัดที่ยังไม่ได้กดยืนยันที่อีเมล</label
+        >
+        <div class="form">
+          <div class="container">
+            <AppointmentVerifyEmailCard :data="dataFetch" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +41,7 @@
 <script>
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
+import AppointmentVerifyEmailCard from "@/components/AppointmentVerifyEmailCard.vue";
 import man from "@/components/svg/man.vue";
 
 export default {
@@ -43,6 +54,7 @@ export default {
   },
   components: {
     AppointmentCard,
+    AppointmentVerifyEmailCard,
     man,
   },
   mounted() {
