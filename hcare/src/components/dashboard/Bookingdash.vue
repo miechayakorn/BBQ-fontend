@@ -90,68 +90,6 @@
         </button>
       </div>
     </div>
-    <!-- <div class="mt-3 div-card">
-      <div class="row bg-blueMan2">
-        <div class="col-4">
-          <man2 class="d-none d-md-block mt-3 mb-3" />
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="form-group text-left" style="margin-top:48px;">
-            <label for="InputEmail">กรอกอีเมล</label>
-            <input
-              type="email"
-              v-model="email"
-              class="form-control"
-              placeholder="กรอก email มหาวิทยาลัย"
-              required
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-3">
-      <div class="row p-3 pt-4 div-card">
-        <div class="col-12 col-lg-6">
-          <div class="row">
-            <div class="col-12">
-              <h6 class="text-left">บริการ</h6>
-              <ServiceTypeBox :dataTypes="dataFetch.dataTypes" v-on:serviceDataType="fetchDate" />
-            </div>
-            <div class="col-12 mt-3 mb-3">
-              <h6 class="text-left">วันที่</h6>
-              <ServiceDateBox :dataDates="dataFetch.dataDates" v-on:selectedDate="fetchTime" />
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="row">
-            <div class="col-12">
-              <label for="exampleInputPassword1" class="d-flex justify-content-start">เลือกเวลา</label>
-            </div>
-            <ServiceTimeBox
-              :dataTimes="dataFetch.dataTimes"
-              :activeTime="dataShow.activeBtnTime"
-              v-on:booking="onChangeTime"
-            />
-            <div class="col-12">
-              <label for="exampleInputPassword1" class="d-flex justify-content-start">อาการ</label>
-              <textarea
-                rows="3"
-                class="form-control"
-                v-model="dataPrepareSend.symptom"
-                :disabled="dataShow.disableSymptom"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <button
-            @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-          >Confirm</button>
-        </div>
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -232,7 +170,6 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDates = res.data;
-          console.log(this.dataFetch.dataDates);
         });
     },
 
@@ -272,14 +209,9 @@ export default {
 
     sendToBackend() {
       if (this.dataPrepareSend.booking_id != null && this.email != null) {
-        console.log("Backend----" + this.dataShow.date);
-        console.log("booking_id = " + this.dataPrepareSend.booking_id);
-        console.log("email = " + this.email);
-        console.log("symptom = " + this.dataPrepareSend.symptom);
         this.$swal({
           title: "การจอง " + this.dataShow.type,
-          text:
-            " วันที่: " + this.dataShow.date + " เวลา: " + this.dataShow.time,
+          text: this.dataShow.date + " เวลา: " + this.dataShow.time,
           icon: "info",
           showCancelButton: true,
           reverseButtons: true,
@@ -327,16 +259,24 @@ export default {
                   this.$swal({
                     icon: "warning",
                     title: "คำเตือน",
-                    text: "ไม่พบ รหัสนักศึกษา ในระบบ",
+                    text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
                   });
                 }
               })
               .catch((error) => {
-                console.log("===== Backend-error ======");
-                console.error(error.response);
-                this.$swal({
-                  ...errorSWAL,
-                });
+                if (error.response.status == 403) {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
+                  });
+                } else {
+                  console.log("===== Backend-error ======");
+                  console.error(error.response);
+                  this.$swal({
+                    ...errorSWAL,
+                  });
+                }
               });
           }
         });
@@ -344,7 +284,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง และกรอกรหัสนักศึกษา",
+          text: "กรุณาเลือกเวลาที่ต้องการจอง และอีเมลผู้ป่วย",
         });
       }
     },

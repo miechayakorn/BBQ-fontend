@@ -152,7 +152,7 @@ export default {
         return false;
       }
     },
-    sendToBackend() {
+    async sendToBackend() {
       if (this.dataUserInfo.email.length != 0 && this.checkForm()) {
         this.$swal({
           ...waiting,
@@ -161,7 +161,7 @@ export default {
           },
         });
 
-        axios
+        await axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
             first_name: this.dataUserInfo.first_name.split(" ").join(""),
             last_name: this.dataUserInfo.last_name.split(" ").join(""),
@@ -173,7 +173,9 @@ export default {
             this.$swal({
               icon: "success",
               title: "ลงทะเบียนสำเร็จ",
-              text: "กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
+              html:
+                "<hr/>" +
+                '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>',
             }).then((result) => {
               if (result.value) {
                 this.$router.push("/");

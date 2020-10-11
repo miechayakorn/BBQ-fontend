@@ -44,9 +44,16 @@
               :width="45"
               :height="25"
               :font-size="14"
+              :sync="true"
               :value="item.is_active"
               color="#99a3ff"
-              @change="statusService(item.location_id, $event.value)"
+              @change="
+                statusService(
+                  item.location_id,
+                  item.location_name,
+                  $event.value
+                )
+              "
             />
           </div>
         </div>
@@ -128,50 +135,64 @@ export default {
         });
       }
     },
-    async statusService(location_id, status) {
-      await axios
-        .patch(
-          `${process.env.VUE_APP_BACKEND_URL}/updatelocationstatus`,
-          {
-            location_id: location_id,
-            status: status,
-          },
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.token}` },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.dataPrepareSend.location_name = "";
-            this.$swal({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+    async statusService(location_id, location_name, status) {
+      this.$swal({
+        icon: "warning",
+        title: status
+          ? "เปิดสถานที่ให้บริการ " + location_name
+          : "ปิดสถานที่ให้บริการ " + location_name,
+        showCloseButton: true,
+        confirmButtonText: "ยืนยัน",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          axios
+            .patch(
+              `${process.env.VUE_APP_BACKEND_URL}/updatelocationstatus`,
+              {
+                location_id: location_id,
+                status: status,
               },
-              timer: 3000,
-              icon: "success",
-              title: "แก้ไขสถานที่สำเร็จ",
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
+              }
+            )
+            .then((res) => {
+              if (res.status == 201) {
+                this.dataPrepareSend.location_name = "";
+                this.$swal({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener(
+                      "mouseleave",
+                      this.$swal.resumeTimer
+                    );
+                  },
+                  timer: 3000,
+                  icon: "success",
+                  title: "แก้ไขสถานที่สำเร็จ",
+                });
+                this.getLocation();
+              } else {
+                console.log("===== Backend-error ======");
+                console.error(res.data);
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              }
+            })
+            .catch((res) => {
+              console.log("===== Backend-error ======");
+              console.error(res);
+              this.$swal({ ...errorSWAL });
             });
-            this.getLocation();
-          } else {
-            console.log("===== Backend-error ======");
-            console.error(res.data);
-            this.$swal({
-              icon: "warning",
-              title: "คำเตือน",
-              text: res.data,
-            });
-          }
-        })
-        .catch((res) => {
-          console.log("===== Backend-error ======");
-          console.error(res);
-          this.$swal({ ...errorSWAL });
-        });
+        },
+      });
     },
     async getLocation() {
       await axios

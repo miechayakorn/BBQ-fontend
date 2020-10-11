@@ -76,5 +76,7 @@ export default {
 }
 .card {
   border: none;
+  box-shadow: 0px 4px 8px #E6E8FF;
+  -webkit-box-shadow: 0px 4px 8px #E6E8FF;
 }
 </style>
