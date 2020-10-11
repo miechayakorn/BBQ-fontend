@@ -139,7 +139,6 @@ export default {
         });
     },
     statusService(type_name, type_id, status) {
-      console.log(status);
       this.$swal({
         icon: "warning",
         title: status ? "เปิดบริการ " + type_name : "ปิดบริการ " + type_name,
