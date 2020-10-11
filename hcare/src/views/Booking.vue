@@ -155,12 +155,11 @@ export default {
       },
       //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
-        type: "จิตแพทย์",
+        type: "",
         date: "",
         time: null,
         activeBtnTime: "",
         disableSymptom: true,
-        oldTypeService: 1,
       },
     };
   },
@@ -226,15 +225,14 @@ export default {
     },
     async fetchDate(serviceDataType) {
       //เช็ค
-      if (this.dataShow.oldTypeService !== serviceDataType.type_id) {
+
+      if (serviceDataType.type_id) {
         this.clearData();
         this.dataFetch.dataTimes = null;
         this.dataPrepareSend.symptom = null;
         this.totalcharacter = 0;
 
-        //เก็บชื่อประเภทไว้โชว์ตอนสรุปก่อนยืนยัน
         this.dataShow.type = serviceDataType.type_name;
-        // console.log("oldservice = " + this.dataShow.oldTypeService);
 
         this.dataShow.activeBtnTime = "";
         await axios
@@ -246,8 +244,6 @@ export default {
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
-            // console.log(this.dataFetch.dataDates);
-            this.dataShow.oldTypeService = serviceDataType.type_id;
           });
       }
     },
