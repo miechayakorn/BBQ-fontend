@@ -256,10 +256,21 @@ export default {
     close() {
       close();
     },
-    saveClicked() {
+    async saveClicked() {
       let img = this.$refs.vueavatar.getImageScaled();
       this.$refs.image.src = img.toDataURL();
       this.editComponent = false;
+      await axios
+        .post(
+          `${process.env.VUE_APP_BACKEND_URL}/upload/profilepicture`,
+          { profile_picture: this.$refs.image.src },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {});
     },
     async sendToBackend() {
       if (
