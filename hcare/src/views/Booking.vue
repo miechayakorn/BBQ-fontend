@@ -33,17 +33,12 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        <div class="div-service text-center" style="cursor: pointer">
-          + เลือกบริการ
-        </div>
-        <!-- <div class="form">
-          <div class="container">
-            <ServiceTypeBox
-              :dataTypes="dataFetch.dataTypes"
-              v-on:serviceDataType="fetchDate"
-            />
+        {{ this.$store.state.booking.serviceDataType }}
+        <router-link to="/booking/service">
+          <div class="div-service text-center" style="cursor: pointer">
+            + เลือกบริการ
           </div>
-        </div> -->
+        </router-link>
       </div>
       <div class="row">
         <div class="form-group text-left w-100">
@@ -126,7 +121,7 @@ export default {
       loading: false,
       limitChar: 100,
       totalcharacter: 0,
-      location_id: 1,
+      location_id: null,
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -135,7 +130,6 @@ export default {
       },
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
-        dataTypes: null,
         dataDates: null,
         dataTimes: null,
         dataLocation: null,
@@ -168,42 +162,24 @@ export default {
         this.dataFetch.dataLocation = res.data;
       });
 
-    //เรียกข้อมูล Default
-    //Type
+    if (this.$store.state.booking.location_id) {
+      this.location_id = this.$store.state.booking.location_id;
+    } else {
+      this.location_id = this.dataFetch.dataLocation[0].location_id;
+    }
 
-    await axios
-      .get(
-        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.dataFetch.dataLocation[0].location_id}`,
-        {
-          // headers: { Authorization: `Bearer ${this.$store.state.token}` }
-        }
-      )
-      .then((res) => {
-        this.dataFetch.dataTypes = res.data;
-      });
+    if (this.$store.state.booking.serviceDataType.type_id) {
+      this.fetchDate(this.$store.state.booking.serviceDataType);
+    }
 
-    //Date
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
-        // headers: { Authorization: `Bearer ${this.$store.state.token}` }
-      })
-      .then((res) => {
-        this.dataFetch.dataDates = res.data;
-        this.$swal.close();
-      });
     this.loading = false;
   },
   watch: {
     location_id: {
       handler: async function (val, oldCal) {
-        this.dataFetch.dataTypes = null;
         this.dataFetch.dataDates = null;
         this.dataFetch.dataTimes = null;
-        await axios
-          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val}`)
-          .then((res) => {
-            this.dataFetch.dataTypes = res.data;
-          });
+        this.$store.state.booking.location_id = val;
       },
     },
   },
@@ -379,18 +355,9 @@ export default {
       }
     },
   },
-  async getService() {
-    await axios
-      .get(
-        `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${this.location_id}`,
-        {}
-      )
-      .then((res) => {
-        this.dataFetch.dataTypes = res.data;
-      });
-  },
 };
 </script>
+
 <style scoped>
 input[type="radio"] {
   width: 16px;

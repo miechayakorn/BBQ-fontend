@@ -16,11 +16,15 @@ const routes = [
   {
     path: "/booking",
     name: "Booking",
-    // route level code-splitting
-    // this generates a separate chunk (booking.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "hcare-default" */ "../views/Booking.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/booking/service",
+    name: "BookingService",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/BookingService.vue"),
     meta: { requiresAuth: true }
   },
   {

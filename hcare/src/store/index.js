@@ -12,6 +12,13 @@ export default new Vuex.Store({
       last_name: null,
       role: null,
     },
+    booking: {
+      location_id: null,
+      serviceDataType: {
+        type_id: "",
+        type_name: "",
+      },
+    }
   },
   mutations: {},
   actions: {},
