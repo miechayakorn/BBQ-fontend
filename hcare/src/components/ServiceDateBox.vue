@@ -2,6 +2,7 @@
   <div class="col-12">
     <select
       class="form-control select-date"
+      style="cursor: pointer"
       v-model="selected"
       @change="fetchTime()"
       id="selectDate"

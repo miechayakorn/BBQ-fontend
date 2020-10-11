@@ -33,7 +33,9 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        <div class="div-service text-center">+ เลือกบริการ</div>
+        <div class="div-service text-center" style="cursor: pointer">
+          + เลือกบริการ
+        </div>
         <!-- <div class="form">
           <div class="container">
             <ServiceTypeBox
@@ -57,8 +59,7 @@
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label
-              class="d-flex justify-content-start font-weight-bold"
+            <label class="d-flex justify-content-start font-weight-bold"
               >เลือกเวลา</label
             >
           </div>
@@ -100,7 +101,7 @@
         <div class="col-12">
           <button
             @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+            class="btn btn-primary btnBlock btnConfirm mt-2 fixed-button"
           >
             Confirm
           </button>
@@ -289,19 +290,13 @@ export default {
             console.log("Backend----" + this.dataShow.date);
             this.$swal({
               title: "การจอง " + this.dataShow.type,
-              // text:
-              //   " วันที่: " +
-              //   this.dataShow.date +
-              //   " เวลา: " +
-              //   this.dataShow.time,
-              // text: "กรุณากดยืนยันการจองที่ email",
               html:
                 `${this.dataShow.date} , ` +
                 "<br/>" +
                 `เวลา:  ${this.dataShow.time}` +
                 "<br/>" +
                 "<hr/>" +
-                '<span class="" style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันการจองที่ email </span>',
+                '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันการจองที่ email </span>',
               icon: "info",
               showCancelButton: true,
               reverseButtons: true,
