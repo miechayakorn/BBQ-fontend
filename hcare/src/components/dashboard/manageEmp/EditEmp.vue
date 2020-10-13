@@ -12,7 +12,10 @@
             <div class="col-12 mt-4">
               <div class="div-showInfoUser">
                 <div v-if="editComponent == false">
-                  <div class="d-flex justify-content-center pt-5">
+                  <div
+                    v-if="dataFetch.profile_picture == null"
+                    class="d-flex justify-content-center pt-5"
+                  >
                     <logoAdmin
                       v-if="dataFetch.role == 'ADMIN'"
                       class="centerImg"
@@ -22,6 +25,17 @@
                       class="centerImg"
                     />
                   </div>
+                  <div
+                    v-else-if="dataFetch.profile_picture"
+                    class="d-flex justify-content-center pt-5"
+                  >
+                    <img
+                      class="rounded-circle m-2 centerImg"
+                      width="56"
+                      height="56"
+                      :src="dataFetch.profile_picture"
+                    />
+                  </div>
                   <label
                     style="color: white"
                     class="btn"
@@ -29,11 +43,7 @@
                   >
                     <i class="fas fa-pen" />
                   </label>
-                  <label
-                    style="color: white"
-                    class="btn"
-                    @click="removePic"
-                  >
+                  <label style="color: white" class="btn" @click="removePic">
                     <i class="fas fa-trash"></i>
                   </label>
                 </div>
@@ -56,14 +66,6 @@
                   <button class="btn btn-primary ml-1" @click="saveClicked">
                     ตกลง
                   </button>
-
-                  <!-- <img
-                    src="https://picsum.photos/200"
-                    class="rounded-circle m-2"
-                    alt="Cinque Terre"
-                    width="65"
-                    height="65"
-                  />-->
                 </div>
                 <div class="p-4 text-left" style="margin-top: 40px">
                   <p>สิทธิ์และการแก้ไข</p>
@@ -137,7 +139,7 @@
                         type="email"
                         class="form-control"
                         id="inputEmail"
-                        readonly
+                        disabled
                         :value="dataFetch.email"
                       />
                     </div>
@@ -241,6 +243,7 @@ export default {
         email: "",
         telephone: "",
         hn_number: "",
+        profile_picture: "",
         role: "",
         service_type: [],
       },
@@ -270,25 +273,13 @@ export default {
     close() {
       close();
     },
-    removePic(){
-
+    removePic() {
+      this.dataFetch.profile_picture = null;
     },
     async saveClicked() {
       let img = this.$refs.vueavatar.getImageScaled();
-      console.log(img.toDataURL())
-      // this.$refs.image.src = img.toDataURL();
-      // this.editComponent = false;
-      // await axios
-      //   .post(
-      //     `${process.env.VUE_APP_BACKEND_URL}/upload/profilepicture`,
-      //     { profile_picture: this.$refs.image.src },
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${this.$store.state.token}`,
-      //       },
-      //     }
-      //   )
-      //   .then((res) => {});
+      this.dataFetch.profile_picture = img.toDataURL();
+      this.editComponent = false;
     },
     async sendToBackend() {
       if (
@@ -313,6 +304,7 @@ export default {
               telephone: this.dataFetch.telephone,
               hn_number: this.dataFetch.hn_number,
               role: this.dataFetch.role,
+              profile_picture: this.dataFetch.profile_picture,
             },
             {
               headers: {

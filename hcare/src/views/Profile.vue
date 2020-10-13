@@ -12,7 +12,10 @@
           <div class="row text-white">
             <div class="col-12">
               <div class="div-profile">
-                <div class="d-flex justify-content-center p-2">
+                <div
+                  v-if="dataFetch.profile_picture == null"
+                  class="d-flex justify-content-center p-2"
+                >
                   <logoAdmin
                     v-if="dataFetch.role == 'ADMIN'"
                     class="centerImg"
@@ -26,8 +29,19 @@
                     class="centerImg"
                   />
                 </div>
+                <div
+                  v-else-if="dataFetch.profile_picture"
+                  class="d-flex justify-content-center p-2"
+                >
+                  <img
+                    class="rounded-circle centerImg"
+                    width="56"
+                    height="56"
+                    :src="dataFetch.profile_picture"
+                  />
+                </div>
                 <div class="d-flex justify-content-center p-2 pb-5">
-                  chakoem.sakdl@mail.com
+                  {{ dataFetch.email }}
                 </div>
               </div>
             </div>
@@ -37,16 +51,7 @@
               <div class="form-group mt-4">
                 <div class="text-left mb-2">
                   <div class="row">
-                    <div class="col-12">
-                      <label for="firstPrefix">คำนำหน้าชื่อ</label>
-                      <input
-                        v-model="dataFetch.prefix"
-                        type="text"
-                        class="form-control"
-                        id="firstPrefix"
-                      />
-                    </div>
-                    <div class="col-12 col-md-6 mt-3">
+                    <div class="col-12 col-md-6">
                       <label for="firstName">ชื่อจริง</label>
                       <input
                         v-model="dataFetch.first_name"
@@ -55,7 +60,7 @@
                         id="firstName"
                       />
                     </div>
-                    <div class="col-12 col-md-6 mt-3">
+                    <div class="col-12 col-md-6">
                       <label for="lastName">นามสกุล</label>
                       <input
                         type="text"
@@ -70,7 +75,7 @@
                         type="email"
                         class="form-control"
                         id="inputEmail"
-                        readonly
+                        disabled
                         :value="dataFetch.email"
                       />
                     </div>
@@ -106,7 +111,7 @@
                 @click="sendToBackend"
                 class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
               >
-                ยืนยัน
+                บันทึก
               </button>
             </div>
           </div>
@@ -142,53 +147,33 @@ export default {
         email: "",
         telephone: "",
         hn_number: "",
-        role: "USER",
+        role: "",
         service_type: [],
       },
     };
   },
   async mounted() {
     this.loading = true;
-    // await axios
-    //   .get(
-    //     `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployeeforedit?account_id=${this.$route.params.id}`,
-    //     {
-    //       headers: { Authorization: `Bearer ${this.$store.state.token}` },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     this.dataFetch = res.data;
-    //   })
-    //   .catch((res) => {
-    //     console.log("===== Backend-error ======");
-    //     console.error(res);
-    //     this.$swal({ ...errorSWAL });
-    //     close();
-    //   });
+    await axios
+      .get(
+        `${process.env.VUE_APP_BACKEND_URL}/editprofile/getprofile`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        this.dataFetch = res.data;
+      })
+      .catch((res) => {
+        console.log("===== Backend-error ======");
+        console.error(res);
+        this.$swal({ ...errorSWAL });
+      });
     this.loading = false;
   },
   methods: {
-    close() {
-      close();
-    },
-    removePic() {},
-    async saveClicked() {
-      let img = this.$refs.vueavatar.getImageScaled();
-      console.log(img.toDataURL());
-      // this.$refs.image.src = img.toDataURL();
-      // this.editComponent = false;
-      // await axios
-      //   .post(
-      //     `${process.env.VUE_APP_BACKEND_URL}/upload/profilepicture`,
-      //     { profile_picture: this.$refs.image.src },
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${this.$store.state.token}`,
-      //       },
-      //     }
-      //   )
-      //   .then((res) => {});
-    },
     async sendToBackend() {
       if (
         this.dataFetch.account_id != "" &&
@@ -263,6 +248,8 @@ export default {
     logoStaff,
     logoUser,
     VueAvatar,
+    VclFacebook,
+    VclList,
   },
 };
 </script>
