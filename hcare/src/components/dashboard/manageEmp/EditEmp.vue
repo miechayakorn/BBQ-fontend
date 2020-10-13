@@ -68,32 +68,34 @@
                   </button>
                 </div>
                 <div class="p-4 text-left" style="margin-top: 40px">
-                  <p>สิทธิ์และการแก้ไข</p>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="role"
-                      id="radioStaff"
-                      value="STAFF"
-                      v-model="dataFetch.role"
-                    />
-                    <label class="form-check-label" for="radioStaff"
-                      >Staff</label
-                    >
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="role"
-                      id="radioAdmin"
-                      value="ADMIN"
-                      v-model="dataFetch.role"
-                    />
-                    <label class="form-check-label" for="radioAdmin"
-                      >Admin</label
-                    >
+                  <div v-if="this.$store.state.role == 'ADMIN'">
+                    <p>สิทธิ์และการแก้ไข</p>
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="role"
+                        id="radioStaff"
+                        value="STAFF"
+                        v-model="dataFetch.role"
+                      />
+                      <label class="form-check-label" for="radioStaff"
+                        >Staff</label
+                      >
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="role"
+                        id="radioAdmin"
+                        value="ADMIN"
+                        v-model="dataFetch.role"
+                      />
+                      <label class="form-check-label" for="radioAdmin"
+                        >Admin</label
+                      >
+                    </div>
                   </div>
                 </div>
               </div>

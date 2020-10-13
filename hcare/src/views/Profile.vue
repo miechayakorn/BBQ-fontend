@@ -163,9 +163,11 @@ export default {
       .then((res) => {
         this.dataFetch = res.data;
         if (this.dataFetch.role != "USER") {
-          this.$router.push(
-            "/admin/dashboard/manageEmployee/edit/" + this.dataFetch.account_id
+          window.open(
+            "/admin/dashboard/manageEmployee/edit/" + this.dataFetch.account_id,
+            "_blank"
           );
+          this.$router.go(-1)
         }
       })
       .catch((res) => {
