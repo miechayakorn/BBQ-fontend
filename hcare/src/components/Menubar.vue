@@ -25,22 +25,31 @@
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
           <div class="float-right">V 2.0</div>
-
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
             to="/profile"
           >
-            <logoAdmin
-              v-if="this.$store.state.role == 'ADMIN'"
-              class="centerImg"
-            />
-            <logoStaff
-              v-else-if="this.$store.state.role == 'STAFF'"
-              class="centerImg"
-            />
-            <logoUser v-else class="centerImg" />
+            <div v-if="this.$store.state.user.profile_picture == null">
+              <logoAdmin
+                v-if="this.$store.state.role == 'ADMIN'"
+                class="centerImg"
+              />
+              <logoStaff
+                v-else-if="this.$store.state.role == 'STAFF'"
+                class="centerImg"
+              />
+              <logoUser v-else class="centerImg" />
+            </div>
+            <div v-else-if="this.$store.state.user.profile_picture">
+              <img
+                class="rounded-circle centerImg"
+                width="56"
+                height="56"
+                :src="this.$store.state.user.profile_picture"
+              />
+            </div>
           </router-link>
           <p
             v-if="this.$store.state.token"
