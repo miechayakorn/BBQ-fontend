@@ -64,6 +64,12 @@ const routes = [
       import(/* webpackChunkName: "hcare-default" */ "../views/Logout.vue")
   },
   {
+    path: "/profile",
+    name: "Profile",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/Profile.vue")
+  },
+  {
     path: "/register",
     name: "Register",
     component: () =>
