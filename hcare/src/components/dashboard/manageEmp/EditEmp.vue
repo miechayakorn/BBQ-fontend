@@ -24,12 +24,17 @@
                   </div>
                   <label
                     style="color: white"
-                    for="files"
                     class="btn"
                     @click="editComponent = true"
                   >
-                    แก้ไขรูปภาพ
                     <i class="fas fa-pen" />
+                  </label>
+                  <label
+                    style="color: white"
+                    class="btn"
+                    @click="removePic"
+                  >
+                    <i class="fas fa-trash"></i>
                   </label>
                 </div>
 
@@ -45,10 +50,20 @@
                     ref="vueavatar"
                   >
                   </vue-avatar>
-                  <button class="btn btn-primary" @click="saveClicked">
-                    บันทึก
+                  <button class="btn btn-danger" @click="editComponent = false">
+                    ยกเลิก
                   </button>
-                  <img ref="image" />
+                  <button class="btn btn-primary ml-1" @click="saveClicked">
+                    ตกลง
+                  </button>
+
+                  <!-- <img
+                    src="https://picsum.photos/200"
+                    class="rounded-circle m-2"
+                    alt="Cinque Terre"
+                    width="65"
+                    height="65"
+                  />-->
                 </div>
                 <div class="p-4 text-left" style="margin-top: 40px">
                   <p>สิทธิ์และการแก้ไข</p>
@@ -256,21 +271,25 @@ export default {
     close() {
       close();
     },
+    removePic(){
+
+    },
     async saveClicked() {
       let img = this.$refs.vueavatar.getImageScaled();
-      this.$refs.image.src = img.toDataURL();
-      this.editComponent = false;
-      await axios
-        .post(
-          `${process.env.VUE_APP_BACKEND_URL}/upload/profilepicture`,
-          { profile_picture: this.$refs.image.src },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-            },
-          }
-        )
-        .then((res) => {});
+      console.log(img.toDataURL())
+      // this.$refs.image.src = img.toDataURL();
+      // this.editComponent = false;
+      // await axios
+      //   .post(
+      //     `${process.env.VUE_APP_BACKEND_URL}/upload/profilepicture`,
+      //     { profile_picture: this.$refs.image.src },
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${this.$store.state.token}`,
+      //       },
+      //     }
+      //   )
+      //   .then((res) => {});
     },
     async sendToBackend() {
       if (
