@@ -66,12 +66,6 @@ export default {
     width: 720px;
   }
 }
-.card-text {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-}
 .card {
   border: 0px solid rgba(255, 255, 255);
   border-radius: 0.625rem;
