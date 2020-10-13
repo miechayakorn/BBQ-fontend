@@ -2,7 +2,7 @@
   <div
     class="border-right bg-primary col-custom collapse show"
     id="navbarCollapseMenu-toggle"
-    :style="{ minHeight: windowHeight + 'px' }"
+    :style="{ minHeight: windowHeight + 'px', minWidth: '110px' }"
   >
     <div class="list-group menu mt-4">
       <div class="p-2 bg-primary" style="margin-top: 1rem !important">
