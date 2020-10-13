@@ -2,36 +2,44 @@
   <div class="row">
     <div class="w-100 pb-3" v-for="(item, index) in data" :key="index">
       <router-link :to="'/history/detail/' + item.booking_id">
-        <div class="card" style="border-radius: 10px;">
+        <div class="card" style="border-radius: 10px">
           <div class="col-xs-12">
             <div
               class="col-xs-3 w-35 float-left"
-              style="background-color: #E0E0E0; border-radius: 10px 0 0 10px;"
+              style="background-color: #e0e0e0; border-radius: 10px 0 0 10px"
             >
-              <div class="h-100" style="margin: 40px 24px 40px 24px;">
+              <div class="h-100" style="margin: 40px 24px 40px 24px">
                 <div class="text-center" style>
                   <logoEmotion :color="'white'" />
-                  <p style="color: rgb(255, 255, 255);">{{ item.type_name }}</p>
+                  <p
+                    class="mt-2 font-weight-bold"
+                    style="color: rgb(255, 255, 255); font-size: 14px"
+                  >
+                    {{ item.type_name }}
+                  </p>
                 </div>
               </div>
             </div>
             <div class="col-xs-8 float-right w-65 pb-1 card-body">
               <div class="card-text">
                 <div>
-                  <span class="font-weight-bold" style="color: #555555">HN&nbsp;</span>
-                  <span style="color: #555555;">{{item.hn_number}}</span>
+                  <span class="font-weight-bold" style="color: #555555"
+                    >HN&nbsp;</span
+                  >
+                  <span style="color: #555555">{{ item.hn_number }}</span>
                   <br />
-                  <span style="color: #555555;">{{item.name}}</span>
+                  <span style="color: #555555">{{ item.name }}</span>
                 </div>
                 <div class="mt-2">
-                  <span class="font-weight-bold" style="color: #555555; ">เวลานัดหมาย</span>
+                  <span class="font-weight-bold" style="color: #555555"
+                    >เวลานัดหมาย</span
+                  >
                   <br />
-                  <span style="color: #555555;">{{ item.date }}</span>
+                  <span style="color: #555555">{{ item.date }}</span>
                   <br />
-                  <span
-                    class="font-weight-bold"
-                    style="color: #444444;"
-                  >{{ item.time_in.slice(0, 5) }} น.</span>
+                  <span class="font-weight-bold" style="color: #444444"
+                    >{{ item.time_in.slice(0, 5) }} น.</span
+                  >
                 </div>
               </div>
             </div>
@@ -62,8 +70,8 @@ export default {
   width: 65% !important;
 }
 .card-text {
-  margin-top: 16px;
-  margin-left: 32px;
+  margin-top: 20px;
+  margin-left: 16px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
