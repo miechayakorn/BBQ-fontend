@@ -25,15 +25,23 @@
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
           <div class="float-right">V 2.0</div>
-          <logoAdmin
-            v-if="this.$store.state.role == 'ADMIN'"
-            class="centerImg"
-          />
-          <logoStaff
-            v-else-if="this.$store.state.role == 'STAFF'"
-            class="centerImg"
-          />
-          <logoUser v-else class="centerImg" />
+
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            to="/profile"
+          >
+            <logoAdmin
+              v-if="this.$store.state.role == 'ADMIN'"
+              class="centerImg"
+            />
+            <logoStaff
+              v-else-if="this.$store.state.role == 'STAFF'"
+              class="centerImg"
+            />
+            <logoUser v-else class="centerImg" />
+          </router-link>
           <p
             v-if="this.$store.state.token"
             class="d-flex justify-content-center mb-0 mt-2"

@@ -39,6 +39,7 @@ export default {
 
 <style scoped>
 .select-date {
+  -webkit-appearance: none;
   background: #ffffff;
   box-shadow: 0px 4px 8px #ebedff;
   border-radius: 10px;

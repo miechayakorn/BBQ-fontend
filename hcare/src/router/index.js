@@ -76,6 +76,13 @@ const routes = [
       import(/* webpackChunkName: "hcare-default" */ "../views/RegisterConfirm.vue")
   },
   {
+    path: "/profile",
+    name: "Profile",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/Profile.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/appointment",
     name: "Appointment",
     component: () =>

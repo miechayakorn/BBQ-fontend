@@ -10,7 +10,6 @@ export default new Vuex.Store({
     user: {
       first_name: null,
       last_name: null,
-      role: null,
     },
     booking: {
       location: {
