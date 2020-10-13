@@ -70,13 +70,16 @@
                 </div>
               </div>
               <div class="col-12 mt-4">
-                <!-- <button
+                <button
                   type="button"
-                  @click="removeService(item.type_id , item.type_name)"
+                  @click="removeService(item.type_id, item.type_name)"
                   class="btn"
                 >
-                  <i class="fas fa-trash fa-lg" style="color: rgb(227, 71, 36);"></i>
-                </button>-->
+                  <i
+                    class="fas fa-trash fa-lg"
+                    style="color: rgb(227, 71, 36)"
+                  ></i>
+                </button>
               </div>
             </div>
           </div>
@@ -205,15 +208,12 @@ export default {
         showLoaderOnConfirm: true,
         preConfirm: () => {
           axios
-            // .post(
-            //   `${process.env.VUE_APP_BACKEND_URL}/cancel`,
-            //   {
-            //     userId: userId,
-            //   },
-            //   {
-            //     headers: { Authorization: `Bearer ${this.$store.state.token}` },
-            //   }
-            // )
+            .get(
+              `${process.env.VUE_APP_BACKEND_URL}/delete/service/${type_id}`,
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
+              }
+            )
             .then((res) => {
               this.$swal({
                 toast: true,

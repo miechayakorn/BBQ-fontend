@@ -170,9 +170,13 @@
                 )
               "
             />
-            <!-- <button @click="deleteBooking()" type="button" class="btn">
-              <i class="fas fa-trash fa-lg" style="color: #e34724;"></i>
-            </button>-->
+            <button
+              @click="deleteBooking(dataFetch.dataWorkTimeDetail.working_id)"
+              type="button"
+              class="btn"
+            >
+              <i class="fas fa-trash fa-lg" style="color: #e34724"></i>
+            </button>
           </div>
           <h6 class="text-left">
             <span class="font-weight-bold"
@@ -563,6 +567,45 @@ export default {
           text: "กรุณากรอกข้อมูลให้ครบ",
         });
       }
+    },
+    async deleteBooking(working_id) {
+      this.$swal({
+        icon: "warning",
+        title: "ลบเวลาให้บริการ",
+        showCloseButton: true,
+        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonColor: "#d33",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          axios
+            .get(
+              `${process.env.VUE_APP_BACKEND_URL}/delete/worktimes/${working_id}`,
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
+              }
+            )
+            .then((res) => {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                icon: "success",
+                title: "ลบเวลาให้บริการสำเร็จ",
+              });
+              if (this.responsibleMan) {
+                this.fetchWorkTimeAdmin();
+              } else {
+                this.fetchWorkTime();
+              }
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              this.$swal({ ...errorSWAL });
+            });
+        },
+      });
     },
   },
   async mounted() {

@@ -37,6 +37,15 @@
       >
         <div class="m-1">
           <div class="col-12 div-card-location p-4">
+            <div class="text-right">
+              <button
+                @click="deleteLocation(item.location_id, item.location_name)"
+                type="button"
+                class="btn"
+              >
+                <i class="fas fa-trash fa-lg" style="color: #ffffff"></i>
+              </button>
+            </div>
             <iconLocation />
             <div class="col-12 mt-2">{{ item.location_name }}</div>
             <toggle-button
@@ -202,6 +211,41 @@ export default {
         .then((res) => {
           this.dataFetch.dataLocation = res.data;
         });
+    },
+    async deleteLocation(location_id, location_name) {
+      this.$swal({
+        icon: "warning",
+        title: "ลบสถานที่ให้บริการ " + location_name,
+        showCloseButton: true,
+        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonColor: "#d33",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          axios
+            .get(
+              `${process.env.VUE_APP_BACKEND_URL}/delete/location/${location_id}`,
+              {
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
+              }
+            )
+            .then((res) => {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                icon: "success",
+                title: "ลบสถานที่ให้บริการสำเร็จ",
+              });
+              this.getLocation();
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              this.$swal({ ...errorSWAL });
+            });
+        },
+      });
     },
   },
   mounted() {
