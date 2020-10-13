@@ -183,14 +183,14 @@ export default {
   border: 2px solid #99a3ff;
   border-radius: 8px;
   height: 100%;
-  box-shadow: 0px 4px 8px #dfe2ff;
+  box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btnHomeHistory {
   background-color: #ffa78b;
   border: 2px solid #ffa78b;
   border-radius: 8px;
   height: 100%;
-  box-shadow: 0px 4px 8px #dfe2ff;
+  box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btn-comming {
   border-radius: 31px;
