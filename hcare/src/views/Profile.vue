@@ -155,16 +155,18 @@ export default {
   async mounted() {
     this.loading = true;
     await axios
-      .get(
-        `${process.env.VUE_APP_BACKEND_URL}/editprofile/getprofile`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.token}`,
-          },
-        }
-      )
+      .get(`${process.env.VUE_APP_BACKEND_URL}/editprofile/getprofile`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+      })
       .then((res) => {
         this.dataFetch = res.data;
+        if (this.dataFetch.role != "USER") {
+          this.$router.push(
+            "/admin/dashboard/manageEmployee/edit/" + this.dataFetch.account_id
+          );
+        }
       })
       .catch((res) => {
         console.log("===== Backend-error ======");
@@ -176,27 +178,21 @@ export default {
   methods: {
     async sendToBackend() {
       if (
-        this.dataFetch.account_id != "" &&
-        this.dataFetch.prefix != "" &&
         this.dataFetch.first_name != "" &&
         this.dataFetch.last_name != "" &&
-        this.dataFetch.email != "" &&
         this.dataFetch.telephone != "" &&
+        this.dataFetch.telephone.length >= 9 &&
         this.dataFetch.hn_number != "" &&
-        this.dataFetch.role != ""
+        this.dataFetch.hn_number.length > 7
       ) {
         await axios
-          .patch(
-            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/editemployee`,
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/editprofile/save`,
             {
-              account_id: this.dataFetch.account_id,
-              prefix: this.dataFetch.prefix,
               first_name: this.dataFetch.first_name,
               last_name: this.dataFetch.last_name,
-              email: this.dataFetch.email,
               telephone: this.dataFetch.telephone,
               hn_number: this.dataFetch.hn_number,
-              role: this.dataFetch.role,
             },
             {
               headers: {
@@ -205,29 +201,19 @@ export default {
             }
           )
           .then((res) => {
-            if (res.status == 201) {
-              this.$swal({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-                },
-                timer: 3000,
-                icon: "success",
-                title: "บันทึกสำเร็จ",
-              });
-            } else {
-              console.log("===== Backend-error ======");
-              console.error(res.data);
-              this.$swal({
-                icon: "warning",
-                title: "คำเตือน",
-                text: res.data,
-              });
-            }
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+              },
+              timer: 3000,
+              icon: "success",
+              title: "บันทึกสำเร็จ",
+            });
           })
           .catch((res) => {
             console.log("===== Backend-error ======");
