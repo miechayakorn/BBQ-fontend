@@ -6,7 +6,7 @@
       viewBox="0 0 149 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style="margin-top: 60px"
+      style="margin-top: 56px"
       class="mb-3"
     >
       <path

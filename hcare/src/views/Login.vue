@@ -1,17 +1,22 @@
 <template>
   <div>
     <logoHeader />
-    <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
-      <button @click="adal" class="btn btn-primary">OAuth</button>
+    <div class="container fixed-container mb-3 bg" style="margin-top: 10px">
+      <div class="col-12">
+        <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
+          <span style="font-weight: 900; color: white"
+            >Log in with KMUTT account</span
+          >
+        </button>
+      </div>
+      or
       <SendMailForm v-if="!email" v-on:email="getEmail" />
       <ComfirmOTPForm v-else-if="email" :email="email" />
     </div>
-    <footer class="footer">
-      <div class="container">
-        Don’t have an account?
-        <router-link to="/register">Register</router-link>
-      </div>
-    </footer>
+    <div>
+      Don’t have an account?
+      <router-link to="/register">Register</router-link>
+    </div>
   </div>
 </template>
 
@@ -74,7 +79,7 @@ export default {
               ).toString();
             }
             dataSetLocal.account_id = CryptoJS.AES.encrypt(
-              dataSetLocal.account_id+'',
+              dataSetLocal.account_id + "",
               process.env.VUE_APP_SECRET_KEY
             ).toString();
 
@@ -127,13 +132,6 @@ export default {
 </script>
 
 <style>
-.footer {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  line-height: 60px;
-  background-color: #f9f9fc;
-}
 /* enable absolute positioning */
 .inner-addon {
   position: relative;
@@ -160,5 +158,9 @@ export default {
 }
 .right-addon input {
   padding-right: 30px;
+}
+.btnAuth {
+  background-color: #5e65a1;
+  border-radius: 31px;
 }
 </style>
