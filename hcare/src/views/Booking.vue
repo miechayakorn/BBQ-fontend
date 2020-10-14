@@ -33,18 +33,19 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        <div
-          class="btnType btn-outline-primary active btnBooking"
-          v-if="this.$store.state.booking.serviceDataType.type_id"
-        >
-          <div class="text-center" style="margin-top: 32px">
-            <logoEmotion :color="'white'" />
-            <p style="color: #ffffff">
-              {{ this.$store.state.booking.serviceDataType.type_name }}
-            </p>
+        <div class="row justify-content-center">
+          <div
+            class="btnType btn-outline-primary active btnBooking"
+            v-if="this.$store.state.booking.serviceDataType.type_id"
+          >
+            <div class="text-center" style="margin-top: 32px">
+              <logoEmotion :color="'white'" />
+              <p style="color: #ffffff; margin-top: 8px">
+                {{ this.$store.state.booking.serviceDataType.type_name }}
+              </p>
+            </div>
           </div>
         </div>
-
         <router-link to="/booking/service">
           <div
             v-if="this.$store.state.booking.serviceDataType.type_id"
@@ -412,5 +413,13 @@ input[type="radio"] {
   height: 144px;
   width: 152px;
   margin-bottom: 15px;
+  box-shadow: 0px 4px 8px #ebedff;
+  -webkit-box-shadow: 0px 4px 8px #ebedff;
+}
+
+@media (min-width: 768px) {
+  .btnBooking {
+    width: 200px;
+  }
 }
 </style>
