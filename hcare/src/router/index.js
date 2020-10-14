@@ -218,10 +218,12 @@ router.beforeEach((to, from, next) => {
         process.env.VUE_APP_SECRET_KEY
       ).toString(CryptoJS.enc.Utf8);
 
-      user.profile_picture = CryptoJS.AES.decrypt(
-        user.profile_picture,
-        process.env.VUE_APP_SECRET_KEY
-      ).toString(CryptoJS.enc.Utf8);
+      if (user.profile_picture) {
+        user.profile_picture = CryptoJS.AES.decrypt(
+          user.profile_picture,
+          process.env.VUE_APP_SECRET_KEY
+        ).toString(CryptoJS.enc.Utf8);
+      }
 
       user.account_id = CryptoJS.AES.decrypt(
         user.account_id,

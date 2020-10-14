@@ -171,14 +171,17 @@ export default {
               dataSetLocal.role,
               process.env.VUE_APP_SECRET_KEY
             ).toString();
-            dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
-              dataSetLocal.profile_picture,
-              process.env.VUE_APP_SECRET_KEY
-            ).toString();
+            if (dataSetLocal.profile_picture) {
+              dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
+                dataSetLocal.profile_picture,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+            }
             dataSetLocal.account_id = CryptoJS.AES.encrypt(
-              dataSetLocal.account_id,
+              dataSetLocal.account_id+'',
               process.env.VUE_APP_SECRET_KEY
             ).toString();
+
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             const redirectPath =
@@ -188,7 +191,7 @@ export default {
           })
           .catch((error) => {
             console.log("===== Backend-error ======");
-            console.error(error.response);
+            console.error(error);
             this.$swal({
               title: "คำเตือน",
               text: "รหัสผ่านไม่ถูกต้อง",
