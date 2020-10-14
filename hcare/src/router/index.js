@@ -90,6 +90,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: "/schedule",
+    name: "Schedule",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/Schedule.vue"),
+  },
+  {
     path: "/appointment/detail/:id",
     name: "AppointmentDetail",
     component: () =>
