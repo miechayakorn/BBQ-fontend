@@ -4,25 +4,25 @@
       v-for="(serviceDataType, index) in dataTypes"
       :key="index"
       v-on:click="fetchDate(serviceDataType)"
-      class="col-6 col-md-3 mt-1"
+      class="col-6 col-md-3 mt-2"
     >
       <div
         :class="[
-          'btnType btn-outline-primary',
-          { active: activeBtnType === 'btn' + index }
+          'btnType btn-outline-primary m-1',
+          { active: activeBtnType === 'btn' + index },
         ]"
         @click="activeBtnType = 'btn' + index"
       >
-        <div class="text-center" style="margin-top: 32px;">
+        <div class="text-center" style="margin-top: 30px; margin-bottom: 30px">
           <logoEmotion :color="'white'" v-if="'btn' + index == activeBtnType" />
           <logoEmotion
-            :color="'#5E65A1'"
+            :color="'#99A3FF'"
             v-if="'btn' + index != activeBtnType"
           />
-          <p v-if="'btn' + index == activeBtnType" style="color: #FFFFFF">
+          <p v-if="'btn' + index == activeBtnType" style="color: #ffffff">
             {{ serviceDataType.type_name }}
           </p>
-          <p v-if="'btn' + index != activeBtnType" style="color: #5E65A1">
+          <p v-if="'btn' + index != activeBtnType" style="color: #555555">
             {{ serviceDataType.type_name }}
           </p>
         </div>
@@ -36,38 +36,38 @@ import logoEmotion from "@/components/svg/logoEmotion.vue";
 export default {
   data() {
     return {
-      activeBtnType: ""
+      activeBtnType: "",
     };
   },
   components: {
-    logoEmotion
+    logoEmotion,
   },
   methods: {
     fetchDate(serviceDataType) {
       this.$emit("serviceDataType", serviceDataType);
-    }
+    },
   },
   props: {
-    dataTypes: Array
-  }
+    dataTypes: Array,
+  },
 };
 </script>
 
 <style scope>
 .btnType {
   cursor: pointer;
-  background-color: #ffffff;
-  border: 1px solid #5E65A1;
-  box-shadow:0px 3px 8px #dfe2ff;
+  background: #ffffff;
+  border: 1px solid #99a3ff;
+  box-sizing: border-box;
   border-radius: 8px;
 }
 .btnType:hover,
 .btnType:active,
 .btnType:focus,
 .btnType.active {
-  background: #99a3ff;
-  color: #ffffff!important;
-  border-color: #99a3ff;
+  background: white;
+  color: #ffffff !important;
+  border: 1px solid #99a3ff;
 }
 .btnType-sm {
   cursor: pointer;
@@ -79,8 +79,8 @@ export default {
 .btnType-sm:active,
 .btnType-sm:focus,
 .btnType-sm.active {
-  background: #99a3ff;
-  color: #ffffff!important;
+  background: white;
+  color: #ffffff !important;
   border-color: #99a3ff;
 }
 </style>
