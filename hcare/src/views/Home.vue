@@ -23,7 +23,7 @@
           </router-link>
         </div>
         <div class="col-6 col-md-3 mt-3 mt-md-1">
-          <!-- <router-link to="#"> -->
+          <router-link to="/schedule">
           <div class="col-12 btnHome">
             <div class="text-center" style="margin-top: 36px;">
               <iconClock2 />
@@ -34,7 +34,7 @@
               </p>
             </div>
           </div>
-          <!-- </router-link> -->
+          </router-link>
         </div>
         <div class="col-6 col-md-3 mt-3 mt-md-1">
           <router-link to="/history">
