@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: -0.625rem">
+  <div style="margin-top: -0.625rem; margin-right: 15px;">
     <router-view></router-view>
   </div>
 </template>
@@ -111,5 +111,4 @@ input[type="radio"] {
   width: 18px;
   height: 18px;
 }
-
 </style>
