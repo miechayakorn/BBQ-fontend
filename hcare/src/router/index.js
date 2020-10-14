@@ -223,9 +223,15 @@ router.beforeEach((to, from, next) => {
         process.env.VUE_APP_SECRET_KEY
       ).toString(CryptoJS.enc.Utf8);
 
+      user.account_id = CryptoJS.AES.decrypt(
+        user.account_id,
+        process.env.VUE_APP_SECRET_KEY
+      ).toString(CryptoJS.enc.Utf8);
+
       store.state.token = user.token;
       store.state.role = user.role;
       store.state.user = {
+        account_id: user.account_id,
         first_name: user.first_name,
         last_name: user.last_name,
         profile_picture: user.profile_picture,

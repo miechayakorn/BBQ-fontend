@@ -99,7 +99,6 @@ export default {
             password: this.password,
           })
           .then((res) => {
-            //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
               dataSetLocal.first_name,
@@ -115,6 +114,10 @@ export default {
             ).toString();
             dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
               dataSetLocal.profile_picture,
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
+            dataSetLocal.account_id = CryptoJS.AES.encrypt(
+              dataSetLocal.account_id,
               process.env.VUE_APP_SECRET_KEY
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
