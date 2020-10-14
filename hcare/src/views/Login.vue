@@ -45,16 +45,15 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            //Set DataHcare in LocalStorage
-
             this.$store.state.token = res.data.token;
             this.$store.state.role = res.data.role;
             this.$store.state.user = {
+              account_id: res.data.account_id,
               first_name: res.data.first_name,
               last_name: res.data.last_name,
+              profile_picture: res.data.profile_picture,
             };
 
-            //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
               dataSetLocal.first_name,
@@ -68,13 +67,22 @@ export default {
               dataSetLocal.role,
               process.env.VUE_APP_SECRET_KEY
             ).toString();
+            if (dataSetLocal.profile_picture) {
+              dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
+                dataSetLocal.profile_picture,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+            }
+            dataSetLocal.account_id = CryptoJS.AES.encrypt(
+              dataSetLocal.account_id+'',
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
+
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             const redirectPath = this.$route.query.redirect || "/";
             this.$router.push(redirectPath);
           } else if (res.status == 202) {
-            //User not register
-
             this.$swal({
               toast: true,
               position: "top-end",

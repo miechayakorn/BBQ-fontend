@@ -8,8 +8,10 @@ export default new Vuex.Store({
     token: null,
     role: null,
     user: {
+      account_id: null,
       first_name: null,
       last_name: null,
+      profile_picture: null,
     },
     booking: {
       location: {

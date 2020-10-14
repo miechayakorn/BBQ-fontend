@@ -151,8 +151,10 @@ export default {
             this.$store.state.token = res.data.token;
             this.$store.state.role = res.data.role;
             this.$store.state.user = {
+              account_id: res.data.account_id,
               first_name: res.data.first_name,
               last_name: res.data.last_name,
+              profile_picture: res.data.profile_picture,
             };
 
             //encrypt dataSetLocal
@@ -169,6 +171,17 @@ export default {
               dataSetLocal.role,
               process.env.VUE_APP_SECRET_KEY
             ).toString();
+            if (dataSetLocal.profile_picture) {
+              dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
+                dataSetLocal.profile_picture,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+            }
+            dataSetLocal.account_id = CryptoJS.AES.encrypt(
+              dataSetLocal.account_id+'',
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
+
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             const redirectPath =
@@ -178,7 +191,7 @@ export default {
           })
           .catch((error) => {
             console.log("===== Backend-error ======");
-            console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+            console.error(error);
             this.$swal({
               title: "คำเตือน",
               text: "รหัสผ่านไม่ถูกต้อง",

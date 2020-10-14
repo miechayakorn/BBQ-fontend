@@ -221,6 +221,7 @@
 
 <script>
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import logoAdmin from "@/components/svg/logoAdmin.vue";
 import logoStaff from "@/components/svg/logoStaff.vue";
 import { errorSWAL } from "@/utility/swal.js";
@@ -316,6 +317,22 @@ export default {
           )
           .then((res) => {
             if (res.status == 201) {
+              if (
+                this.$store.state.user.account_id == this.dataFetch.account_id
+              ) {
+                this.$store.state.user.profile_picture = this.dataFetch.profile_picture;
+
+                let user = JSON.parse(localStorage.getItem("user"));
+                if (this.dataFetch.profile_picture) {
+                  user.profile_picture = CryptoJS.AES.encrypt(
+                    this.dataFetch.profile_picture,
+                    process.env.VUE_APP_SECRET_KEY
+                  ).toString();
+                } else {
+                  user.profile_picture = null;
+                }
+                localStorage.setItem("user", JSON.stringify(user));
+              }
               this.$swal({
                 toast: true,
                 position: "top-end",
