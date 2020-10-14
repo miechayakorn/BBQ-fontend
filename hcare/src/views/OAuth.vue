@@ -1,15 +1,18 @@
 <template>
   <div>
     <logoHeader />
-    <p class="mt-5" style="font-sixe: 30px; color: black">
-      Wellcome back, {{ name }}
-    </p>
+    <div class="container fixed-container mb-3">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
   </div>
 </template>
 
 <script>
 import logoHeader from "@/components/svg/logoHeader.vue";
 import authentication from "@/utility/authentication";
+import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
@@ -26,6 +29,8 @@ export default {
   },
   components: {
     logoHeader,
+    VclFacebook,
+    VclList,
   },
 };
 </script>
