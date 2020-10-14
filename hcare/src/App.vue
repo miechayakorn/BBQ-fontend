@@ -22,14 +22,38 @@ export default {
           },
         })
         .then((res) => {
+          let first_name = CryptoJS.AES.decrypt(
+            res.data.first_name,
+            process.env.VUE_APP_SECRET_KEY
+          ).toString(CryptoJS.enc.Utf8);
+          let last_name = CryptoJS.AES.decrypt(
+            res.data.last_name,
+            process.env.VUE_APP_SECRET_KEY
+          ).toString(CryptoJS.enc.Utf8);
           let role = CryptoJS.AES.decrypt(
             res.data.role,
             process.env.VUE_APP_SECRET_KEY
           ).toString(CryptoJS.enc.Utf8);
-          if (this.$store.state.role != role) {
+
+          if (
+            this.$store.state.role != role ||
+            this.$store.state.first_name != first_name ||
+            this.$store.state.last_name != last_name
+          ) {
+            //first_name last_name role
+            this.$store.state.user.first_name = first_name;
+            this.$store.state.user.last_name = last_name;
             this.$store.state.role = role;
 
             let user = JSON.parse(localStorage.getItem("user"));
+            user.first_name = CryptoJS.AES.encrypt(
+              first_name,
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
+            user.last_name = CryptoJS.AES.encrypt(
+              last_name,
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
             user.role = CryptoJS.AES.encrypt(
               role,
               process.env.VUE_APP_SECRET_KEY
