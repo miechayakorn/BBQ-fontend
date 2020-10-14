@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <div class="container fixed-container mb-3">
+  <div class="container fixed-container mb-3">
+    <div v-if="loading">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading">
       <div class="form-group text-left">
         <label class="font-weight-bold mb-4">นัดของฉัน</label>
         <div class="form">
@@ -32,10 +37,12 @@
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
 import man from "@/components/svg/man.vue";
+import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
     return {
+      loading: false,
       dataFetch: [],
       checkAppointment: false,
       interval: undefined,
@@ -44,6 +51,8 @@ export default {
   components: {
     AppointmentCard,
     man,
+    VclFacebook,
+    VclList,
   },
   mounted() {
     this.fetchAppointment();
@@ -56,6 +65,7 @@ export default {
   },
   methods: {
     async fetchAppointment() {
+      this.loading = true;
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
           headers: { Authorization: `Bearer ${this.$store.state.token}` },
@@ -68,6 +78,7 @@ export default {
             this.dataFetch = res.data;
           }
         });
+      this.loading = false;
     },
   },
 };

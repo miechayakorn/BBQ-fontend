@@ -1,6 +1,11 @@
 <template>
-  <div class="mt-5">
-    <div class="container fixed-container mb-3">
+  <div>
+    <div v-if="loading" class="container fixed-container mb-3">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading" class="container fixed-container mt-5 mb-3">
       <div class="form-group text-left">
         <label class="font-weight-bold mb-4">รายละเอียดการนัดของฉัน</label>
         <div class="form">
@@ -27,21 +32,25 @@
                 <span>ควรเข้า Join Meeting ก่อนเวลาประมาณ 5 นาที</span>
               </div>
             </div>
-            <div class="row mt-5" style="text-align: center;">
+            <div class="row mt-5" style="text-align: center">
               <div class="col-12" v-show="dataFetch.link_meeting != null">
                 <a :href="dataFetch.link_meeting">
                   <button
                     v-if="dataFetch.link_meeting"
                     class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
                   >
-                    <span style="font-weight: 900; color:white;">Join Meeting</span>
+                    <span style="font-weight: 900; color: white"
+                      >Join Meeting</span
+                    >
                   </button>
                   <button
                     v-if="dataFetch.link_meeting == null"
                     class="btn btn-secondary btnBlock btnCancel fixed-button mb-2 disabled"
                     :disabled="true"
                   >
-                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
+                    <span style="font-weight: 900; color: white"
+                      >ท่านยังไม่ได้รับลิงค์</span
+                    >
                   </button>
                 </a>
               </div>
@@ -50,7 +59,7 @@
                   class="btn btnBlock btnCancel fixed-button mb-2"
                   @click="cancelAppointment"
                 >
-                  <span style="font-weight: 900; color:white;">ยกเลิกนัด</span>
+                  <span style="font-weight: 900; color: white">ยกเลิกนัด</span>
                 </button>
               </div>
             </div>
@@ -64,11 +73,13 @@
 <script>
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
+import { VclFacebook, VclList } from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
+      loading: false,
       dataFetch: {
         appointmentCard: [
           {
@@ -81,28 +92,31 @@ export default {
             type_name: "",
             date: "",
             time_in: "",
-            dateformat: ""
-          }
+            dateformat: "",
+          },
         ],
         link_meeting: "",
         doctor_id: null,
         doctor_firstname: "",
-        doctor_lastname: ""
-      }
+        doctor_lastname: "",
+      },
     };
   },
   components: {
-    AppointmentCard
+    AppointmentCard,
+    VclFacebook,
+    VclList,
   },
   async mounted() {
+    this.loading = true;
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.account_id) {
           this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
           this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
@@ -122,11 +136,12 @@ export default {
           this.$router.push("/");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("===== Backend-error ======");
         console.error(error.response);
-        this.$router.push("/appointment")
+        this.$router.push("/appointment");
       });
+    this.loading = false;
   },
   methods: {
     cancelAppointment() {
@@ -137,39 +152,39 @@ export default {
         showCloseButton: true,
         confirmButtonColor: "#FF4F5B",
         confirmButtonText: "ยืนยัน",
-        footer: "ระบบจะไม่สามารถคืนการนัดได้"
-      }).then(result => {
+        footer: "ระบบจะไม่สามารถคืนการนัดได้",
+      }).then((result) => {
         if (result.value) {
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
               {
-                booking_id: this.dataFetch.appointmentCard[0].booking_id
+                booking_id: this.dataFetch.appointmentCard[0].booking_id,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "ยกเลิกการนัดสำเร็จ"
+                title: "ยกเลิกการนัดสำเร็จ",
               });
               this.$router.push("/appointment");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <div class="container fixed-container mb-3">
+  <div class="container fixed-container mb-3">
+    <div v-if="loading">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading">
       <div class="form-group text-left">
         <label class="font-weight-bold mb-4">ประวัติการเข้ารับบริการ</label>
         <div class="form">
@@ -22,7 +27,6 @@
         </div>
       </div>
     </div>
-    <!-- {{dataFetch}} -->
   </div>
 </template>
 
@@ -30,10 +34,12 @@
 import axios from "axios";
 import HistoryCard from "@/components/HistoryCard.vue";
 import man from "@/components/svg/man.vue";
+import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
     return {
+      loading: false,
       dataFetch: [],
       checkAppointment: false,
     };
@@ -41,8 +47,11 @@ export default {
   components: {
     man,
     HistoryCard,
+    VclFacebook,
+    VclList,
   },
   async mounted() {
+    this.loading = true;
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/history`, {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
@@ -56,6 +65,7 @@ export default {
           this.dataFetch = res.data;
         }
       });
+    this.loading = false;
   },
 };
 </script>
