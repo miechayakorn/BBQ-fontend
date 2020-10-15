@@ -19,7 +19,7 @@
               type="radio"
               name="locationSelected"
               :id="item.location_id"
-              :value="item"
+              :value="item.location_id"
               v-model="locationSelected"
             />
             <label
@@ -36,12 +36,13 @@
           locale="th"
           color="indigo"
           :min-date="firstDayofMonth"
-          :attributes="attributes"
+          :max-date="lastDayofMonth"
+          :attributes="dataFetch.dotCalendar"
           v-model="dateSelected"
           is-inline
         />
         <div class="col-12">
-          {{ dateSelected }}
+          {{ dataFetch.dotDetail }}
         </div>
       </div>
     </div>
@@ -59,61 +60,27 @@ export default {
     return {
       loading: false,
       firstDayofMonth: "",
+      lastDayofMonth: "",
       dateSelected: "",
       locationSelected: "",
       dataFetch: {
         dataLocation: [],
+        dotCalendar: [],
+        dotDetail: [],
       },
-      attributes: [
-        {
-          dot: {
-            backgroundColor: "#ADFF2F",
-          },
-          dates: {
-            weekdays: [1, 7],
-          },
-        },
-        {
-          dot: {
-            backgroundColor: "#800000",
-          },
-          dates: {
-            weekdays: [2, 7],
-          },
-        },
-        {
-          dot: {
-            backgroundColor: "#FF6347",
-          },
-          dates: {
-            weekdays: [5, 7],
-          },
-        },
-      ],
     };
   },
   watch: {
+    locationSelected: {
+      handler: async function (locationSelected, oldCal) {
+        this.fetchDotCalendar();
+      },
+    },
     dateSelected: {
       handler: async function (dateSelected, oldCal) {
         if (dateSelected) {
-          console.log(formatDate.format(dateSelected));
+          this.fetchDotDetail(formatDate.format(dateSelected));
         }
-        // await axios
-        //   .post(
-        //     `${process.env.VUE_APP_BACKEND_URL}/serviceschedule/getservice/`,
-        //     {
-        //       location_id: "location_id",
-        //       date: formatDate.format(this.dateSelected),
-        //     }
-        //   )
-        //   .then((res) => {
-        //     this.dataFetch.dataTypes = res.data;
-        //   })
-        //   .catch((error) => {
-        //     console.log("===== Backend-error ======");
-        //     console.error(error);
-        //     this.$swal({ ...errorSWAL });
-        //   });
       },
     },
   },
@@ -121,15 +88,51 @@ export default {
     this.loading = true;
     let date = new Date();
     this.firstDayofMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.lastDayofMonth = new Date(date.getFullYear(), date.getMonth() + 2, 0);
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
         this.dataFetch.dataLocation = res.data;
-        this.locationSelected = this.dataFetch.dataLocation[0];
+        this.locationSelected = this.dataFetch.dataLocation[0].location_id;
       });
+    this.fetchDotCalendar();
+
     this.loading = false;
   },
-  methods: {},
+  methods: {
+    async fetchDotCalendar() {
+      await axios
+        .post(`${process.env.VUE_APP_BACKEND_URL}/serviceschedule/getservice`, {
+          location_id: this.locationSelected,
+        })
+        .then((res) => {
+          this.dataFetch.dotCalendar = res.data;
+        })
+        .catch((error) => {
+          console.log("===== Backend-error ======");
+          console.error(error);
+          this.$swal({ ...errorSWAL });
+        });
+    },
+    async fetchDotDetail(date) {
+      await axios
+        .post(
+          `${process.env.VUE_APP_BACKEND_URL}/serviceschedule/getservicedetail`,
+          {
+            location_id: this.locationSelected,
+            date: date,
+          }
+        )
+        .then((res) => {
+          this.dataFetch.dotDetail = res.data;
+        })
+        .catch((error) => {
+          console.log("===== Backend-error ======");
+          console.error(error);
+          this.$swal({ ...errorSWAL });
+        });
+    },
+  },
   components: {
     VclFacebook,
     VclList,
