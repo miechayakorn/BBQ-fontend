@@ -41,11 +41,10 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left">
                 <label for="InputDate">เลือกวันที่</label>
-                <DatePicker
+                <v-date-picker
                   locale="th"
                   color="indigo"
                   :popover="{ visibility: 'click' }"
-                  placeholder="test"
                   v-model="dataPrepareSend.date"
                   :input-props="{
                     placeholder: 'กรุณาเลือกวัน',
@@ -84,7 +83,6 @@
 
 <script>
 import axios from "axios";
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import DashboardTable from "@/components/dashboardTable/DashboardTableAppointment.vue";
@@ -119,7 +117,6 @@ export default {
     ServiceDateBox,
     DashboardTable,
     doctor3,
-    DatePicker,
   },
   async mounted() {
     //เรียกข้อมูล Default

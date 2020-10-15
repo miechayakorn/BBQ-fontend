@@ -34,11 +34,10 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
                 <label for="InputDate">เลือกวันที่</label>
-                <DatePicker
+                <v-date-picker
                   locale="th"
                   color="indigo"
                   :popover="{ placement: 'top', visibility: 'click' }"
-                  placeholder="test"
                   v-model="dataPrepareSend.date"
                   :input-props="{
                     placeholder: 'กรุณาเลือกวัน',
@@ -130,7 +129,6 @@
 
 <script>
 import axios from "axios";
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import man2 from "@/components/svg/man2.vue";
 import { errorSWAL } from "@/utility/swal.js";
 import VclFacebook from "vue-content-loading";
@@ -159,7 +157,6 @@ export default {
   components: {
     man2,
     VclFacebook,
-    DatePicker,
   },
   methods: {
     onChangeEventHandler(time, statusButton) {
