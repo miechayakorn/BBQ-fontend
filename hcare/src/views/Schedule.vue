@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="row justify-content-center mt-4">
-        <DatePicker
+        <v-date-picker
           locale="th"
           color="indigo"
           :min-date="firstDayofMonth"
@@ -50,7 +50,6 @@
 
 <script>
 import axios from "axios";
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import formatDate from "@/utility/formatDate";
 import { errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
@@ -68,30 +67,27 @@ export default {
       attributes: [
         {
           dot: {
-            color: "red",
-            class: "my-dot-class",
+            backgroundColor: "#ADFF2F",
           },
-          dates: [
-            new Date("2020-10-14"),
-            new Date("2020-10-10"),
-            new Date("2020-10-22"),
-          ],
+          dates: {
+            weekdays: [1, 7],
+          },
         },
         {
-          dot: "green",
-          dates: [
-            new Date("2020-10-14"),
-            new Date("2020-10-14"),
-            new Date("2020-10-14"),
-          ],
+          dot: {
+            backgroundColor: "#800000",
+          },
+          dates: {
+            weekdays: [2, 7],
+          },
         },
         {
-          dot: "purple",
-          dates: [
-            new Date("2020-10-14"), // Jan 12th
-            new Date("2020-10-15"), // Jan 26th
-            new Date("2020-10-16"), // Jan 15th
-          ],
+          dot: {
+            backgroundColor: "#FF6347",
+          },
+          dates: {
+            weekdays: [5, 7],
+          },
         },
       ],
     };
@@ -135,7 +131,6 @@ export default {
   },
   methods: {},
   components: {
-    DatePicker,
     VclFacebook,
     VclList,
   },

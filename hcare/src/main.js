@@ -7,11 +7,14 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import ToggleButton from 'vue-js-toggle-button'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import DataTable from 'v-data-table'
+import VCalendar from 'v-calendar';
+import 'v-calendar/lib/v-calendar.min.css';
 
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(DataTable)
 Vue.use(ToggleButton)
+Vue.use(VCalendar)
 
 new Vue({
   router,
