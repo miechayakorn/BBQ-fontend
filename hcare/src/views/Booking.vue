@@ -8,7 +8,7 @@
     <div v-if="!loading">
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกวิทยาเขต</label>
-        <div class="col-12 text-center text-md-left">
+        <div class="col-12 text-left">
           <div
             class="custom-control custom-radio custom-control-inline"
             v-for="(item, index) in dataFetch.dataLocation"
