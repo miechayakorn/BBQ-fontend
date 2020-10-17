@@ -93,7 +93,7 @@
 
 <script>
 import axios from "axios";
-import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
+import { waiting, errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {

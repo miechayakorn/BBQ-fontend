@@ -1,14 +1,14 @@
 <template>
-  <div style="margin-top: 25px">
-    <div class="container fixed-container mb-3" v-if="loading">
+  <div style="margin-top: 25px" class="container fixed-container mb-3">
+    <div v-if="loading">
       <VclFacebook />
       <VclList class="mt-2" />
       <VclList class="mt-2" />
     </div>
-    <div v-if="!loading" class="container fixed-container mb-3">
+    <div v-if="!loading">
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกวิทยาเขต</label>
-        <div class="col-12 text-center text-md-left">
+        <div class="col-12 text-left">
           <div
             class="custom-control custom-radio custom-control-inline"
             v-for="(item, index) in dataFetch.dataLocation"

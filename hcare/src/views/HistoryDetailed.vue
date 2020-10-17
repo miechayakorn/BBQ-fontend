@@ -1,8 +1,15 @@
 <template>
-  <div class="mt-5">
-    <div class="container fixed-container mb-3">
+  <div>
+    <div v-if="loading" class="container fixed-container mb-3">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading" class="container fixed-container mt-5 mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">รายละเอียดประวัติการเข้าใช้บริการ</label>
+        <label class="font-weight-bold mb-4"
+          >รายละเอียดประวัติการเข้าใช้บริการ</label
+        >
         <div class="form">
           <div class="container">
             <HistoryCard :data="dataFetch.appointmentCard" />
@@ -12,7 +19,9 @@
                   ชื่อแพทย์
                   <br />
                 </span>
-                <span>{{dataFetch.prefix}}&nbsp;{{ dataFetch.doctor_name }}</span>
+                <span
+                  >{{ dataFetch.prefix }}&nbsp;{{ dataFetch.doctor_name }}</span
+                >
               </div>
             </div>
             <div class="row">
@@ -21,18 +30,18 @@
                   อาการเบื้องต้น
                   <br />
                 </span>
-                <span v-if="dataFetch.symptom">{{dataFetch.symptom}}</span>
+                <span v-if="dataFetch.symptom">{{ dataFetch.symptom }}</span>
                 <span v-else>-</span>
               </div>
             </div>
-            <div class="row mt-5" style="text-align: center;">
+            <div class="row mt-5" style="text-align: center">
               <div class="col-12" @click="$router.go(-1)">
-                  <button
-                    class="btn btnBlock btn-primary fixed-button mb-2"
-                    style="border-radius:10px;"
-                  >
-                    <span style="font-weight: 900; color:white;">ย้อนกลับ</span>
-                  </button>
+                <button
+                  class="btn btnBlock btn-primary fixed-button mb-2"
+                  style="border-radius: 10px"
+                >
+                  <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+                </button>
               </div>
             </div>
           </div>
@@ -45,12 +54,13 @@
 <script>
 import axios from "axios";
 import HistoryCard from "@/components/HistoryCard.vue";
-
+import { VclFacebook, VclList } from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
+      loading: false,
       dataFetch: {
         appointmentCard: [
           {
@@ -74,8 +84,11 @@ export default {
   },
   components: {
     HistoryCard,
+    VclFacebook,
+    VclList,
   },
   async mounted() {
+    this.loading = true;
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/history/detail/${this.$route.params.id}`,
@@ -106,6 +119,7 @@ export default {
         console.error(error.response);
         this.$router.push("/appointment");
       });
+    this.loading = false;
   },
   methods: {
     cancelAppointment() {

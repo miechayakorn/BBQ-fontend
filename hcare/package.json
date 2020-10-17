@@ -14,7 +14,7 @@
     "core-js": "^3.6.4",
     "crypto-js": "^4.0.0",
     "register-service-worker": "^1.6.2",
-    "v-calendar": "^1.0.8",
+    "v-calendar": "0.9.0",
     "v-data-table": "^2.1.0",
     "vue": "^2.6.11",
     "vue-avatar-editor-improved": "^1.0.7",

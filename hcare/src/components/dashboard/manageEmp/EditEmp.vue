@@ -254,25 +254,28 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    await axios
-      .get(
-        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployeeforedit?account_id=${this.$route.params.id}`,
-        {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` },
-        }
-      )
-      .then((res) => {
-        this.dataFetch = res.data;
-      })
-      .catch((res) => {
-        console.log("===== Backend-error ======");
-        console.error(res);
-        this.$swal({ ...errorSWAL });
-        close();
-      });
+    this.loadPage();
     this.loading = false;
   },
   methods: {
+    async loadPage() {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployeeforedit?account_id=${this.$route.params.id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          this.dataFetch = res.data;
+        })
+        .catch((res) => {
+          console.log("===== Backend-error ======");
+          console.error(res);
+          this.$swal({ ...errorSWAL });
+          close();
+        });
+    },
     close() {
       close();
     },
@@ -346,6 +349,13 @@ export default {
                 icon: "success",
                 title: "บันทึกสำเร็จ",
               });
+            } else if (res.status == 204) {
+              this.$swal({
+                icon: "warning",
+                title: "ไม่สามารถเปลี่ยนสิทธิ์ได้",
+                text: "เนื่องจากระบบจะต้องมีผู้ที่เป็น ADMIN อย่างน้อย 1 คน",
+              });
+              this.loadPage();
             } else {
               console.log("===== Backend-error ======");
               console.error(res.data);
