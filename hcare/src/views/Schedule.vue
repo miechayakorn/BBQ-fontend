@@ -46,11 +46,54 @@
         </div>
       </div>
     </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="div-schedule">
+          <div class="div-schedule-title" style="background: #ff7b7b">
+            <div class="d-flex">
+              หู คอ จมูก
+              <div href="#" class="ml-auto">
+                8.30 - 12.30 <i class="far fa-clock ml-2"></i>
+              </div>
+            </div>
+          </div>
+          <div class="div-schedule-content">
+            <div class="row">
+              <div class="col-12">
+                <logoStaff
+                  v-if="this.$store.state.user.profile_picture == null"
+                />
+                <img
+                  v-else-if="this.$store.state.user.profile_picture"
+                  class="rounded-circle"
+                  width="56"
+                  height="56"
+                  :src="this.$store.state.user.profile_picture"
+                />
+                <span class="ml-3"> นายแพทย์ มะโนธรรม พงษ์อำไพ </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-5" style="text-align: center">
+          <div class="col-12" @click="$router.go(-1)">
+            <button
+              class="btn btnBlock btn-primary fixed-button mb-2"
+              style="border-radius: 10px"
+            >
+              <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import logoStaff from "@/components/svg/logoStaff.vue";
 import formatDate from "@/utility/formatDate";
 import { errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
@@ -136,6 +179,7 @@ export default {
   components: {
     VclFacebook,
     VclList,
+    logoStaff,
   },
 };
 </script>
@@ -149,5 +193,25 @@ input[type="radio"] {
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #555555;
   background-color: #555555;
+}
+
+.div-schedule {
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #f5f5f5;
+  border-radius: 5px;
+  margin-bottom: 16px;
+}
+
+.div-schedule-title {
+  border-radius: 5px 5px 0px 0px;
+  color: #ffffff;
+  padding: 12px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.div-schedule-content {
+  padding: 16px;
+  color: #555555;
 }
 </style>
