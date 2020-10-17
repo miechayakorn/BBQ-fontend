@@ -54,8 +54,21 @@ export default {
     VclFacebook,
     VclList,
   },
-  mounted() {
-    this.fetchAppointment();
+  async mounted() {
+    this.loading = true;
+    await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        })
+        .then((res) => {
+          if (res.status == 204) {
+            this.checkAppointment = true;
+          } else {
+            this.checkAppointment = false;
+            this.dataFetch = res.data;
+          }
+        });
+    this.loading = false;
     this.interval = setInterval(() => {
       this.fetchAppointment();
     }, 10000);
@@ -65,7 +78,6 @@ export default {
   },
   methods: {
     async fetchAppointment() {
-      this.loading = true;
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
           headers: { Authorization: `Bearer ${this.$store.state.token}` },
@@ -78,7 +90,6 @@ export default {
             this.dataFetch = res.data;
           }
         });
-      this.loading = false;
     },
   },
 };
