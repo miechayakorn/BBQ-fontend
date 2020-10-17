@@ -35,57 +35,59 @@
         <v-date-picker
           locale="th"
           color="indigo"
-          :min-date="firstDayofMonth"
-          :max-date="lastDayofMonth"
+          :min-date="new Date(firstDayofMonth)"
+          :max-date="new Date(lastDayofMonth)"
           :attributes="dataFetch.dotCalendar"
           v-model="dateSelected"
           is-inline
         />
-        <div class="col-12">
-          {{ dataFetch.dotDetail }}
-        </div>
       </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3" v-if="dataFetch.dotDetail.length != 0">
       <div class="col-12">
-        <div class="div-schedule">
+        <div
+          class="div-schedule"
+          v-for="(service, index) in dataFetch.dotDetail"
+          :key="index"
+        >
           <div class="div-schedule-title" style="background: #ff7b7b">
             <div class="d-flex">
-              หู คอ จมูก
-              <div href="#" class="ml-auto">
-                8.30 - 12.30 <i class="far fa-clock ml-2"></i>
+              {{ service.type_name }}
+              <div class="ml-auto">
+                {{ service.start_time.substring(0, 5) }} -
+                {{ service.end_time.substring(0, 5) }}
+                <i class="far fa-clock ml-2"></i>
               </div>
             </div>
           </div>
           <div class="div-schedule-content">
-            <div class="row">
-              <div class="col-12">
-                <logoStaff
-                  v-if="this.$store.state.user.profile_picture == null"
-                />
-                <img
-                  v-else-if="this.$store.state.user.profile_picture"
-                  class="rounded-circle"
-                  width="56"
-                  height="56"
-                  :src="this.$store.state.user.profile_picture"
-                />
-                <span class="ml-3"> นายแพทย์ มะโนธรรม พงษ์อำไพ </span>
-              </div>
+            <div class="d-flex justify-content-md-center">
+              <logoStaff v-if="service.profile_picture == null" />
+              <img
+                v-else-if="service.profile_picture"
+                class="rounded-circle"
+                width="56"
+                height="56"
+                :src="service.profile_picture"
+              />
+              <span class="ml-3" style="margin-top: 16px">
+                {{ service.prefix }} {{ service.first_name }}
+                {{ service.last_name }}
+              </span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="row mt-5" style="text-align: center">
-          <div class="col-12" @click="$router.go(-1)">
-            <button
-              class="btn btnBlock btn-primary fixed-button mb-2"
-              style="border-radius: 10px"
-            >
-              <span style="font-weight: 900; color: white">ย้อนกลับ</span>
-            </button>
-          </div>
-        </div>
+    <div class="row mt-5" style="text-align: center">
+      <div class="col-12" @click="$router.go(-1)">
+        <button
+          class="btn btnBlock btn-primary fixed-button mb-2"
+          style="border-radius: 10px"
+        >
+          <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+        </button>
       </div>
     </div>
   </div>
@@ -116,6 +118,8 @@ export default {
   watch: {
     locationSelected: {
       handler: async function (locationSelected, oldCal) {
+        this.dataFetch.dotCalendar = [];
+        this.dateSelected = "";
         this.fetchDotCalendar();
       },
     },
@@ -123,6 +127,8 @@ export default {
       handler: async function (dateSelected, oldCal) {
         if (dateSelected) {
           this.fetchDotDetail(formatDate.format(dateSelected));
+        } else {
+          this.dataFetch.dotDetail = [];
         }
       },
     },
@@ -139,6 +145,9 @@ export default {
         this.locationSelected = this.dataFetch.dataLocation[0].location_id;
       });
     this.fetchDotCalendar();
+    let dateToday = new Date();
+    this.dateSelected = dateToday;
+    this.fetchDotDetail(formatDate.format(dateToday));
 
     this.loading = false;
   },
@@ -212,6 +221,8 @@ input[type="radio"] {
 
 .div-schedule-content {
   padding: 16px;
+  padding-right: 42px;
+  padding-left: 42px;
   color: #555555;
 }
 </style>
