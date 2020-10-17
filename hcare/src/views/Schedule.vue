@@ -50,7 +50,10 @@
           v-for="(service, index) in dataFetch.dotDetail"
           :key="index"
         >
-          <div class="div-schedule-title" style="background: #ff7b7b">
+          <div
+            class="div-schedule-title"
+            :style="`backgroundColor:${colorDotDetail[index]}`"
+          >
             <div class="d-flex">
               {{ service.type_name }}
               <div class="ml-auto">
@@ -108,6 +111,7 @@ export default {
       lastDayofMonth: "",
       dateSelected: "",
       locationSelected: "",
+      colorDotDetail: [],
       dataFetch: {
         dataLocation: [],
         dotCalendar: [],
@@ -126,6 +130,7 @@ export default {
     dateSelected: {
       handler: async function (dateSelected, oldCal) {
         if (dateSelected) {
+          this.setColor(dateSelected);
           this.fetchDotDetail(formatDate.format(dateSelected));
         } else {
           this.dataFetch.dotDetail = [];
@@ -144,14 +149,33 @@ export default {
         this.dataFetch.dataLocation = res.data;
         this.locationSelected = this.dataFetch.dataLocation[0].location_id;
       });
-    this.fetchDotCalendar();
+    await this.fetchDotCalendar();
     let dateToday = new Date();
     this.dateSelected = dateToday;
+    this.setColor(this.dateSelected);
     this.fetchDotDetail(formatDate.format(dateToday));
 
     this.loading = false;
   },
   methods: {
+    setColor(dateSelected) {
+      let dateColor = dateSelected.getDay() + 1;
+      let arrayColor = [];
+      for (let index = 0; index < this.dataFetch.dotCalendar.length; index++) {
+        const service = this.dataFetch.dotCalendar[index];
+        for (
+          let timeLoop = 0;
+          timeLoop < service.dates.weekdays.length;
+          timeLoop++
+        ) {
+          const weekdays = service.dates.weekdays[timeLoop];
+          if (weekdays == dateColor) {
+            arrayColor.push(service.dot.backgroundColor);
+          }
+        }
+      }
+      this.colorDotDetail = arrayColor;
+    },
     async fetchDotCalendar() {
       await axios
         .post(`${process.env.VUE_APP_BACKEND_URL}/serviceschedule/getservice`, {
