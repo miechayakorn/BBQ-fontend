@@ -63,6 +63,16 @@
                 </button>
               </div>
             </div>
+            <div class="row" style="text-align: center">
+              <div class="col-12" @click="$router.go(-1)">
+                <button
+                  class="btn btnBlock btn-primary btn-back fixed-button mb-2"
+                  style="border-radius: 31px"
+                >
+                  <span style="font-weight: 900">ย้อนกลับ</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -155,6 +165,14 @@ export default {
         footer: "ระบบจะไม่สามารถคืนการนัดได้",
       }).then((result) => {
         if (result.value) {
+          this.$swal({
+            title: "กรุณารอสักครู่",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
@@ -189,6 +207,11 @@ export default {
 </script>
 
 <style>
+.btn-back {
+  background: #ffffff;
+  border: 2px solid #99a3ff;
+  color: #99a3ff;
+}
 .btnCancel {
   box-shadow: 0px 3px 8px #a4a7aa;
   background-color: #ff4f5b;

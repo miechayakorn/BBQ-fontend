@@ -42,7 +42,7 @@
             <div class="btnHomeHistory m-1">
               <div class="text-center" style="margin-top: 32px">
                 <iconMedicine />
-                <p style="color: #ffffff; margin-top: 8px">ประวัติรับบริการ</p>
+                <p style="color: #ffffff; margin-top: 8px">ประวัตินัดหมาย</p>
               </div>
             </div>
           </router-link>

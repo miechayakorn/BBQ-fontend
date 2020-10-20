@@ -288,10 +288,7 @@ export default {
               html:
                 `${this.dataShow.date} , ` +
                 "<br/>" +
-                `เวลา:  ${this.dataShow.time}` +
-                "<br/>" +
-                "<hr/>" +
-                '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันการจองที่ email </span>',
+                `เวลา:  ${this.dataShow.time}`,
               icon: "info",
               showCancelButton: true,
               reverseButtons: true,
