@@ -5,57 +5,48 @@
       <VclList class="mt-2" />
       <VclList class="mt-2" />
     </div>
-    <div v-if="!loading" class="container">
+    <div v-if="!loading" class="container home-screen">
       <div class="row">
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
-            <div class="col-12 btnHomeActive">
-              <div class="text-center" style="margin-top: 36px">
+            <div class="btnHomeActive m-1">
+              <div class="text-center" style="margin-top: 32px">
                 <iconNote2 :color="'white'" />
                 <p style="color: #ffffff; margin-top: 8px">ทำนัด</p>
               </div>
             </div>
           </router-link>
         </div>
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-6 col-md-3 p-1">
           <router-link to="/appointment">
-            <div class="col-12 btnHomeCalendar">
-              <div class="text-center" style="margin-top: 36px">
+            <div class="btnHomeCalendar m-1">
+              <div class="text-center" style="margin-top: 32px">
                 <iconCalendar2 />
                 <p style="color: #ffffff; margin-top: 8px">นัดของฉัน</p>
               </div>
             </div>
           </router-link>
         </div>
-        <div class="col-6 col-md-3 mt-3 mt-md-1">
+        <div class="col-6 col-md-3 p-1">
           <router-link to="/schedule">
-            <div class="col-12 btnHome">
-              <div class="text-center" style="margin-top: 36px">
+            <div class="btnHomeSchedule m-1">
+              <div class="text-center" style="margin-top: 32px">
                 <iconClock2 />
-                <p style="color: #d8d8d8; margin-top: 8px">
-                  ตารางให้บริการ
-                  <br />
-                  <span
-                    style="color: #D8D8D8; font-size: 12px; margin-bottom 1px;"
-                    >coming soon</span
-                  >
-                </p>
+                <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
               </div>
             </div>
           </router-link>
         </div>
-        <div class="col-6 col-md-3 mt-3 mt-md-1">
+        <div class="col-6 col-md-3 p-1">
           <router-link to="/history">
-            <div class="col-12 btnHomeHistory">
-              <div class="text-center" style="margin-top: 36px">
+            <div class="btnHomeHistory m-1">
+              <div class="text-center" style="margin-top: 32px">
                 <iconMedicine />
                 <p style="color: #ffffff; margin-top: 8px">ประวัติรับบริการ</p>
               </div>
             </div>
           </router-link>
         </div>
-      </div>
-      <div class="row">
         <div class="col-12 mt-3">
           <div class="card btnHome" style="max-width: 500px">
             <div class="row no-gutters">
@@ -200,32 +191,38 @@ export default {
 };
 </script>
 <style>
+.home-screen {
+  padding-left: 24px;
+  padding-right: 24px;
+}
 .btnHome {
   background-color: #ffffff;
   border: 2px solid #ffffff;
   border-radius: 8px;
-  height: 100%;
   box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btnHomeCalendar {
   background-color: #ffe592;
   border: 2px solid #ffe592;
   border-radius: 8px;
-  height: 100%;
   box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btnHomeActive {
   background-color: #99a3ff;
   border: 2px solid #99a3ff;
   border-radius: 8px;
-  height: 100%;
   box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btnHomeHistory {
   background-color: #ffa78b;
   border: 2px solid #ffa78b;
   border-radius: 8px;
-  height: 100%;
+  box-shadow: 0px 4px 8px #f2f4ff;
+}
+.btnHomeSchedule {
+  background-color: #7dd6b8;
+  border: 2px solid #7dd6b8;
+  border-radius: 8px;
   box-shadow: 0px 4px 8px #f2f4ff;
 }
 .btn-comming {
