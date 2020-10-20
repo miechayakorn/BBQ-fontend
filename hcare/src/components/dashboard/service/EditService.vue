@@ -114,7 +114,7 @@
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
     <div
-      v-if="visibleState1 && loading == false"
+      v-if="visibleState1 && loading == false && dataFetch.dataWorkTime.length != 0"
       class="mt-3 text-left font-weight-bold"
     >
       <div class="mb-3" style="margin-top: 32px">
@@ -137,7 +137,9 @@
                 >
                   <div class="row">
                     <div class="col-10 align-self-center">
-                      <h6 class="text-white font-weight-bold">วัน{{ data.วันที่ }}</h6>
+                      <h6 class="text-white font-weight-bold">
+                        วัน{{ data.วันที่ }}
+                      </h6>
                     </div>
                     <div class="col-2">
                       <iconArrow
@@ -417,6 +419,7 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
+                this.dataFetch.dataWorkTime = [];
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
@@ -463,6 +466,7 @@ export default {
             )
             .then((res) => {
               if (res.status == 204) {
+                this.dataFetch.dataWorkTime = [];
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
@@ -601,7 +605,7 @@ export default {
             })
             .catch((error) => {
               console.log("===== Backend-error ======");
-              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
+              console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
         },
