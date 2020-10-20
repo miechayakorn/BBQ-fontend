@@ -42,55 +42,54 @@
           is-inline
         />
       </div>
-    </div>
-    <div class="row mt-3" v-if="dataFetch.dotDetail.length != 0">
-      <div class="col-12">
-        <div
-          class="div-schedule"
-          v-for="(service, index) in dataFetch.dotDetail"
-          :key="index"
-        >
+      <div class="row mt-3" v-if="dataFetch.dotDetail.length != 0">
+        <div class="col-12">
           <div
-            class="div-schedule-title"
-            :style="`backgroundColor:${colorDotDetail[index]}`"
+            class="div-schedule"
+            v-for="(service, index) in dataFetch.dotDetail"
+            :key="index"
           >
-            <div class="d-flex">
-              {{ service.type_name }}
-              <div class="ml-auto">
-                {{ service.start_time.substring(0, 5) }} -
-                {{ service.end_time.substring(0, 5) }}
-                <i class="far fa-clock ml-2"></i>
+            <div
+              class="div-schedule-title"
+              :style="`backgroundColor:${colorDotDetail[index]}`"
+            >
+              <div class="d-flex">
+                {{ service.type_name }}
+                <div class="ml-auto">
+                  {{ service.start_time.substring(0, 5) }} -
+                  {{ service.end_time.substring(0, 5) }}
+                  <i class="far fa-clock ml-2"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="div-schedule-content">
-            <div class="d-flex justify-content-md-center">
-              <logoStaff v-if="service.profile_picture == null" />
-              <img
-                v-else-if="service.profile_picture"
-                class="rounded-circle"
-                width="56"
-                height="56"
-                :src="service.profile_picture"
-              />
-              <span class="ml-3" style="margin-top: 16px">
-                {{ service.prefix }} {{ service.first_name }}
-                {{ service.last_name }}
-              </span>
+            <div class="div-schedule-content">
+              <div class="d-flex justify-content-md-center">
+                <logoStaff v-if="service.profile_picture == null" />
+                <img
+                  v-else-if="service.profile_picture"
+                  class="rounded-circle"
+                  width="56"
+                  height="56"
+                  :src="service.profile_picture"
+                />
+                <span class="ml-3" style="margin-top: 16px">
+                  {{ service.prefix }} {{ service.first_name }}
+                  {{ service.last_name }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row mt-5" style="text-align: center">
-      <div class="col-12" @click="$router.go(-1)">
-        <button
-          class="btn btnBlock btn-primary fixed-button mb-2"
-          style="border-radius: 10px"
-        >
-          <span style="font-weight: 900; color: white">ย้อนกลับ</span>
-        </button>
+      <div class="row mt-5" style="text-align: center">
+        <div class="col-12" @click="$router.go(-1)">
+          <button
+            class="btn btnBlock btn-primary fixed-button mb-2"
+            style="border-radius: 10px"
+          >
+            <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
