@@ -1,8 +1,16 @@
 <template>
   <div class="col-12">
-    <form id="search" class="d-flex justify-content-end pb-3" v-if="dataUserTable.length != 0">
-      <label class="col-1 col-form-label">Search:</label>
-      <input name="query" v-model="searchQuery" class="form-control col-3" />
+    <form
+      id="search"
+      class="d-flex justify-content-end pb-3"
+      v-if="dataUserTable.length != 0"
+    >
+      <label class="col-6 col-md-1 col-form-label">Search:</label>
+      <input
+        name="query"
+        v-model="searchQuery"
+        class="col-6 col-md-3 form-control"
+      />
     </form>
     <div class="col-12 mt-3 p-3 div-card" v-if="dataUserTable.length == 0">
       <h5>ไม่มีข้อมูลพนักงาน</h5>
@@ -18,7 +26,9 @@
       <template slot="รหัสพนักงาน" scope="props">
         <b>{{ props.entry.รหัสพนักงาน }}</b>
       </template>
-      <template slot="ชื่อนามสกุล" scope="props">{{ props.entry.ชื่อนามสกุล }}</template>
+      <template slot="ชื่อนามสกุล" scope="props">{{
+        props.entry.ชื่อนามสกุล
+      }}</template>
       <template slot="บริการ" scope="props">{{ props.entry.บริการ }}</template>
       <template slot="action" scope="props">
         <router-link
@@ -26,11 +36,15 @@
           :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.account_id"
         >
           <button type="button" class="btn">
-            <i class="fas fa-pen edit" style="color: #ffc107;"></i>
+            <i class="fas fa-pen edit" style="color: #ffc107"></i>
           </button>
         </router-link>
-        <button @click="deleteBooking(props.entry.รหัสพนักงาน)" type="button" class="btn">
-          <i class="fas fa-trash" style="color: #e34724;"></i>
+        <button
+          @click="deleteBooking(props.entry.รหัสพนักงาน)"
+          type="button"
+          class="btn"
+        >
+          <i class="fas fa-trash" style="color: #e34724"></i>
         </button>
       </template>
     </data-table>

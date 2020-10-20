@@ -99,12 +99,42 @@
         </div>
       </div>
     </div>
-    <div v-show="selectedService != ''" class="mt-3 text-left font-weight-bold">
-      <div class="mb-3" style="margin-top: 32px">
+    <div v-show="selectedService != ''" class="mt-3 text-left">
+      <div class="mb-3 font-weight-bold" style="margin-top: 32px">
         <span style="font-size: 20px">{{ selectedService }}</span>
       </div>
-      <div class="row div-card" style="padding-top: 50px; padding-bottom: 50px">
-        <div class="col-12 ml-5"></div>
+      <div class="row">
+        <div class="col-12">
+          <form
+            id="search"
+            class="d-flex justify-content-end pb-3"
+            v-if="dataFetch.dataWorkTime.length != 0"
+          >
+            <label class="col-6 col-md-1 col-form-label">Search:</label>
+            <input
+              name="query"
+              v-model="searchQuery"
+              class="col-6 col-md-3 form-control"
+            />
+          </form>
+          <data-table
+            class="table table-hover list-doctor"
+            :data="dataFetch.dataWorkTime"
+            :columns-to-display="gridColumns"
+            :filter-key="searchQuery"
+            v-if="dataFetch.dataWorkTime.length != 0"
+          >
+            <template slot="วันที่ให้บริการ" scope="props">
+              {{ props.entry.วันที่ให้บริการ }}
+            </template>
+            <template slot="เวลาให้บริการ" scope="props">{{
+              props.entry.เวลาให้บริการ
+            }}</template>
+            <template slot="ผู้รับผิดชอบ" scope="props">{{
+              props.entry.ผู้รับผิดชอบ
+            }}</template>
+          </data-table>
+        </div>
       </div>
 
       <div class="col-12 text-center mt-4">
@@ -139,11 +169,14 @@ export default {
   data() {
     return {
       loading: false,
+      searchQuery: "",
+      gridColumns: ["วันที่ให้บริการ", "เวลาให้บริการ", "ผู้รับผิดชอบ"],
       colorCard: "",
       selectedService: "",
       dataFetch: {
         dataLocation: [],
         dataService: [],
+        dataWorkTime: [],
       },
       dataPrepareSend: {
         serviceName: "",
@@ -167,8 +200,21 @@ export default {
   methods: {
     changeCardColor(type_id, type_name, location_name) {
       this.colorCard = type_id;
+      this.fetchWorkTime(type_id);
       this.dataPrepareSend.worktime.type_id = type_id;
       this.selectedService = type_name + " (" + location_name + ")";
+    },
+    async fetchWorkTime(type_id) {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/getserviceresposibleperson?type_id=${type_id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          this.dataFetch.dataWorkTime = res.data;
+        });
     },
     async getService() {
       await axios
