@@ -137,7 +137,7 @@
                 >
                   <div class="row">
                     <div class="col-10 align-self-center">
-                      <h6 class="font-weight-bold">วัน{{ data.วันที่ }}</h6>
+                      <h6 class="text-white font-weight-bold">วัน{{ data.วันที่ }}</h6>
                     </div>
                     <div class="col-2">
                       <iconArrow

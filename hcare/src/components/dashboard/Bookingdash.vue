@@ -5,6 +5,7 @@
         <label for="InputEmail">อีเมลผู้ป่วย</label>
         <input
           type="email"
+          id="InputEmail"
           v-model="email"
           class="form-control"
           placeholder="example@kmutt.ac.th"
@@ -37,7 +38,7 @@
         </div>
       </div>
       <div class="col-12 mt-2">
-        <label for="InputEmail">เลือกบริการ</label>
+        <label for="serviceType">เลือกบริการ</label>
         <select
           id="serviceType"
           class="form-control col-12 col-md-12"
@@ -327,16 +328,6 @@ export default {
       })
       .then((res) => {
         this.dataFetch.dataTypes = res.data;
-      });
-    //Date
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
-      })
-      .then((res) => {
-        this.dataFetch.dataDates = res.data;
       });
   },
 };
