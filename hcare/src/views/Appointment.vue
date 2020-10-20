@@ -29,6 +29,16 @@
           </div>
         </div>
       </div>
+      <div class="row mt-5" style="text-align: center">
+        <div class="col-12" @click="$router.go(-1)">
+          <button
+            class="btn btnBlock btn-primary fixed-button mb-2"
+            style="border-radius: 10px"
+          >
+            <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -57,17 +67,17 @@ export default {
   async mounted() {
     this.loading = true;
     await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` },
-        })
-        .then((res) => {
-          if (res.status == 204) {
-            this.checkAppointment = true;
-          } else {
-            this.checkAppointment = false;
-            this.dataFetch = res.data;
-          }
-        });
+      .get(`${process.env.VUE_APP_BACKEND_URL}/myappointment`, {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` },
+      })
+      .then((res) => {
+        if (res.status == 204) {
+          this.checkAppointment = true;
+        } else {
+          this.checkAppointment = false;
+          this.dataFetch = res.data;
+        }
+      });
     this.loading = false;
     this.interval = setInterval(() => {
       this.fetchAppointment();

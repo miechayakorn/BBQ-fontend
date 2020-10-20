@@ -40,6 +40,9 @@
                   <span class="font-weight-bold" style="color: #444444"
                     >{{ item.time_in.slice(0, 5) }} น.</span
                   >
+                <span style="color: rgb(224, 224, 224);" v-if="item.is_active == 0">
+                  (ยกเลิกแล้ว)
+                </span>
                 </div>
               </div>
             </div>

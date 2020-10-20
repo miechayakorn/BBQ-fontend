@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">ประวัติการเข้ารับบริการ</label>
+        <label class="font-weight-bold mb-4">ประวัติการนัดหมาย</label>
         <div class="form">
           <div class="container">
             <HistoryCard v-if="!checkAppointment" :data="dataFetch" />
@@ -23,6 +23,16 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row mt-5" style="text-align: center">
+          <div class="col-12" @click="$router.go(-1)">
+            <button
+              class="btn btnBlock btn-primary fixed-button mb-2"
+              style="border-radius: 10px"
+            >
+              <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+            </button>
           </div>
         </div>
       </div>
