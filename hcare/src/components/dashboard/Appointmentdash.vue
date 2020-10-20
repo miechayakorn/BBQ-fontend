@@ -47,6 +47,7 @@
                   :popover="{ visibility: 'click' }"
                   v-model="dataPrepareSend.date"
                   :input-props="{
+                    class: 'form-control',
                     placeholder: 'กรุณาเลือกวัน',
                   }"
                 />
