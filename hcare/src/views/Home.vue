@@ -29,17 +29,10 @@
         </div>
         <div class="col-6 col-md-3 mt-3 mt-md-1">
           <router-link to="/schedule">
-            <div class="col-12 btnHome">
+            <div class="col-12 btnHomeSchedule">
               <div class="text-center" style="margin-top: 36px">
                 <iconClock2 />
-                <p style="color: #d8d8d8; margin-top: 8px">
-                  ตารางให้บริการ
-                  <br />
-                  <span
-                    style="color: #D8D8D8; font-size: 12px; margin-bottom 1px;"
-                    >coming soon</span
-                  >
-                </p>
+                <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
               </div>
             </div>
           </router-link>
@@ -224,6 +217,13 @@ export default {
 .btnHomeHistory {
   background-color: #ffa78b;
   border: 2px solid #ffa78b;
+  border-radius: 8px;
+  height: 100%;
+  box-shadow: 0px 4px 8px #f2f4ff;
+}
+.btnHomeSchedule {
+  background-color: #7DD6B8;
+  border: 2px solid #7DD6B8;
   border-radius: 8px;
   height: 100%;
   box-shadow: 0px 4px 8px #f2f4ff;
