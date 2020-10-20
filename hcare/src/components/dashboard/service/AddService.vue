@@ -134,6 +134,7 @@
               props.entry.ผู้รับผิดชอบ
             }}</template>
           </data-table>
+          <div v-if="dataFetch.dataWorkTime.length == 0" class="alert p-3 alert-warning">ไม่พบวันให้บริการ</div>
         </div>
       </div>
 
