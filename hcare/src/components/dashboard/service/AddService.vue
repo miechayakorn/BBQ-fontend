@@ -56,21 +56,21 @@
       <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
-      <div class="row div-card" style="padding-top: 50px; padding-bottom: 50px">
+      <div class="row div-card">
         <div
           class="col-12"
           style="padding-left: 40px; padding-right: 40px"
           v-for="(item, index) in dataFetch.dataService"
           :key="index"
         >
-          {{ item.location_name }}
+          <p style="margin-top:33px;">{{ item.location_name }}</p>
           <div class="row">
             <div
               class="col-12 col-md-3"
               v-for="(service, index) in item.service"
               :key="index"
             >
-              <div class="m-3">
+              <div>
                 <div
                   @click="
                     changeCardColor(
@@ -86,7 +86,7 @@
                       : 'div-card-unclick',
                   ]"
                 >
-                  <h6 class="font-weight-bold">{{ service.type_name }}</h6>
+                  <h6 class="text-white font-weight-bold">{{ service.type_name }}</h6>
                 </div>
               </div>
             </div>
