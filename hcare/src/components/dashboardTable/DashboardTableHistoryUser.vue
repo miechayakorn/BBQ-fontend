@@ -20,6 +20,7 @@
       <template slot="บริการ" scope="props">{{ props.entry.type_name }}</template>
       <template slot="อาการเบื้องต้น" scope="props">{{ props.entry.symptom }}</template>
       <template slot="บันทึกเพิ่มเติม" scope="props">{{ props.entry.comment_from_staff }}</template>
+      <template slot="หมายเหตุ" scope="props"><span v-if="props.entry.is_active == 0">ยกเลิกแล้ว</span></template>
     </data-table>
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["วันที่นัด", "เวลานัด", "บริการ", "อาการเบื้องต้น", "บันทึกเพิ่มเติม"],
+      gridColumns: ["วันที่นัด", "เวลานัด", "บริการ", "อาการเบื้องต้น", "บันทึกเพิ่มเติม", "หมายเหตุ"],
     };
   },
 
