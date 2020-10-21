@@ -74,11 +74,28 @@
         <div class="form-group text-left w-100">
           <div class="col-12">
             <label class="font-weight-bold">เลือกแพทย์</label>
+            <select
+              v-if="dataFetch.dataDocter.length != 0"
+              class="form-control select-date"
+              style="cursor: pointer"
+              v-model="selectedDocter"
+              id="selectDate"
+            >
+              <option value="" disabled selected="selected">
+                กรุณาเลือกแพทย์
+              </option>
+              <option
+                v-for="(dataDocter, index) in dataFetch.dataDocter"
+                :key="index"
+                :value="dataDocter"
+              >
+                {{ dataDocter.doctor_name }}
+              </option>
+            </select>
+            <div v-if="dataFetch.dataDocter.length == 0">
+              <div class="alert p-3 alert-warning">ไม่พบแพทย์</div>
+            </div>
           </div>
-          <ServiceDocterBox
-            :dataDocters="dataFetch.dataDocter"
-            v-on:selectedDocter="fetchTime"
-          />
         </div>
       </div>
       <div class="row">
@@ -135,15 +152,20 @@
               <div class="float-right title-patient">บัตรนัดผู้ป่วย</div>
               <div class="row mt-3">
                 <div class="col-4 head-row">บริการ</div>
-                <div class="col-8">จิตแพทย์</div>
+                <div class="col-8">{{ this.dataShow.type }}</div>
               </div>
               <div class="row">
                 <div class="col-4 head-row">ผู้ให้บริการ</div>
-                <div class="col-8">นายแพทย์จิตดี มานะกุล</div>
+                <div class="col-8">{{ this.selectedDocter.doctor_name }}</div>
               </div>
               <div class="row">
                 <div class="col-4 head-row">เวลานัด</div>
-                <div class="col-8">วันที่ 24 สิงหาคม 2563 <br />เวลา 18:30</div>
+                <div class="col-8">
+                  {{ this.dataShow.date }} <br /><span v-if="this.dataShow.time"
+                    >เวลา</span
+                  >
+                  {{ this.dataShow.time }}
+                </div>
               </div>
             </div>
           </div>
@@ -168,7 +190,6 @@ import axios from "axios";
 import logoEmotion from "@/components/svg/logoEmotion.vue";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
-import ServiceDocterBox from "@/components/ServiceDocterBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
@@ -182,6 +203,7 @@ export default {
       totalcharacter: 0,
       locationSelected: null,
       selectedDate: "",
+      selectedDocter: "",
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -209,7 +231,6 @@ export default {
     logoEmotion,
     ServiceTypeBox,
     ServiceDateBox,
-    ServiceDocterBox,
     ServiceTimeBox,
     logoHeader,
     VclFacebook,
@@ -254,6 +275,13 @@ export default {
         this.$store.state.booking.location = val;
       },
     },
+    selectedDocter: {
+      handler: async function (val, oldCal) {
+        if (this.selectedDocter) {
+          this.fetchTime();
+        }
+      },
+    },
   },
 
   methods: {
@@ -294,7 +322,7 @@ export default {
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
-      this.selectedDate = selectedDate.datevalue
+      this.selectedDate = selectedDate.datevalue;
 
       await axios
         .get(
@@ -302,14 +330,15 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDocter = res.data;
+          this.selectedDocter = res.data[0];
         });
     },
-    async fetchTime(selectedDocter) {
+    async fetchTime() {
       this.dataShow.activeBtnTime = "";
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${selectedDocter.working_id}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${this.selectedDocter.working_id}`
         )
         .then((res) => {
           this.dataFetch.dataTimes = res.data;
@@ -434,7 +463,7 @@ input[type="radio"] {
   padding: 16px;
   padding-right: 24px;
   padding-left: 24px;
-  height: 200px;
+  min-height: 200px;
   width: 335px;
   margin-bottom: 24px;
   background: #5b629e;
@@ -498,5 +527,15 @@ input[type="radio"] {
   .btnBooking {
     width: 200px;
   }
+}
+
+.select-date {
+  -webkit-appearance: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 48px;
 }
 </style>
