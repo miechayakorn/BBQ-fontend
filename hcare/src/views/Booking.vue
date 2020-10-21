@@ -181,6 +181,7 @@ export default {
       limitChar: 100,
       totalcharacter: 0,
       locationSelected: null,
+      selectedDate: "",
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -293,6 +294,7 @@ export default {
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
+      this.selectedDate = selectedDate.datevalue
 
       await axios
         .get(
@@ -303,17 +305,11 @@ export default {
         });
     },
     async fetchTime(selectedDocter) {
-      console.log(selectedDocter);
-      this.clearData();
-      //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
-
-      // //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
-      // this.dataShow.date = selectedDate.dateformat;
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${selectedDate.type_id}&working_id=${selectedDocter.working_id}`
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${selectedDocter.working_id}`
         )
         .then((res) => {
           this.dataFetch.dataTimes = res.data;
