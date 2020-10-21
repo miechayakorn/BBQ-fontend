@@ -122,6 +122,31 @@
           {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
         </p>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="div-patient text-left">
+            <img
+              class="rounded-circle"
+              width="56"
+              height="56"
+              :src="this.$store.state.user.profile_picture"
+            />
+            <div class="float-right title-patient">บัตรนัดผู้ป่วย</div>
+            <div class="row mt-3">
+              <div class="col-4 head-row">บริการ</div>
+              <div class="col-8">จิตแพทย์</div>
+            </div>
+            <div class="row">
+              <div class="col-4 head-row">ผู้ให้บริการ</div>
+              <div class="col-8">นายแพทย์จิตดี มานะกุล</div>
+            </div>
+            <div class="row">
+              <div class="col-4 head-row">เวลานัด</div>
+              <div class="col-8">วันที่ 24 สิงหาคม 2563 <br />เวลา 18:30</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row" style="text-align: center">
         <div class="col-12">
           <button
@@ -391,6 +416,31 @@ export default {
 input[type="radio"] {
   width: 16px;
   height: 16px;
+}
+
+.div-patient {
+  font-size: 14px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 16px;
+  padding-right: 24px;
+  padding-left: 24px;
+  height: 200px;
+  margin-bottom: 24px;
+  background: #5b629e;
+  box-shadow: 0px 4px 8px #cdd2ff;
+  border-radius: 20px;
+}
+
+.title-patient {
+  color: #99a3ff;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+}
+.head-row {
+  line-height: 21px;
+  color: #ccd1ff;
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
