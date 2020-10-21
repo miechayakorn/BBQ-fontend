@@ -66,7 +66,7 @@
           </div>
           <ServiceDateBox
             :dataDates="dataFetch.dataDates"
-            v-on:selectedDate="fetchTime"
+            v-on:selectedDate="fetchDocter"
           />
         </div>
       </div>
@@ -76,7 +76,7 @@
             <label class="font-weight-bold">เลือกแพทย์</label>
           </div>
           <ServiceDocterBox
-            :dataDocters="dataFetch.dataDates"
+            :dataDocters="dataFetch.dataDocter"
             v-on:selectedDocter="fetchTime"
           />
         </div>
@@ -190,6 +190,7 @@ export default {
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
         dataDates: [],
+        dataDocter: [],
         dataTimes: null,
         dataLocation: null,
       },
@@ -279,16 +280,13 @@ export default {
         await axios
           .get(
             `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
-            // {
-            //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
-            // }
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
           });
       }
     },
-    async fetchTime(selectedDate) {
+    async fetchDocter(selectedDate) {
       this.clearData();
       //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
@@ -298,14 +296,27 @@ export default {
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`
-          // {
-          //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
-          // }
+          `${process.env.VUE_APP_BACKEND_URL}/servicedoctor/?type_id=${selectedDate.type_id}&date=${selectedDate.datevalue}`
+        )
+        .then((res) => {
+          this.dataFetch.dataDocter = res.data;
+        });
+    },
+    async fetchTime(selectedDocter) {
+      console.log(selectedDocter);
+      this.clearData();
+      //เคลียสีปุ่ม
+      this.dataShow.activeBtnTime = "";
+
+      // //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
+      // this.dataShow.date = selectedDate.dateformat;
+
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${selectedDate.type_id}&working_id=${selectedDocter.working_id}`
         )
         .then((res) => {
           this.dataFetch.dataTimes = res.data;
-          this.$swal.close();
         });
     },
     onChangeTime(booking) {

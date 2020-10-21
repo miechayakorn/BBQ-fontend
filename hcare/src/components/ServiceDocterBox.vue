@@ -14,7 +14,7 @@
         :key="index"
         :value="dataDocter"
       >
-        {{ dataDocter }}
+        {{ dataDocter.doctor_name }}
       </option>
     </select>
     <div v-else-if="dataDocters.length == 0">
