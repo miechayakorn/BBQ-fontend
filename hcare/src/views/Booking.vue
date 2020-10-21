@@ -66,8 +66,38 @@
           </div>
           <ServiceDateBox
             :dataDates="dataFetch.dataDates"
-            v-on:selectedDate="fetchTime"
+            v-on:selectedDate="fetchDocter"
           />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group text-left w-100">
+          <div class="col-12">
+            <label class="font-weight-bold">เลือกแพทย์</label>
+            <select
+              v-if="dataFetch.dataDocter.length != 0"
+              class="form-control select-date"
+              style="cursor: pointer"
+              v-model="selectedDocter"
+              id="selectDate"
+            >
+              <option value="" disabled selected="selected">
+                กรุณาเลือกแพทย์
+              </option>
+              <option
+                v-for="(dataDocter, index) in dataFetch.dataDocter"
+                :key="index"
+                :value="dataDocter"
+              >
+                {{ dataDocter.doctor_name }}
+              </option>
+            </select>
+            <div v-if="dataFetch.dataDocter.length == 0">
+              <div class="alert p-3 alert-warning">
+                กรุณาเลือกวันให้เรียบร้อย
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -111,6 +141,42 @@
           {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
         </p>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="row justify-content-center">
+            <div class="div-patient text-left">
+              <logoStaff
+                v-if="!this.selectedDocter.doctor_profile_picture"
+              />
+              <img
+                v-if="this.selectedDocter.doctor_profile_picture"
+                class="rounded-circle"
+                width="56"
+                height="56"
+                :src="this.selectedDocter.doctor_profile_picture"
+              />
+              <div class="float-right title-patient">บัตรนัดผู้ป่วย</div>
+              <div class="row mt-3">
+                <div class="col-4 head-row">บริการ</div>
+                <div class="col-8">{{ this.dataShow.type }}</div>
+              </div>
+              <div class="row">
+                <div class="col-4 head-row">ผู้ให้บริการ</div>
+                <div class="col-8">{{ this.selectedDocter.doctor_name }}</div>
+              </div>
+              <div class="row">
+                <div class="col-4 head-row">เวลานัด</div>
+                <div class="col-8">
+                  {{ this.dataShow.date }} <br /><span v-if="this.dataShow.time"
+                    >เวลา</span
+                  >
+                  {{ this.dataShow.time }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row" style="text-align: center">
         <div class="col-12">
           <button
@@ -132,6 +198,7 @@ import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
+import logoStaff from "@/components/svg/logoStaff.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
 
@@ -142,6 +209,8 @@ export default {
       limitChar: 100,
       totalcharacter: 0,
       locationSelected: null,
+      selectedDate: "",
+      selectedDocter: "",
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -150,7 +219,8 @@ export default {
       },
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
-        dataDates: null,
+        dataDates: [],
+        dataDocter: [],
         dataTimes: null,
         dataLocation: null,
       },
@@ -166,6 +236,7 @@ export default {
   },
   components: {
     logoEmotion,
+    logoStaff,
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
@@ -197,7 +268,7 @@ export default {
   watch: {
     locationSelected: {
       handler: async function (val, oldCal) {
-        this.dataFetch.dataDates = null;
+        this.dataFetch.dataDates = [];
         this.dataFetch.dataTimes = null;
 
         if (
@@ -210,6 +281,13 @@ export default {
           };
         }
         this.$store.state.booking.location = val;
+      },
+    },
+    selectedDocter: {
+      handler: async function (val, oldCal) {
+        if (this.selectedDocter) {
+          this.fetchTime();
+        }
       },
     },
   },
@@ -239,33 +317,46 @@ export default {
         await axios
           .get(
             `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
-            // {
-            //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
-            // }
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
+            if (this.dataFetch.dataDates.length == 0) {
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: "ไม่พบวันให้บริการ",
+              });
+            }
           });
       }
     },
-    async fetchTime(selectedDate) {
+    async fetchDocter(selectedDate) {
       this.clearData();
       //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
+      this.selectedDate = selectedDate.datevalue;
 
       await axios
         .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`
-          // {
-          //   headers: { Authorization: `Bearer ${this.$store.state.token}` }
-          // }
+          `${process.env.VUE_APP_BACKEND_URL}/servicedoctor/?type_id=${selectedDate.type_id}&date=${selectedDate.datevalue}`
+        )
+        .then((res) => {
+          this.dataFetch.dataDocter = res.data;
+          this.selectedDocter = res.data[0];
+        });
+    },
+    async fetchTime() {
+      this.dataShow.activeBtnTime = "";
+
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${this.selectedDocter.working_id}`
         )
         .then((res) => {
           this.dataFetch.dataTimes = res.data;
-          this.$swal.close();
         });
     },
     onChangeTime(booking) {
@@ -380,6 +471,39 @@ input[type="radio"] {
   height: 16px;
 }
 
+.div-patient {
+  font-size: 16px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 16px;
+  padding-right: 24px;
+  padding-left: 24px;
+  min-height: 200px;
+  width: 335px;
+  margin-bottom: 24px;
+  background: #5b629e;
+  box-shadow: 0px 4px 8px #cdd2ff;
+  border-radius: 20px;
+}
+
+@media (min-width: 768px) {
+  .div-patient {
+    width: 500px;
+  }
+}
+
+.title-patient {
+  color: #99a3ff;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.head-row {
+  line-height: 21px;
+  color: #ccd1ff;
+}
+
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #555555;
   background-color: #555555;
@@ -418,5 +542,15 @@ input[type="radio"] {
   .btnBooking {
     width: 200px;
   }
+}
+
+.select-date {
+  -webkit-appearance: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 48px;
 }
 </style>

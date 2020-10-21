@@ -98,14 +98,7 @@ export default {
       )
       .then((res) => {
         if (res.data.account_id) {
-          this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
-          this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
-          this.dataFetch.appointmentCard[0].name = res.data.name;
-          this.dataFetch.appointmentCard[0].booking_id = res.data.booking_id;
-          this.dataFetch.appointmentCard[0].type_id = res.data.type_id;
-          this.dataFetch.appointmentCard[0].type_name = res.data.type_name;
-          this.dataFetch.appointmentCard[0].date = res.data.date;
-          this.dataFetch.appointmentCard[0].time_in = res.data.time_in;
+          this.dataFetch.appointmentCard[0] = res.data;
           this.dataFetch.doctor_id = res.data.doctor_id;
           this.dataFetch.prefix = res.data.prefix;
           this.dataFetch.doctor_name = res.data.doctor_name;
