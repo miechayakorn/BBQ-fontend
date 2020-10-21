@@ -10,7 +10,7 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">
-              <div class="text-center" style="margin-top: 32px">
+              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
                 <iconNote2 :color="'white'" />
                 <p style="color: #ffffff; margin-top: 8px">ทำนัด</p>
               </div>
@@ -20,7 +20,7 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/appointment">
             <div class="btnHomeCalendar m-1">
-              <div class="text-center" style="margin-top: 32px">
+              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
                 <iconCalendar2 />
                 <p style="color: #ffffff; margin-top: 8px">นัดของฉัน</p>
               </div>
@@ -30,7 +30,7 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/schedule">
             <div class="btnHomeSchedule m-1">
-              <div class="text-center" style="margin-top: 32px">
+              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
                 <iconClock2 />
                 <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
               </div>
@@ -40,7 +40,7 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/history">
             <div class="btnHomeHistory m-1">
-              <div class="text-center" style="margin-top: 32px">
+              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
                 <iconMedicine />
                 <p style="color: #ffffff; margin-top: 8px">ประวัตินัดหมาย</p>
               </div>
