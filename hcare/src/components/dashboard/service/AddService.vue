@@ -134,7 +134,12 @@
               props.entry.ผู้รับผิดชอบ
             }}</template>
           </data-table>
-          <div v-if="dataFetch.dataWorkTime.length == 0" class="alert p-3 alert-warning">ไม่พบวันให้บริการ</div>
+          <div
+            v-if="dataFetch.dataWorkTime.length == 0"
+            class="alert p-3 alert-warning"
+          >
+            ไม่พบวันให้บริการ
+          </div>
         </div>
       </div>
 
@@ -170,6 +175,7 @@ export default {
   data() {
     return {
       loading: false,
+      interval: undefined,
       searchQuery: "",
       gridColumns: ["วันที่ให้บริการ", "เวลาให้บริการ", "ผู้รับผิดชอบ"],
       colorCard: "",
@@ -202,6 +208,12 @@ export default {
     changeCardColor(type_id, type_name, location_name) {
       this.colorCard = type_id;
       this.fetchWorkTime(type_id);
+      if(this.interval){
+        clearInterval(this.interval);
+      }
+      this.interval = setInterval(() => {
+        this.fetchWorkTime(type_id);
+      }, 5000);
       this.dataPrepareSend.worktime.type_id = type_id;
       this.selectedService = type_name + " (" + location_name + ")";
     },
@@ -287,6 +299,9 @@ export default {
         });
       }
     },
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   async mounted() {
     await axios
