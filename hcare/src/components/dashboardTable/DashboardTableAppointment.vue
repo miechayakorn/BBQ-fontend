@@ -142,7 +142,6 @@ export default {
 
   methods: {
     viewBooking(user) {
-      console.log(user);
       this.$swal({
         width: "678px",
         html:
