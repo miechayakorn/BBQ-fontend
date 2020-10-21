@@ -71,6 +71,17 @@
         </div>
       </div>
       <div class="row">
+        <div class="form-group text-left w-100">
+          <div class="col-12">
+            <label class="font-weight-bold">เลือกแพทย์</label>
+          </div>
+          <ServiceDocterBox
+            :dataDocters="dataFetch.dataDates"
+            v-on:selectedDocter="fetchTime"
+          />
+        </div>
+      </div>
+      <div class="row">
         <div class="form-group">
           <div class="col-12">
             <label class="d-flex justify-content-start font-weight-bold"
@@ -130,6 +141,7 @@ import axios from "axios";
 import logoEmotion from "@/components/svg/logoEmotion.vue";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
+import ServiceDocterBox from "@/components/ServiceDocterBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
@@ -150,7 +162,7 @@ export default {
       },
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
-        dataDates: null,
+        dataDates: [],
         dataTimes: null,
         dataLocation: null,
       },
@@ -168,6 +180,7 @@ export default {
     logoEmotion,
     ServiceTypeBox,
     ServiceDateBox,
+    ServiceDocterBox,
     ServiceTimeBox,
     logoHeader,
     VclFacebook,
@@ -197,7 +210,7 @@ export default {
   watch: {
     locationSelected: {
       handler: async function (val, oldCal) {
-        this.dataFetch.dataDates = null;
+        this.dataFetch.dataDates = [];
         this.dataFetch.dataTimes = null;
 
         if (
