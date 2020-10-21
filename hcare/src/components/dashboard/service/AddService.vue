@@ -63,7 +63,7 @@
           v-for="(item, index) in dataFetch.dataService"
           :key="index"
         >
-          <p style="margin-top:33px;">{{ item.location_name }}</p>
+          <p style="margin-top: 33px">{{ item.location_name }}</p>
           <div class="row">
             <div
               class="col-12 col-md-3"
@@ -86,7 +86,9 @@
                       : 'div-card-unclick',
                   ]"
                 >
-                  <h6 class="text-white font-weight-bold">{{ service.type_name }}</h6>
+                  <h6 class="text-white font-weight-bold">
+                    {{ service.type_name }}
+                  </h6>
                 </div>
               </div>
             </div>
@@ -97,121 +99,66 @@
         </div>
       </div>
     </div>
-    <div v-show="selectedService != ''" class="mt-3 text-left font-weight-bold">
-      <div class="mb-3" style="margin-top: 32px">
-        <span>ส่วนที่ 2 : เพิ่มรายละเอียดบริการ</span>
+    <div v-show="selectedService != ''" class="mt-3 text-left">
+      <div class="mb-3 font-weight-bold" style="margin-top: 32px">
+        <span style="font-size: 20px">{{ selectedService }}</span>
       </div>
-      <div class="row div-card" style="padding-top: 50px; padding-bottom: 50px">
-        <div class="col-12 ml-5">
-          <span style="font-size: 20px">บริการ : {{ selectedService }}</span>
-        </div>
+      <div class="row">
         <div class="col-12">
-          <div class="row pl-5 pr-5 p-2">
-            <div class="col-12 pl-md-5 pr-md-5 mt-3">
-              <div class="row">
-                <div class="col-12 col-md-6">
-                  <label for="InputDay">เพิ่มวันให้บริการ</label>
-                  <select
-                    v-model="dataPrepareSend.worktime.day"
-                    id="InputDay"
-                    class="form-control"
-                  >
-                    <option value disabled selected>-- กรุณาเลือกวัน --</option>
-                    <option value="MONDAY">วันจันทร์</option>
-                    <option value="TUESDAY">วันอังคาร</option>
-                    <option value="WEDNESDAY">วันพุธ</option>
-                    <option value="THURSDAY">วันพฤหัสบดี</option>
-                    <option value="FRIDAY">วันศุกร์</option>
-                    <option value="SATURDAY">วันเสาร์</option>
-                    <option value="SUNDAY">วันอาทิตย์</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label for="InputMan">ผู้ให้บริการ</label>
-                  <select
-                    v-if="this.$store.state.role == 'ADMIN'"
-                    v-model="dataPrepareSend.worktime.account_id"
-                    id="InputMan"
-                    class="form-control"
-                  >
-                    <option value disabled selected>
-                      -- กรุณาผู้ให้บริการ --
-                    </option>
-                    <option
-                      :value="item.account_id"
-                      v-for="(item, index) in dataFetch.dataEmployee"
-                      :key="index"
-                    >
-                      {{ item.prefix }} {{ item.first_name }}
-                      {{ item.last_name }}
-                    </option>
-                  </select>
-                  <select
-                    v-else-if="this.$store.state.role == 'STAFF'"
-                    disabled
-                    id="InputMan"
-                    class="form-control"
-                  >
-                    <option
-                      :value="
-                        (dataPrepareSend.worktime.account_id =
-                          dataFetch.dataEmployee[0].account_id)
-                      "
-                      selected
-                    >
-                      {{ dataFetch.dataEmployee[0].prefix }}
-                      {{ dataFetch.dataEmployee[0].first_name }}
-                      {{ dataFetch.dataEmployee[0].last_name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6 mt-2">
-                  <label for="InputStartTime">เวลาเริ่มบริการ</label>
-                  <input
-                    v-model="dataPrepareSend.worktime.start_time"
-                    class="form-control"
-                    type="time"
-                    id="InputStartTime"
-                  />
-                </div>
-                <div class="col-12 col-md-6 mt-2">
-                  <label for="InputEndTime">เวลาเลิกบริการ</label>
-                  <input
-                    v-model="dataPrepareSend.worktime.end_time"
-                    class="form-control"
-                    type="time"
-                    id="InputEndTime"
-                  />
-                </div>
-                <div class="col-12 col-md-6 mt-2">
-                  <label for="Input1Slot">เวลาให้บริการต่อ 1 slot</label>
-                  <select
-                    v-model="dataPrepareSend.worktime.time_slot"
-                    id="Input1Slot"
-                    class="form-control"
-                  >
-                    <option value disabled selected>
-                      -- กรุณาเลือกเวลา --
-                    </option>
-                    <option value="15">15 นาที</option>
-                    <option value="30">30 นาที</option>
-                    <option value="45">45 นาที</option>
-                    <option value="60">1 ชั่วโมง</option>
-                    <option value="75">1 ชั่วโมง 15 นาที</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+          <form
+            id="search"
+            class="d-flex justify-content-end pb-3"
+            v-if="dataFetch.dataWorkTime.length != 0"
+          >
+            <label class="col-6 col-md-1 col-form-label">Search:</label>
+            <input
+              name="query"
+              v-model="searchQuery"
+              class="col-6 col-md-3 form-control"
+            />
+          </form>
+          <data-table
+            class="table table-hover list-doctor"
+            :data="dataFetch.dataWorkTime"
+            :columns-to-display="gridColumns"
+            :filter-key="searchQuery"
+            v-if="dataFetch.dataWorkTime.length != 0"
+          >
+            <template slot="วันที่ให้บริการ" scope="props">
+              {{ props.entry.วันที่ให้บริการ }}
+            </template>
+            <template slot="เวลาให้บริการ" scope="props">{{
+              props.entry.เวลาให้บริการ
+            }}</template>
+            <template slot="ผู้รับผิดชอบ" scope="props">{{
+              props.entry.ผู้รับผิดชอบ
+            }}</template>
+          </data-table>
+          <div
+            v-if="dataFetch.dataWorkTime.length == 0"
+            class="alert p-3 alert-warning"
+          >
+            ไม่พบวันให้บริการ
           </div>
         </div>
       </div>
+
       <div class="col-12 text-center mt-4">
-        <button
-          @click="sendWorktime"
-          class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
+        <router-link
+          target="_blank"
+          :to="
+            '/admin/dashboard/service/add/' +
+            dataPrepareSend.worktime.type_id +
+            '?t=' +
+            selectedService
+          "
         >
-          บันทึก
-        </button>
+          <button
+            class="btn btn-primary btnBlock btnConfirm fixed-button text-center"
+          >
+            + เพิ่มวันให้บริการ
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -228,12 +175,15 @@ export default {
   data() {
     return {
       loading: false,
+      interval: undefined,
+      searchQuery: "",
+      gridColumns: ["วันที่ให้บริการ", "เวลาให้บริการ", "ผู้รับผิดชอบ"],
       colorCard: "",
       selectedService: "",
       dataFetch: {
         dataLocation: [],
         dataService: [],
-        dataEmployee: [],
+        dataWorkTime: [],
       },
       dataPrepareSend: {
         serviceName: "",
@@ -257,18 +207,26 @@ export default {
   methods: {
     changeCardColor(type_id, type_name, location_name) {
       this.colorCard = type_id;
+      this.fetchWorkTime(type_id);
+      if(this.interval){
+        clearInterval(this.interval);
+      }
+      this.interval = setInterval(() => {
+        this.fetchWorkTime(type_id);
+      }, 5000);
       this.dataPrepareSend.worktime.type_id = type_id;
       this.selectedService = type_name + " (" + location_name + ")";
     },
-    async getEmployee() {
+    async fetchWorkTime(type_id) {
       await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/getemployee`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.token}`,
-          },
-        })
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/getserviceresposibleperson?type_id=${type_id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
         .then((res) => {
-          this.dataFetch.dataEmployee = res.data;
+          this.dataFetch.dataWorkTime = res.data;
         });
     },
     async getService() {
@@ -341,90 +299,9 @@ export default {
         });
       }
     },
-    async sendWorktime() {
-      if (
-        this.dataPrepareSend.worktime.type_id != "" &&
-        this.dataPrepareSend.worktime.day != "" &&
-        this.dataPrepareSend.worktime.account_id != "" &&
-        this.dataPrepareSend.worktime.start_time != "" &&
-        this.dataPrepareSend.worktime.end_time != "" &&
-        this.dataPrepareSend.worktime.time_slot != ""
-      ) {
-        if (
-          this.dataPrepareSend.worktime.end_time >
-          this.dataPrepareSend.worktime.start_time
-        ) {
-          await axios
-            .post(
-              `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
-              {
-                type_id: this.dataPrepareSend.worktime.type_id,
-                day: this.dataPrepareSend.worktime.day,
-                account_id: this.dataPrepareSend.worktime.account_id,
-                start_time: this.dataPrepareSend.worktime.start_time + ":00",
-                end_time: this.dataPrepareSend.worktime.end_time + ":00",
-                time_slot: this.dataPrepareSend.worktime.time_slot,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
-                },
-              }
-            )
-            .then((res) => {
-              if (res.status == 201) {
-                this.$swal({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                    toast.addEventListener(
-                      "mouseleave",
-                      this.$swal.resumeTimer
-                    );
-                  },
-                  timer: 3000,
-                  icon: "success",
-                  title: "เพิ่มบริการสำเร็จ",
-                });
-
-                this.dataPrepareSend.worktime.day = "";
-                this.dataPrepareSend.worktime.account_id = "";
-                this.dataPrepareSend.worktime.start_time = "";
-                this.dataPrepareSend.worktime.end_time = "";
-                this.dataPrepareSend.worktime.time_slot = "";
-              } else {
-                console.log("===== Backend-error ======");
-                console.error(res.data);
-                this.$swal({
-                  icon: "warning",
-                  title: "คำเตือน",
-                  text: res.data,
-                });
-              }
-            })
-            .catch((res) => {
-              console.log("===== Backend-error ======");
-              console.error(res);
-              this.$swal({ ...errorSWAL });
-            });
-        } else {
-          this.$swal({
-            icon: "warning",
-            title: "คำเตือน",
-            text: "กรุณาตรวจสอบเวลาเริ่มบริการ",
-          });
-        }
-      } else {
-        this.$swal({
-          icon: "warning",
-          title: "คำเตือน",
-          text: "กรุณากรอกข้อมูลให้ครบ",
-        });
-      }
-    },
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   async mounted() {
     await axios
@@ -433,7 +310,6 @@ export default {
         this.dataFetch.dataLocation = res.data;
       });
     this.getService();
-    this.getEmployee();
   },
 };
 </script>

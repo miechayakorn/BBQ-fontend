@@ -43,6 +43,7 @@
                   class="dropdown"
                   v-for="(staff, index) in item.staff_list"
                   :key="index"
+                  @click="fetchWorkTimePerson(item.type_id, staff.account_id)"
                 >
                   <img
                     v-if="staff.profile_picture"
@@ -63,15 +64,8 @@
                     "
                     class="rounded-circle m-2"
                   />
-                  <div class="dropdown-content-location">
-                    <div class="row">
-                      <div class="col-12">
-                        {{ staff.prefix }}&nbsp;{{ staff.first_name }}&nbsp;{{
-                          staff.last_name
-                        }}
-                      </div>
-                    </div>
-                  </div>
+                  <br />
+                  <i style="color: #5e65a1" class="fas fa-clock"></i>
                 </div>
               </div>
               <div class="col-12 mt-4">
@@ -136,6 +130,35 @@ export default {
     logoAdmin,
   },
   methods: {
+    async fetchWorkTimePerson(type_id, account_id) {
+      console.log(type_id, account_id);
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/service/worktimeperson?account_id=${account_id}&type_id=${type_id}`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          let worktimeperson = res.data;
+          this.$swal({
+            width: "600px",
+            html:
+              '<div class="text-left p-2">' +
+              `<b>ชื่อบริการ :</b> ${worktimeperson.type_name} <br/>` +
+              `<b>ผู้รับผิดชอบ :</b> ${worktimeperson.doctor} <br/>` +
+              '<div class="mt-2">' +
+              `<b>วันและเวลาที่ให้บริการ : </b> <br/>` +
+              worktimeperson.worktime
+                .map((item) => `<div class="row"><div class="col-4">วัน${item.day}</div><div class="col-6 text-left">${item.time}</div></div>`)
+                .join("") +
+              "</div>" +
+              "</div>",
+            showConfirmButton: false,
+            showCloseButton: true,
+          });
+        });
+    },
     async fetchService() {
       await axios
         .get(`${process.env.VUE_APP_BACKEND_URL}/service`, {
@@ -244,20 +267,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dropdown-content-location {
-  background-color: #5e65a2;
-  color: white;
-  border-radius: 20px;
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  display: none;
-  position: fixed;
-  z-index: 1;
-}
-.dropdown:hover .dropdown-content-location {
-  display: block;
-}
-</style>

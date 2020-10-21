@@ -1,8 +1,16 @@
 <template>
   <div class="col-12">
-    <form id="search" class="d-flex justify-content-end pb-3" v-if="dataBookingTable.length != 0">
-      <label class="col-1 col-form-label">Search:</label>
-      <input name="query" v-model="searchQuery" class="form-control col-3" />
+    <form
+      id="search"
+      class="d-flex justify-content-end pb-3"
+      v-if="dataBookingTable.length != 0"
+    >
+      <label class="col-6 col-md-1 col-form-label">Search:</label>
+      <input
+        name="query"
+        v-model="searchQuery"
+        class="col-6 col-md-3 form-control"
+      />
     </form>
     <div class="col-12 mt-3 p-3 div-card" v-if="dataBookingTable.length == 0">
       <h5>ไม่มีผู้นัดหมาย</h5>
@@ -17,13 +25,15 @@
     >
       <template slot="ชื่อ" scope="props">
         <div class="dropdown">
-          <a class="ui inverted button">{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a>
+          <a class="ui inverted button"
+            >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</a
+          >
           <div class="dropdown-content">
             <div class="row">
               <div class="col-12">
-                <span
-                  class="text-center font-weight-bold"
-                >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</span>
+                <span class="text-center text-white font-weight-bold"
+                  >{{ props.entry.ชื่อ }} {{ props.entry.นามสกุล }}</span
+                >
                 <div class="row mt-4 text-left">
                   <div class="col-1">
                     <i class="fas fa-phone-alt"></i>
@@ -32,26 +42,38 @@
                   <div class="col-1">
                     <i class="fas fa-envelope"></i>
                   </div>
-                  <div class="col-11" style="word-break:break-word;">{{ props.entry.email }}</div>
+                  <div class="col-11" style="word-break: break-word">
+                    {{ props.entry.email }}
+                  </div>
                 </div>
-                <hr style="border: 1px solid white; width: 100px;" />
+                <hr style="border: 1px solid white; width: 100px" />
                 <div class="row text-left" v-show="props.entry.symptom">
                   <div class="col-12">
-                    <span class="font-weight-bold" style="color:#99A3FF;">อาการเบื้องต้น</span>
+                    <span class="font-weight-bold" style="color: #99a3ff"
+                      >อาการเบื้องต้น</span
+                    >
                   </div>
                   <div class="col-12">
-                    <span style="font-size:14px; word-break:break-word;">{{props.entry.symptom}}</span>
+                    <span style="font-size: 14px; word-break: break-word">{{
+                      props.entry.symptom
+                    }}</span>
                   </div>
                 </div>
                 <router-link
                   target="_blank"
-                  :to="'/admin/dashboard/history/'+props.entry.account_id"
+                  :to="'/admin/dashboard/history/' + props.entry.account_id"
                 >
                   <div class="row d-flex justify-content-center mt-4">
                     <button
                       class="btn btn-primary btnBlock btnConfirm w-75"
-                      style="font-size: 14px; box-shadow: none; webkit-box-shadow: none;"
-                    >ดูประวัติการเข้าใช้บริการ</button>
+                      style="
+                        font-size: 14px;
+                        box-shadow: none;
+                        webkit-box-shadow: none;
+                      "
+                    >
+                      ดูประวัติการเข้าใช้บริการ
+                    </button>
                   </div>
                 </router-link>
               </div>
@@ -74,10 +96,14 @@
           type="button"
           class="btn"
         >
-          <i class="fas fa-pen edit" style="color: #ffc107;"></i>
+          <i class="fas fa-pen edit" style="color: #ffc107"></i>
         </button>
-        <button @click="deleteBooking(props.entry.booking_id)" type="button" class="btn">
-          <i class="fas fa-trash" style="color: #e34724;"></i>
+        <button
+          @click="deleteBooking(props.entry.booking_id)"
+          type="button"
+          class="btn"
+        >
+          <i class="fas fa-trash" style="color: #e34724"></i>
         </button>
         <button
           @click="
@@ -87,14 +113,14 @@
                 lname: props.entry.นามสกุล,
                 email: props.entry.email,
                 tel: props.entry.telephone,
-                symptom: props.entry.symptom
+                symptom: props.entry.symptom,
               })
             )
           "
           type="button"
           class="btn"
         >
-          <i class="fas fa-ellipsis-h" style="color: #7d7d7d;"></i>
+          <i class="fas fa-ellipsis-h" style="color: #7d7d7d"></i>
         </button>
       </template>
     </data-table>
@@ -116,7 +142,6 @@ export default {
 
   methods: {
     viewBooking(user) {
-      console.log(user);
       this.$swal({
         width: "678px",
         html:
