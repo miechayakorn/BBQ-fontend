@@ -4,7 +4,7 @@
       <div class="row" v-if="dataTimes == null">
         <div class="col-12">
           <div class="alert alert-warning text-center" role="alert">
-            กรุณาเลือกวันให้เรียบร้อย
+            กรุณาเลือกแพทย์ให้เรียบร้อย
           </div>
         </div>
       </div>

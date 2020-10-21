@@ -93,7 +93,9 @@
               </option>
             </select>
             <div v-if="dataFetch.dataDocter.length == 0">
-              <div class="alert p-3 alert-warning">ไม่พบแพทย์</div>
+              <div class="alert p-3 alert-warning">
+                กรุณาเลือกวันให้เรียบร้อย
+              </div>
             </div>
           </div>
         </div>
@@ -143,11 +145,15 @@
         <div class="col-12">
           <div class="row justify-content-center">
             <div class="div-patient text-left">
+              <logoStaff
+                v-if="!this.selectedDocter.doctor_profile_picture"
+              />
               <img
+                v-if="this.selectedDocter.doctor_profile_picture"
                 class="rounded-circle"
                 width="56"
                 height="56"
-                :src="this.$store.state.user.profile_picture"
+                :src="this.selectedDocter.doctor_profile_picture"
               />
               <div class="float-right title-patient">บัตรนัดผู้ป่วย</div>
               <div class="row mt-3">
@@ -192,6 +198,7 @@ import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
 import logoHeader from "@/components/svg/logoHeader.vue";
+import logoStaff from "@/components/svg/logoStaff.vue";
 import { waiting, errorSWAL } from "@/utility/swal.js";
 import { VclFacebook, VclList } from "vue-content-loading";
 
@@ -229,6 +236,7 @@ export default {
   },
   components: {
     logoEmotion,
+    logoStaff,
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
@@ -312,6 +320,13 @@ export default {
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
+            if (this.dataFetch.dataDates.length == 0) {
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: "ไม่พบวันให้บริการ",
+              });
+            }
           });
       }
     },
