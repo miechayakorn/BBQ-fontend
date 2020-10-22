@@ -24,7 +24,7 @@
                   <option
                     v-for="(data, index) in dataFetch.dataTypes"
                     :key="index"
-                    :value="data.type_id"
+                    :value="data.type_id + '-' + data.doctor_id"
                   >
                     {{ data.type_name }}
                   </option>
@@ -33,7 +33,9 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
-                <label for="InputDate">เลือกวันที่</label>
+                <div>
+                  <label for="InputDate">เลือกวันที่</label>
+                </div>
                 <v-date-picker
                   locale="th"
                   color="indigo"
@@ -152,6 +154,7 @@ export default {
         type_id: "",
         date: "",
         slot_time: [],
+        doctor_id: "",
       },
     };
   },
@@ -186,13 +189,16 @@ export default {
           this.dataPrepareSend.slot_time = [];
         }
         this.loading = true;
+        const dataArr = this.dataPrepareSend.type_id.split("-");
+        this.dataPrepareSend.doctor_id = dataArr[1];
         try {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
               {
-                type_id: this.dataPrepareSend.type_id,
+                type_id: this.dataPrepareSend.type_id.split("-")[0],
                 date: formatDate.format(this.dataPrepareSend.date),
+                doctor_id: this.dataPrepareSend.doctor_id,
               },
               {
                 headers: {
@@ -253,9 +259,10 @@ export default {
                 `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/savetimeslot`,
                 {
                   // Use data from fetch to sendSubmit
-                  type_id: this.dataFetch.type_id,
+                  type_id: this.dataFetch.type_id.split("-")[0],
                   date: formatDate.format(this.dataFetch.date),
                   time_slot: this.dataPrepareSend.slot_time,
+                  doctor_id: this.dataPrepareSend.doctor_id,
                 },
                 {
                   headers: {
