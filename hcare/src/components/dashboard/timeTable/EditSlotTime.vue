@@ -24,7 +24,7 @@
                   <option
                     v-for="(type, index) in dataFetch.dataTypes"
                     :key="index"
-                    :value="type.type_id"
+                    :value="type.type_id + '-' + type.doctor_id"
                   >
                     {{ type.type_name }}
                   </option>
@@ -33,7 +33,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
-                <label for="InputName">เลือกวันที่</label>
+                <div><label for="InputName">เลือกวันที่</label></div>
                 <v-date-picker
                   locale="th"
                   color="indigo"
@@ -319,8 +319,9 @@ export default {
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
               {
-                type_id: this.dataPrepareSend.type_id,
+                type_id: this.dataPrepareSend.type_id.split("-")[0],
                 date: formatDate.format(this.dataPrepareSend.date),
+                doctor_id: this.dataPrepareSend.type_id.split("-")[1],
               },
               {
                 headers: {
