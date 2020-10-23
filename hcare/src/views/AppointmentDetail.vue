@@ -34,7 +34,7 @@
             </div>
             <div
               class="row"
-              v-show="dataFetch.link_meeting == null && checkDateBeforeDue()"
+              v-show="dataFetch.link_meeting == null && dateCanCancel"
             >
               <div class="col-12 text-danger">
                 <span class="font-weight-bold text-danger">
@@ -42,6 +42,11 @@
                   <br />
                 </span>
                 <span>**กดยกเลิกนัดได้ก่อนถึงวันนัด 3 วัน</span>
+                <p>
+                  ( ภายในวันที่
+                  {{ dateCanCancel }}
+                  เวลา 23:59 )
+                </p>
               </div>
             </div>
             <div class="row mt-5" style="text-align: center">
@@ -58,7 +63,7 @@
                 </a>
               </div>
               <div
-                v-show="dataFetch.link_meeting == null && checkDateBeforeDue()"
+                v-show="dataFetch.link_meeting == null && dateCanCancel"
                 class="col-12"
               >
                 <button
@@ -96,6 +101,7 @@ export default {
   data() {
     return {
       loading: false,
+      dateCanCancel: null,
       dataFetch: {
         appointmentCard: [
           {
@@ -148,6 +154,7 @@ export default {
           this.dataFetch.doctor_id = res.data.doctor_id;
           this.dataFetch.doctor_firstname = res.data.doctor_firstname;
           this.dataFetch.doctor_lastname = res.data.doctor_lastname;
+          this.checkDateBeforeDue();
         } else {
           this.$router.push("/");
         }
@@ -161,14 +168,24 @@ export default {
   },
   methods: {
     checkDateBeforeDue() {
-      return (
+      let result =
         Math.round(
           Math.abs(
             new Date() - new Date(this.dataFetch.appointmentCard[0].date)
           ) /
             (1000 * 3600 * 24)
-        ) >= 3
-      );
+        ) >= 3;
+      if (result) {
+        let d = new Date(this.dataFetch.appointmentCard[0].date);
+        d.setDate(d.getDate() - 4);
+        d.setHours(23, 59, 59, 999);
+        this.dateCanCancel = d.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+      return result;
     },
     cancelAppointment() {
       this.$swal({
