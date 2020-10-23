@@ -131,7 +131,6 @@ export default {
   },
   methods: {
     async fetchWorkTimePerson(type_id, account_id) {
-      console.log(type_id, account_id);
       await axios
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/service/worktimeperson?account_id=${account_id}&type_id=${type_id}`,
