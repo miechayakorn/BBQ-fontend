@@ -10,7 +10,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconNote2 :color="'white'" />
                 <p style="color: #ffffff; margin-top: 8px">ทำนัด</p>
               </div>
@@ -20,7 +23,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/appointment">
             <div class="btnHomeCalendar m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconCalendar2 />
                 <p style="color: #ffffff; margin-top: 8px">นัดของฉัน</p>
               </div>
@@ -30,7 +36,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/schedule">
             <div class="btnHomeSchedule m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconClock2 />
                 <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
               </div>
@@ -40,7 +49,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/history">
             <div class="btnHomeHistory m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconMedicine />
                 <p style="color: #ffffff; margin-top: 8px">ประวัตินัดหมาย</p>
               </div>
@@ -125,6 +137,32 @@
             </div>
           </div>
         </div>
+
+        <hr style="width: 95%; border: 2px solid #f1efef" />
+
+        <div
+          class="col-12 mt-2"
+          v-for="(item, index) in announcements"
+          :key="index"
+        >
+          <div class="card btnHome" style="max-width: 500px">
+            <div class="row no-gutters">
+              <div class="col-12 mt-3"><iconAnnouncement /></div>
+              <div class="col-12 mt-3">
+                <h5 style="font-weight: bold; color: #5e65a1">
+                  ประกาศบริการ : {{ item.type_name }}
+                </h5>
+                <div class="d-flex justify-content-center">
+                  <div class="col-8">
+                    <p>
+                      <small>{{ item.announcement }}</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -137,6 +175,7 @@ import iconNote2 from "@/components/svg/icon/iconNote-2.vue";
 import iconMedicine from "@/components/svg/icon/iconMedicine.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
 import iconCalendar2 from "@/components/svg/icon/iconCalendar-2.vue";
+import iconAnnouncement from "@/components/svg/icon/iconAnnouncement.vue";
 import woman from "@/components/svg/woman.vue";
 import { VclFacebook, VclList } from "vue-content-loading";
 
@@ -151,6 +190,7 @@ export default {
     woman,
     VclFacebook,
     VclList,
+    iconAnnouncement,
   },
   data() {
     return {
@@ -170,6 +210,7 @@ export default {
         time_in: "",
       },
       checkAppointment: false,
+      announcements: [],
     };
   },
   async mounted() {
@@ -186,7 +227,19 @@ export default {
           this.dataFetch = res.data[0];
         });
     }
+    this.fetchAnnouncements();
     this.loading = false;
+  },
+  methods: {
+    async fetchAnnouncements() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/announcement`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        })
+        .then((res) => {
+          this.announcements = res.data;
+        });
+    },
   },
 };
 </script>
