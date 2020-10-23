@@ -54,7 +54,7 @@
                   </button>
                 </a>
               </div>
-              <div class="col-12">
+              <div v-show="dataFetch.link_meeting == null" class="col-12">
                 <button
                   class="btn btnBlock btnCancel fixed-button mb-2"
                   @click="cancelAppointment"
