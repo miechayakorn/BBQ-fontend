@@ -66,9 +66,15 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div v-if="this.$store.state.token == null" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">
+                <h6 class="card-title text-center title-card-app">
                   กรุณา เข้าสู่ระบบ
                 </h6>
+                  <router-link
+                    to="/login"
+                    class="btn btn-primary btn-comming link-meeting text-white"
+                  >
+                    <span class="px-4">Login</span>
+                  </router-link>
               </div>
               <div
                 v-if="this.$store.state.token && checkAppointment"
@@ -94,18 +100,14 @@
                   <p
                     class="text-md-center text-left"
                     style="
-                      font-style: normal;
-                      font-weight: normal;
                       font-size: 12px;
                       line-height: 18px;
                       color: #444444;
                     "
                   >
                     <span
-                      class="text-primary"
+                      class="text-primary font-weight-bold"
                       style="
-                        font-style: normal;
-                        font-weight: bold;
                         font-size: 14px;
                         line-height: 21px;
                         color: #99a3ff;
@@ -121,43 +123,35 @@
                   <a
                     v-if="dataFetch.link_meeting"
                     :href="dataFetch.link_meeting"
-                    class="btn btn-primary btn-comming"
-                    style="
-                      margin-bottom: 16px;
-                      font-style: normal;
-                      font-weight: bold;
-                      font-size: 12px;
-                      line-height: 18px;
-                    "
+                    class="btn btn-primary btn-comming link-meeting"
                   >
-                    <span class="px-4">Meeting</span>
+                    <span class="px-4">Join Meeting</span>
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <hr style="width: 95%; border: 2px solid #f1efef" />
-
+        <hr
+          v-if="announcements.length != 0"
+          style="width: 85%; border: 2px solid #f1efef"
+        />
         <div
-          class="col-12 mt-2"
+          class="col-12 col-md-6 mt-2"
           v-for="(item, index) in announcements"
           :key="index"
         >
-          <div class="card btnHome" style="max-width: 500px">
-            <div class="row no-gutters">
+          <div class="card btnHome">
+            <div class="row">
               <div class="col-12 mt-3"><iconAnnouncement /></div>
               <div class="col-12 mt-3">
                 <h5 style="font-weight: bold; color: #5e65a1">
                   ประกาศบริการ : {{ item.type_name }}
                 </h5>
-                <div class="d-flex justify-content-center">
-                  <div class="col-8">
-                    <p>
-                      <small>{{ item.announcement }}</small>
-                    </p>
-                  </div>
+                <div class="col-12 text-center">
+                  <p>
+                    <small>{{ item.announcement }}</small>
+                  </p>
                 </div>
               </div>
             </div>
@@ -247,6 +241,7 @@ export default {
 .home-screen {
   padding-left: 24px;
   padding-right: 24px;
+  margin-bottom: 32px;
 }
 .btnHome {
   background-color: #ffffff;
@@ -287,5 +282,12 @@ export default {
   font-weight: bold;
   font-size: 14px;
   line-height: 21px;
+}
+.link-meeting {
+  margin-bottom: 16px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
 }
 </style>

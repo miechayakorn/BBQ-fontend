@@ -39,10 +39,3 @@
     </defs>
   </svg>
 </template>
-<script>
-export default {
-  props: {
-    color: String,
-  },
-};
-</script>
