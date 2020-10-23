@@ -32,6 +32,18 @@
                 <span>ควรเข้า Join Meeting ก่อนเวลาประมาณ 5 นาที</span>
               </div>
             </div>
+            <div
+              class="row"
+              v-show="dataFetch.link_meeting == null && checkDateBeforeDue()"
+            >
+              <div class="col-12 text-danger">
+                <span class="font-weight-bold text-danger">
+                  โปรดอ่าน
+                  <br />
+                </span>
+                <span>**กดยกเลิกนัดได้ก่อนถึงวันนัด 3 วัน</span>
+              </div>
+            </div>
             <div class="row mt-5" style="text-align: center">
               <div class="col-12" v-show="dataFetch.link_meeting != null">
                 <a :href="dataFetch.link_meeting">
@@ -43,18 +55,12 @@
                       >Join Meeting</span
                     >
                   </button>
-                  <button
-                    v-if="dataFetch.link_meeting == null"
-                    class="btn btn-secondary btnBlock btnCancel fixed-button mb-2 disabled"
-                    :disabled="true"
-                  >
-                    <span style="font-weight: 900; color: white"
-                      >ท่านยังไม่ได้รับลิงค์</span
-                    >
-                  </button>
                 </a>
               </div>
-              <div v-show="dataFetch.link_meeting == null" class="col-12">
+              <div
+                v-show="dataFetch.link_meeting == null && checkDateBeforeDue()"
+                class="col-12"
+              >
                 <button
                   class="btn btnBlock btnCancel fixed-button mb-2"
                   @click="cancelAppointment"
@@ -154,6 +160,16 @@ export default {
     this.loading = false;
   },
   methods: {
+    checkDateBeforeDue() {
+      return (
+        Math.round(
+          Math.abs(
+            new Date() - new Date(this.dataFetch.appointmentCard[0].date)
+          ) /
+            (1000 * 3600 * 24)
+        ) >= 3
+      );
+    },
     cancelAppointment() {
       this.$swal({
         title: "คำเตือน",
