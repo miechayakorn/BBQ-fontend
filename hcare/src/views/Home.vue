@@ -10,7 +10,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconNote2 :color="'white'" />
                 <p style="color: #ffffff; margin-top: 8px">ทำนัด</p>
               </div>
@@ -20,7 +23,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/appointment">
             <div class="btnHomeCalendar m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconCalendar2 />
                 <p style="color: #ffffff; margin-top: 8px">นัดของฉัน</p>
               </div>
@@ -30,7 +36,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/schedule">
             <div class="btnHomeSchedule m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconClock2 />
                 <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
               </div>
@@ -40,7 +49,10 @@
         <div class="col-6 col-md-3 p-1">
           <router-link to="/history">
             <div class="btnHomeHistory m-1">
-              <div class="text-center" style="margin-top: 32px; margin-bottom: 32px">
+              <div
+                class="text-center"
+                style="margin-top: 32px; margin-bottom: 32px"
+              >
                 <iconMedicine />
                 <p style="color: #ffffff; margin-top: 8px">ประวัตินัดหมาย</p>
               </div>
@@ -54,9 +66,15 @@
                 <woman class="card-img-bottom h-100" />
               </div>
               <div v-if="this.$store.state.token == null" class="col-7">
-                <h6 class="card-title text-md-center text-left title-card-app">
+                <h6 class="card-title text-center title-card-app">
                   กรุณา เข้าสู่ระบบ
                 </h6>
+                  <router-link
+                    to="/login"
+                    class="btn btn-primary btn-comming link-meeting text-white"
+                  >
+                    <span class="px-4">Login</span>
+                  </router-link>
               </div>
               <div
                 v-if="this.$store.state.token && checkAppointment"
@@ -82,18 +100,14 @@
                   <p
                     class="text-md-center text-left"
                     style="
-                      font-style: normal;
-                      font-weight: normal;
                       font-size: 12px;
                       line-height: 18px;
                       color: #444444;
                     "
                   >
                     <span
-                      class="text-primary"
+                      class="text-primary font-weight-bold"
                       style="
-                        font-style: normal;
-                        font-weight: bold;
                         font-size: 14px;
                         line-height: 21px;
                         color: #99a3ff;
@@ -109,17 +123,35 @@
                   <a
                     v-if="dataFetch.link_meeting"
                     :href="dataFetch.link_meeting"
-                    class="btn btn-primary btn-comming"
-                    style="
-                      margin-bottom: 16px;
-                      font-style: normal;
-                      font-weight: bold;
-                      font-size: 12px;
-                      line-height: 18px;
-                    "
+                    class="btn btn-primary btn-comming link-meeting"
                   >
-                    <span class="px-4">Meeting</span>
+                    <span class="px-4">Join Meeting</span>
                   </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          v-if="announcements.length != 0"
+          style="width: 85%; border: 2px solid #f1efef"
+        />
+        <div
+          class="col-12 col-md-6 mt-2"
+          v-for="(item, index) in announcements"
+          :key="index"
+        >
+          <div class="card btnHome">
+            <div class="row">
+              <div class="col-12 mt-3"><iconAnnouncement /></div>
+              <div class="col-12 mt-3">
+                <h5 style="font-weight: bold; color: #5e65a1">
+                  ประกาศบริการ : {{ item.type_name }}
+                </h5>
+                <div class="col-12 text-center">
+                  <p>
+                    <small>{{ item.announcement }}</small>
+                  </p>
                 </div>
               </div>
             </div>
@@ -137,6 +169,7 @@ import iconNote2 from "@/components/svg/icon/iconNote-2.vue";
 import iconMedicine from "@/components/svg/icon/iconMedicine.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
 import iconCalendar2 from "@/components/svg/icon/iconCalendar-2.vue";
+import iconAnnouncement from "@/components/svg/icon/iconAnnouncement.vue";
 import woman from "@/components/svg/woman.vue";
 import { VclFacebook, VclList } from "vue-content-loading";
 
@@ -151,6 +184,7 @@ export default {
     woman,
     VclFacebook,
     VclList,
+    iconAnnouncement,
   },
   data() {
     return {
@@ -170,6 +204,7 @@ export default {
         time_in: "",
       },
       checkAppointment: false,
+      announcements: [],
     };
   },
   async mounted() {
@@ -186,7 +221,19 @@ export default {
           this.dataFetch = res.data[0];
         });
     }
+    this.fetchAnnouncements();
     this.loading = false;
+  },
+  methods: {
+    async fetchAnnouncements() {
+      await axios
+        .get(`${process.env.VUE_APP_BACKEND_URL}/announcement`, {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        })
+        .then((res) => {
+          this.announcements = res.data;
+        });
+    },
   },
 };
 </script>
@@ -194,6 +241,7 @@ export default {
 .home-screen {
   padding-left: 24px;
   padding-right: 24px;
+  margin-bottom: 32px;
 }
 .btnHome {
   background-color: #ffffff;
@@ -234,5 +282,12 @@ export default {
   font-weight: bold;
   font-size: 14px;
   line-height: 21px;
+}
+.link-meeting {
+  margin-bottom: 16px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
 }
 </style>

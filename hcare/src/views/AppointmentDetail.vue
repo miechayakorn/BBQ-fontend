@@ -32,6 +32,23 @@
                 <span>ควรเข้า Join Meeting ก่อนเวลาประมาณ 5 นาที</span>
               </div>
             </div>
+            <div
+              class="row"
+              v-show="dataFetch.link_meeting == null && dateCanCancel"
+            >
+              <div class="col-12 text-danger">
+                <span class="font-weight-bold text-danger">
+                  โปรดอ่าน
+                  <br />
+                </span>
+                <span>**กดยกเลิกนัดได้ก่อนถึงวันนัด 3 วัน</span>
+                <p>
+                  ( ภายในวันที่
+                  {{ dateCanCancel }}
+                  เวลา 23:59 )
+                </p>
+              </div>
+            </div>
             <div class="row mt-5" style="text-align: center">
               <div class="col-12" v-show="dataFetch.link_meeting != null">
                 <a :href="dataFetch.link_meeting">
@@ -43,18 +60,12 @@
                       >Join Meeting</span
                     >
                   </button>
-                  <button
-                    v-if="dataFetch.link_meeting == null"
-                    class="btn btn-secondary btnBlock btnCancel fixed-button mb-2 disabled"
-                    :disabled="true"
-                  >
-                    <span style="font-weight: 900; color: white"
-                      >ท่านยังไม่ได้รับลิงค์</span
-                    >
-                  </button>
                 </a>
               </div>
-              <div class="col-12">
+              <div
+                v-show="dataFetch.link_meeting == null && dateCanCancel"
+                class="col-12"
+              >
                 <button
                   class="btn btnBlock btnCancel fixed-button mb-2"
                   @click="cancelAppointment"
@@ -90,6 +101,7 @@ export default {
   data() {
     return {
       loading: false,
+      dateCanCancel: null,
       dataFetch: {
         appointmentCard: [
           {
@@ -142,6 +154,7 @@ export default {
           this.dataFetch.doctor_id = res.data.doctor_id;
           this.dataFetch.doctor_firstname = res.data.doctor_firstname;
           this.dataFetch.doctor_lastname = res.data.doctor_lastname;
+          this.checkDateBeforeDue();
         } else {
           this.$router.push("/");
         }
@@ -154,6 +167,26 @@ export default {
     this.loading = false;
   },
   methods: {
+    checkDateBeforeDue() {
+      let result =
+        Math.round(
+          Math.abs(
+            new Date() - new Date(this.dataFetch.appointmentCard[0].date)
+          ) /
+            (1000 * 3600 * 24)
+        ) >= 3;
+      if (result) {
+        let d = new Date(this.dataFetch.appointmentCard[0].date);
+        d.setDate(d.getDate() - 4);
+        d.setHours(23, 59, 59, 999);
+        this.dateCanCancel = d.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+      return result;
+    },
     cancelAppointment() {
       this.$swal({
         title: "คำเตือน",

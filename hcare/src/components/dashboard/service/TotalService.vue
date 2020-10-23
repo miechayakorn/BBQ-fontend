@@ -131,7 +131,6 @@ export default {
   },
   methods: {
     async fetchWorkTimePerson(type_id, account_id) {
-      console.log(type_id, account_id);
       await axios
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/service/worktimeperson?account_id=${account_id}&type_id=${type_id}`,
@@ -150,7 +149,10 @@ export default {
               '<div class="mt-2">' +
               `<b>วันและเวลาที่ให้บริการ : </b> <br/>` +
               worktimeperson.worktime
-                .map((item) => `<div class="row"><div class="col-4">วัน${item.day}</div><div class="col-6 text-left">${item.time}</div></div>`)
+                .map(
+                  (item) =>
+                    `<div class="row"><div class="col-4">วัน${item.day}</div><div class="col-6 text-left">${item.time}</div></div>`
+                )
                 .join("") +
               "</div>" +
               "</div>",
@@ -169,62 +171,120 @@ export default {
         });
     },
     statusService(type_name, type_id, status) {
-      this.$swal({
-        icon: "warning",
-        title: status ? "เปิดบริการ " + type_name : "ปิดบริการ " + type_name,
-        showCloseButton: true,
-        confirmButtonText: "ยืนยัน",
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-          axios
-            .patch(
-              `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
-              {
-                type_id: type_id,
-                status: status,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
+      if (status == false) {
+        this.$swal({
+          html: `<h3>กรุณากรอกเหตุผลการปิดบริการ ${type_name} </h3> <span> *เพื่อประกาศให้ผู้เข้าใช้บริการทราบ </span> <textarea id="announcement_text" class="swal2-input" style="height: 122px;"> </textarea>`,
+          inputAttributes: {
+            autocapitalize: "off",
+          },
+          width: "678px",
+          showCloseButton: true,
+          confirmButtonText: "ยืนยัน",
+          confirmButtonColor: "#99A3FF",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            let announcement = document.getElementById("announcement_text")
+              .value;
+            axios
+              .patch(
+                `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
+                {
+                  type_id: type_id,
+                  status: status,
+                  announcement: announcement,
                 },
-              }
-            )
-            .then((res) => {
-              if (res.status == 201) {
-                this.$swal({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                    toast.addEventListener(
-                      "mouseleave",
-                      this.$swal.resumeTimer
-                    );
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
                   },
-                  timer: 3000,
-                  icon: "success",
-                  title: "บันทึกสำเร็จ",
-                });
-                this.fetchService();
-              } else {
+                }
+              )
+              .then((res) => {
+                if (res.status == 201) {
+                  this.$swal({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener(
+                        "mouseenter",
+                        this.$swal.stopTimer
+                      );
+                      toast.addEventListener(
+                        "mouseleave",
+                        this.$swal.resumeTimer
+                      );
+                    },
+                    timer: 3000,
+                    icon: "success",
+                    title: "บันทึกสำเร็จ",
+                  });
+                  this.fetchService();
+                } else {
+                  console.log("===== Backend-error ======");
+                  console.error(res.data);
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data,
+                  });
+                }
+              })
+              .catch((res) => {
                 console.log("===== Backend-error ======");
-                console.error(res.data);
-                this.$swal({
-                  icon: "warning",
-                  title: "คำเตือน",
-                  text: res.data,
-                });
-              }
-            })
-            .catch((res) => {
+                console.error(res);
+                this.$swal({ ...errorSWAL });
+              });
+          },
+        });
+      } else {
+        axios
+          .patch(
+            `${process.env.VUE_APP_BACKEND_URL}/service/updatestatus`,
+            {
+              type_id: type_id,
+              status: status,
+              announcement: null,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status == 201) {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                },
+                timer: 3000,
+                icon: "success",
+                title: "บันทึกสำเร็จ",
+              });
+              this.fetchService();
+            } else {
               console.log("===== Backend-error ======");
-              console.error(res);
-              this.$swal({ ...errorSWAL });
-            });
-        },
-      });
+              console.error(res.data);
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: res.data,
+              });
+            }
+          })
+          .catch((res) => {
+            console.log("===== Backend-error ======");
+            console.error(res);
+            this.$swal({ ...errorSWAL });
+          });
+      }
     },
     async removeService(type_id, type_name) {
       this.$swal({
