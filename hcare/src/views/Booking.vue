@@ -345,7 +345,9 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDocter = res.data;
+          if(this.dataFetch.dataDocter.length = 1){
           this.selectedDocter = res.data[0];
+          }
         });
     },
     async fetchTime() {

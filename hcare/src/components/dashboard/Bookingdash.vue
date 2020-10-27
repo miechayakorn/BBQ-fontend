@@ -3,14 +3,38 @@
     <div class="form-group text-left" style="margin-top: 48px">
       <div class="col-12">
         <label for="InputEmail">อีเมลผู้ป่วย</label>
-        <input
-          type="email"
-          id="InputEmail"
-          v-model="email"
-          class="form-control"
-          placeholder="example@kmutt.ac.th"
-          required
-        />
+        <div>
+          <VueBootstrapTypeahead
+            class="mb-2"
+            v-if="selectedUser == null"
+            v-model="query"
+            :data="users"
+            :serializer="(item) => item.email"
+            @hit="selectedUser = $event"
+            placeholder="ค้นหาอีเมลผู้ป่วยในระบบ"
+          />
+          <select
+            v-else-if="selectedUser"
+            class="form-control mb-2 col-12 col-md-12"
+            disabled
+          >
+            <option value disabled selected>{{ selectedUser.email }}</option>
+          </select>
+          <button
+            @click="selectedUser = null"
+            class="btn div-showTag text-white text-left m-1"
+            v-if="selectedUser"
+          >
+            <span class="mt-4 mb-4 p-2"> {{ selectedUser.name }}</span><i class="fas fa-times-circle"></i>
+          </button>
+
+          <div
+            v-else-if="users.length == 0 && query.length >= 4"
+            class="alert p-3 alert-warning"
+          >
+            ไม่พบอีเมลในระบบ กรุณาสมัครสมาชิกก่อนใช้งาน
+          </div>
+        </div>
       </div>
       <div class="col-12 mt-3">
         <label>เลือกสถานที่</label>
@@ -97,6 +121,7 @@
 <script>
 import axios from "axios";
 import { errorSWAL } from "@/utility/swal.js";
+import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
@@ -105,6 +130,9 @@ import man2 from "@/components/svg/man2.vue";
 export default {
   data() {
     return {
+      query: "",
+      selectedUser: null,
+      users: [],
       location_id: 1,
       type_id: "",
       email: null,
@@ -295,6 +323,7 @@ export default {
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
+    VueBootstrapTypeahead,
   },
   watch: {
     location_id: {
@@ -311,24 +340,32 @@ export default {
         this.fetchDate(val);
       },
     },
+    query(newQuery) {
+      if (newQuery.length >= 4) {
+        axios
+          .get(`${process.env.VUE_APP_BACKEND_URL}/search/email?q=${newQuery}`)
+          .then((res) => {
+            this.users = res.data;
+          });
+      }
+    },
   },
   async mounted() {
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
         this.dataFetch.dataLocation = res.data;
+        this.location_id = this.dataFetch.dataLocation[0].location_id;
       });
     //เรียกข้อมูล Default
     //Type
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
-      })
-      .then((res) => {
-        this.dataFetch.dataTypes = res.data;
-      });
   },
 };
 </script>
+<style scoped>
+.div-showTag {
+  color: white;
+  background-color: #5e65a1;
+  border-radius: 20px;
+}
+</style>
