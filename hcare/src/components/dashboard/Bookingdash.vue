@@ -10,7 +10,7 @@
         <label class="font-weight-bold">อีเมลผู้ป่วย</label>
         <div>
           <VueBootstrapTypeahead
-            class="mb-2"
+            inputClass="mb-2 select-date"
             v-if="selectedUser == null"
             v-model="query"
             :data="users"
@@ -20,7 +20,7 @@
           />
           <select
             v-else-if="selectedUser"
-            class="form-control mb-2 col-12 col-md-12"
+            class="form-control select-date mb-2 col-12 col-md-12"
             disabled
           >
             <option value disabled selected>{{ selectedUser.email }}</option>
@@ -69,31 +69,23 @@
       </div>
       <div class="form-group text-left">
         <label class="font-weight-bold">เลือกบริการ</label>
-        <div class="row justify-content-center">
-          <div
-            class="btnType btn-outline-primary active btnBooking"
-            v-if="this.$store.state.booking.serviceDataType.type_id"
+        <select
+          class="form-control select-date"
+          style="cursor: pointer"
+          v-model="selectedService"
+          id="selectDate"
+        >
+          <option value="" disabled selected="selected">
+            กรุณาเลือกบริการ
+          </option>
+          <option
+            v-for="(data, index) in dataFetch.dataTypes"
+            :key="index"
+            :value="data"
           >
-            <div class="text-center" style="margin-top: 32px">
-              <logoEmotion :color="'white'" />
-              <p style="color: #ffffff; margin-top: 8px">
-                {{ this.$store.state.booking.serviceDataType.type_name }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <router-link to="/booking/service">
-          <div
-            v-if="this.$store.state.booking.serviceDataType.type_id"
-            class="div-service div-service-edit text-center"
-            style="cursor: pointer"
-          >
-            <span>เปลี่ยนบริการ</span>
-          </div>
-          <div v-else class="div-service text-center" style="cursor: pointer">
-            <span>+ เลือกบริการ</span>
-          </div>
-        </router-link>
+            {{ data.type_name }}
+          </option>
+        </select>
       </div>
       <div class="row">
         <div class="form-group text-left w-100">
@@ -215,6 +207,7 @@ export default {
       locationSelected: null,
       selectedDate: "",
       selectedDocter: "",
+      selectedService: "",
 
       //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
@@ -223,6 +216,7 @@ export default {
       },
       //ข้อมูลที่ได้จาก Backend
       dataFetch: {
+        dataTypes: [],
         dataDates: [],
         dataDocter: [],
         dataTimes: null,
@@ -256,17 +250,8 @@ export default {
       .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
       .then((res) => {
         this.dataFetch.dataLocation = res.data;
+        this.locationSelected = this.dataFetch.dataLocation[0];
       });
-
-    if (this.$store.state.booking.location.location_id) {
-      this.locationSelected = this.$store.state.booking.location;
-    } else {
-      this.locationSelected = this.dataFetch.dataLocation[0];
-    }
-
-    if (this.$store.state.booking.serviceDataType.type_id) {
-      this.fetchDate(this.$store.state.booking.serviceDataType);
-    }
 
     this.loading = false;
   },
@@ -276,16 +261,13 @@ export default {
         this.dataFetch.dataDates = [];
         this.dataFetch.dataTimes = null;
 
-        if (
-          oldCal != null &&
-          this.$store.state.booking.serviceDataType.type_id
-        ) {
-          this.$store.state.booking.serviceDataType = {
-            type_id: "",
-            type_name: "",
-          };
-        }
-        this.$store.state.booking.location = val;
+        await axios
+          .get(
+            `${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val.location_id}`
+          )
+          .then((res) => {
+            this.dataFetch.dataTypes = res.data;
+          });
       },
     },
     selectedDocter: {
@@ -293,6 +275,11 @@ export default {
         if (this.selectedDocter) {
           this.fetchTime();
         }
+      },
+    },
+    selectedService: {
+      handler: async function (val, oldCal) {
+        this.fetchDate(val);
       },
     },
     query(newQuery) {
@@ -434,20 +421,11 @@ export default {
                   .then((res) => {
                     if (res.status == 200) {
                       this.$swal({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
                         icon: "success",
                         title: "การจองสำเร็จ",
+                      }).then((result) => {
+                        this.$router.go();
                       });
-                      this.clearData();
-                      this.locationSelected = this.dataFetch.dataLocation[0];
-                      this.selectedDate = "";
-                      this.dataPrepareSend.symptom = null;
-                      this.query = "";
-                      this.selectedUser = null;
-                      this.selectedDocter = "";
                     } else {
                       this.$swal({
                         icon: "warning",
@@ -489,7 +467,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 input[type="radio"] {
   width: 16px;
   height: 16px;
@@ -514,18 +492,6 @@ input[type="radio"] {
   .div-patient {
     width: 500px;
   }
-}
-
-.title-patient {
-  color: #99a3ff;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 36px;
-}
-
-.head-row {
-  line-height: 21px;
-  color: #ccd1ff;
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
