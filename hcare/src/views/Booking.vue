@@ -414,7 +414,6 @@ export default {
                     }
                   )
                   .then((res) => {
-                    console.log(res.data);
                     if (res.data.message == "Please verrify account") {
                       this.$swal({
                         icon: "warning",

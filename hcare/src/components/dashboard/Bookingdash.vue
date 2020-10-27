@@ -1,8 +1,13 @@
 <template>
-  <div class="container mt-3 col-12 col-md-6">
-    <div class="form-group text-left" style="margin-top: 48px">
-      <div class="col-12">
-        <label for="InputEmail">อีเมลผู้ป่วย</label>
+  <div style="margin-top: 25px" class="container fixed-container mb-3">
+    <div v-if="loading">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading">
+      <div class="form-group text-left">
+        <label class="font-weight-bold">อีเมลผู้ป่วย</label>
         <div>
           <VueBootstrapTypeahead
             class="mb-2"
@@ -21,11 +26,12 @@
             <option value disabled selected>{{ selectedUser.email }}</option>
           </select>
           <button
-            @click="selectedUser = null, query = ''"
+            @click="(selectedUser = null), (query = '')"
             class="btn div-showTag text-white text-left m-1"
             v-if="selectedUser"
           >
-            <span class="mt-4 mb-4 p-2"> {{ selectedUser.name }}</span><i class="fas fa-times-circle"></i>
+            <span class="mt-4 mb-4 p-2"> {{ selectedUser.name }}</span
+            ><i class="fas fa-times-circle"></i>
           </button>
 
           <div
@@ -36,83 +42,150 @@
           </div>
         </div>
       </div>
-      <div class="col-12 mt-3">
-        <label>เลือกสถานที่</label>
-        <div class="col-12 text-center text-md-left">
+      <div class="form-group text-left">
+        <label class="font-weight-bold">เลือกวิทยาเขต</label>
+        <div class="col-12 text-left">
           <div
-            class="form-check form-check-inline"
+            class="custom-control custom-radio custom-control-inline"
             v-for="(item, index) in dataFetch.dataLocation"
             :key="index"
           >
             <input
-              class="form-check-input"
+              class="custom-control-input"
               type="radio"
-              name="location_id"
+              name="locationSelected"
               :id="item.location_id"
-              :value="item.location_id"
-              v-model="location_id"
+              :value="item"
+              v-model="locationSelected"
             />
             <label
               style="cursor: pointer"
-              class="form-check-label"
+              class="custom-control-label"
               :for="item.location_id"
               >{{ item.location_name }}</label
             >
           </div>
         </div>
       </div>
-      <div class="col-12 mt-2">
-        <label for="serviceType">เลือกบริการ</label>
-        <select
-          id="serviceType"
-          class="form-control col-12 col-md-12"
-          v-model="type_id"
-        >
-          <option value disabled selected>-- กรุณาเลือกบริการ --</option>
-          <option
-            v-for="(data, index) in dataFetch.dataTypes"
-            :key="index"
-            :value="data.type_id"
+      <div class="form-group text-left">
+        <label class="font-weight-bold">เลือกบริการ</label>
+        <div class="row justify-content-center">
+          <div
+            class="btnType btn-outline-primary active btnBooking"
+            v-if="this.$store.state.booking.serviceDataType.type_id"
           >
-            {{ data.type_name }}
-          </option>
-        </select>
+            <div class="text-center" style="margin-top: 32px">
+              <logoEmotion :color="'white'" />
+              <p style="color: #ffffff; margin-top: 8px">
+                {{ this.$store.state.booking.serviceDataType.type_name }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <router-link to="/booking/service">
+          <div
+            v-if="this.$store.state.booking.serviceDataType.type_id"
+            class="div-service div-service-edit text-center"
+            style="cursor: pointer"
+          >
+            <span>เปลี่ยนบริการ</span>
+          </div>
+          <div v-else class="div-service text-center" style="cursor: pointer">
+            <span>+ เลือกบริการ</span>
+          </div>
+        </router-link>
       </div>
-      <div class="col-12 mt-3">
-        <h6 class="text-left">วันที่</h6>
-        <ServiceDateBox
-          :dataDates="dataFetch.dataDates"
-          v-on:selectedDate="fetchTime"
-        />
+      <div class="row">
+        <div class="form-group text-left w-100">
+          <div class="col-12">
+            <label class="font-weight-bold">เลือกวัน</label>
+          </div>
+          <ServiceDateBox
+            :dataDates="dataFetch.dataDates"
+            v-on:selectedDate="fetchDocter"
+          />
+        </div>
       </div>
-      <div class="col-12 mt-3">
-        <label for="selectTime" class="d-flex justify-content-start"
-          >เลือกเวลา</label
+      <div class="row">
+        <div class="form-group text-left w-100">
+          <div class="col-12">
+            <label class="font-weight-bold">เลือกแพทย์</label>
+            <select
+              v-if="dataFetch.dataDocter.length != 0"
+              class="form-control select-date"
+              style="cursor: pointer"
+              v-model="selectedDocter"
+              id="selectDate"
+            >
+              <option value="" disabled selected="selected">
+                กรุณาเลือกแพทย์
+              </option>
+              <option
+                v-for="(dataDocter, index) in dataFetch.dataDocter"
+                :key="index"
+                :value="dataDocter"
+              >
+                {{ dataDocter.doctor_name }}
+              </option>
+            </select>
+            <div v-if="dataFetch.dataDocter.length == 0">
+              <div class="alert p-3 alert-warning">
+                กรุณาเลือกวันให้เรียบร้อย
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-12">
+            <label class="d-flex justify-content-start font-weight-bold"
+              >เลือกเวลา</label
+            >
+          </div>
+          <ServiceTimeBox
+            :dataTimes="dataFetch.dataTimes"
+            :activeTime="dataShow.activeBtnTime"
+            v-on:booking="onChangeTime"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label
+          for="symptom"
+          class="d-flex justify-content-start font-weight-bold"
         >
-        <ServiceTimeBox
-          :dataTimes="dataFetch.dataTimes"
-          :activeTime="dataShow.activeBtnTime"
-          v-on:booking="onChangeTime"
-        />
-      </div>
-      <div class="col-12 mt-3">
-        <label for="exampleInputPassword1" class="d-flex justify-content-start"
-          >อาการ</label
-        >
+          อาการ หรือ ประเด็นที่ปรึกษา
+          <span style="color: red">*</span>
+        </label>
         <textarea
-          rows="3"
-          class="form-control"
+          id="symptom"
+          :class="[
+            'form-control div-symptom',
+            totalcharacter > limitChar ? 'is-invalid' : '',
+          ]"
+          placeholder="กรุณากรอกอาการ..."
           v-model="dataPrepareSend.symptom"
+          @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
+          @keyup="countText()"
         ></textarea>
-      </div>
-      <div class="col-12 mt-3 text-center">
-        <button
-          @click="sendToBackend"
-          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+        <p
+          class="text-right mt-1"
+          :style="totalcharacter > limitChar ? 'color: red' : ''"
         >
-          Confirm
-        </button>
+          {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
+        </p>
+      </div>
+      <div class="row" style="text-align: center">
+        <div class="col-12">
+          <button
+            @click="sendToBackend"
+            class="btn btn-primary btnBlock btnConfirm mt-2 fixed-button"
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -120,12 +193,15 @@
 
 <script>
 import axios from "axios";
-import { errorSWAL } from "@/utility/swal.js";
+import logoEmotion from "@/components/svg/logoEmotion.vue";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import ServiceTypeBox from "@/components/ServiceTypeBox.vue";
 import ServiceDateBox from "@/components/ServiceDateBox.vue";
 import ServiceTimeBox from "@/components/ServiceTimeBox.vue";
-import man2 from "@/components/svg/man2.vue";
+import logoHeader from "@/components/svg/logoHeader.vue";
+import logoStaff from "@/components/svg/logoStaff.vue";
+import { waiting, errorSWAL } from "@/utility/swal.js";
+import { VclFacebook, VclList } from "vue-content-loading";
 
 export default {
   data() {
@@ -133,22 +209,28 @@ export default {
       query: "",
       selectedUser: null,
       users: [],
-      location_id: 1,
-      type_id: "",
-      email: null,
+      loading: false,
+      limitChar: 100,
+      totalcharacter: 0,
+      locationSelected: null,
+      selectedDate: "",
+      selectedDocter: "",
+
+      //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
-        // account_id: null,
         symptom: null,
       },
+      //ข้อมูลที่ได้จาก Backend
       dataFetch: {
-        dataLocation: [],
-        dataTypes: null,
-        dataDates: null,
+        dataDates: [],
+        dataDocter: [],
         dataTimes: null,
+        dataLocation: null,
       },
+      //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
-        type: "จิตแพทย์",
+        type: "",
         date: "",
         time: null,
         activeBtnTime: "",
@@ -156,188 +238,61 @@ export default {
       },
     };
   },
-  methods: {
-    async clearDataShow() {
-      this.dataShow.type = "จิตแพทย์";
-      this.dataShow.date = "";
-      this.dataShow.time = null;
-      this.dataShow.activeBtnTime = "";
-      this.dataShow.disableSymptom = true;
-      this.email = null;
-      this.dataPrepareSend.booking_id = null;
-      this.dataPrepareSend.symptom = null;
-      this.dataFetch.dataTimes = null;
-      await axios
-        .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.token}`,
-          },
-        })
-        .then((res) => {
-          this.dataFetch.dataTypes = res.data;
-        });
-      this.fetchDate({
-        type_id: 1,
-      });
-    },
-    clearData() {
-      this.dataPrepareSend.booking_id = null;
-      this.dataShow.date = "";
-      this.dataShow.time = null;
-      this.dataShow.disableSymptom = true;
-    },
-
-    async fetchDate(serviceDataType) {
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          this.dataFetch.dataDates = res.data;
-        });
-    },
-
-    async fetchTime(selectedDate) {
-      this.clearData();
-      //เคลียสีปุ่ม
-      this.dataShow.activeBtnTime = "";
-
-      //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
-      this.dataShow.date = selectedDate.dateformat;
-
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/${selectedDate.type_id}?time=${selectedDate.datevalue}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-            },
-          }
-        )
-        .then((res) => {
-          this.dataFetch.dataTimes = res.data;
-          this.$swal.close();
-        });
-    },
-
-    onChangeTime(booking) {
-      this.dataPrepareSend.booking_id = booking.booking_id;
-      this.dataShow.time = booking.time;
-
-      //================ เก็บไว้ใน ตัวแปร
-      this.dataShow.activeBtnTime = booking.activeBtnTime;
-
-      //ให้กรอกอาการได้
-      this.dataShow.disableSymptom = false;
-    },
-
-    sendToBackend() {
-      if (this.dataPrepareSend.booking_id != null && this.email != null) {
-        this.$swal({
-          title: "การจอง " + this.dataShow.type,
-          text: this.dataShow.date + " เวลา: " + this.dataShow.time,
-          icon: "info",
-          showCancelButton: true,
-          reverseButtons: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirm",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.value) {
-            this.$swal({
-              title: "กรุณารอสักครู่",
-              allowEscapeKey: false,
-              allowOutsideClick: false,
-              onOpen: () => {
-                this.$swal.showLoading();
-              },
-            });
-
-            axios
-              .post(
-                `${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`,
-                {
-                  booking_id: this.dataPrepareSend.booking_id,
-                  email: this.email,
-                  symptom: this.dataPrepareSend.symptom,
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${this.$store.state.token}`,
-                  },
-                }
-              )
-              .then((res) => {
-                if (res.status == 200) {
-                  this.$swal({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    icon: "success",
-                    title: "การจองสำเร็จ",
-                  });
-                  this.clearDataShow();
-                } else {
-                  this.$swal({
-                    icon: "warning",
-                    title: "คำเตือน",
-                    text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
-                  });
-                }
-              })
-              .catch((error) => {
-                if (error.response.status == 403) {
-                  this.$swal({
-                    icon: "warning",
-                    title: "คำเตือน",
-                    text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
-                  });
-                } else {
-                  console.log("===== Backend-error ======");
-                  console.error(error.response);
-                  this.$swal({
-                    ...errorSWAL,
-                  });
-                }
-              });
-          }
-        });
-      } else {
-        this.$swal({
-          icon: "warning",
-          title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง และอีเมลผู้ป่วย",
-        });
-      }
-    },
-  },
   components: {
-    man2,
+    logoEmotion,
+    logoStaff,
     ServiceTypeBox,
     ServiceDateBox,
     ServiceTimeBox,
+    logoHeader,
+    VclFacebook,
+    VclList,
     VueBootstrapTypeahead,
   },
+  async mounted() {
+    this.loading = true;
+
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
+      .then((res) => {
+        this.dataFetch.dataLocation = res.data;
+      });
+
+    if (this.$store.state.booking.location.location_id) {
+      this.locationSelected = this.$store.state.booking.location;
+    } else {
+      this.locationSelected = this.dataFetch.dataLocation[0];
+    }
+
+    if (this.$store.state.booking.serviceDataType.type_id) {
+      this.fetchDate(this.$store.state.booking.serviceDataType);
+    }
+
+    this.loading = false;
+  },
   watch: {
-    location_id: {
+    locationSelected: {
       handler: async function (val, oldCal) {
-        await axios
-          .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypes/${val}`)
-          .then((res) => {
-            this.dataFetch.dataTypes = res.data;
-          });
+        this.dataFetch.dataDates = [];
+        this.dataFetch.dataTimes = null;
+
+        if (
+          oldCal != null &&
+          this.$store.state.booking.serviceDataType.type_id
+        ) {
+          this.$store.state.booking.serviceDataType = {
+            type_id: "",
+            type_name: "",
+          };
+        }
+        this.$store.state.booking.location = val;
       },
     },
-    type_id: {
-      handler: async function (val, oldVal) {
-        this.fetchDate(val);
+    selectedDocter: {
+      handler: async function (val, oldCal) {
+        if (this.selectedDocter) {
+          this.fetchTime();
+        }
       },
     },
     query(newQuery) {
@@ -350,19 +305,279 @@ export default {
       }
     },
   },
-  async mounted() {
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
-      .then((res) => {
-        this.dataFetch.dataLocation = res.data;
-        this.location_id = this.dataFetch.dataLocation[0].location_id;
-      });
-    //เรียกข้อมูล Default
-    //Type
+
+  methods: {
+    clearData() {
+      this.dataPrepareSend.booking_id = null;
+      this.dataShow.date = "";
+      this.dataShow.time = null;
+      this.dataShow.disableSymptom = true;
+    },
+    countText() {
+      this.totalcharacter = this.dataPrepareSend.symptom.length;
+    },
+    async fetchDate(serviceDataType) {
+      //เช็ค
+
+      if (serviceDataType.type_id) {
+        this.clearData();
+        this.dataFetch.dataTimes = null;
+        this.dataPrepareSend.symptom = null;
+        this.totalcharacter = 0;
+
+        this.dataShow.type = serviceDataType.type_name;
+
+        this.dataShow.activeBtnTime = "";
+        await axios
+          .get(
+            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+          )
+          .then((res) => {
+            this.dataFetch.dataDates = res.data;
+            if (this.dataFetch.dataDates.length == 0) {
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: "ไม่พบวันให้บริการ",
+              });
+            }
+          });
+      }
+    },
+    async fetchDocter(selectedDate) {
+      this.clearData();
+      //เคลียสีปุ่ม
+      this.dataShow.activeBtnTime = "";
+
+      //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
+      this.dataShow.date = selectedDate.dateformat;
+      this.selectedDate = selectedDate.datevalue;
+
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/servicedoctor/?type_id=${selectedDate.type_id}&date=${selectedDate.datevalue}`
+        )
+        .then((res) => {
+          this.dataFetch.dataDocter = res.data;
+          if ((this.dataFetch.dataDocter.length = 1)) {
+            this.selectedDocter = res.data[0];
+          }
+        });
+    },
+    async fetchTime() {
+      this.dataShow.activeBtnTime = "";
+
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${this.selectedDocter.working_id}`
+        )
+        .then((res) => {
+          this.dataFetch.dataTimes = res.data;
+        });
+    },
+    onChangeTime(booking) {
+      this.dataPrepareSend.booking_id = booking.booking_id;
+      this.dataShow.time = booking.time;
+
+      //================ เก็บไว้ใน ตัวแปร
+      this.dataShow.activeBtnTime = booking.activeBtnTime;
+
+      //ให้กรอกอาการได้
+      this.dataShow.disableSymptom = false;
+    },
+    sendToBackend() {
+      if (
+        this.dataPrepareSend.booking_id != null &&
+        this.selectedUser != null
+      ) {
+        if (this.totalcharacter != 0) {
+          if (this.totalcharacter <= this.limitChar) {
+            console.log("Backend----" + this.dataShow.date);
+            this.$swal({
+              title: "การจอง " + this.dataShow.type,
+              html:
+                `${this.dataShow.date} , ` +
+                "<br/>" +
+                `เวลา:  ${this.dataShow.time}`,
+              icon: "info",
+              showCancelButton: true,
+              reverseButtons: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Confirm",
+              cancelButtonText: "No",
+            }).then((result) => {
+              if (result.value) {
+                this.$swal({
+                  title: "กรุณารอสักครู่",
+                  allowEscapeKey: false,
+                  allowOutsideClick: false,
+                  onOpen: () => {
+                    this.$swal.showLoading();
+                  },
+                });
+
+                axios
+                  .post(
+                    `${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`,
+                    {
+                      booking_id: this.dataPrepareSend.booking_id,
+                      email: this.selectedUser.email,
+                      symptom: this.dataPrepareSend.symptom,
+                    },
+                    {
+                      headers: {
+                        Authorization: `Bearer ${this.$store.state.token}`,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    if (res.status == 200) {
+                      this.$swal({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        icon: "success",
+                        title: "การจองสำเร็จ",
+                      });
+                      this.clearData();
+                      this.locationSelected = this.dataFetch.dataLocation[0];
+                      this.selectedDate = "";
+                      this.dataPrepareSend.symptom = null;
+                      this.query = "";
+                      this.selectedUser = null;
+                      this.selectedDocter = "";
+                    } else {
+                      this.$swal({
+                        icon: "warning",
+                        title: "คำเตือน",
+                        text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("===== Backend-error ======");
+                    console.error(error.response);
+                    this.$swal({ ...errorSWAL });
+                  });
+              }
+            });
+          } else {
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต",
+            });
+          }
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณากรอกอาการ",
+          });
+        }
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณาเลือกเวลาที่ต้องการจอง",
+        });
+      }
+    },
   },
 };
 </script>
+
 <style scoped>
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+
+.div-patient {
+  font-size: 16px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 16px;
+  padding-right: 24px;
+  padding-left: 24px;
+  min-height: 200px;
+  width: 335px;
+  margin-bottom: 24px;
+  background: #5b629e;
+  box-shadow: 0px 4px 8px #cdd2ff;
+  border-radius: 20px;
+}
+
+@media (min-width: 768px) {
+  .div-patient {
+    width: 500px;
+  }
+}
+
+.title-patient {
+  color: #99a3ff;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.head-row {
+  line-height: 21px;
+  color: #ccd1ff;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #555555;
+  background-color: #555555;
+}
+
+.div-service {
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  padding: 10px;
+  color: #99a3ff;
+  font-weight: 500;
+  height: 40px;
+  font-size: 14px;
+}
+
+.div-service-edit {
+  border: 1px solid #99a3ff;
+}
+
+.div-symptom {
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  height: 144px;
+}
+
+.btnBooking {
+  height: 144px;
+  width: 152px;
+  margin-bottom: 15px;
+  box-shadow: 0px 4px 8px #ebedff;
+  -webkit-box-shadow: 0px 4px 8px #ebedff;
+}
+
+@media (min-width: 768px) {
+  .btnBooking {
+    width: 200px;
+  }
+}
+
+.select-date {
+  -webkit-appearance: none;
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #ebedff;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 48px;
+}
+
 .div-showTag {
   color: white;
   background-color: #5e65a1;
