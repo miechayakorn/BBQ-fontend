@@ -21,7 +21,7 @@
             <option value disabled selected>{{ selectedUser.email }}</option>
           </select>
           <button
-            @click="selectedUser = null"
+            @click="selectedUser = null, query = ''"
             class="btn div-showTag text-white text-left m-1"
             v-if="selectedUser"
           >
