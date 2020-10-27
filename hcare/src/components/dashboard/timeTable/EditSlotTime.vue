@@ -13,11 +13,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
-                <select
-                  id="serviceType"
-                  class="form-control"
-                  v-model="dataPrepareSend.type_id"
-                >
+                <select id="serviceType" class="form-control" v-model="service">
                   <option :value="null" disabled selected="selected">
                     -- กรุณาเลือกบริการ --
                   </option>
@@ -147,7 +143,9 @@ export default {
       noContent: false,
       visibleState: false,
       toggleControlAll: true,
+      service: null,
       dataFetch: {
+        dataDateService: null,
         dataTypes: null,
         dataDates: null,
         dataSlotTime: [],
@@ -155,7 +153,6 @@ export default {
         toggle: null,
       },
       dataPrepareSend: {
-        type_id: null,
         date: null,
         slot: [],
       },
@@ -164,6 +161,13 @@ export default {
   components: {
     man2,
     VclFacebook,
+  },
+  watch: {
+    service: {
+      handler: async function (val, oldCal) {
+        this.fetchDateEditSlotTime(val);
+      },
+    },
   },
   methods: {
     showSwalToast() {
@@ -180,6 +184,12 @@ export default {
         icon: "success",
         title: "บันทึกสำเร็จ",
       });
+    },
+    fetchDateEditSlotTime(service) {
+      console.log(service);
+      // this.dataFetch.dataDateService = res
+      // type_id: service.split("-")[0],
+      // doctor_id: service.split("-")[1],
     },
     logicStatusToggleAll() {
       // เช็คว่าถ้าทั้งหมดเป็น false ให้ toggleControlAll เป็นปิดtoggle
@@ -312,16 +322,16 @@ export default {
       //Send DATA
     },
     async fetchSlot() {
-      if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+      if (this.service && this.dataPrepareSend.date) {
         this.loading = true;
         try {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
               {
-                type_id: this.dataPrepareSend.type_id.split("-")[0],
+                type_id: this.service.split("-")[0],
                 date: formatDate.format(this.dataPrepareSend.date),
-                doctor_id: this.dataPrepareSend.type_id.split("-")[1],
+                doctor_id: this.service.split("-")[1],
               },
               {
                 headers: {
