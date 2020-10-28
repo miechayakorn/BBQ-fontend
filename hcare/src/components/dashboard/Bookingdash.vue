@@ -299,8 +299,8 @@ export default {
       this.totalcharacter = this.dataPrepareSend.symptom.length;
     },
     async fetchDate(serviceDataType) {
-      this.selectedDate = ""
-      this.selectedDocter = ""
+      this.selectedDate = "";
+      this.selectedDocter = "";
       if (serviceDataType.type_id) {
         this.clearData();
         this.dataFetch.dataTimes = null;
@@ -366,78 +366,83 @@ export default {
       this.dataShow.disableSymptom = false;
     },
     sendToBackend() {
-      if (
-        this.dataPrepareSend.booking_id != null &&
-        this.selectedUser != null
-      ) {
-        if (this.totalcharacter <= this.limitChar) {
-          console.log("Backend----" + this.dataShow.date);
-          this.$swal({
-            title: "การจอง " + this.dataShow.type,
-            html:
-              `${this.dataShow.date} , ` +
-              "<br/>" +
-              `เวลา:  ${this.dataShow.time}`,
-            icon: "info",
-            showCancelButton: true,
-            reverseButtons: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Confirm",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.value) {
-              this.$swal({
-                title: "กรุณารอสักครู่",
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                onOpen: () => {
-                  this.$swal.showLoading();
-                },
-              });
-
-              axios
-                .post(
-                  `${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`,
-                  {
-                    booking_id: this.dataPrepareSend.booking_id,
-                    email: this.selectedUser.email,
-                    symptom: this.dataPrepareSend.symptom,
+      if (this.dataPrepareSend.booking_id != null) {
+        if (this.selectedUser != null) {
+          if (this.totalcharacter <= this.limitChar) {
+            console.log("Backend----" + this.dataShow.date);
+            this.$swal({
+              title: "การจอง " + this.dataShow.type,
+              html:
+                `${this.dataShow.date} , ` +
+                "<br/>" +
+                `เวลา:  ${this.dataShow.time}`,
+              icon: "info",
+              showCancelButton: true,
+              reverseButtons: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Confirm",
+              cancelButtonText: "No",
+            }).then((result) => {
+              if (result.value) {
+                this.$swal({
+                  title: "กรุณารอสักครู่",
+                  allowEscapeKey: false,
+                  allowOutsideClick: false,
+                  onOpen: () => {
+                    this.$swal.showLoading();
                   },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.$store.state.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  if (res.status == 200) {
-                    this.$swal({
-                      icon: "success",
-                      title: "การจองสำเร็จ",
-                    }).then((result) => {
-                      this.$router.go();
-                    });
-                  } else {
-                    this.$swal({
-                      icon: "warning",
-                      title: "คำเตือน",
-                      text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
-                    });
-                  }
-                })
-                .catch((error) => {
-                  console.log("===== Backend-error ======");
-                  console.error(error.response);
-                  this.$swal({ ...errorSWAL });
                 });
-            }
-          });
+
+                axios
+                  .post(
+                    `${process.env.VUE_APP_BACKEND_URL}/booking/healthcare`,
+                    {
+                      booking_id: this.dataPrepareSend.booking_id,
+                      email: this.selectedUser.email,
+                      symptom: this.dataPrepareSend.symptom,
+                    },
+                    {
+                      headers: {
+                        Authorization: `Bearer ${this.$store.state.token}`,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    if (res.status == 200) {
+                      this.$swal({
+                        icon: "success",
+                        title: "การจองสำเร็จ",
+                      }).then((result) => {
+                        this.$router.go();
+                      });
+                    } else {
+                      this.$swal({
+                        icon: "warning",
+                        title: "คำเตือน",
+                        text: "ไม่พบ อีเมลผู้ป่วย ในระบบ",
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("===== Backend-error ======");
+                    console.error(error.response);
+                    this.$swal({ ...errorSWAL });
+                  });
+              }
+            });
+          } else {
+            this.$swal({
+              icon: "warning",
+              title: "คำเตือน",
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต",
+            });
+          }
         } else {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรอกอาการ ตัวอักษรเกินลิมิต",
+            text: "กรุณากรอกอีเมลผู้ป่วย",
           });
         }
       } else {
