@@ -102,7 +102,7 @@
               class="nav-link blackTextMenu"
               to="/booking"
             >
-              <iconNote style="margin-right: 14px" />ทำนัด
+              <iconNote style="margin-right: 14px" />{{ $t('appointment') }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -113,7 +113,7 @@
               class="nav-link blackTextMenu"
               to="/appointment"
             >
-              <iconCalendar style="margin-right: 14px" />นัดของฉัน
+              <iconCalendar style="margin-right: 14px" />{{$t('myappointment')}}
             </router-link>
           </li>
           <li class="nav-item">
@@ -124,7 +124,7 @@
               class="nav-link blackTextMenu"
               to="/schedule"
             >
-              <iconClock style="margin-right: 14px" />ตารางให้บริการ
+              <iconClock style="margin-right: 14px" />{{$t('serviceschedule')}}
             </router-link>
           </li>
           <li class="nav-item">
@@ -135,7 +135,7 @@
               class="nav-link blackTextMenu"
               to="/history"
             >
-              <iconTime style="margin-right: 14px" />ประวัติรับบริการ
+              <iconTime style="margin-right: 14px" />{{$t('history')}}
             </router-link>
           </li>
           <hr class="lineHr" />

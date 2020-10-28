@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">นัดของฉัน</label>
+        <label class="font-weight-bold mb-4">{{$t('myappointment')}}</label>
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />

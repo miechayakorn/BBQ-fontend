@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">ประวัติการนัดหมาย</label>
+        <label class="font-weight-bold mb-4">{{$t('history')}}</label>
         <div class="form">
           <div class="container">
             <HistoryCard v-if="!checkAppointment" :data="dataFetch" />

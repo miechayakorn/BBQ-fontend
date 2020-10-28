@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold">เลือกวิทยาเขต</label>
+        <label class="font-weight-bold">{{ $t("location") }}</label>
         <div class="col-12 text-left">
           <div
             class="custom-control custom-radio custom-control-inline"
