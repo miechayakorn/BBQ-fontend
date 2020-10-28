@@ -7,7 +7,7 @@
       @change="fetchTime()"
       id="selectDate"
     >
-      <option value="" disabled selected="selected">กรุณาเลือกวันที่</option>
+      <option value="" disabled selected="selected">{{ $t("dropdowndate" )}}</option>
       <option
         v-for="(dataDate, index) in dataDates"
         :key="index"

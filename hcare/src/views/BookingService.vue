@@ -7,7 +7,7 @@
     </div>
     <div class="container" v-if="!loading">
       <p class="text-left font-weight-bold">
-        เลือกบริการ : {{ this.$store.state.booking.location.location_name }}
+        {{ $t("service") }} : {{ this.$store.state.booking.location.location_name }}
       </p>
 
       <ServiceTypeBox
