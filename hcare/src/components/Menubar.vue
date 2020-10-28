@@ -22,10 +22,10 @@
       id="navbarCollapse"
     >
       <ul class="navbar-nav mr-auto"></ul>
-      <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
-        <li class="nav-item">
+      <ul class="navbar-nav blackTextMenu">
+        <div class="col-12">
           <div class="float-right">
-            <select v-model="selectLang">
+            <select v-model="selectLang" class="form-control">
               <option
                 v-for="(lang, i) in langs"
                 :key="`Lang${i}`"
@@ -35,6 +35,8 @@
               </option>
             </select>
           </div>
+        </div>
+        <li class="nav-item" style="margin-top: -50px">
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -239,27 +241,33 @@ export default {
 };
 </script>
 <style>
+.navbar-collapse {
+  position: absolute;
+  top: 52.5px;
+  margin-left: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  width: 50%;
+  transition: all 0.4s ease;
+  display: block;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+}
+
 @media (max-width: 992px) {
   .navbar-collapse {
-    position: absolute;
-    top: 45px;
-    margin-left: 20%;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    width: 80%;
-    transition: all 0.4s ease;
-    display: block;
+    margin-left: 0;
+    width: 100%;
   }
-  .navbar-collapse.collapsing {
-    height: auto !important;
-    margin-left: 50%;
-    left: 50%;
-    transition: all 0.2s ease;
-  }
-  .navbar-collapse.show {
-    left: 0;
-  }
+}
+.navbar-collapse.collapsing {
+  height: auto !important;
+  margin-left: 50%;
+  left: 50%;
+  transition: all 0.2s ease;
+}
+.navbar-collapse.show {
+  left: 0;
 }
 .blackTextMenu {
   color: #555555;
