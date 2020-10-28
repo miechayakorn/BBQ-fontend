@@ -7,6 +7,7 @@
     </div>
     <div v-if="!loading" class="container home-screen">
       <div class="row">
+        {{ $t('hello') }}
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">

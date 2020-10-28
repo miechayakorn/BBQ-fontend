@@ -8,5 +8,13 @@ module.exports = {
     workboxOptions: {
       skipWaiting: true
     }
+  },
+  pluginOptions: {
+    i18n: {
+      locale: 'th',
+      fallbackLocale: 'th',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
   }
 }

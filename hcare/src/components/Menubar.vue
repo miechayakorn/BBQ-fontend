@@ -24,7 +24,17 @@
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
-          <div class="float-right">V 2.0</div>
+          <div class="float-right">
+            <select v-model="$i18n.locale">
+              <option
+                v-for="(lang, i) in langs"
+                :key="`Lang${i}`"
+                :value="lang"
+              >
+                {{ lang }}
+              </option>
+            </select>
+          </div>
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -110,22 +120,22 @@
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="/history"
+              to="/schedule"
             >
-              <iconTime style="margin-right: 14px" />ประวัติรับบริการ
+              <iconClock style="margin-right: 14px" />ตารางให้บริการ
             </router-link>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <router-link
               data-toggle="collapse"
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="#"
+              to="/history"
             >
-              <iconClock style="margin-right:14px;" />ตารางให้บริการ
+              <iconTime style="margin-right: 14px" />ประวัติรับบริการ
             </router-link>
-          </li>-->
+          </li>
           <hr class="lineHr" />
           <!-- <li class="nav-item">
             <router-link
@@ -197,6 +207,9 @@ import iconPaper from "@/components/svg/icon/iconPaper.vue";
 import iconTime from "@/components/svg/icon/iconTime.vue";
 
 export default {
+  data() {
+    return { langs: ["th", "en"] };
+  },
   components: {
     logoHeaderMini,
     iconCalendar,
