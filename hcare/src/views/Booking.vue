@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold">เลือกวิทยาเขต</label>
+        <label class="font-weight-bold">{{ $t("location") }}</label>
         <div class="col-12 text-left">
           <div
             class="custom-control custom-radio custom-control-inline"
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="form-group text-left">
-        <label class="font-weight-bold">เลือกบริการ</label>
+        <label class="font-weight-bold">{{ $t("service") }}</label>
         <div class="row justify-content-center">
           <div
             class="btnType btn-outline-primary active btnBooking"
@@ -52,17 +52,17 @@
             class="div-service div-service-edit text-center"
             style="cursor: pointer"
           >
-            <span>เปลี่ยนบริการ</span>
+            <span>{{ $t("changeservice") }}</span>
           </div>
           <div v-else class="div-service text-center" style="cursor: pointer">
-            <span>+ เลือกบริการ</span>
+            <span>{{ $t("chooseservice") }}</span>
           </div>
         </router-link>
       </div>
       <div class="row">
         <div class="form-group text-left w-100">
           <div class="col-12">
-            <label class="font-weight-bold">เลือกวัน</label>
+            <label class="font-weight-bold">{{ $t("date") }}</label>
           </div>
           <ServiceDateBox
             :dataDates="dataFetch.dataDates"
@@ -73,7 +73,7 @@
       <div class="row">
         <div class="form-group text-left w-100">
           <div class="col-12">
-            <label class="font-weight-bold">เลือกแพทย์</label>
+            <label class="font-weight-bold">{{ $t("doctor") }}</label>
             <select
               v-if="dataFetch.dataDocter.length != 0"
               class="form-control select-date"
@@ -82,7 +82,7 @@
               id="selectDate"
             >
               <option value="" disabled selected="selected">
-                กรุณาเลือกแพทย์
+                {{ $t("dropdowndoctor") }}
               </option>
               <option
                 v-for="(dataDocter, index) in dataFetch.dataDocter"
@@ -94,7 +94,7 @@
             </select>
             <div v-if="dataFetch.dataDocter.length == 0">
               <div class="alert p-3 alert-warning">
-                กรุณาเลือกวันให้เรียบร้อย
+                {{ $t("alertdate") }}
               </div>
             </div>
           </div>
@@ -103,9 +103,9 @@
       <div class="row">
         <div class="form-group">
           <div class="col-12">
-            <label class="d-flex justify-content-start font-weight-bold"
-              >เลือกเวลา</label
-            >
+            <label class="d-flex justify-content-start font-weight-bold">
+              {{ $t("pickslot") }}
+            </label>
           </div>
           <ServiceTimeBox
             :dataTimes="dataFetch.dataTimes"
@@ -119,18 +119,18 @@
           for="symptom"
           class="d-flex justify-content-start font-weight-bold"
         >
-          อาการ หรือ ประเด็นที่ปรึกษา
+          {{ $t("symptoms") }}
           <span style="color: red">*</span>
         </label>
         <textarea
           id="symptom"
           :class="[
             'form-control div-symptom',
-            totalcharacter > limitChar ? 'is-invalid' : '',
+            totalcharacter > limitChar ? 'is-invalid' : ''
           ]"
-          placeholder="กรุณากรอกอาการ..."
+          :placeholder="$t('alertsymptoms')"
           v-model="dataPrepareSend.symptom"
-          @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
+          @input="evt => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
@@ -138,7 +138,7 @@
           class="text-right mt-1"
           :style="totalcharacter > limitChar ? 'color: red' : ''"
         >
-          {{ totalcharacter }}/{{ limitChar }} ตัวอักษร
+          {{ totalcharacter }}/{{ limitChar }} {{ $t("text") }}
         </p>
       </div>
       <div class="row">
@@ -153,17 +153,19 @@
                 height="56"
                 :src="this.selectedDocter.doctor_profile_picture"
               />
-              <div class="float-right title-patient">บัตรนัดผู้ป่วย</div>
+              <div class="float-right title-patient">
+                {{ $t("patientcard") }}
+              </div>
               <div class="row mt-3">
-                <div class="col-4 head-row">บริการ</div>
+                <div class="col-4 head-row">{{ $t("servicecard") }}</div>
                 <div class="col-8">{{ this.dataShow.type }}</div>
               </div>
               <div class="row">
-                <div class="col-4 head-row">ผู้ให้บริการ</div>
+                <div class="col-4 head-row">{{ $t("doctorcard") }}</div>
                 <div class="col-8">{{ this.selectedDocter.doctor_name }}</div>
               </div>
               <div class="row">
-                <div class="col-4 head-row">เวลานัด</div>
+                <div class="col-4 head-row">{{ $t("timecard") }}</div>
                 <div class="col-8">
                   {{ this.dataShow.date }} <br /><span v-if="this.dataShow.time"
                     >เวลา</span
@@ -211,21 +213,21 @@ export default {
       selectedDocter: "",
       dataPrepareSend: {
         booking_id: null,
-        symptom: null,
+        symptom: null
       },
       dataFetch: {
         dataDates: [],
         dataDocter: [],
         dataTimes: null,
-        dataLocation: null,
+        dataLocation: null
       },
       dataShow: {
         type: "",
         date: "",
         time: null,
         activeBtnTime: "",
-        disableSymptom: true,
-      },
+        disableSymptom: true
+      }
     };
   },
   components: {
@@ -236,16 +238,14 @@ export default {
     ServiceTimeBox,
     logoHeader,
     VclFacebook,
-    VclList,
+    VclList
   },
   async mounted() {
     this.loading = true;
 
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
-      .then((res) => {
-        this.dataFetch.dataLocation = res.data;
-      });
+    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/location`).then(res => {
+      this.dataFetch.dataLocation = res.data;
+    });
 
     if (this.$store.state.booking.location.location_id) {
       this.locationSelected = this.$store.state.booking.location;
@@ -261,7 +261,7 @@ export default {
   },
   watch: {
     locationSelected: {
-      handler: async function (val, oldCal) {
+      handler: async function(val, oldCal) {
         this.dataFetch.dataDates = [];
         this.dataFetch.dataTimes = null;
 
@@ -271,19 +271,19 @@ export default {
         ) {
           this.$store.state.booking.serviceDataType = {
             type_id: "",
-            type_name: "",
+            type_name: ""
           };
         }
         this.$store.state.booking.location = val;
-      },
+      }
     },
     selectedDocter: {
-      handler: async function (val, oldCal) {
+      handler: async function(val, oldCal) {
         if (this.selectedDocter) {
           this.fetchTime();
         }
-      },
-    },
+      }
+    }
   },
 
   methods: {
@@ -310,13 +310,13 @@ export default {
           .get(
             `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
           )
-          .then((res) => {
+          .then(res => {
             this.dataFetch.dataDates = res.data;
             if (this.dataFetch.dataDates.length == 0) {
               this.$swal({
                 icon: "warning",
                 title: "คำเตือน",
-                text: "ไม่พบวันให้บริการ",
+                text: "ไม่พบวันให้บริการ"
               });
             }
           });
@@ -334,7 +334,7 @@ export default {
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/servicedoctor/?type_id=${selectedDate.type_id}&date=${selectedDate.datevalue}`
         )
-        .then((res) => {
+        .then(res => {
           this.dataFetch.dataDocter = res.data;
           if (this.dataFetch.dataDocter.length == 1) {
             this.selectedDocter = res.data[0];
@@ -350,7 +350,7 @@ export default {
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${this.selectedDocter.working_id}`
         )
-        .then((res) => {
+        .then(res => {
           this.dataFetch.dataTimes = res.data;
         });
     },
@@ -377,8 +377,8 @@ export default {
               confirmButtonColor: "#3085d6",
               cancelButtonColor: "#d33",
               confirmButtonText: "Confirm",
-              cancelButtonText: "No",
-            }).then((result) => {
+              cancelButtonText: "No"
+            }).then(result => {
               if (result.value) {
                 this.$swal({
                   title: "กรุณารอสักครู่",
@@ -386,7 +386,7 @@ export default {
                   allowOutsideClick: false,
                   onOpen: () => {
                     this.$swal.showLoading();
-                  },
+                  }
                 });
 
                 axios
@@ -394,27 +394,27 @@ export default {
                     `${process.env.VUE_APP_BACKEND_URL}/Booking`,
                     {
                       booking_id: this.dataPrepareSend.booking_id,
-                      symptom: this.dataPrepareSend.symptom,
+                      symptom: this.dataPrepareSend.symptom
                     },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.$store.state.token}`,
-                      },
+                        Authorization: `Bearer ${this.$store.state.token}`
+                      }
                     }
                   )
-                  .then((res) => {
+                  .then(res => {
                     if (res.data.message == "Please verrify account") {
                       this.$swal({
                         icon: "warning",
                         title: "กรุณา Activate บัญชี",
                         text:
-                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
+                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
                       });
                     } else if (res.status == 203) {
                       this.$swal({
                         icon: "warning",
                         title: "คำเตือน",
-                        text: res.data,
+                        text: res.data
                       });
                     } else {
                       this.$swal({
@@ -423,12 +423,12 @@ export default {
                         showConfirmButton: false,
                         timer: 3000,
                         icon: "success",
-                        title: "การจองสำเร็จ",
+                        title: "การจองสำเร็จ"
                       });
                       this.$router.push("/appointment");
                     }
                   })
-                  .catch((error) => {
+                  .catch(error => {
                     console.log("===== Backend-error ======");
                     console.error(error.response);
                     this.$swal({ ...errorSWAL });
@@ -439,25 +439,25 @@ export default {
             this.$swal({
               icon: "warning",
               title: "คำเตือน",
-              text: "กรอกอาการ ตัวอักษรเกินลิมิต",
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต"
             });
           }
         } else {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกอาการ",
+            text: "กรุณากรอกอาการ"
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง",
+          text: "กรุณาเลือกเวลาที่ต้องการจอง"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

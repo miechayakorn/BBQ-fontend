@@ -7,6 +7,7 @@
     </div>
     <div v-if="!loading" class="container home-screen">
       <div class="row">
+        
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">
@@ -15,7 +16,7 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconNote2 :color="'white'" />
-                <p style="color: #ffffff; margin-top: 8px">ทำนัด</p>
+                <p style="color: #ffffff; margin-top: 8px">{{ $t('appointment') }}</p>
               </div>
             </div>
           </router-link>
@@ -28,7 +29,7 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconCalendar2 />
-                <p style="color: #ffffff; margin-top: 8px">นัดของฉัน</p>
+                <p style="color: #ffffff; margin-top: 8px">{{$t('myappointment')}}</p>
               </div>
             </div>
           </router-link>
@@ -41,7 +42,7 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconClock2 />
-                <p style="color: #ffffff; margin-top: 8px">ตารางให้บริการ</p>
+                <p style="color: #ffffff; margin-top: 8px">{{$t('serviceschedule')}}</p>
               </div>
             </div>
           </router-link>
@@ -54,7 +55,7 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconMedicine />
-                <p style="color: #ffffff; margin-top: 8px">ประวัตินัดหมาย</p>
+                <p style="color: #ffffff; margin-top: 8px">{{$t('history')}}</p>
               </div>
             </div>
           </router-link>
@@ -95,7 +96,7 @@
                   <h6
                     class="card-title text-md-center text-left title-card-app"
                   >
-                    นัดของคุณที่กำลังจะมาถึง
+                    {{$t('upcoming')}}
                   </h6>
                   <p
                     class="text-md-center text-left"
