@@ -209,20 +209,16 @@ export default {
       locationSelected: null,
       selectedDate: "",
       selectedDocter: "",
-
-      //ข้อมูลเตรียมส่งไป Backend
       dataPrepareSend: {
         booking_id: null,
         symptom: null,
       },
-      //ข้อมูลที่ได้จาก Backend
       dataFetch: {
         dataDates: [],
         dataDocter: [],
         dataTimes: null,
         dataLocation: null,
       },
-      //ข้อมูลที่เอาไว้โชว์ Fontend
       dataShow: {
         type: "",
         date: "",
@@ -301,8 +297,6 @@ export default {
       this.totalcharacter = this.dataPrepareSend.symptom.length;
     },
     async fetchDate(serviceDataType) {
-      //เช็ค
-
       if (serviceDataType.type_id) {
         this.clearData();
         this.dataFetch.dataTimes = null;
@@ -330,10 +324,9 @@ export default {
     },
     async fetchDocter(selectedDate) {
       this.clearData();
-      //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
+      this.dataFetch.dataTimes = null;
 
-      //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
       this.selectedDate = selectedDate.datevalue;
 
@@ -345,6 +338,8 @@ export default {
           this.dataFetch.dataDocter = res.data;
           if (this.dataFetch.dataDocter.length == 1) {
             this.selectedDocter = res.data[0];
+          } else {
+            this.selectedDocter = "";
           }
         });
     },
@@ -362,11 +357,7 @@ export default {
     onChangeTime(booking) {
       this.dataPrepareSend.booking_id = booking.booking_id;
       this.dataShow.time = booking.time;
-
-      //================ เก็บไว้ใน ตัวแปร
       this.dataShow.activeBtnTime = booking.activeBtnTime;
-
-      //ให้กรอกอาการได้
       this.dataShow.disableSymptom = false;
     },
     sendToBackend() {
@@ -418,6 +409,12 @@ export default {
                         title: "กรุณา Activate บัญชี",
                         text:
                           "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
+                      });
+                    } else if (res.status == 203) {
+                      this.$swal({
+                        icon: "warning",
+                        title: "คำเตือน",
+                        text: res.data,
                       });
                     } else {
                       this.$swal({
