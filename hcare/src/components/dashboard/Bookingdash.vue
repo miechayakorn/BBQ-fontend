@@ -299,6 +299,8 @@ export default {
       this.totalcharacter = this.dataPrepareSend.symptom.length;
     },
     async fetchDate(serviceDataType) {
+      this.selectedDate = ""
+      this.selectedDocter = ""
       if (serviceDataType.type_id) {
         this.clearData();
         this.dataFetch.dataTimes = null;
