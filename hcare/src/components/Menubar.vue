@@ -25,7 +25,7 @@
       <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
         <li class="nav-item">
           <div class="float-right">
-            <select v-model="$i18n.locale">
+            <select v-model="selectLang">
               <option
                 v-for="(lang, i) in langs"
                 :key="`Lang${i}`"
@@ -208,7 +208,20 @@ import iconTime from "@/components/svg/icon/iconTime.vue";
 
 export default {
   data() {
-    return { langs: ["th", "en"] };
+    return { selectLang: "", langs: ["th", "en"] };
+  },
+  mounted() {
+    this.selectLang = localStorage.getItem("locale") || "th";
+  },
+  watch: {
+    selectLang: {
+      handler: async function (val, oldCal) {
+        if (val) {
+          this.$i18n.locale = val;
+          localStorage.setItem("locale", val);
+        }
+      },
+    },
   },
   components: {
     logoHeaderMini,
