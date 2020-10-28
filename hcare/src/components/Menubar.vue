@@ -83,7 +83,7 @@
           </router-link>
         </li>
         <hr class="lineHr" />
-        <div v-if="this.$store.state.token">
+        <div class="mb-3" v-if="this.$store.state.token">
           <li
             class="nav-item"
             data-toggle="collapse"
@@ -139,17 +139,6 @@
             </router-link>
           </li>
           <hr class="lineHr" />
-          <!-- <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
-              to="#"
-            >
-              <iconNoti style="margin-right:14px;" />Notification
-            </router-link>
-          </li> -->
           <router-link
             v-if="
               this.$store.state.role == 'ADMIN' ||
@@ -204,7 +193,6 @@ import iconCalendar from "@/components/svg/icon/iconCalendar.vue";
 import iconClock from "@/components/svg/icon/iconClock.vue";
 import iconHome from "@/components/svg/icon/iconHome.vue";
 import iconNote from "@/components/svg/icon/iconNote.vue";
-import iconNoti from "@/components/svg/icon/iconNoti.vue";
 import iconPaper from "@/components/svg/icon/iconPaper.vue";
 import iconTime from "@/components/svg/icon/iconTime.vue";
 
@@ -231,7 +219,6 @@ export default {
     iconClock,
     iconHome,
     iconNote,
-    iconNoti,
     iconPaper,
     iconTime,
     logoUser,
@@ -243,15 +230,16 @@ export default {
 <style>
 .navbar-collapse {
   position: absolute;
+  background: #99a3ff;
   top: 52.5px;
-  margin-left: 50%;
+  width: 35%;
+  margin-left: 65%;
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 15px;
-  width: 50%;
   transition: all 0.4s ease;
   display: block;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 992px) {
