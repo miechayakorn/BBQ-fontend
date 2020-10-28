@@ -155,7 +155,7 @@
             'form-control div-symptom',
             totalcharacter > limitChar ? 'is-invalid' : '',
           ]"
-          style="height: 144px;"
+          style="height: 144px"
           v-model="dataPrepareSend.symptom"
           @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
@@ -332,8 +332,8 @@ export default {
     },
     async fetchDocter(selectedDate) {
       this.clearData();
-      //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
+      this.dataFetch.dataTimes = null;
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
@@ -345,8 +345,10 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDocter = res.data;
-          if ((this.dataFetch.dataDocter.length == 1)) {
+          if (this.dataFetch.dataDocter.length == 1) {
             this.selectedDocter = res.data[0];
+          } else {
+            this.selectedDocter = "";
           }
         });
     },

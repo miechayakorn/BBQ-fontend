@@ -330,8 +330,8 @@ export default {
     },
     async fetchDocter(selectedDate) {
       this.clearData();
-      //เคลียสีปุ่ม
       this.dataShow.activeBtnTime = "";
+      this.dataFetch.dataTimes = null;
 
       //เก็บข้อมูล วันที่ เอาไว้ตอนสรุปก่อนกดยืนยัน
       this.dataShow.date = selectedDate.dateformat;
@@ -345,6 +345,8 @@ export default {
           this.dataFetch.dataDocter = res.data;
           if (this.dataFetch.dataDocter.length == 1) {
             this.selectedDocter = res.data[0];
+          } else {
+            this.selectedDocter = "";
           }
         });
     },
