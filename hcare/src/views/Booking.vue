@@ -410,6 +410,12 @@ export default {
                         text:
                           "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
                       });
+                    } else if (res.status == 203) {
+                      this.$swal({
+                        icon: "warning",
+                        title: "คำเตือน",
+                        text: res.data,
+                      });
                     } else {
                       this.$swal({
                         toast: true,
