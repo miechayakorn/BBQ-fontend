@@ -13,11 +13,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
-                <select
-                  id="serviceType"
-                  class="form-control"
-                  v-model="dataPrepareSend.type_id"
-                >
+                <select id="serviceType" class="form-control" v-model="service">
                   <option :value="null" disabled selected="selected">
                     -- กรุณาเลือกบริการ --
                   </option>
@@ -34,16 +30,18 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
                 <div><label for="InputName">เลือกวันที่</label></div>
-                <v-date-picker
-                  locale="th"
-                  color="indigo"
-                  :popover="{ placement: 'top', visibility: 'click' }"
-                  v-model="dataPrepareSend.date"
-                  :input-props="{
-                    class: 'form-control',
-                    placeholder: 'กรุณาเลือกวัน',
-                  }"
-                />
+                <select id="serviceDate" class="form-control" v-model="date">
+                  <option :value="null" disabled selected="selected">
+                    -- กรุณาเลือกวันที่ --
+                  </option>
+                  <option
+                    v-for="(dateService, index) in dataFetch.dataDateService"
+                    :key="index"
+                    :value="dateService.date"
+                  >
+                    {{ dateService.dateTH }}
+                  </option>
+                </select>
               </div>
             </div>
           </div>
@@ -147,16 +145,17 @@ export default {
       noContent: false,
       visibleState: false,
       toggleControlAll: true,
+      service: null,
       dataFetch: {
+        dataDateService: null,
         dataTypes: null,
         dataDates: null,
         dataSlotTime: [],
         dateText: null,
         toggle: null,
       },
+      date: null,
       dataPrepareSend: {
-        type_id: null,
-        date: null,
         slot: [],
       },
     };
@@ -164,6 +163,20 @@ export default {
   components: {
     man2,
     VclFacebook,
+  },
+  watch: {
+    service: {
+      handler: async function (val, oldCal) {
+        this.visibleState = false;
+        this.date = null;
+        this.fetchDateEditSlotTime(val);
+      },
+    },
+    date: {
+      handler: async function (val, oldCal) {
+        this.visibleState = false;
+      },
+    },
   },
   methods: {
     showSwalToast() {
@@ -180,6 +193,31 @@ export default {
         icon: "success",
         title: "บันทึกสำเร็จ",
       });
+    },
+    async fetchDateEditSlotTime(service) {
+      try {
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkdate`,
+            {
+              type_id: service.split("-")[0],
+              doctor_id: service.split("-")[1],
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            this.dataFetch.dataDateService = res.data;
+          });
+      } catch (error) {
+        console.log(error);
+        this.$swal({
+          ...errorSWAL,
+        });
+      }
     },
     logicStatusToggleAll() {
       // เช็คว่าถ้าทั้งหมดเป็น false ให้ toggleControlAll เป็นปิดtoggle
@@ -312,16 +350,16 @@ export default {
       //Send DATA
     },
     async fetchSlot() {
-      if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+      if (this.service && this.date) {
         this.loading = true;
         try {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/EditSlotTime/checkslot`,
               {
-                type_id: this.dataPrepareSend.type_id.split("-")[0],
-                date: formatDate.format(this.dataPrepareSend.date),
-                doctor_id: this.dataPrepareSend.type_id.split("-")[1],
+                type_id: this.service.split("-")[0],
+                date: formatDate.format(this.date),
+                doctor_id: this.service.split("-")[1],
               },
               {
                 headers: {

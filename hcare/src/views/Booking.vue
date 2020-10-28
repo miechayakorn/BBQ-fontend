@@ -145,9 +145,7 @@
         <div class="col-12">
           <div class="row justify-content-center">
             <div class="div-patient text-left">
-              <logoStaff
-                v-if="!this.selectedDocter.doctor_profile_picture"
-              />
+              <logoStaff v-if="!this.selectedDocter.doctor_profile_picture" />
               <img
                 v-if="this.selectedDocter.doctor_profile_picture"
                 class="rounded-circle"
@@ -345,7 +343,9 @@ export default {
         )
         .then((res) => {
           this.dataFetch.dataDocter = res.data;
-          this.selectedDocter = res.data[0];
+          if (this.dataFetch.dataDocter.length == 1) {
+            this.selectedDocter = res.data[0];
+          }
         });
     },
     async fetchTime() {
@@ -412,7 +412,6 @@ export default {
                     }
                   )
                   .then((res) => {
-                    console.log(res.data);
                     if (res.data.message == "Please verrify account") {
                       this.$swal({
                         icon: "warning",
