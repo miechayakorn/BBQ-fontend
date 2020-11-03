@@ -74,7 +74,10 @@
       </div>
       <div class="mt-2">
         <div class="row mt-6">
-          <DashboardTable :dataBookingTable="userBookings" />
+          <DashboardTable
+            :dataBookingTable="userBookings"
+            v-on:fetchAppointmentAgain="fetchAppointment($event)"
+          />
         </div>
       </div>
     </div>
@@ -136,6 +139,11 @@ export default {
       });
   },
   methods: {
+    fetchAppointment(fetchAppointmentAgain) {
+      if (fetchAppointmentAgain) {
+        this.sendToBackend();
+      }
+    },
     async fetchDate(serviceDataType) {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
