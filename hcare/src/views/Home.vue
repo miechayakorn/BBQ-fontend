@@ -147,7 +147,7 @@
               <div class="col-12 mt-3"><iconAnnouncement /></div>
               <div class="col-12 mt-3">
                 <h5 style="font-weight: bold; color: #5e65a1">
-                  ประกาศบริการ : {{ item.type_name }}
+                  ประกาศปิดบริการ : {{ item.type_name }}
                 </h5>
                 <div class="col-12 text-center">
                   <p>

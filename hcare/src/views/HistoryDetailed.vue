@@ -110,7 +110,7 @@ export default {
       .catch((error) => {
         console.log("===== Backend-error ======");
         console.error(error.response);
-        this.$router.push("/appointment");
+        this.$router.go(-1)
       });
     this.loading = false;
   },
