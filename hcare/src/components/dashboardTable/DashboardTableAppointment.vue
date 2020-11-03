@@ -164,7 +164,7 @@ export default {
         width: "678px",
         html:
           "เพิ่มลิงค์สำหรับการ Meeting" +
-          `<input id="link-input" placeholder="ใส่ลิงค์" class="swal2-input" ${
+          `<input id="link-input" placeholder="เริ่มต้นด้วย https:// หรือ http://" class="swal2-input" ${
             link_meeting == null ? "" : "value=" + link_meeting
           }>` +
           "บันทึกเพิ่มเติม" +
@@ -203,7 +203,7 @@ export default {
                 icon: "success",
                 title: "บันทึกสำเร็จ",
               });
-              this.$router.go();
+              this.$emit("fetchAppointmentAgain", true);
             })
             .catch((error) => {
               console.log("===== Backend-error ======");
@@ -225,6 +225,15 @@ export default {
         confirmButtonColor: "#d33",
         showLoaderOnConfirm: true,
         preConfirm: () => {
+          this.$swal({
+            title: "กรุณารอสักครู่",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
+
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/cancel`,
@@ -244,7 +253,7 @@ export default {
                 icon: "success",
                 title: "ยกเลิกสำเร็จ",
               });
-              this.$router.go();
+              this.$emit("fetchAppointmentAgain", true);
             })
             .catch((error) => {
               console.log("===== Backend-error ======");

@@ -125,7 +125,7 @@ export default {
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
             const redirectPath =
-              this.$route.query.redirect || "/admin/dashboard";
+              this.$route.query.redirect || "/";
             this.$router.push(redirectPath);
           })
           .catch((error) => {

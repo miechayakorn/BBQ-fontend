@@ -2,8 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import CryptoJS from "crypto-js";
 import store from "@/store";
-
-import NotFound from "../views/404.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -200,7 +198,7 @@ const routes = [
   },
   {
     path: "*",
-    component: NotFound
+    redirect: "/",
   }
 ];
 

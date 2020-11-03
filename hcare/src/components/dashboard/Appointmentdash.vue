@@ -6,7 +6,6 @@
           <doctor3
             class="d-none d-md-block"
             style="
-              margin: 0;
               position: absolute;
               top: 50%;
               left: 50%;
@@ -65,18 +64,21 @@
         </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="text-left" style="margin-top: 32px">
-        <h6>
-          <b>นัดหมายแพทย์ทั้งหมด</b>
-        </h6>
+    <div v-if="visibleState">
+      <div class="row">
+        <div class="text-left" style="margin-top: 32px">
+          <h6>
+            <b>นัดหมายแพทย์ทั้งหมด</b>
+          </h6>
+        </div>
       </div>
-    </div>
-
-    <div class="mt-2">
-      <div class="row mt-6">
-        <DashboardTable :dataBookingTable="userBookings" />
+      <div class="mt-2">
+        <div class="row mt-6">
+          <DashboardTable
+            :dataBookingTable="userBookings"
+            v-on:fetchAppointmentAgain="fetchAppointment($event)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -93,6 +95,7 @@ import formatDate from "@/utility/formatDate";
 export default {
   data() {
     return {
+      visibleState: false,
       dataFetch: {
         dataTypes: null,
         dataDates: null,
@@ -120,8 +123,6 @@ export default {
     doctor3,
   },
   async mounted() {
-    //เรียกข้อมูล Default
-    //Type
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
@@ -129,7 +130,6 @@ export default {
       .then((res) => {
         this.dataFetch.dataTypes = res.data;
       });
-    //Date
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
@@ -139,6 +139,11 @@ export default {
       });
   },
   methods: {
+    fetchAppointment(fetchAppointmentAgain) {
+      if (fetchAppointmentAgain) {
+        this.sendToBackend();
+      }
+    },
     async fetchDate(serviceDataType) {
       this.dataPrepareSend.type_id = serviceDataType.type_id;
       await axios
@@ -153,11 +158,6 @@ export default {
         });
     },
 
-    async fetchTime(selectedDate) {
-      this.dataPrepareSend.date = selectedDate.datevalue;
-      this.sendToBackend();
-    },
-
     async sendToBackend() {
       await axios
         .get(
@@ -170,6 +170,7 @@ export default {
         )
         .then((res) => {
           this.userBookings = res.data;
+          this.visibleState = true;
         })
         .catch((error) => {
           console.log("===== Backend-error ======");
