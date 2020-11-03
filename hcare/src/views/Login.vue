@@ -101,7 +101,7 @@ export default {
               name: "Register",
               query: {
                 email: email,
-                redirect: this.$route.query.redirect,
+                redirect: this.$route.query.redirect || "/",
               },
             });
           }
