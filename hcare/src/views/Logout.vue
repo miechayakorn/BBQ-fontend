@@ -13,6 +13,8 @@ export default {
         first_name: null,
         last_name: null,
       };
+      await authentication.initialize();
+      await authentication.signOut();
     }
     this.$swal({
       toast: true,

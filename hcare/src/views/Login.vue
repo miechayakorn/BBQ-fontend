@@ -2,20 +2,23 @@
   <div>
     <logoHeader />
     <div class="container fixed-container mb-3 bg" style="margin-top: 10px">
-      <div class="col-12">
+      <div v-if="!visibleState" class="col-12" style="margin-top: 99px">
         <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
           <span style="font-weight: 900; color: white"
             >Log in with KMUTT account</span
           >
         </button>
+        <div class="mt-3">
+          ไม่สามารถเข้าสู่ระบบได้
+          <span class="text-link" @click="visibleState = true">
+            ใช่หรือไม่ ?</span
+          >
+        </div>
       </div>
-      or
-      <SendMailForm v-if="!email" v-on:email="getEmail" />
-      <ComfirmOTPForm v-else-if="email" :email="email" />
-    </div>
-    <div>
-      Don’t have an account?
-      <router-link to="/register">Register</router-link>
+      <div v-if="visibleState">
+        <SendMailForm v-if="!email" v-on:email="getEmail" />
+        <ComfirmOTPForm v-else-if="email" :email="email" />
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +36,7 @@ export default {
   data() {
     return {
       email: null,
+      visibleState: false,
     };
   },
   async mounted() {
@@ -132,19 +136,20 @@ export default {
 </script>
 
 <style>
-/* enable absolute positioning */
+.text-link {
+  color: #99a3ff;
+  cursor: pointer;
+}
 .inner-addon {
   position: relative;
 }
 
-/* style icon */
 .inner-addon .fas {
   position: absolute;
   padding: 10px;
   pointer-events: none;
 }
 
-/* align icon */
 .left-addon .fas {
   left: 0px;
 }
@@ -152,7 +157,6 @@ export default {
   right: 0px;
 }
 
-/* add padding  */
 .left-addon input {
   padding-left: 30px;
 }

@@ -34,7 +34,7 @@
       <div class="col-12">
         <button
           @click="sendToBackend"
-          class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+          class="btn btn-primary btnBlock btnConfirm mt-4 fixed-button"
         >
           <span style="font-weight: 900">Send OTP</span>
         </button>
@@ -139,6 +139,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

@@ -1,10 +1,8 @@
 <template>
   <div class="form-group">
     <p class="font-weight-bold">{{ email }}</p>
-    <p>
-      <span style="font-weight: lighter; color: #888888"
-        >กรุณานำ OTP ที่ได้รับจากอีเมลมากรอก</span
-      >
+    <p style="font-weight: lighter; color: #888888">
+      กรุณานำ OTP ที่ได้รับจากอีเมลมากรอก
     </p>
     <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left mt-2">
@@ -35,7 +33,7 @@
         <div class="col-12">
           <button
             @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+            class="btn btn-primary btnBlock btnConfirm mt-4 fixed-button"
           >
             <span style="font-weight: 900">Confirm</span>
           </button>
@@ -124,8 +122,7 @@ export default {
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
-            const redirectPath =
-              this.$route.query.redirect || "/";
+            const redirectPath = this.$route.query.redirect || "/";
             this.$router.push(redirectPath);
           })
           .catch((error) => {
@@ -144,5 +141,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
