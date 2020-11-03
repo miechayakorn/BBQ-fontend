@@ -7,7 +7,9 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold">{{ $t("location") }}</label>
+        <label class="font-weight-bold">{{ $t("serviceschedule") }}</label>
+      </div>
+      <div class="form-group text-left">
         <div class="col-12 text-left">
           <div
             class="custom-control custom-radio custom-control-inline"
@@ -182,6 +184,8 @@ export default {
         })
         .then((res) => {
           this.dataFetch.dotCalendar = res.data;
+          let dateToday = new Date();
+          this.dateSelected = dateToday;
         })
         .catch((error) => {
           console.log("===== Backend-error ======");
