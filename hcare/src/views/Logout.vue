@@ -13,10 +13,6 @@ export default {
         first_name: null,
         last_name: null,
       };
-      if (localStorage.getItem("adal.idtoken")) {
-        await authentication.initialize();
-        await authentication.signOut();
-      }
     }
     this.$swal({
       toast: true,
@@ -30,5 +26,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
