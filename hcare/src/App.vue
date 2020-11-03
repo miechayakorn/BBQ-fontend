@@ -99,6 +99,7 @@ body {
   background-color: #f9f9fc;
   text-align: center;
   color: #555555;
+  padding-right: 0 !important;
 }
 .font-weight-bold {
   color: #444444;

@@ -7,15 +7,16 @@ export default {
   async mounted() {
     if (localStorage.getItem("user")) {
       localStorage.removeItem("user");
-      //Clear data in store
       this.$store.state.token = null;
       this.$store.state.role = null;
       this.$store.state.user = {
         first_name: null,
         last_name: null,
       };
-      await authentication.initialize();
-      await authentication.signOut();
+      if (localStorage.getItem("adal.idtoken")) {
+        await authentication.initialize();
+        await authentication.signOut();
+      }
     }
     this.$swal({
       toast: true,
