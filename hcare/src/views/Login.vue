@@ -4,12 +4,11 @@
     <div class="container fixed-container mb-3 bg" style="margin-top: 10px">
       <div v-if="!visibleState" class="col-12" style="margin-top: 99px">
         <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
-          <span style="font-weight: 900; color: white"
-            >{{ $t("Loginwithkmutt") }}</span
-          >
+          <span style="font-weight: 900; color: white">{{
+            $t("Loginwithkmutt")
+          }}</span>
         </button>
         <div class="mt-3">
-         
           <span class="text-link" @click="visibleState = true">
             {{ $t("cannotlogin") }}</span
           >
@@ -18,6 +17,9 @@
       <div v-if="visibleState">
         <SendMailForm v-if="!email" v-on:email="getEmail" />
         <ComfirmOTPForm v-else-if="email" :email="email" />
+        <div class="text-link" @click="visibleState = false">
+          &#60; {{ $t("goback") }}
+        </div>
       </div>
     </div>
   </div>
