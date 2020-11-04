@@ -36,11 +36,12 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="InputName"> {{ $t("password") }}</label>
+              <label for="InputPasswordAdmin"> {{ $t("password") }}</label>
               <div class="inner-addon left-addon">
                 <i class="fas fa-key"></i>
                 <input
                   type="password"
+                  id="InputPasswordAdmin"
                   v-model="password"
                   class="form-control"
                   :placeholder="$t('password')"
@@ -309,7 +310,7 @@ export default {
           this.email = this.email.split(" ").join("");
 
           await axios
-            .post(`${process.env.VUE_APP_BACKEND_URL}/forgetpassword`, {
+            .post(`${process.env.VUE_APP_BACKEND_URL}/admin/forgetpassword`, {
               email: `${this.forgetPassword.email}${this.forgetPassword.lastname_email}`,
             })
             .then((res) => {
