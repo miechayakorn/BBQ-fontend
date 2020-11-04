@@ -25,6 +25,7 @@
     "doctorcard": "แพทย์",
     "timecard": "เวลา",
     "KMUTTEmail": "อีเมลมหาวิทยาลัย",
+    "fillOTP" : "กรุณากรอก OTP ที่ได้รับจากอีเมล",
 
     "name": "ชื่อ",
     "surname": "นามสกุล",

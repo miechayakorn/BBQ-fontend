@@ -2,7 +2,7 @@
   <div class="form-group">
     <p class="font-weight-bold">{{ email }}</p>
     <p style="font-weight: lighter; color: #888888">
-      กรุณานำ OTP ที่ได้รับจากอีเมลมากรอก
+      {{ $t("fillOTP") }}
     </p>
     <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left mt-2">
