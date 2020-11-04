@@ -14,25 +14,25 @@
     </p>
     <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
       <div class="form-group text-left">
-        <label for="InputPass">New password</label>
+        <label for="InputPass">{{ $t("newpass") }}</label>
         <input
           type="password"
           id="InputPass"
           v-model="password"
-          placeholder="กรุณาพิมพ์รหัสผ่าน"
+          :placeholder="$t('yourNewPassword')"
           :class="
             checkPasswordEqual() ? 'form-control' : 'form-control is-invalid'
           "
         />
-        <div class="invalid-feedback">รหัสผ่านไม่ตรงกัน</div>
+        <div class="invalid-feedback">{{ $t("passwordNotMatch") }}</div>
       </div>
       <div class="form-group text-left">
-        <label for="InputPassNew">Confirm password</label>
+        <label for="InputPassNew">{{ $t("confirmPassword") }}</label>
         <input
           type="password"
           id="InputPassNew"
           v-model="confirmPassword"
-          placeholder="กรุณาพิมพ์รหัสผ่านอีกครั้ง"
+          :placeholder="$t('confirmYourNewPassword')"
           :class="
             checkPasswordEqual() ? 'form-control' : 'form-control is-invalid'
           "

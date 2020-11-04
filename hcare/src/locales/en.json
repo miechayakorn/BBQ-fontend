@@ -42,5 +42,11 @@
     "resetpassword": "Reset password",
 
     "Loginwithkmutt": "Log in with KMUTT account",
-    "cannotlogin": " Can not log in ?"
+    "cannotlogin": " Can not log in ?",
+
+    "newpass" : "New password",
+    "passwordNotMatch": "passwords do not match",
+    "confirmPassword" : "Confirm password",
+    "yourNewPassword" : "Your new password",
+    "confirmYourNewPassword" : "Confirm your new password"
 }
