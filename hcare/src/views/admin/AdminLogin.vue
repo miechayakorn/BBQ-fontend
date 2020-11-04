@@ -36,11 +36,12 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="InputName"> {{ $t("password") }}</label>
+              <label for="InputPasswordAdmin"> {{ $t("password") }}</label>
               <div class="inner-addon left-addon">
                 <i class="fas fa-key"></i>
                 <input
                   type="password"
+                  id="InputPasswordAdmin"
                   v-model="password"
                   class="form-control"
                   :placeholder="$t('password')"
@@ -146,8 +147,8 @@ export default {
       password: "",
       forgetPassword: {
         email: "",
-        lastname_email: "@mail.kmutt.ac.th"
-      }
+        lastname_email: "@mail.kmutt.ac.th",
+      },
     };
   },
   mounted() {
@@ -228,23 +229,23 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          }
+          },
         });
         this.email = this.email.split(" ").join("");
 
         await axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
             email: `${this.email}${this.lastname_email}`,
-            password: this.password
+            password: this.password,
           })
-          .then(res => {
+          .then((res) => {
             this.$store.state.token = res.data.token;
             this.$store.state.role = res.data.role;
             this.$store.state.user = {
               account_id: res.data.account_id,
               first_name: res.data.first_name,
               last_name: res.data.last_name,
-              profile_picture: res.data.profile_picture
+              profile_picture: res.data.profile_picture,
             };
 
             //encrypt dataSetLocal
@@ -279,13 +280,13 @@ export default {
             this.$router.push(redirectPath);
             this.$swal.close();
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("===== Backend-error ======");
             console.error(error);
             this.$swal({
               title: "คำเตือน",
               text: "รหัสผ่านไม่ถูกต้อง",
-              icon: "warning"
+              icon: "warning",
             });
           });
       } else {
@@ -293,15 +294,68 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
         });
       }
     },
-    async sendToBackendForgot() {}
+    async sendToBackendForgot() {
+      if (this.checkEmailForgot() == true) {
+        if (this.forgetPassword.email != "") {
+          this.$swal({
+            ...waiting,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
+          this.email = this.email.split(" ").join("");
+
+          await axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/admin/forgetpassword`, {
+              email: `${this.forgetPassword.email}${this.forgetPassword.lastname_email}`,
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$swal({
+                  icon: "success",
+                  title: "รีเซ็ตรหัสผ่าน สำเร็จ!",
+                  text:
+                    "กรุณาตรวจสอบอีเมลของท่าน เพื่อทำการเปลี่ยนรหัสผ่านใหม่",
+                });
+              } else if (res.status == 202) {
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              }
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error);
+              this.$swal({
+                ...errorSWAL,
+              });
+            });
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณากรอกข้อมูล",
+          });
+        }
+      } else {
+        this.forgetPassword.email = "";
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+        });
+      }
+    },
   },
   components: {
-    logoHeader
-  }
+    logoHeader,
+  },
 };
 </script>
 
@@ -311,27 +365,20 @@ export default {
   cursor: pointer;
 }
 
-/* enable absolute positioning */
 .inner-addon {
   position: relative;
 }
-
-/* style icon */
 .inner-addon .fas {
   position: absolute;
   padding: 10px;
   pointer-events: none;
 }
-
-/* align icon */
 .left-addon .fas {
   left: 0px;
 }
 .right-addon .fas {
   right: 0px;
 }
-
-/* add padding  */
 .left-addon input {
   padding-left: 30px;
 }

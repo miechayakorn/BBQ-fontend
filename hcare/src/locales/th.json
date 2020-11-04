@@ -34,7 +34,7 @@
     "phoneno": "เบอร์โทรศัพท์",
     "accept": "ยอมรับข้อตกลงและเงื่อนไข",
 
-    "emailkmutt": "อีเมลมหาวิทยาลัย",
+    "emailkmutt": "กรุณาพิมพ์ email มหาวิทยาลัย",
     "noemail": "ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
     "password": "รหัสผ่าน",
     "forgotpassword": "ลืมรหัสผ่าน",
@@ -43,5 +43,11 @@
     "resetpassword": "รีเซ็ตรหัสผ่าน",
 
     "Loginwithkmutt": "เข้าสู่ระบบด้วย KMUTT account",
-    "cannotlogin": " ไม่สามารถเข้าสู่ระบบได้ ?"
+    "cannotlogin": " ไม่สามารถเข้าสู่ระบบได้ ?",
+
+    "newpass" : "รหัสผ่านใหม่",
+    "passwordNotMatch" : "รหัสผ่านไม่ตรงกัน",
+    "confirmPassword" : "ยืนยันรหัสผ่าน",
+    "yourNewPassword" : "กรุณาพิมพ์รหัสผ่าน",
+    "confirmYourNewPassword" : "กรุณาพิมพ์รหัสผ่านอีกครั้ง"
 }

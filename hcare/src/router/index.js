@@ -136,6 +136,12 @@ const routes = [
       import(/* webpackChunkName: "hcare-admin" */ "../views/admin/AdminRegister.vue"),
   },
   {
+    path: "/admin/forgetpassword",
+    name: "ForgetPassword",
+    component: () =>
+      import(/* webpackChunkName: "hcare-admin" */ "../views/admin/ForgetPassword.vue"),
+  },
+  {
     path: "/admin",
     name: "Admin",
     redirect: "/admin/dashboard",
