@@ -74,6 +74,12 @@ const routes = [
       import(/* webpackChunkName: "hcare-default" */ "../views/RegisterConfirm.vue")
   },
   {
+    path: "/terms-of-service",
+    name: "TermsOfService",
+    component: () =>
+      import(/* webpackChunkName: "hcare-default" */ "../views/TermsOfService.vue")
+  },
+  {
     path: "/profile",
     name: "Profile",
     component: () =>
