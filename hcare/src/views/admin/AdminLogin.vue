@@ -6,20 +6,20 @@
         <div class="form-group text-left">
           <div class="col-xs-12" style="margin-top: 28px">
             <div class="form-group text-left">
-              <label for="InputName">Email</label>
+              <label for="InputName"> {{ $t("email") }}</label>
               <div class="inner-addon left-addon">
                 <i class="fas fa-user"></i>
                 <input
                   type="text"
                   id="InputName"
                   v-model="email"
-                  placeholder="อีเมล มหาวิทยาลัย"
+                  :placeholder="$t('emailkmutt')"
                   :class="
                     checkEmail() ? 'form-control' : 'form-control is-invalid'
                   "
                 />
                 <div class="invalid-feedback">
-                  ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+                  {{ $t("noemail") }}
                 </div>
               </div>
             </div>
@@ -36,19 +36,19 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="InputName">Password</label>
+              <label for="InputName"> {{ $t("password") }}</label>
               <div class="inner-addon left-addon">
                 <i class="fas fa-key"></i>
                 <input
                   type="password"
                   v-model="password"
                   class="form-control"
-                  placeholder="รหัสผ่าน"
+                  :placeholder="$t('password')"
                 />
               </div>
             </div>
             <div class="text-right text-link" @click="visibleState = true">
-              Forgot your password?
+              {{ $t("forgotpassword") }}
             </div>
             <div class="row" style="text-align: center">
               <div class="col-12">
@@ -76,24 +76,26 @@
             margin-top: 56px;
           "
         >
-          Forgot your password?
+          {{ $t("resetpassword") }}
         </p>
         <div class="container fixed-container mb-3 bg" style="margin-top: 40px">
           <div class="form-group text-left">
-            <label for="InputName">Email</label>
+            <label for="InputName">{{ $t("email") }}</label>
             <div class="inner-addon left-addon">
               <i class="fas fa-user"></i>
               <input
                 type="text"
                 id="InputName"
                 v-model="forgetPassword.email"
-                placeholder="อีเมล มหาวิทยาลัย"
+                :placeholder="$t('emailkmutt')"
                 :class="
-                  checkEmailForgot() ? 'form-control' : 'form-control is-invalid'
+                  checkEmailForgot()
+                    ? 'form-control'
+                    : 'form-control is-invalid'
                 "
               />
               <div class="invalid-feedback">
-                ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+                {{ $t("noemail") }}
               </div>
             </div>
           </div>
@@ -115,11 +117,11 @@
                 @click="sendToBackendForgot"
                 class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
               >
-                <span style="font-weight: 900">Send Email</span>
+                <span style="font-weight: 900"> {{ $t("sendemail") }}</span>
               </button>
 
               <div class="text-link" @click="visibleState = false">
-                &#60; Go back to log in page
+                &#60; {{ $t("goback") }}
               </div>
             </div>
           </div>
@@ -144,8 +146,8 @@ export default {
       password: "",
       forgetPassword: {
         email: "",
-        lastname_email: "@mail.kmutt.ac.th",
-      },
+        lastname_email: "@mail.kmutt.ac.th"
+      }
     };
   },
   mounted() {
@@ -226,23 +228,23 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          },
+          }
         });
         this.email = this.email.split(" ").join("");
 
         await axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
             email: `${this.email}${this.lastname_email}`,
-            password: this.password,
+            password: this.password
           })
-          .then((res) => {
+          .then(res => {
             this.$store.state.token = res.data.token;
             this.$store.state.role = res.data.role;
             this.$store.state.user = {
               account_id: res.data.account_id,
               first_name: res.data.first_name,
               last_name: res.data.last_name,
-              profile_picture: res.data.profile_picture,
+              profile_picture: res.data.profile_picture
             };
 
             //encrypt dataSetLocal
@@ -277,13 +279,13 @@ export default {
             this.$router.push(redirectPath);
             this.$swal.close();
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("===== Backend-error ======");
             console.error(error);
             this.$swal({
               title: "คำเตือน",
               text: "รหัสผ่านไม่ถูกต้อง",
-              icon: "warning",
+              icon: "warning"
             });
           });
       } else {
@@ -291,17 +293,15 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th"
         });
       }
     },
-    async sendToBackendForgot(){
-      
-    }
+    async sendToBackendForgot() {}
   },
   components: {
-    logoHeader,
-  },
+    logoHeader
+  }
 };
 </script>
 

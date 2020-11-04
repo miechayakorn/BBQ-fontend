@@ -31,5 +31,14 @@
     "email": "Email",
     "suggestemail": "please use @mail.kmutt.ac.th or @kmutt.ac.th",
     "phoneno": "Phone number",
-    "accept": "Accept terms and conditions"
+    "accept": "Accept terms and conditions",
+
+    "emailkmutt": "KMUTT email",
+    "noemail": "plese use @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+    "password": "Password",
+    "forgotpassword": "Forgot your password?",
+    "sendemail": "Send email",
+    "goback": "Go back to log in page",
+    "resetpassword": "Reset password"
+
 }

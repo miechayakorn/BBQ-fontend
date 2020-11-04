@@ -25,11 +25,26 @@
     "doctorcard": "แพทย์",
     "timecard": "เวลา",
     "KMUTTEmail": "อีเมลมหาวิทยาลัย",
+
     "name": "ชื่อ",
     "surname": "นามสกุล",
     "stdID": "รหัสนักคึกษา / หมายเลขบุคลากร มจธ.",
     "email": "อีเมล",
     "suggestemail": "กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th",
     "phoneno": "เบอร์โทรศัพท์",
-    "accept": "ยอมรับข้อตกลงและเงื่อนไข"
+    "accept": "ยอมรับข้อตกลงและเงื่อนไข",
+
+    "emailkmutt": "อีเมลมหาวิทยาลัย",
+    "noemail": "ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+    "password": "รหัสผ่าน",
+    "forgotpassword": "ลืมรหัสผ่าน",
+    "sendemail": "ส่งอีเมล",
+    "goback": "กลับไปหน้า log in",
+    "resetpassword": "รีเซ็ตรหัสผ่าน"
+
+
+
+
+
+
 }
