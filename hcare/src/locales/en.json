@@ -24,5 +24,12 @@
     "servicecard": "Service",
     "doctorcard": "Doctor",
     "timecard": "Time",
-    "KMUTTEmail": "KMUTT Email"
+    "KMUTTEmail": "KMUTT Email",
+    "name": "Name",
+    "surname": "Surname",
+    "stdID": "Student ID or Staff ID",
+    "email": "Email",
+    "suggestemail": "please use @mail.kmutt.ac.th or @kmutt.ac.th",
+    "phoneno": "Phone number",
+    "accept": "Accept terms and conditions"
 }

@@ -24,5 +24,12 @@
     "servicecard": "บริการ",
     "doctorcard": "แพทย์",
     "timecard": "เวลา",
-    "KMUTTEmail": "อีเมล มหาวิทยาลัย"
+    "KMUTTEmail": "อีเมลมหาวิทยาลัย",
+    "name": "ชื่อ",
+    "surname": "นามสกุล",
+    "stdID": "รหัสนักคึกษา / หมายเลขบุคลากร มจธ.",
+    "email": "อีเมล",
+    "suggestemail": "กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+    "phoneno": "เบอร์โทรศัพท์",
+    "accept": "ยอมรับข้อตกลงและเงื่อนไข"
 }

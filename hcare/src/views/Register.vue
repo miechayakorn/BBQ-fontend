@@ -5,40 +5,40 @@
       <form>
         <div class="col-xs-12" style="margin-top: 28px">
           <div class="form-group">
-            <label for="InputFirstName">ชื่อ</label>
+            <label for="InputFirstName">{{ $t("name") }}</label>
             <input
               type="text"
               id="InputFirstName"
               v-model="dataUserInfo.first_name"
               class="form-control"
-              placeholder="ชื่อ"
+              :placeholder="$t('name')"
               required
             />
           </div>
           <div class="form-group">
-            <label for="InputLastName">นามสกุล</label>
+            <label for="InputLastName">{{ $t("surname") }}</label>
             <input
               type="text"
               id="InputLastName"
               v-model="dataUserInfo.last_name"
               class="form-control"
-              placeholder="นามสกุล"
+              :placeholder="$t('surname')"
               required
             />
           </div>
           <div class="form-group">
-            <label for="InputHN">รหัสนักคึกษา / หมายเลขบุคลากร มจธ.</label>
+            <label for="InputHN">{{ $t("stdID") }}</label>
             <input
               type="text"
               id="InputHN"
               v-model="dataUserInfo.hn_number"
               class="form-control"
-              placeholder="รหัส / หมายเลข"
+              :placeholder="$t('stdID')"
               required
             />
           </div>
           <div class="form-group">
-            <label for="InputEmail">อีเมล</label>
+            <label for="InputEmail">{{ $t("email") }}</label>
             <input
               v-if="this.$route.query.email"
               type="email"
@@ -59,17 +59,17 @@
               required
             />
             <div class="invalid-feedback">
-              กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th
+              {{ $t("suggestemail") }}
             </div>
           </div>
           <div class="form-group">
-            <label for="InputTel">เบอร์โทรศัพท์</label>
+            <label for="InputTel">{{ $t("phoneno") }}</label>
             <input
               type="tel"
               id="InputTel"
               v-model="dataUserInfo.telephone"
               class="form-control"
-              placeholder="เบอร์โทรศัพท์"
+              :placeholder="$t('phoneno')"
               required
             />
           </div>
@@ -90,7 +90,7 @@
                 >terms of service</router-link
               ></label
             >
-            <div class="invalid-feedback">กรุณากดยอมรับ</div>
+            <div class="invalid-feedback">{{ $t("accept") }}</div>
           </div>
           <div class="row">
             <div class="col-12 text-center">
@@ -122,8 +122,8 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: "",
-      },
+        hn_number: ""
+      }
     };
   },
   mounted() {
@@ -181,7 +181,7 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            },
+            }
           });
 
           await axios
@@ -190,22 +190,22 @@ export default {
               last_name: this.dataUserInfo.last_name.split(" ").join(""),
               email: this.dataUserInfo.email.split(" ").join(""),
               telephone: this.dataUserInfo.telephone.split(" ").join(""),
-              hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
+              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
             })
-            .then((res) => {
+            .then(res => {
               this.$swal({
                 icon: "success",
                 title: "ลงทะเบียนสำเร็จ",
                 html:
                   "<hr/>" +
-                  '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>',
-              }).then((result) => {
+                  '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>'
+              }).then(result => {
                 if (result.value) {
                   this.$router.push("/");
                 }
               });
             })
-            .catch((error) => {
+            .catch(error => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
@@ -214,17 +214,17 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ถูกต้อง",
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากดยอมรับ ข้อตกลงการให้บริการ terms of service",
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
