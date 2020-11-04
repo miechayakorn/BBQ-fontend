@@ -40,11 +40,8 @@
     "forgotpassword": "ลืมรหัสผ่าน",
     "sendemail": "ส่งอีเมล",
     "goback": "กลับไปหน้า log in",
-    "resetpassword": "รีเซ็ตรหัสผ่าน"
+    "resetpassword": "รีเซ็ตรหัสผ่าน",
 
-
-
-
-
-
+    "Loginwithkmutt": "เข้าสู่ระบบด้วย KMUTT account",
+    "cannotlogin": " ไม่สามารถเข้าสู่ระบบได้ ?"
 }

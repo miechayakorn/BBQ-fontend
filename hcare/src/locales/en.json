@@ -39,6 +39,8 @@
     "forgotpassword": "Forgot your password?",
     "sendemail": "Send email",
     "goback": "Go back to log in page",
-    "resetpassword": "Reset password"
+    "resetpassword": "Reset password",
 
+    "Loginwithkmutt": "Log in with KMUTT account",
+    "cannotlogin": " Can not log in ?"
 }
