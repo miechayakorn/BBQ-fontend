@@ -327,7 +327,6 @@ export default {
                   text: res.data,
                 });
               }
-              this.$swal.close();
             })
             .catch((error) => {
               console.log("===== Backend-error ======");
