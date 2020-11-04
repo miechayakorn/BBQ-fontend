@@ -78,7 +78,7 @@
             to="/login"
           >
             <p class="d-flex justify-content-center mb-0 mt-2">
-              กรุณา เข้าสู่ระบบ
+              {{ $t("loginMessage") }}
             </p>
           </router-link>
         </li>
@@ -102,7 +102,7 @@
               class="nav-link blackTextMenu"
               to="/booking"
             >
-              <iconNote style="margin-right: 14px" />{{ $t('appointment') }}
+              <iconNote style="margin-right: 14px" />{{ $t("appointment") }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -113,7 +113,9 @@
               class="nav-link blackTextMenu"
               to="/appointment"
             >
-              <iconCalendar style="margin-right: 14px" />{{$t('myappointment')}}
+              <iconCalendar style="margin-right: 14px" />{{
+                $t("myappointment")
+              }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -124,7 +126,9 @@
               class="nav-link blackTextMenu"
               to="/schedule"
             >
-              <iconClock style="margin-right: 14px" />{{$t('serviceschedule')}}
+              <iconClock style="margin-right: 14px" />{{
+                $t("serviceschedule")
+              }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -135,7 +139,7 @@
               class="nav-link blackTextMenu"
               to="/history"
             >
-              <iconTime style="margin-right: 14px" />{{$t('history')}}
+              <iconTime style="margin-right: 14px" />{{ $t("history") }}
             </router-link>
           </li>
           <hr class="lineHr" />

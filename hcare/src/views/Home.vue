@@ -7,7 +7,6 @@
     </div>
     <div v-if="!loading" class="container home-screen">
       <div class="row">
-        
         <div class="col-6 col-md-3 p-1">
           <router-link to="/booking">
             <div class="btnHomeActive m-1">
@@ -16,7 +15,9 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconNote2 :color="'white'" />
-                <p style="color: #ffffff; margin-top: 8px">{{ $t('appointment') }}</p>
+                <p style="color: #ffffff; margin-top: 8px">
+                  {{ $t("appointment") }}
+                </p>
               </div>
             </div>
           </router-link>
@@ -29,7 +30,9 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconCalendar2 />
-                <p style="color: #ffffff; margin-top: 8px">{{$t('myappointment')}}</p>
+                <p style="color: #ffffff; margin-top: 8px">
+                  {{ $t("myappointment") }}
+                </p>
               </div>
             </div>
           </router-link>
@@ -42,7 +45,9 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconClock2 />
-                <p style="color: #ffffff; margin-top: 8px">{{$t('serviceschedule')}}</p>
+                <p style="color: #ffffff; margin-top: 8px">
+                  {{ $t("serviceschedule") }}
+                </p>
               </div>
             </div>
           </router-link>
@@ -55,7 +60,9 @@
                 style="margin-top: 32px; margin-bottom: 32px"
               >
                 <iconMedicine />
-                <p style="color: #ffffff; margin-top: 8px">{{$t('history')}}</p>
+                <p style="color: #ffffff; margin-top: 8px">
+                  {{ $t("history") }}
+                </p>
               </div>
             </div>
           </router-link>
@@ -68,14 +75,14 @@
               </div>
               <div v-if="this.$store.state.token == null" class="col-7">
                 <h6 class="card-title text-center title-card-app">
-                  กรุณา เข้าสู่ระบบ
+                  {{ $t("loginMessage") }}
                 </h6>
-                  <router-link
-                    to="/login"
-                    class="btn btn-primary btn-comming link-meeting text-white"
-                  >
-                    <span class="px-4">Login</span>
-                  </router-link>
+                <router-link
+                  to="/login"
+                  class="btn btn-primary btn-comming link-meeting text-white"
+                >
+                  <span class="px-4">Login</span>
+                </router-link>
               </div>
               <div
                 v-if="this.$store.state.token && checkAppointment"
@@ -96,23 +103,15 @@
                   <h6
                     class="card-title text-md-center text-left title-card-app"
                   >
-                    {{$t('upcoming')}}
+                    {{ $t("upcoming") }}
                   </h6>
                   <p
                     class="text-md-center text-left"
-                    style="
-                      font-size: 12px;
-                      line-height: 18px;
-                      color: #444444;
-                    "
+                    style="font-size: 12px; line-height: 18px; color: #444444"
                   >
                     <span
                       class="text-primary font-weight-bold"
-                      style="
-                        font-size: 14px;
-                        line-height: 21px;
-                        color: #99a3ff;
-                      "
+                      style="font-size: 14px; line-height: 21px; color: #99a3ff"
                     >
                       {{ dataFetch.type_name }}
                       <br />

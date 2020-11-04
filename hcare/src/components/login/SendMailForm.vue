@@ -9,7 +9,7 @@
             type="text"
             id="InputName"
             v-model="email"
-            placeholder="อีเมล มหาวิทยาลัย"
+            :placeholder='$t("KMUTTEmail")'
             :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
           />
           <div class="invalid-feedback">

@@ -1,4 +1,5 @@
 {
+    "loginMessage" : "กรุณา เข้าสู่ระบบ",
     "appointment": "ทำนัด",
     "myappointment": "นัดของฉัน",
     "serviceschedule": "ตารางให้บริการ",
@@ -21,5 +22,6 @@
     "patientcard": "บัตรนัดผู้ป่วย",
     "servicecard": "บริการ",
     "doctorcard": "แพทย์",
-    "timecard": "เวลา"
+    "timecard": "เวลา",
+    "KMUTTEmail": "อีเมล มหาวิทยาลัย"
 }
