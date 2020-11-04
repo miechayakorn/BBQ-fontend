@@ -5,13 +5,13 @@
       <div v-if="!visibleState" class="col-12" style="margin-top: 99px">
         <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
           <span style="font-weight: 900; color: white"
-            >Log in with KMUTT account</span
+            >{{ $t("Loginwithkmutt") }}</span
           >
         </button>
         <div class="mt-3">
-          ไม่สามารถเข้าสู่ระบบได้
+         
           <span class="text-link" @click="visibleState = true">
-            ใช่หรือไม่ ?</span
+            {{ $t("cannotlogin") }}</span
           >
         </div>
       </div>
