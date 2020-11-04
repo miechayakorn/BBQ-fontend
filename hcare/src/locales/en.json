@@ -25,6 +25,8 @@
     "doctorcard": "Doctor",
     "timecard": "Time",
     "KMUTTEmail": "KMUTT Email",
+    "fillOTP" : "Fill the otp number from your email",
+
     "name": "Name",
     "surname": "Surname",
     "stdID": "Student ID or Staff ID",
