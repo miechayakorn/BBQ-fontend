@@ -103,7 +103,7 @@ export default {
       },
       userBookings: [],
       dataPrepareSend: {
-        type_id: 1,
+        type_id: "",
         date: null,
       },
       dataShow: {
@@ -129,13 +129,7 @@ export default {
       })
       .then((res) => {
         this.dataFetch.dataTypes = res.data;
-      });
-    await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceDate/1`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` },
-      })
-      .then((res) => {
-        this.dataFetch.dataDates = res.data;
+        this.dataPrepareSend.type_id = this.dataFetch.dataTypes[0].type_id;
       });
   },
   methods: {
@@ -144,38 +138,33 @@ export default {
         this.sendToBackend();
       }
     },
-    async fetchDate(serviceDataType) {
-      this.dataPrepareSend.type_id = serviceDataType.type_id;
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`,
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.token}` },
-          }
-        )
-        .then((res) => {
-          this.dataFetch.dataDates = res.data;
-        });
-    },
 
     async sendToBackend() {
-      await axios
-        .get(
-          `${process.env.VUE_APP_BACKEND_URL}/showbooking/${
-            this.dataPrepareSend.type_id
-          }/${formatDate.format(this.dataPrepareSend.date)}`,
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.token}` },
-          }
-        )
-        .then((res) => {
-          this.userBookings = res.data;
-          this.visibleState = true;
-        })
-        .catch((error) => {
-          console.log("===== Backend-error ======");
-          console.error(error.response);
+      if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+        await axios
+          .get(
+            `${process.env.VUE_APP_BACKEND_URL}/showbooking/${
+              this.dataPrepareSend.type_id
+            }/${formatDate.format(this.dataPrepareSend.date)}`,
+            {
+              headers: { Authorization: `Bearer ${this.$store.state.token}` },
+            }
+          )
+          .then((res) => {
+            this.userBookings = res.data;
+            this.visibleState = true;
+          })
+          .catch((error) => {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+          });
+      } else {
+        this.$swal({
+          icon: "warning",
+          title: "คำเตือน",
+          text: "กรุณากรอกข้อมูลให้ครบ",
         });
+      }
     },
   },
 };
