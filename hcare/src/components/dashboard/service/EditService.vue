@@ -305,7 +305,6 @@ export default {
   },
   methods: {
     async statusService(working_id, status) {
-      console.log(working_id, status);
       await axios
         .patch(
           `${process.env.VUE_APP_BACKEND_URL}/editservice/updatestatus`,
