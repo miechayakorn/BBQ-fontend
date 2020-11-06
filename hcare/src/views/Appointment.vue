@@ -7,23 +7,14 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">{{$t('myappointment')}}</label>
+        <label class="font-weight-bold mb-4">{{ $t("myappointment") }}</label>
         <div class="form">
           <div class="container">
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
             <div class v-else-if="checkAppointment">
-              <div class="row">
-                <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3"
-                    >คุณยังไม่มีนัดหมาย</span
-                  >
-                  <span class="d-flex justify-content-center mt-3"
-                    >กรุณาตรวจสอบและกดยืนยันที่ Email</span
-                  >
-                </div>
-                <div class="fix-buttom-man">
-                  <man />
-                </div>
+              <div class="row justify-content-center">
+                <span class="announcement mt-3">คุณยังไม่มีนัดหมาย</span>
+                <man class="d-flex justify-content-center" />
               </div>
             </div>
           </div>
