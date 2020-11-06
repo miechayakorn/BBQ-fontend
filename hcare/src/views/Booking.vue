@@ -126,11 +126,11 @@
           id="symptom"
           :class="[
             'form-control div-symptom',
-            totalcharacter > limitChar ? 'is-invalid' : ''
+            totalcharacter > limitChar ? 'is-invalid' : '',
           ]"
           :placeholder="$t('alertsymptoms')"
           v-model="dataPrepareSend.symptom"
-          @input="evt => (dataPrepareSend.symptom = evt.target.value)"
+          @input="(evt) => (dataPrepareSend.symptom = evt.target.value)"
           :disabled="dataShow.disableSymptom"
           @keyup="countText()"
         ></textarea>
@@ -206,6 +206,7 @@ export default {
   data() {
     return {
       loading: false,
+      interval: undefined,
       limitChar: 100,
       totalcharacter: 0,
       locationSelected: null,
@@ -213,21 +214,21 @@ export default {
       selectedDocter: "",
       dataPrepareSend: {
         booking_id: null,
-        symptom: null
+        symptom: null,
       },
       dataFetch: {
         dataDates: [],
         dataDocter: [],
         dataTimes: null,
-        dataLocation: null
+        dataLocation: null,
       },
       dataShow: {
         type: "",
         date: "",
         time: null,
         activeBtnTime: "",
-        disableSymptom: true
-      }
+        disableSymptom: true,
+      },
     };
   },
   components: {
@@ -238,14 +239,21 @@ export default {
     ServiceTimeBox,
     logoHeader,
     VclFacebook,
-    VclList
+    VclList,
   },
+
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+
   async mounted() {
     this.loading = true;
 
-    await axios.get(`${process.env.VUE_APP_BACKEND_URL}/location`).then(res => {
-      this.dataFetch.dataLocation = res.data;
-    });
+    await axios
+      .get(`${process.env.VUE_APP_BACKEND_URL}/location`)
+      .then((res) => {
+        this.dataFetch.dataLocation = res.data;
+      });
 
     if (this.$store.state.booking.location.location_id) {
       this.locationSelected = this.$store.state.booking.location;
@@ -261,7 +269,7 @@ export default {
   },
   watch: {
     locationSelected: {
-      handler: async function(val, oldCal) {
+      handler: async function (val, oldCal) {
         this.dataFetch.dataDates = [];
         this.dataFetch.dataTimes = null;
 
@@ -271,19 +279,19 @@ export default {
         ) {
           this.$store.state.booking.serviceDataType = {
             type_id: "",
-            type_name: ""
+            type_name: "",
           };
         }
         this.$store.state.booking.location = val;
-      }
+      },
     },
     selectedDocter: {
-      handler: async function(val, oldCal) {
+      handler: async function (val, oldCal) {
         if (this.selectedDocter) {
           this.fetchTime();
         }
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -310,13 +318,13 @@ export default {
           .get(
             `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
           )
-          .then(res => {
+          .then((res) => {
             this.dataFetch.dataDates = res.data;
             if (this.dataFetch.dataDates.length == 0) {
               this.$swal({
                 icon: "warning",
                 title: "คำเตือน",
-                text: "ไม่พบวันให้บริการ"
+                text: "ไม่พบวันให้บริการ",
               });
             }
           });
@@ -326,6 +334,9 @@ export default {
       this.clearData();
       this.dataShow.activeBtnTime = "";
       this.dataFetch.dataTimes = null;
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
 
       this.dataShow.date = selectedDate.dateformat;
       this.selectedDate = selectedDate.datevalue;
@@ -334,7 +345,7 @@ export default {
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/servicedoctor/?type_id=${selectedDate.type_id}&date=${selectedDate.datevalue}`
         )
-        .then(res => {
+        .then((res) => {
           this.dataFetch.dataDocter = res.data;
           if (this.dataFetch.dataDocter.length == 1) {
             this.selectedDocter = res.data[0];
@@ -345,14 +356,21 @@ export default {
     },
     async fetchTime() {
       this.dataShow.activeBtnTime = "";
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
 
       await axios
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/ServiceTime/?time=${this.selectedDate}&working_id=${this.selectedDocter.working_id}`
         )
-        .then(res => {
+        .then((res) => {
           this.dataFetch.dataTimes = res.data;
         });
+
+      this.interval = setInterval(() => {
+        this.fetchTime();
+      }, 5000);
     },
     onChangeTime(booking) {
       this.dataPrepareSend.booking_id = booking.booking_id;
@@ -377,8 +395,8 @@ export default {
               confirmButtonColor: "#3085d6",
               cancelButtonColor: "#d33",
               confirmButtonText: "Confirm",
-              cancelButtonText: "No"
-            }).then(result => {
+              cancelButtonText: "No",
+            }).then((result) => {
               if (result.value) {
                 this.$swal({
                   title: "กรุณารอสักครู่",
@@ -386,7 +404,7 @@ export default {
                   allowOutsideClick: false,
                   onOpen: () => {
                     this.$swal.showLoading();
-                  }
+                  },
                 });
 
                 axios
@@ -394,27 +412,27 @@ export default {
                     `${process.env.VUE_APP_BACKEND_URL}/Booking`,
                     {
                       booking_id: this.dataPrepareSend.booking_id,
-                      symptom: this.dataPrepareSend.symptom
+                      symptom: this.dataPrepareSend.symptom,
                     },
                     {
                       headers: {
-                        Authorization: `Bearer ${this.$store.state.token}`
-                      }
+                        Authorization: `Bearer ${this.$store.state.token}`,
+                      },
                     }
                   )
-                  .then(res => {
+                  .then((res) => {
                     if (res.data.message == "Please verrify account") {
                       this.$swal({
                         icon: "warning",
                         title: "กรุณา Activate บัญชี",
                         text:
-                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
+                          "ไม่สามารถจองตารางนัดหมายได้ กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน",
                       });
                     } else if (res.status == 203) {
                       this.$swal({
                         icon: "warning",
                         title: "คำเตือน",
-                        text: res.data
+                        text: res.data,
                       });
                     } else {
                       this.$swal({
@@ -423,12 +441,12 @@ export default {
                         showConfirmButton: false,
                         timer: 3000,
                         icon: "success",
-                        title: "การจองสำเร็จ"
+                        title: "การจองสำเร็จ",
                       });
                       this.$router.push("/appointment");
                     }
                   })
-                  .catch(error => {
+                  .catch((error) => {
                     console.log("===== Backend-error ======");
                     console.error(error.response);
                     this.$swal({ ...errorSWAL });
@@ -439,25 +457,25 @@ export default {
             this.$swal({
               icon: "warning",
               title: "คำเตือน",
-              text: "กรอกอาการ ตัวอักษรเกินลิมิต"
+              text: "กรอกอาการ ตัวอักษรเกินลิมิต",
             });
           }
         } else {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกอาการ"
+            text: "กรุณากรอกอาการ",
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณาเลือกเวลาที่ต้องการจอง"
+          text: "กรุณาเลือกเวลาที่ต้องการจอง",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
