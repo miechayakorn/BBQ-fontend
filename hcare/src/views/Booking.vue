@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="dataFetch.dataDocter.length != 0">
         <div class="form-group">
           <div class="col-12">
             <label class="d-flex justify-content-start font-weight-bold">
@@ -382,7 +382,6 @@ export default {
       if (this.dataPrepareSend.booking_id != null) {
         if (this.totalcharacter != 0) {
           if (this.totalcharacter <= this.limitChar) {
-            console.log("Backend----" + this.dataShow.date);
             this.$swal({
               title: "การจอง " + this.dataShow.type,
               html:
