@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-4">
-    <div class="text-left font-weight-bold" style="margin-top:32px">
+    <div class="text-left font-weight-bold" style="margin-top: 32px">
       <span>ส่วนที่ 1 : เพิ่มเจ้าหน้าที่กลุ่มงานฯ ใหม่</span>
     </div>
     <div class="mt-3 div-card">
@@ -11,7 +11,7 @@
         <div class="col-12 col-xl-5">
           <div class="row">
             <div class="col-12">
-              <div class="form-group" style="margin-top:48px;">
+              <div class="form-group" style="margin-top: 48px">
                 <div class="text-left mb-2">
                   <div class="mt-6">
                     <label for="firstName">ชื่อจริงเจ้าหน้าที่</label>
@@ -38,16 +38,25 @@
                     <input
                       v-model="dataPrepareSend.email"
                       type="email"
-                      class="form-control"
+                      :class="
+                        checkEmail()
+                          ? 'form-control'
+                          : 'form-control is-invalid'
+                      "
                       id="inputEmail"
                       placeholder="example@kmutt.ac.th"
                     />
+                    <div class="invalid-feedback">
+                      {{ $t("suggestemail") }}
+                    </div>
                   </div>
                 </div>
                 <button
                   @click="sendToBackend"
                   class="btn btn-primary btnBlock btnConfirm fixed-button text-center mt-4 mb-4"
-                >เพิ่มเจ้าหน้าที่กลุ่มงานฯ</button>
+                >
+                  เพิ่มเจ้าหน้าที่กลุ่มงานฯ
+                </button>
               </div>
             </div>
           </div>
@@ -56,7 +65,7 @@
     </div>
     <VclFacebook v-if="loading" class="mt-3" />
     <div class="mt-3">
-      <div class="text-left font-weight-bold mb-3" style="margin-top:32px">
+      <div class="text-left font-weight-bold mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 2 : รายชื่อเจ้าหน้าที่ทั้งหมด</span>
       </div>
       <div class="row">
@@ -91,66 +100,105 @@ export default {
     //เรียกข้อมูล Default
     //Type
     await axios
-      .get(`${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`, {
-        headers: { Authorization: `Bearer ${this.$store.state.token}` },
-      })
+      .get(
+        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`,
+        {
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
+        }
+      )
       .then((res) => {
         this.userEmployee = res.data;
       });
   },
   methods: {
+    checkEmail() {
+      if (this.dataPrepareSend.email.length == 0) {
+        return false;
+      }
+      let email = this.dataPrepareSend.email;
+      let emailKmutt = "@mail.kmutt.ac.th";
+      let emailKmuttAnother = "@kmutt.ac.th";
+      let emailSub = this.dataPrepareSend.email.slice(
+        email.length - 17,
+        email.length
+      );
+      let emailSubAnother = this.dataPrepareSend.email.slice(
+        email.length - 12,
+        email.length
+      );
+
+      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     async sendToBackend() {
       if (
         this.dataPrepareSend.first_name != "" &&
         this.dataPrepareSend.last_name != "" &&
         this.dataPrepareSend.email != ""
       ) {
-        try {
-          this.$swal({
-            title: "กรุณารอสักครู่",
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-              this.$swal.showLoading();
-            },
-          });
-          await axios
-            .post(
-              `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/create`,
-              {
-                first_name: this.dataPrepareSend.first_name,
-                last_name: this.dataPrepareSend.last_name,
-                email: this.dataPrepareSend.email,
+        if (this.checkEmail()) {
+          try {
+            this.$swal({
+              title: "กรุณารอสักครู่",
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              onOpen: () => {
+                this.$swal.showLoading();
               },
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
-                },
-              }
-            )
-            .then((res) => {
-              if (res.status == 201) {
-                this.$swal({
-                  confirmButtonText: "ตกลง",
-                  timer: 10000,
-                  icon: "success",
-                  title: "เพิ่มพนักงานสำเร็จ",
-                  html:
-                    "<hr/>" +
-                    '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันที่ email ของ บัญชีที่สร้าง</span>',
-                });
-              } else {
-                this.$swal({
-                  icon: "warning",
-                  title: "คำเตือน",
-                  text: res.data,
-                });
-              }
             });
-        } catch (error) {
-          console.log("===== Backend-error ======");
-          console.error(error.response);
-          this.$swal({ ...errorSWAL });
+            await axios
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/create`,
+                {
+                  first_name: this.dataPrepareSend.first_name,
+                  last_name: this.dataPrepareSend.last_name,
+                  email: this.dataPrepareSend.email,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                  },
+                }
+              )
+              .then((res) => {
+                if (res.status == 201) {
+                  this.$swal({
+                    confirmButtonText: "ตกลง",
+                    timer: 10000,
+                    icon: "success",
+                    title: "เพิ่มพนักงานสำเร็จ",
+                    html:
+                      "<hr/>" +
+                      '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณากดยืนยันที่ email ของ บัญชีที่สร้าง</span>',
+                  });
+                } else if (res.status == 203) {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: `${res.data}`,
+                  });
+                } else {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data,
+                  });
+                }
+              });
+          } catch (error) {
+            console.log("===== Backend-error ======");
+            console.error(error.response);
+            this.$swal({ ...errorSWAL });
+          }
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: `กรุณากรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th เท่านั้น`,
+          });
         }
       } else {
         this.$swal({
