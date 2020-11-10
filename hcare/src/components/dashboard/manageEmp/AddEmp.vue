@@ -97,16 +97,18 @@
               >
                 ไม่พบอีเมลในระบบ กรุณาสมัครสมาชิกก่อนใช้งาน
               </div>
-              <div v-if="selectedUser" class="mt-4 col-12 p-5 div-card">
+              <div
+                v-if="selectedUser && query != ''"
+                class="mt-4 col-12 p-5 div-card"
+              >
                 <div class="row">
-                  <div class="col-3 col-form-label">
-                    589654123
-                    <!-- {{ selectedUser.id }} -->
+                  <div class="col-1 col-form-label">
+                    {{ selectedUser.account_id }}
                   </div>
-                  <div class="col-4 col-form-label">
+                  <div class="col-5 col-form-label">
                     {{ selectedUser.name }}
                   </div>
-                  <div class="col-4 col-form-label">
+                  <div class="col-5 col-form-label">
                     {{ selectedUser.email }}
                   </div>
                   <div class="col-1">
@@ -151,10 +153,10 @@
 
 <script>
 import axios from "axios";
+import { errorSWAL } from "@/utility/swal.js";
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import VclFacebook from "vue-content-loading";
-import { errorSWAL } from "@/utility/swal.js";
 import DashboardTableEmp from "@/components/dashboardTable/DashboardTableEmp.vue";
 
 export default {
@@ -231,13 +233,75 @@ export default {
       }
     },
     removeUser() {
-      alert("fas");
-      this.query = "";
-      this.selectedUser = null;
-      this.showRemoveUser = false;
-      this.showRemoveUserButton = false;
-      this.email = "";
-      this.users = [];
+      if (this.selectedUser) {
+        this.$swal({
+          icon: "warning",
+          title: "ลบบัญชีผู้ใช้งาน",
+          text: this.selectedUser.email,
+          showCloseButton: true,
+          confirmButtonText: "ยืนยันการลบ",
+          confirmButtonColor: "#d33",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            this.$swal({
+            title: "กรุณารอสักครู่",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
+            axios
+              .post(
+                `${process.env.VUE_APP_BACKEND_URL}/admin/deleteemployee`,
+                {
+                  account_id: this.selectedUser.account_id,
+                  email: this.selectedUser.email,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                  },
+                }
+              )
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    icon: "success",
+                    title: "ลบบัญชีสำเร็จ",
+                  });
+                  this.query = "";
+                  this.selectedUser = null;
+                  this.showRemoveUser = false;
+                  this.showRemoveUserButton = false;
+                  this.email = "";
+                  this.users = [];
+                } else if (res.status == 203) {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data,
+                  });
+                } else {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data,
+                  });
+                }
+              })
+              .catch((error) => {
+                console.log("===== Backend-error ======");
+                console.error(error.response);
+                this.$swal({ ...errorSWAL });
+              });
+          },
+        });
+      }
     },
     async sendToBackend() {
       if (
