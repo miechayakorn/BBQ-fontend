@@ -44,7 +44,7 @@
                           : 'form-control is-invalid'
                       "
                       id="inputEmail"
-                      placeholder="example@kmutt.ac.th"
+                      placeholder="example@mail.kmutt.ac.th"
                     />
                     <div class="invalid-feedback">
                       {{ $t("suggestemail") }}
@@ -126,14 +126,14 @@
                 v-if="selectedUser && query != '' && showRemoveUser"
                 class="mt-4"
               >
-                <div class="col-12 d-flex justify-content-center">
+                <div class="row justify-content-center">
                   <label class="font-weight-bold col-form-label mr-2"
                     >กรุณากรอกอีเมลเพื่อยืนยันการลบผู้ใช้งาน</label
                   >
                   <input
                     v-model="email"
                     type="text"
-                    class="form-control col-12 col-md-4"
+                    class="form-control col-12 col-md-4 mb-2"
                     id="lastNameInput"
                     placeholder="ยืนยันอีเมล"
                   />
