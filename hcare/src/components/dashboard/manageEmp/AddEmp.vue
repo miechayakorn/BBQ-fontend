@@ -122,7 +122,10 @@
                   </div>
                 </div>
               </div>
-              <div v-if="showRemoveUser" class="mt-4">
+              <div
+                v-if="selectedUser && query != '' && showRemoveUser"
+                class="mt-4"
+              >
                 <div class="col-12 d-flex justify-content-center">
                   <label class="font-weight-bold col-form-label mr-2"
                     >กรุณากรอกอีเมลเพื่อยืนยันการลบผู้ใช้งาน</label
@@ -192,6 +195,9 @@ export default {
         await axios
           .get(`${process.env.VUE_APP_BACKEND_URL}/search/email?q=${newQuery}`)
           .then((res) => {
+            this.email = "";
+            this.showRemoveUser = false;
+            this.showRemoveUserButton = false;
             this.users = res.data;
           });
       }
@@ -232,6 +238,14 @@ export default {
         return false;
       }
     },
+    clearDataRemoveUser() {
+      this.query = "";
+      this.email = "";
+      this.users = [];
+      this.selectedUser = null;
+      this.showRemoveUser = false;
+      this.showRemoveUserButton = false;
+    },
     removeUser() {
       if (this.selectedUser) {
         this.$swal({
@@ -244,13 +258,13 @@ export default {
           showLoaderOnConfirm: true,
           preConfirm: () => {
             this.$swal({
-            title: "กรุณารอสักครู่",
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-              this.$swal.showLoading();
-            },
-          });
+              title: "กรุณารอสักครู่",
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              onOpen: () => {
+                this.$swal.showLoading();
+              },
+            });
             axios
               .post(
                 `${process.env.VUE_APP_BACKEND_URL}/admin/deleteemployee`,
@@ -274,12 +288,7 @@ export default {
                     icon: "success",
                     title: "ลบบัญชีสำเร็จ",
                   });
-                  this.query = "";
-                  this.selectedUser = null;
-                  this.showRemoveUser = false;
-                  this.showRemoveUserButton = false;
-                  this.email = "";
-                  this.users = [];
+                  this.clearDataRemoveUser();
                 } else if (res.status == 203) {
                   this.$swal({
                     icon: "warning",
