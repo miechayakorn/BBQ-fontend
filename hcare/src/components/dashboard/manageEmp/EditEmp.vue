@@ -6,10 +6,42 @@
       <VclList class="mt-2" />
     </div>
     <div class="container mb-3 bg" v-else-if="!loading">
+      <div class="row mt-4">
+        <div class="col-12 text-right" style="margin-bottom: 14px">
+          <span
+            style="color: #ff4f5b; font-weight: bold; cursor: pointer"
+            @click="showRemoveUser = !showRemoveUser"
+            >ลบบัญชีผู้ใช้งาน</span
+          >
+
+          <div
+            v-if="showRemoveUser"
+            class="col-12 d-flex justify-content-center"
+          >
+            <label class="font-weight-bold col-form-label mr-2"
+              >กรุณากรอกอีเมลเพื่อยืนยันการลบผู้ใช้งาน</label
+            >
+            <input
+              v-model="email"
+              type="text"
+              class="form-control col-12 col-md-4"
+              id="lastNameInput"
+              placeholder="ยืนยันอีเมล"
+            />
+            <button
+              @click="removeUser"
+              class="btn btnRemove"
+              :disabled="!showRemoveUserButton"
+            >
+              <span style="font-weight: 900; color: white">ลบบัญชี</span>
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-12 col-md-5">
           <div class="row text-white">
-            <div class="col-12 mt-4">
+            <div class="col-12">
               <div class="div-showInfoUser">
                 <div v-if="editComponent == false">
                   <div
@@ -103,7 +135,7 @@
           </div>
         </div>
         <div class="col-12 col-md-7">
-          <div class="row mt-4 div-card div-info-emp">
+          <div class="row div-card div-info-emp">
             <div class="col-12 mb-5">
               <div class="form-group mt-5">
                 <div class="text-left mb-2">
@@ -238,6 +270,9 @@ export default {
 <path d="M43 6.75V20.25C43 21.4922 41.9922 22.5 40.75 22.5H21.25C20.0078 22.5 19 21.4922 19 20.25V6.75C19 5.50781 20.0078 4.5 21.25 4.5H25.375L25.9516 2.95781C26.2797 2.08125 27.1187 1.5 28.0562 1.5H33.9391C34.8766 1.5 35.7156 2.08125 36.0438 2.95781L36.625 4.5H40.75C41.9922 4.5 43 5.50781 43 6.75ZM36.625 13.5C36.625 10.3969 34.1031 7.875 31 7.875C27.8969 7.875 25.375 10.3969 25.375 13.5C25.375 16.6031 27.8969 19.125 31 19.125C34.1031 19.125 36.625 16.6031 36.625 13.5ZM35.125 13.5C35.125 15.7734 33.2734 17.625 31 17.625C28.7266 17.625 26.875 15.7734 26.875 13.5C26.875 11.2266 28.7266 9.375 31 9.375C33.2734 9.375 35.125 11.2266 35.125 13.5Z" fill="white"/>
 </svg>
 `,
+      email: "",
+      showRemoveUser: false,
+      showRemoveUserButton: false,
       dataFetch: {
         account_id: "",
         prefix: "",
@@ -251,6 +286,17 @@ export default {
         service_type: [],
       },
     };
+  },
+  watch: {
+    email: {
+      handler: async function (val, oldCal) {
+        if (this.email == this.dataFetch.email) {
+          this.showRemoveUserButton = true;
+        } else {
+          this.showRemoveUserButton = false;
+        }
+      },
+    },
   },
   async mounted() {
     this.loading = true;
@@ -286,6 +332,67 @@ export default {
       let img = this.$refs.vueavatar.getImageScaled();
       this.dataFetch.profile_picture = img.toDataURL();
       this.editComponent = false;
+    },
+    removeUser() {
+      this.$swal({
+        icon: "warning",
+        title: "ลบบัญชีผู้ใช้งาน",
+        text: this.dataFetch.email,
+        showCloseButton: true,
+        confirmButtonText: "ยืนยันการลบ",
+        confirmButtonColor: "#d33",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+          this.$swal({
+            title: "กรุณารอสักครู่",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
+          axios
+            .post(
+              `${process.env.VUE_APP_BACKEND_URL}/admin/deleteemployee`,
+              {
+                account_id: this.dataFetch.account_id,
+                email: this.dataFetch.email,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 200) {
+                this.$swal({
+                  icon: "success",
+                  title: "ลบบัญชีสำเร็จ",
+                }).then((result) => {
+                  this.close();
+                });
+              } else if (res.status == 203) {
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              } else {
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data,
+                });
+              }
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error.response);
+              this.$swal({ ...errorSWAL });
+            });
+        },
+      });
     },
     async sendToBackend() {
       if (
@@ -412,6 +519,11 @@ export default {
   box-sizing: border-box;
   border-radius: 20px;
   color: #99a3ff;
+}
+.btnRemove {
+  margin-left: 10px;
+  border-radius: 20px;
+  background-color: #ee6b7f;
 }
 @media (min-width: 768px) {
   .div-info-emp {

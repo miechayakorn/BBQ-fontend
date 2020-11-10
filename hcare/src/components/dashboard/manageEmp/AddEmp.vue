@@ -133,7 +133,7 @@
                   <input
                     v-model="email"
                     type="text"
-                    class="form-control col-4"
+                    class="form-control col-12 col-md-4"
                     id="lastNameInput"
                     placeholder="ยืนยันอีเมล"
                   />
@@ -344,6 +344,10 @@ export default {
               )
               .then((res) => {
                 if (res.status == 201) {
+                  this.dataPrepareSend.first_name = "";
+                  this.dataPrepareSend.last_name = "";
+                  this.dataPrepareSend.email = "";
+
                   this.$swal({
                     confirmButtonText: "ตกลง",
                     timer: 10000,
