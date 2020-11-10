@@ -97,20 +97,30 @@
               >
                 ไม่พบอีเมลในระบบ กรุณาสมัครสมาชิกก่อนใช้งาน
               </div>
-
-              <!-- <button
-                @click="(selectedUser = null), (query = '')"
-                class="btn div-showTag text-white text-left m-1"
-                v-if="selectedUser"
-              >
-                <span class="mt-4 mb-4 p-2"> {{ selectedUser.name }}</span
-                ><i class="fas fa-times-circle"></i>
-              </button> -->
-
               <div v-if="selectedUser" class="mt-4 col-12 p-5 div-card">
-                {{ selectedUser }}
+                <div class="row">
+                  <div class="col-3 col-form-label">
+                    589654123
+                    <!-- {{ selectedUser.id }} -->
+                  </div>
+                  <div class="col-4 col-form-label">
+                    {{ selectedUser.name }}
+                  </div>
+                  <div class="col-4 col-form-label">
+                    {{ selectedUser.email }}
+                  </div>
+                  <div class="col-1">
+                    <button
+                      @click="showRemoveUser = !showRemoveUser"
+                      type="button"
+                      class="btn"
+                    >
+                      <i class="fas fa-trash" style="color: #e34724"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div v-if="selectedUser" class="mt-4">
+              <div v-if="showRemoveUser" class="mt-4">
                 <div class="col-12 d-flex justify-content-center">
                   <label class="font-weight-bold col-form-label mr-2"
                     >กรุณากรอกอีเมลเพื่อยืนยันการลบผู้ใช้งาน</label
@@ -118,14 +128,14 @@
                   <input
                     v-model="email"
                     type="text"
-                    class="form-control col-6"
+                    class="form-control col-4"
                     id="lastNameInput"
-                    placeholder="ยืนยันอีเมลผู้ใช้งานที่ต้องการลบ"
+                    placeholder="ยืนยันอีเมล"
                   />
                   <button
-                    v-if="showRemoveUser"
-                    @click="close()"
+                    @click="removeUser"
                     class="btn btnRemove"
+                    :disabled="!showRemoveUserButton"
                   >
                     <span style="font-weight: 900; color: white">ลบบัญชี</span>
                   </button>
@@ -154,6 +164,7 @@ export default {
       query: "",
       selectedUser: null,
       showRemoveUser: false,
+      showRemoveUserButton: false,
       email: "",
       users: [],
       dataPrepareSend: {
@@ -168,9 +179,9 @@ export default {
     email: {
       handler: async function (val, oldCal) {
         if (this.email == this.query) {
-          this.showRemoveUser = true;
+          this.showRemoveUserButton = true;
         } else {
-          this.showRemoveUser = false;
+          this.showRemoveUserButton = false;
         }
       },
     },
@@ -218,6 +229,15 @@ export default {
       } else {
         return false;
       }
+    },
+    removeUser() {
+      alert("fas");
+      this.query = "";
+      this.selectedUser = null;
+      this.showRemoveUser = false;
+      this.showRemoveUserButton = false;
+      this.email = "";
+      this.users = [];
     },
     async sendToBackend() {
       if (
