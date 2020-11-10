@@ -288,6 +288,8 @@ export default {
     selectedDocter: {
       handler: async function (val, oldCal) {
         if (this.selectedDocter) {
+          this.dataShow.activeBtnTime = "";
+          this.dataShow.time = null;
           this.fetchTime();
         }
       },
@@ -355,7 +357,6 @@ export default {
         });
     },
     async fetchTime() {
-      this.dataShow.activeBtnTime = "";
       if (this.interval) {
         clearInterval(this.interval);
       }
