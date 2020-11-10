@@ -2,109 +2,107 @@
   <div class="container fixed-container mb-3" style="margin-top: 40px">
     <div class="form-group text-left">
       <h1 style="font-size: 28px; font-weight: 900">{{ $t("register") }}</h1>
-      <form>
-        <div class="col-xs-12" style="margin-top: 28px">
-          <div class="form-group">
-            <label for="InputFirstName">{{ $t("name") }}</label>
-            <input
-              type="text"
-              id="InputFirstName"
-              v-model="dataUserInfo.first_name"
-              class="form-control"
-              :placeholder="$t('name')"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="InputLastName">{{ $t("surname") }}</label>
-            <input
-              type="text"
-              id="InputLastName"
-              v-model="dataUserInfo.last_name"
-              class="form-control"
-              :placeholder="$t('surname')"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="InputHN">{{ $t("stdID") }}</label>
-            <input
-              type="text"
-              id="InputHN"
-              v-model="dataUserInfo.hn_number"
-              class="form-control"
-              :placeholder="$t('stdID')"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="InputEmail">{{ $t("email") }}</label>
-            <input
-              v-if="this.$route.query.email"
-              type="email"
-              v-model="dataUserInfo.email"
-              id="InputEmail"
-              disabled
-              class="form-control"
-              placeholder="example@mail.kmutt.ac.th"
-              required
-            />
-            <input
-              v-else
-              type="email"
-              v-model="dataUserInfo.email"
-              id="InputEmail"
-              :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
-              placeholder="example@mail.kmutt.ac.th"
-              required
-            />
-            <div class="invalid-feedback">
-              {{ $t("suggestemail") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="InputTel">{{ $t("phoneno") }}</label>
-            <input
-              type="tel"
-              id="InputTel"
-              v-model="dataUserInfo.telephone"
-              class="form-control"
-              :placeholder="$t('phoneno')"
-              required
-            />
-          </div>
-          <div class="form-group form-check">
-            <input
-              type="checkbox"
-              :class="
-                checkTermsofservice()
-                  ? 'form-check-input'
-                  : 'form-check-input is-invalid'
-              "
-              id="termsofservice"
-              v-model="termsofservice"
-            />
-            <label class="form-check-label" for="termsofservice"
-              >ข้อตกลงการให้บริการ
-              <router-link to="/terms-of-service"
-                >terms of service</router-link
-              ></label
-            >
-            <div class="invalid-feedback">{{ $t("accept") }}</div>
-          </div>
-          <div class="row">
-            <div class="col-12 text-center">
-              <button
-                @click="sendToBackend"
-                class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-                style="font-weight: 900"
-              >
-                {{ $t("register") }}
-              </button>
-            </div>
+      <div class="col-xs-12" style="margin-top: 28px">
+        <div class="form-group">
+          <label for="InputFirstName">{{ $t("name") }}</label>
+          <input
+            type="text"
+            id="InputFirstName"
+            v-model="dataUserInfo.first_name"
+            class="form-control"
+            :placeholder="$t('name')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputLastName">{{ $t("surname") }}</label>
+          <input
+            type="text"
+            id="InputLastName"
+            v-model="dataUserInfo.last_name"
+            class="form-control"
+            :placeholder="$t('surname')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputHN">{{ $t("stdID") }}</label>
+          <input
+            type="text"
+            id="InputHN"
+            v-model="dataUserInfo.hn_number"
+            class="form-control"
+            :placeholder="$t('stdID')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputEmail">{{ $t("email") }}</label>
+          <input
+            v-if="this.$route.query.email"
+            type="email"
+            v-model="dataUserInfo.email"
+            id="InputEmail"
+            disabled
+            class="form-control"
+            placeholder="example@mail.kmutt.ac.th"
+            required
+          />
+          <input
+            v-else
+            type="email"
+            v-model="dataUserInfo.email"
+            id="InputEmail"
+            :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
+            placeholder="example@mail.kmutt.ac.th"
+            required
+          />
+          <div class="invalid-feedback">
+            {{ $t("suggestemail") }}
           </div>
         </div>
-      </form>
+        <div class="form-group">
+          <label for="InputTel">{{ $t("phoneno") }}</label>
+          <input
+            type="tel"
+            id="InputTel"
+            v-model="dataUserInfo.telephone"
+            class="form-control"
+            :placeholder="$t('phoneno')"
+            required
+          />
+        </div>
+        <div class="form-group form-check">
+          <input
+            type="checkbox"
+            :class="
+              checkTermsofservice()
+                ? 'form-check-input'
+                : 'form-check-input is-invalid'
+            "
+            id="termsofservice"
+            v-model="termsofservice"
+          />
+          <label class="form-check-label" for="termsofservice"
+            >ข้อตกลงการให้บริการ
+            <router-link to="/terms-of-service"
+              >terms of service</router-link
+            ></label
+          >
+          <div class="invalid-feedback">{{ $t("accept") }}</div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <button
+              @click="sendToBackend"
+              class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+              style="font-weight: 900"
+            >
+              {{ $t("register") }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -122,8 +120,8 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: ""
-      }
+        hn_number: "",
+      },
     };
   },
   mounted() {
@@ -181,7 +179,7 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            }
+            },
           });
 
           await axios
@@ -190,22 +188,22 @@ export default {
               last_name: this.dataUserInfo.last_name.split(" ").join(""),
               email: this.dataUserInfo.email.split(" ").join(""),
               telephone: this.dataUserInfo.telephone.split(" ").join(""),
-              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
+              hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
             })
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 icon: "success",
                 title: "ลงทะเบียนสำเร็จ",
                 html:
                   "<hr/>" +
-                  '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>'
-              }).then(result => {
+                  '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>',
+              }).then((result) => {
                 if (result.value) {
                   this.$router.push("/");
                 }
               });
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
@@ -214,17 +212,17 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง",
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>

@@ -39,13 +39,6 @@
             <i class="fas fa-pen edit" style="color: #ffc107"></i>
           </button>
         </router-link>
-        <button
-          @click="deleteBooking(props.entry.รหัสพนักงาน)"
-          type="button"
-          class="btn"
-        >
-          <i class="fas fa-trash" style="color: #e34724"></i>
-        </button>
       </template>
     </data-table>
   </div>
@@ -62,48 +55,6 @@ export default {
       searchQuery: "",
       gridColumns: ["รหัสพนักงาน", "ชื่อนามสกุล", "บริการ", "action"],
     };
-  },
-
-  methods: {
-    editBooking(userId) {},
-    deleteBooking(userId) {
-      this.$swal({
-        icon: "warning",
-        title: "ลบบัญชีผู้ใช้งาน",
-        showCloseButton: true,
-        confirmButtonText: "ยืนยันการลบ",
-        confirmButtonColor: "#d33",
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-          axios
-            .post(
-              `${process.env.VUE_APP_BACKEND_URL}/cancel`,
-              {
-                userId: userId,
-              },
-              {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` },
-              }
-            )
-            .then((res) => {
-              this.$swal({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                icon: "success",
-                title: "ยกเลิกสำเร็จ",
-              });
-              this.$router.go();
-            })
-            .catch((error) => {
-              console.log("===== Backend-error ======");
-              console.error(error.response); //สามารถเช็ค status ได้ถา้ใช้ error.response.status
-              this.$swal({ ...errorSWAL });
-            });
-        },
-      });
-    },
   },
   props: {
     dataUserTable: Array,

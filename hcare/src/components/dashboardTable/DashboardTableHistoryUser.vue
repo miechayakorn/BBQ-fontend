@@ -25,7 +25,7 @@
     >
       <template slot="วันที่นัด" scope="props">{{ props.entry.date }}</template>
       <template slot="เวลานัด" scope="props"
-        >{{ props.entry.time_in }} - {{ props.entry.time_out }}</template
+        >{{ props.entry.time_in.substring(0, 5) }} - {{ props.entry.time_out.substring(0, 5) }}</template
       >
       <template slot="บริการ" scope="props">{{
         props.entry.type_name

@@ -56,7 +56,7 @@
       <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
-      <div class="row div-card">
+      <div class="row div-card" style="padding-bottom: 40px;">
         <div
           class="col-12"
           style="padding-left: 40px; padding-right: 40px"

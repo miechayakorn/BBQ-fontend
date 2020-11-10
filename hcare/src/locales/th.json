@@ -1,5 +1,6 @@
 {
     "loginMessage" : "กรุณา เข้าสู่ระบบ",
+    "logout":"ออกจากระบบ",
     "appointment": "ทำนัด",
     "myappointment": "นัดของฉัน",
     "serviceschedule": "ตารางให้บริการ",
