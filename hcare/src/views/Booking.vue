@@ -180,10 +180,11 @@
       <div class="row" style="text-align: center">
         <div class="col-12">
           <button
+            :disabled="this.$store.state.token ? false : true"
             @click="sendToBackend"
             class="btn btn-primary btnBlock btnConfirm mt-2 fixed-button"
           >
-            Confirm
+            {{ this.$store.state.token ? "Confirm" : $t("loginMessage") }}
           </button>
         </div>
       </div>

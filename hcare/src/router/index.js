@@ -16,14 +16,12 @@ const routes = [
     name: "Booking",
     component: () =>
       import(/* webpackChunkName: "hcare-default" */ "../views/Booking.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/booking/service",
     name: "BookingService",
     component: () =>
       import(/* webpackChunkName: "hcare-default" */ "../views/BookingService.vue"),
-    meta: { requiresAuth: true }
   },
   {
     path: "/bookings/confirm",

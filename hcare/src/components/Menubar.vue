@@ -170,7 +170,7 @@
               aria-expanded="false"
               class="btn btnLogout mx-auto d-flex justify-content-center"
             >
-              <span style="font-weight: 900">ออกจากระบบ</span>
+              <span style="font-weight: 900">{{ $t("logout") }}</span>
             </button>
           </router-link>
           <router-link v-else to="/login">
@@ -180,7 +180,7 @@
               aria-expanded="false"
               class="btn btnLogout mx-auto"
             >
-              <span style="font-weight: 900">เข้าสู่ระบบ</span>
+              <span style="font-weight: 900">{{ $t("loginMessage") }}</span>
             </button>
           </router-link>
         </div>
