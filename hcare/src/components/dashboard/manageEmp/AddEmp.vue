@@ -113,7 +113,7 @@ export default {
   methods: {
     checkEmail() {
       if (this.dataPrepareSend.email.length == 0) {
-        return false;
+        return true;
       }
       let email = this.dataPrepareSend.email;
       let emailKmutt = "@mail.kmutt.ac.th";
