@@ -72,12 +72,77 @@
         <DashboardTableEmp :dataUserTable="userEmployee" />
       </div>
     </div>
+    <div style="margin-top: -32px">
+      <div class="text-left font-weight-bold mb-3">
+        <span>ส่วนที่ 3 : ลบบัญชีผู้ใช้งานในระบบ</span>
+      </div>
+      <div class="row" style="margin-bottom: 100px">
+        <div class="col-12">
+          <div class="form-group text-left">
+            <label class="font-weight-bold">อีเมลผู้ใช้งาน</label>
+            <div>
+              <VueBootstrapTypeahead
+                inputClass="mb-2 select-date col-12 col-md-7"
+                v-model="query"
+                :data="users"
+                :serializer="(item) => item.email"
+                @hit="selectedUser = $event"
+                placeholder="ค้นหาอีเมลผู้ใช้งานในระบบ"
+              />
+              <div
+                v-if="
+                  users.length == 0 && selectedUser == null && query.length >= 4
+                "
+                class="alert p-3 alert-warning"
+              >
+                ไม่พบอีเมลในระบบ กรุณาสมัครสมาชิกก่อนใช้งาน
+              </div>
+
+              <!-- <button
+                @click="(selectedUser = null), (query = '')"
+                class="btn div-showTag text-white text-left m-1"
+                v-if="selectedUser"
+              >
+                <span class="mt-4 mb-4 p-2"> {{ selectedUser.name }}</span
+                ><i class="fas fa-times-circle"></i>
+              </button> -->
+
+              <div v-if="selectedUser" class="mt-4 col-12 p-5 div-card">
+                {{ selectedUser }}
+              </div>
+              <div v-if="selectedUser" class="mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                  <label class="font-weight-bold col-form-label mr-2"
+                    >กรุณากรอกอีเมลเพื่อยืนยันการลบผู้ใช้งาน</label
+                  >
+                  <input
+                    v-model="email"
+                    type="text"
+                    class="form-control col-6"
+                    id="lastNameInput"
+                    placeholder="ยืนยันอีเมลผู้ใช้งานที่ต้องการลบ"
+                  />
+                  <button
+                    v-if="showRemoveUser"
+                    @click="close()"
+                    class="btn btnRemove"
+                  >
+                    <span style="font-weight: 900; color: white">ลบบัญชี</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import manageEmpPic from "@/components/svg/manageEmpPic.vue";
+import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import VclFacebook from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
 import DashboardTableEmp from "@/components/dashboardTable/DashboardTableEmp.vue";
@@ -86,7 +151,11 @@ export default {
   data() {
     return {
       loading: false,
-      //ข้อมูลเตรียมส่งไป Backend
+      query: "",
+      selectedUser: null,
+      showRemoveUser: false,
+      email: "",
+      users: [],
       dataPrepareSend: {
         first_name: "",
         last_name: "",
@@ -95,10 +164,27 @@ export default {
       userEmployee: [],
     };
   },
-
+  watch: {
+    email: {
+      handler: async function (val, oldCal) {
+        if (this.email == this.query) {
+          this.showRemoveUser = true;
+        } else {
+          this.showRemoveUser = false;
+        }
+      },
+    },
+    async query(newQuery) {
+      if (newQuery.length >= 4) {
+        await axios
+          .get(`${process.env.VUE_APP_BACKEND_URL}/search/email?q=${newQuery}`)
+          .then((res) => {
+            this.users = res.data;
+          });
+      }
+    },
+  },
   async mounted() {
-    //เรียกข้อมูล Default
-    //Type
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`,
@@ -213,9 +299,15 @@ export default {
     manageEmpPic,
     VclFacebook,
     DashboardTableEmp,
+    VueBootstrapTypeahead,
   },
 };
 </script>
 
 <style>
+.btnRemove {
+  margin-left: 10px;
+  border-radius: 20px;
+  background-color: #ee6b7f;
+}
 </style>
