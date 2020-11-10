@@ -27,11 +27,12 @@
               </div>
               <div class="col-12">
                 <h6
-                  class="font-weight-bold mb-3"
+                  class="font-weight-bold mb-2"
                   style="font-size: 20px; color: #5e65a1"
                 >
                   {{ item.type_name }}
                 </h6>
+                <p style="color: #b6b6b6">วิทยาเขต: {{ item.location_name }}</p>
                 <div
                   class="alert p-2 alert-warning"
                   v-show="item.staff_list.length == 0"
