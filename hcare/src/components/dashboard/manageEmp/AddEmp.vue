@@ -166,6 +166,7 @@ export default {
   data() {
     return {
       loading: false,
+      interval: undefined,
       query: "",
       selectedUser: null,
       showRemoveUser: false,
@@ -203,17 +204,14 @@ export default {
       }
     },
   },
-  async mounted() {
-    await axios
-      .get(
-        `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`,
-        {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` },
-        }
-      )
-      .then((res) => {
-        this.userEmployee = res.data;
-      });
+  mounted() {
+    this.fetchEmp();
+    this.interval = setInterval(() => {
+      this.fetchEmp();
+    }, 5000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     checkEmail() {
@@ -237,6 +235,18 @@ export default {
       } else {
         return false;
       }
+    },
+    async fetchEmp() {
+      await axios
+        .get(
+          `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/manageemployee/getemployee`,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.token}` },
+          }
+        )
+        .then((res) => {
+          this.userEmployee = res.data;
+        });
     },
     clearDataRemoveUser() {
       this.query = "";
