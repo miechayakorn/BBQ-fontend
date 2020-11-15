@@ -111,7 +111,7 @@
                   <div class="col-5 col-form-label">
                     {{ selectedUser.email }}
                   </div>
-                  <div class="col-1">
+                  <div class="col-1" v-if="selectedUser.account_id != 1">
                     <button
                       @click="showRemoveUser = !showRemoveUser"
                       type="button"

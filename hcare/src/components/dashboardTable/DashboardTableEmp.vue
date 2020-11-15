@@ -32,6 +32,7 @@
       <template slot="บริการ" scope="props">{{ props.entry.บริการ }}</template>
       <template slot="action" scope="props">
         <router-link
+          v-if="props.entry.รหัสพนักงาน != 1"
           target="_blank"
           :to="'/admin/dashboard/manageEmployee/edit/' + props.entry.account_id"
         >
