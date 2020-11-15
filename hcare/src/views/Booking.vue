@@ -290,6 +290,7 @@ export default {
       handler: async function (val, oldCal) {
         if (this.selectedDocter) {
           this.dataShow.activeBtnTime = "";
+          this.dataPrepareSend.booking_id = null;
           this.dataShow.time = null;
           this.fetchTime();
         }
