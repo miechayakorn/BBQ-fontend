@@ -100,7 +100,7 @@
             </div>
           </div>
         </div>
-        <div class="row mt-4 mb-4">
+        <div class="row mb-4" style="margin-top: 80px;">
           <div class="col-12 text-center">
             <button
               @click="close()"

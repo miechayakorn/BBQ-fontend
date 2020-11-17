@@ -185,6 +185,13 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
+        path: "dashboard/service/edit/:id",
+        name: "EditService",
+        component: () =>
+          import(/* webpackChunkName: "hcare-admin" */ "../views/admin/EditService.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
         path: "dashboard/service/add/:id",
         name: "AddServiceDetail",
         component: () =>
