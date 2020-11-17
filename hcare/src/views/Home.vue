@@ -144,15 +144,18 @@
           <div class="card btnHome">
             <div class="row">
               <div class="col-12 mt-3"><iconAnnouncement /></div>
-              <div class="col-12 mt-3">
+              <div class="col-12 mt-3 mb-3">
                 <h5 style="font-weight: bold; color: #5e65a1">
                   ประกาศปิดบริการ : {{ item.type_name }}
                 </h5>
                 <div class="col-12 text-center">
-                  <p>
+                  <span>
                     <small>{{ item.announcement }}</small>
-                  </p>
+                  </span>
                 </div>
+                <span style="font-size: 8px; color: #6c757d"
+                  >ประกาศวันที่: {{ item.date }}</span
+                >
               </div>
             </div>
           </div>
