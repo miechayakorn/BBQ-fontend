@@ -3,7 +3,6 @@
     <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left">
         <label for="InputName">Email</label>
-
         <div class="input-group mb-3">
           <input
             type="text"

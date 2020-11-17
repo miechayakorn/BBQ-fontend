@@ -7,7 +7,7 @@
     <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left mt-2">
         <label for="InputOTP">OTP</label>
-        <div class="inner-addon left-addon">
+        <div class="inner-ad  don left-addon">
           <i class="fas fa-user"></i>
           <input
             type="number"
