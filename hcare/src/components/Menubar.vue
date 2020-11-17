@@ -143,10 +143,21 @@
             </router-link>
           </li>
           <hr class="lineHr" />
+          <li
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+          >
+            <router-link class="nav-link blackTextMenu" to="/profile">
+              <i class="far fa-user" style="margin-right: 14px"></i
+              >ข้อมูลส่วนตัว
+            </router-link>
+          </li>
           <router-link
             v-if="
               this.$store.state.role == 'ADMIN' ||
-              this.$store.state.role == 'STAFF'
+                this.$store.state.role == 'STAFF'
             "
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -159,7 +170,7 @@
           <hr
             v-if="
               this.$store.state.role == 'ADMIN' ||
-              this.$store.state.role == 'STAFF'
+                this.$store.state.role == 'STAFF'
             "
             class="lineHr"
           />
@@ -209,13 +220,13 @@ export default {
   },
   watch: {
     selectLang: {
-      handler: async function (val, oldCal) {
+      handler: async function(val, oldCal) {
         if (val) {
           this.$i18n.locale = val;
           localStorage.setItem("locale", val);
         }
-      },
-    },
+      }
+    }
   },
   components: {
     logoHeaderMini,
@@ -227,8 +238,8 @@ export default {
     iconTime,
     logoUser,
     logoStaff,
-    logoAdmin,
-  },
+    logoAdmin
+  }
 };
 </script>
 <style>
