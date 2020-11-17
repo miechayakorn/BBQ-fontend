@@ -51,5 +51,9 @@
     "passwordNotMatch" : "รหัสผ่านไม่ตรงกัน",
     "confirmPassword" : "ยืนยันรหัสผ่าน",
     "yourNewPassword" : "กรุณาพิมพ์รหัสผ่าน",
-    "confirmYourNewPassword" : "กรุณาพิมพ์รหัสผ่านอีกครั้ง"
+    "confirmYourNewPassword" : "กรุณาพิมพ์รหัสผ่านอีกครั้ง",
+
+    "back": "ย้อนกลับ",
+    "historydetail": "รายละเอียดประวัติการเข้าใช้บริการ"
+   
 }

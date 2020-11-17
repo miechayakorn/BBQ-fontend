@@ -8,7 +8,7 @@
     <div v-if="!loading" class="container fixed-container mt-5 mb-3">
       <div class="form-group text-left">
         <label class="font-weight-bold mb-4"
-          >รายละเอียดประวัติการเข้าใช้บริการ</label
+          >{{ $t("historydetail") }}</label
         >
         <div class="form">
           <div class="container">
@@ -40,7 +40,7 @@
                   class="btn btnBlock btn-primary fixed-button mb-2"
                   style="border-radius: 10px"
                 >
-                  <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+                  <span style="font-weight: 900; color: white">{{ $t("back") }}</span>
                 </button>
               </div>
             </div>
