@@ -231,17 +231,12 @@ export default {
       }
       let email = this.dataPrepareSend.email;
       let emailKmutt = "@mail.kmutt.ac.th";
-      let emailKmuttAnother = "@kmutt.ac.th";
       let emailSub = this.dataPrepareSend.email.slice(
         email.length - 17,
         email.length
       );
-      let emailSubAnother = this.dataPrepareSend.email.slice(
-        email.length - 12,
-        email.length
-      );
 
-      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+      if (emailSub == emailKmutt) {
         return true;
       } else {
         return false;
@@ -404,7 +399,7 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: `กรุณากรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th เท่านั้น`
+            text: `กรุณากรอก @mail.kmutt.ac.th`
           });
         }
       } else {

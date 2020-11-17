@@ -9,17 +9,15 @@
             class="form-control"
             v-model="email"
             :placeholder="$t('KMUTTEmail')"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
             :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
           />
           <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2"
+            <span class="input-group-text"
               >@mail.kmutt.ac.th</span
             >
           </div>
           <div class="invalid-feedback">
-            ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+            {{ $t("noemail") }}
           </div>
         </div>
       </div>
@@ -55,16 +53,11 @@ export default {
       }
       let emailCheck = this.email;
       let emailKmutt = "@mail.kmutt.ac.th";
-      let emailKmutt2 = "@kmutt.ac.th";
       let emailSub = this.email.slice(
         emailCheck.length - 17,
         emailCheck.length
       );
-      let emailSub2 = this.email.slice(
-        emailCheck.length - 12,
-        emailCheck.length
-      );
-      if (emailSub == emailKmutt || emailSub2 == emailKmutt2) {
+      if (emailSub == emailKmutt) {
         return false;
       }
       return true;
@@ -126,7 +119,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th"
         });
       }
     }

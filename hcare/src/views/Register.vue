@@ -136,16 +136,11 @@ export default {
       }
       let email = this.dataUserInfo.email;
       let emailKmutt = "@mail.kmutt.ac.th";
-      let emailKmuttAnother = "@kmutt.ac.th";
       let emailSub = this.dataUserInfo.email.slice(
         email.length - 17,
         email.length
       );
-      let emailSubAnother = this.dataUserInfo.email.slice(
-        email.length - 12,
-        email.length
-      );
-      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+      if (emailSub == emailKmutt) {
         return true;
       }
 
