@@ -13,13 +13,6 @@
             {{ $t("cannotlogin") }}</span
           >
         </div>
-        <router-link to="/register">
-          <button class="btn fixed-button btn-primary mb-2 mt-2 btnConfirm">
-            <span style="font-weight: 900; color: white">{{
-              $t("register")
-            }}</span>
-          </button>
-        </router-link>
       </div>
       <div v-if="visibleState">
         <SendMailForm v-if="!email" v-on:email="getEmail" />
