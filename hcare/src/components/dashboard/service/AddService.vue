@@ -138,7 +138,7 @@
               <router-link
                 target="_blank"
                 :to="
-                  '/admin/dashboard/service/edit?id=' + props.entry.working_id
+                  '/admin/dashboard/service/edit/' + props.entry.working_id
                 "
               >
                 <button type="button" class="btn">
