@@ -125,8 +125,10 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.email) {
+    if (this.$route.query.email && this.$route.query.firstname && this.$route.query.lastname) {
       this.dataUserInfo.email = this.$route.query.email;
+      this.dataUserInfo.first_name = this.$route.query.firstname;
+      this.dataUserInfo.last_name = this.$route.query.lastname;
     }
   },
   methods: {
