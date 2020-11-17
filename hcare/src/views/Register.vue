@@ -120,8 +120,8 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: "",
-      },
+        hn_number: ""
+      }
     };
   },
   mounted() {
@@ -136,16 +136,11 @@ export default {
       }
       let email = this.dataUserInfo.email;
       let emailKmutt = "@mail.kmutt.ac.th";
-      let emailKmuttAnother = "@kmutt.ac.th";
       let emailSub = this.dataUserInfo.email.slice(
         email.length - 17,
         email.length
       );
-      let emailSubAnother = this.dataUserInfo.email.slice(
-        email.length - 12,
-        email.length
-      );
-      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+      if (emailSub == emailKmutt) {
         return true;
       }
 
@@ -179,7 +174,7 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            },
+            }
           });
 
           await axios
@@ -188,22 +183,30 @@ export default {
               last_name: this.dataUserInfo.last_name.split(" ").join(""),
               email: this.dataUserInfo.email.split(" ").join(""),
               telephone: this.dataUserInfo.telephone.split(" ").join(""),
-              hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
+              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
             })
-            .then((res) => {
-              this.$swal({
-                icon: "success",
-                title: "ลงทะเบียนสำเร็จ",
-                html:
-                  "<hr/>" +
-                  '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>',
-              }).then((result) => {
-                if (result.value) {
-                  this.$router.push("/");
-                }
-              });
+            .then(res => {
+              if (res.status == 200) {
+                this.$swal({
+                  icon: "success",
+                  title: "ลงทะเบียนสำเร็จ",
+                  html:
+                    "<hr/>" +
+                    '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>'
+                }).then(result => {
+                  if (result.value) {
+                    this.$router.push("/");
+                  }
+                });
+              } else if (res.status == 203) {
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data
+                });
+              }
             })
-            .catch((error) => {
+            .catch(error => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
@@ -212,17 +215,17 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ถูกต้อง",
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service",
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>

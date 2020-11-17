@@ -26,7 +26,7 @@
             class="btn btnBlock btn-primary fixed-button mb-2"
             style="border-radius: 10px"
           >
-            <span style="font-weight: 900; color: white">ย้อนกลับ</span>
+            <span style="font-weight: 900; color: white">{{ $t("back") }}</span>
           </button>
         </div>
       </div>

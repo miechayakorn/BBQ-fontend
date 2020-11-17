@@ -13,15 +13,6 @@
             {{ $t("cannotlogin") }}</span
           >
         </div>
-        <router-link to="/register">
-          <button
-            class="btn fixed-button btn-primary mb-2 mt-2 btnConfirm"
-          >
-            <span style="font-weight: 900; color: white">{{
-              $t("register")
-            }}</span>
-          </button>
-        </router-link>
       </div>
       <div v-if="visibleState">
         <SendMailForm v-if="!email" v-on:email="getEmail" />
@@ -47,7 +38,7 @@ export default {
   data() {
     return {
       email: null,
-      visibleState: false,
+      visibleState: false
     };
   },
   async mounted() {
@@ -61,9 +52,9 @@ export default {
           hash: CryptoJS.AES.encrypt(
             email,
             process.env.VUE_APP_SECRET_KEY
-          ).toString(),
+          ).toString()
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$store.state.token = res.data.token;
             this.$store.state.role = res.data.role;
@@ -71,7 +62,7 @@ export default {
               account_id: res.data.account_id,
               first_name: res.data.first_name,
               last_name: res.data.last_name,
-              profile_picture: res.data.profile_picture,
+              profile_picture: res.data.profile_picture
             };
 
             let dataSetLocal = res.data;
@@ -109,23 +100,23 @@ export default {
               showConfirmButton: false,
               timer: 3000,
               icon: "info",
-              title: "กรุณา ลงทะเบียนก่อนใช้งาน!",
+              title: "กรุณา ลงทะเบียนก่อนใช้งาน!"
             });
 
             this.$router.push({
               name: "Register",
               query: {
                 email: email,
-                redirect: this.$route.query.redirect || "/",
-              },
+                redirect: this.$route.query.redirect || "/"
+              }
             });
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("===== Backend-error ======");
           console.error(error.response);
           this.$swal({
-            ...errorSWAL,
+            ...errorSWAL
           });
         });
     }
@@ -136,13 +127,13 @@ export default {
     },
     getEmail(email) {
       this.email = email;
-    },
+    }
   },
   components: {
     logoHeader,
     SendMailForm,
-    ComfirmOTPForm,
-  },
+    ComfirmOTPForm
+  }
 };
 </script>
 

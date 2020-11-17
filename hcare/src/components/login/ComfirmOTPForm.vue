@@ -52,11 +52,11 @@ export default {
   data() {
     return {
       password: "",
-      status: "",
+      status: ""
     };
   },
   props: {
-    email: String,
+    email: String
   },
   methods: {
     sendMailAgain() {
@@ -65,24 +65,24 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          },
+          }
         });
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: this.email,
+            email: this.email
           })
-          .then((res) => {
+          .then(res => {
             this.$emit("email", this.email);
             this.$swal.close();
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("===== Backend-error ======");
             console.error(error.response);
             this.$swal({
               title: "คำเตือน",
               text: "กรุณาลงทะเบียนเพื่อใช้งาน",
-              icon: "warning",
+              icon: "warning"
             });
           });
       } else {
@@ -94,9 +94,9 @@ export default {
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login/confirm`, {
             email: this.email,
-            password: this.password,
+            password: this.password
           })
-          .then((res) => {
+          .then(res => {
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
               dataSetLocal.first_name,
@@ -125,19 +125,19 @@ export default {
             const redirectPath = this.$route.query.redirect || "/";
             this.$router.push(redirectPath);
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("===== Backend-error ======");
             console.error(error.response);
             this.status = error.response.status;
             this.$swal({
               icon: "warning",
-              title: "OTP ไม่ถูกต้อง",
+              title: "OTP ไม่ถูกต้อง"
             });
           });
       } else {
         this.$router.push("/");
       }
-    },
-  },
+    }
+  }
 };
 </script>

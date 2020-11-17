@@ -148,8 +148,8 @@ export default {
         telephone: "",
         hn_number: "",
         role: "",
-        service_type: [],
-      },
+        service_type: []
+      }
     };
   },
   async mounted() {
@@ -157,20 +157,20 @@ export default {
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/editprofile/getprofile`, {
         headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
+          Authorization: `Bearer ${this.$store.state.token}`
+        }
       })
-      .then((res) => {
+      .then(res => {
         this.dataFetch = res.data;
         if (this.dataFetch.role != "USER") {
           window.open(
             "/admin/dashboard/manageEmployee/edit/" + this.dataFetch.account_id,
             "_blank"
           );
-          this.$router.go(-1)
+          this.$router.go(-1);
         }
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("===== Backend-error ======");
         console.error(res);
         this.$swal({ ...errorSWAL });
@@ -194,30 +194,38 @@ export default {
               first_name: this.dataFetch.first_name,
               last_name: this.dataFetch.last_name,
               telephone: this.dataFetch.telephone,
-              hn_number: this.dataFetch.hn_number,
+              hn_number: this.dataFetch.hn_number
             },
             {
               headers: {
-                Authorization: `Bearer ${this.$store.state.token}`,
-              },
+                Authorization: `Bearer ${this.$store.state.token}`
+              }
             }
           )
-          .then((res) => {
-            this.$swal({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", this.$swal.stopTimer);
-                toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-              },
-              timer: 3000,
-              icon: "success",
-              title: "บันทึกสำเร็จ",
-            });
+          .then(res => {
+            if (res.status == 200) {
+              this.$swal({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timerProgressBar: true,
+                onOpen: toast => {
+                  toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                },
+                timer: 3000,
+                icon: "success",
+                title: "บันทึกสำเร็จ"
+              });
+            } else if (res.status == 203) {
+              this.$swal({
+                icon: "warning",
+                title: "คำเตือน",
+                text: res.data
+              });
+            }
           })
-          .catch((res) => {
+          .catch(res => {
             console.log("===== Backend-error ======");
             console.error(res);
             this.$swal({ ...errorSWAL });
@@ -226,10 +234,10 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกข้อมูลให้ครบ",
+          text: "กรุณากรอกข้อมูลให้ครบ"
         });
       }
-    },
+    }
   },
   components: {
     logoAdmin,
@@ -237,8 +245,8 @@ export default {
     logoUser,
     VueAvatar,
     VclFacebook,
-    VclList,
-  },
+    VclList
+  }
 };
 </script>
 

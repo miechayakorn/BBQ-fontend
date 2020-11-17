@@ -32,12 +32,12 @@
     "surname": "นามสกุล",
     "stdID": "รหัสนักคึกษา / หมายเลขบุคลากร มจธ.",
     "email": "อีเมล",
-    "suggestemail": "กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+    "suggestemail": "กรุณากรอก email ลงท้าย @mail.kmutt.ac.th",
     "phoneno": "เบอร์โทรศัพท์",
     "accept": "ยอมรับข้อตกลงและเงื่อนไข",
 
     "emailkmutt": "กรุณาพิมพ์ email มหาวิทยาลัย",
-    "noemail": "ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+    "noemail": "ไม่ต้องกรอก @mail.kmutt.ac.th",
     "password": "รหัสผ่าน",
     "forgotpassword": "ลืมรหัสผ่าน",
     "sendemail": "ส่งอีเมล",
@@ -51,5 +51,9 @@
     "passwordNotMatch" : "รหัสผ่านไม่ตรงกัน",
     "confirmPassword" : "ยืนยันรหัสผ่าน",
     "yourNewPassword" : "กรุณาพิมพ์รหัสผ่าน",
-    "confirmYourNewPassword" : "กรุณาพิมพ์รหัสผ่านอีกครั้ง"
+    "confirmYourNewPassword" : "กรุณาพิมพ์รหัสผ่านอีกครั้ง",
+
+    "back": "ย้อนกลับ",
+    "historydetail": "รายละเอียดประวัติการเข้าใช้บริการ"
+   
 }

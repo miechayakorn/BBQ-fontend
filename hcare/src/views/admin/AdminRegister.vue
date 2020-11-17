@@ -187,8 +187,8 @@ export default {
         hn_number: "",
         email: "",
         telephone: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
 
@@ -199,7 +199,7 @@ export default {
         .get(
           `${process.env.VUE_APP_BACKEND_URL}/admin/register/getnewemployee?account_id=${this.$route.query.account_id}&token=${this.$route.query.token}`
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.dataPrepareSend.account_id = res.data.account_id;
             this.dataPrepareSend.first_name = res.data.first_name;
@@ -210,8 +210,8 @@ export default {
             this.$swal({
               icon: "warning",
               title: "คำเตือน",
-              text: "ระบบได้สร้างข้อมูลของท่านเรียบร้อยแล้ว",
-            }).then((result) => {
+              text: "ระบบได้สร้างข้อมูลของท่านเรียบร้อยแล้ว"
+            }).then(result => {
               this.$router.push("/admin/dashboard");
             });
           }
@@ -219,7 +219,7 @@ export default {
     } catch (error) {
       console.log("===== Backend-error ======");
       console.error(error.response);
-      this.$swal({ ...errorSWAL }).then((result) => {
+      this.$swal({ ...errorSWAL }).then(result => {
         this.$router.push("/");
       });
     }
@@ -260,28 +260,34 @@ export default {
                   hn_number: this.dataPrepareSend.hn_number,
                   email: this.dataPrepareSend.email,
                   telephone: this.dataPrepareSend.telephone,
-                  password: this.dataPrepareSend.password,
+                  password: this.dataPrepareSend.password
                 },
                 {
                   headers: {
-                    Authorization: `Bearer ${this.$route.query.token}`,
-                  },
+                    Authorization: `Bearer ${this.$route.query.token}`
+                  }
                 }
               )
-              .then((res) => {
+              .then(res => {
                 if (res.status == 201) {
                   this.$swal({
                     confirmButtonText: "ตกลง",
                     timer: 7000,
                     icon: "success",
-                    title: "การสร้างบัญชีสำเร็จ",
-                  }).then((result) => {
+                    title: "การสร้างบัญชีสำเร็จ"
+                  }).then(result => {
                     this.$router.push({
                       name: "AdminLogin",
                       query: {
-                        email: this.dataPrepareSend.email,
-                      },
+                        email: this.dataPrepareSend.email
+                      }
                     });
+                  });
+                } else if (res.status == 203) {
+                  this.$swal({
+                    icon: "warning",
+                    title: "คำเตือน",
+                    text: res.data
                   });
                 } else {
                   console.log("===== Backend-error ======");
@@ -289,7 +295,7 @@ export default {
                   this.$swal({
                     icon: "warning",
                     title: "คำเตือน",
-                    text: res.data[0].message,
+                    text: res.data[0].message
                   });
                 }
               });
@@ -302,24 +308,24 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ครบ",
+            text: "กรุณากรอกข้อมูลให้ครบ"
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกรหัสผ่าน",
+          text: "กรุณากรอกรหัสผ่าน"
         });
       }
-    },
+    }
   },
   components: {
     logoHeader,
     iconUser,
     VclFacebook,
-    VclList,
-  },
+    VclList
+  }
 };
 </script>
 
