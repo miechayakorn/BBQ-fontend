@@ -31,16 +31,16 @@
               >
             </li>
             <li
-              :class="{ active: this.$route.query.p === 'AddService' }"
+              :class="{ active: this.$route.query.p === 'ManageService' }"
               style="margin-left: 63px"
             >
               <router-link
-                to="?p=AddService"
+                to="?p=ManageService"
                 :class="[
                   'disText',
-                  { activeText: this.$route.query.p === 'AddService' },
+                  { activeText: this.$route.query.p === 'ManageService' },
                 ]"
-                >เพิ่มบริการ</router-link
+                >จัดการบริการ</router-link
               >
             </li>
             <li
@@ -65,7 +65,7 @@
             this.$route.query.p == undefined
           "
         />
-        <AddService v-if="this.$route.query.p == 'AddService'" />
+        <ManageService v-if="this.$route.query.p == 'ManageService'" />
         <LocationService v-if="this.$route.query.p == 'LocationService'" />
       </div>
     </div>
@@ -75,14 +75,14 @@
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
 import TotalService from "@/components/dashboard/service/TotalService.vue";
-import AddService from "@/components/dashboard/service/AddService.vue";
+import ManageService from "@/components/dashboard/service/ManageService.vue";
 import LocationService from "@/components/dashboard/service/LocationService.vue";
 
 export default {
   components: {
     Menudash,
     TotalService,
-    AddService,
+    ManageService,
     LocationService,
   },
 };
