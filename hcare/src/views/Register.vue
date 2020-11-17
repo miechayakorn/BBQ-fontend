@@ -197,7 +197,7 @@ export default {
                     '<span style="font-size: 18px; text-decoration: underline; color:#FA3D3D"> กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน </span>'
                 }).then(result => {
                   if (result.value) {
-                    this.$router.push("/");
+                    this.$router.push("/login");
                   }
                 });
               } else if (res.status == 203) {
