@@ -56,7 +56,7 @@
       <div class="mb-3" style="margin-top: 32px">
         <span>ส่วนที่ 1 : เลือกบริการ</span>
       </div>
-      <div class="row div-card" style="padding-bottom: 40px;">
+      <div class="row div-card" style="padding-bottom: 40px">
         <div
           class="col-12"
           style="padding-left: 40px; padding-right: 40px"
@@ -120,6 +120,7 @@
           <data-table
             class="table table-hover list-doctor"
             :data="dataFetch.dataWorkTime"
+            :columns-to-not-sort="['action']"
             :columns-to-display="gridColumns"
             :filter-key="searchQuery"
             v-if="dataFetch.dataWorkTime.length != 0"
@@ -133,6 +134,18 @@
             <template slot="ผู้รับผิดชอบ" scope="props">{{
               props.entry.ผู้รับผิดชอบ
             }}</template>
+            <template slot="action" scope="props">
+              <router-link
+                target="_blank"
+                :to="
+                  '/admin/dashboard/service/edit?id=' + props.entry.working_id
+                "
+              >
+                <button type="button" class="btn">
+                  <i class="fas fa-pen edit" style="color: #ffc107"></i>
+                </button>
+              </router-link>
+            </template>
           </data-table>
           <div
             v-if="dataFetch.dataWorkTime.length == 0"
@@ -177,7 +190,12 @@ export default {
       loading: false,
       interval: undefined,
       searchQuery: "",
-      gridColumns: ["วันที่ให้บริการ", "เวลาให้บริการ", "ผู้รับผิดชอบ"],
+      gridColumns: [
+        "วันที่ให้บริการ",
+        "เวลาให้บริการ",
+        "ผู้รับผิดชอบ",
+        "action",
+      ],
       colorCard: "",
       selectedService: "",
       dataFetch: {
@@ -208,7 +226,7 @@ export default {
     changeCardColor(type_id, type_name, location_name) {
       this.colorCard = type_id;
       this.fetchWorkTime(type_id);
-      if(this.interval){
+      if (this.interval) {
         clearInterval(this.interval);
       }
       this.interval = setInterval(() => {
@@ -314,4 +332,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.div-card-unclick {
+  border-radius: 8px;
+  background-color: #5e65a1;
+  box-shadow: 0px 4px 8px #f2f2f2;
+  cursor: pointer;
+}
+.div-card-click {
+  border-radius: 8px;
+  background-color: #a6acde;
+  box-shadow: 0px 2px 8px rgba(54, 58, 99, 0.2);
+  cursor: pointer;
+}
+</style>

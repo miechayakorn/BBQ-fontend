@@ -621,18 +621,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.div-card-unclick {
-  border-radius: 8px;
-  background-color: #5e65a1;
-  box-shadow: 0px 4px 8px #f2f2f2;
-  cursor: pointer;
-}
-.div-card-click {
-  border-radius: 8px;
-  background-color: #a6acde;
-  box-shadow: 0px 2px 8px rgba(54, 58, 99, 0.2);
-  cursor: pointer;
-}
-</style>

@@ -44,19 +44,6 @@
               >
             </li>
             <li
-              :class="{ active: this.$route.query.p === 'EditService' }"
-              style="margin-left: 63px"
-            >
-              <router-link
-                to="?p=EditService"
-                :class="[
-                  'disText',
-                  { activeText: this.$route.query.p === 'EditService' },
-                ]"
-                >แก้ไขบริการ</router-link
-              >
-            </li>
-            <li
               v-if="this.$store.state.role == 'ADMIN'"
               :class="{ active: this.$route.query.p === 'LocationService' }"
               style="margin-left: 63px"
@@ -79,7 +66,6 @@
           "
         />
         <AddService v-if="this.$route.query.p == 'AddService'" />
-        <EditService v-if="this.$route.query.p == 'EditService'" />
         <LocationService v-if="this.$route.query.p == 'LocationService'" />
       </div>
     </div>
@@ -90,7 +76,6 @@
 import Menudash from "@/components/dashboard/Menudash.vue";
 import TotalService from "@/components/dashboard/service/TotalService.vue";
 import AddService from "@/components/dashboard/service/AddService.vue";
-import EditService from "@/components/dashboard/service/EditService.vue";
 import LocationService from "@/components/dashboard/service/LocationService.vue";
 
 export default {
@@ -98,7 +83,6 @@ export default {
     Menudash,
     TotalService,
     AddService,
-    EditService,
     LocationService,
   },
 };
