@@ -3,30 +3,25 @@
     <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left">
         <label for="InputName">Email</label>
-        <div class="inner-addon left-addon">
-          <i class="fas fa-user"></i>
+
+        <div class="input-group mb-3">
           <input
             type="text"
-            id="InputName"
+            class="form-control"
             v-model="email"
-            :placeholder='$t("KMUTTEmail")'
+            :placeholder="$t('KMUTTEmail')"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
             :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
           />
-          <div class="invalid-feedback">
-            ไม่กรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2"
+              >@mail.kmutt.ac.th</span
+            >
           </div>
-        </div>
-      </div>
-      <div class="form-group text-left">
-        <div class="inner-addon left-addon">
-          <select
-            v-model="lastname_email"
-            class="form-control"
-            style="font-weight: 500; font-size: 14px"
-          >
-            <option value="@mail.kmutt.ac.th">@mail.kmutt.ac.th</option>
-            <option value="@kmutt.ac.th">@kmutt.ac.th</option>
-          </select>
+          <div class="invalid-feedback">
+            ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +46,7 @@ export default {
   data() {
     return {
       email: "",
-      lastname_email: "@mail.kmutt.ac.th",
+      lastname_email: "@mail.kmutt.ac.th"
     };
   },
   methods: {
@@ -81,16 +76,16 @@ export default {
           ...waiting,
           onOpen: () => {
             this.$swal.showLoading();
-          },
+          }
         });
 
         this.email = this.email.split(" ").join("");
 
         axios
           .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: `${this.email.split(" ").join("")}${this.lastname_email}`,
+            email: `${this.email.split(" ").join("")}${this.lastname_email}`
           })
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res.status == 200) {
               let email2 = this.email + this.lastname_email;
@@ -98,15 +93,15 @@ export default {
               this.$swal.close();
             }
           })
-          .catch((error) => {
+          .catch(error => {
             console.log("===== Backend-error ======");
             console.error(error.response);
             if (error.response.status == 403) {
               this.$swal({
                 title: "คำเตือน",
                 text: "กรุณาเข้าสู่ระบบสำหรับบุคลากร Healthcare",
-                icon: "warning",
-              }).then((result) => {
+                icon: "warning"
+              }).then(result => {
                 if (result.value) {
                   this.$router.push({
                     name: "AdminLogin",
@@ -114,8 +109,8 @@ export default {
                       email: `${this.email.split(" ").join("")}${
                         this.lastname_email
                       }`,
-                      redirect: this.$route.query.redirect,
-                    },
+                      redirect: this.$route.query.redirect
+                    }
                   });
                 }
               });
@@ -123,7 +118,7 @@ export default {
               this.$swal({
                 title: "คำเตือน",
                 text: "กรุณาลงทะเบียนเพื่อใช้งาน",
-                icon: "warning",
+                icon: "warning"
               });
             }
           });
@@ -132,10 +127,10 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล",
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th ในช่องอีเมล"
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
