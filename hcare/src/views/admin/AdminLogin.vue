@@ -294,7 +294,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th",
         });
       }
     },
@@ -348,7 +348,7 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th หรือ @kmutt.ac.th",
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th",
         });
       }
     },
