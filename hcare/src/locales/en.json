@@ -54,6 +54,7 @@
     "confirmYourNewPassword" : "Confirm your new password",
     "back": "Go Back",
     "historydetail": "History Details",
-    "myprofile": "My Profile"
+    "myprofile": "My Profile",
+    "cancel":"Cancel appointment"
 
 }
