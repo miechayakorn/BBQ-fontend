@@ -100,7 +100,7 @@
             </div>
           </div>
         </div>
-        <div class="row mb-4" style="margin-top: 80px;">
+        <div class="row mb-4" style="margin-top: 80px">
           <div class="col-12 text-center">
             <button
               @click="close()"
@@ -154,10 +154,20 @@ export default {
         this.dataPrepareSend.worktime.end_time != "" &&
         this.dataPrepareSend.worktime.time_slot != ""
       ) {
-        if (
-          this.dataPrepareSend.worktime.end_time >
-          this.dataPrepareSend.worktime.start_time
-        ) {
+        //start time
+        let t1 = this.dataPrepareSend.worktime.start_time;
+        var r1 =
+          Number(t1.split(":")[0]) * 3600000 + Number(t1.split(":")[1]) * 60000;
+
+        //end time
+        let t2 = this.dataPrepareSend.worktime.end_time;
+        var r2 =
+          Number(t2.split(":")[0]) * 3600000 + Number(t2.split(":")[1]) * 60000;
+
+        //time_slot
+        let r3 = this.dataPrepareSend.worktime.time_slot * 60000;
+
+        if ((r2 - r1) % r3 == 0) {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
@@ -219,7 +229,7 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณาตรวจสอบเวลาเริ่มบริการ",
+            text: "กรุณาตรวจสอบเวลาการให้บริการ",
           });
         }
       } else {
