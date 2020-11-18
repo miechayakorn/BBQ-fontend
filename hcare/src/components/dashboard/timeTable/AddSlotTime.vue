@@ -13,11 +13,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group text-left" style="margin-top: 48px">
                 <label for="serviceType">เลือกบริการ</label>
-                <select
-                  id="serviceType"
-                  class="form-control"
-                  v-model="dataPrepareSend.type_id"
-                >
+                <select id="serviceType" class="form-control" v-model="type_id">
                   <option value disabled selected>
                     -- กรุณาเลือกบริการ --
                   </option>
@@ -39,8 +35,9 @@
                 <v-date-picker
                   locale="th"
                   color="indigo"
+                  :available-dates="{ weekdays: dataFetch.availableDates }"
                   :popover="{ placement: 'top', visibility: 'click' }"
-                  v-model="dataPrepareSend.date"
+                  v-model="date"
                   :input-props="{
                     class: 'form-control',
                     placeholder: 'กรุณาเลือกวัน',
@@ -143,12 +140,13 @@ export default {
       loading: false,
       noContent: false,
       visibleState: false,
+      type_id: "",
+      date: "",
       dataFetch: {
+        availableDates: [],
         dataTypes: null,
         dataSlotTime: [],
         dateText: "",
-        type_id: "",
-        date: "",
       },
       dataPrepareSend: {
         type_id: "",
@@ -161,6 +159,33 @@ export default {
   components: {
     man2,
     VclFacebook,
+  },
+  watch: {
+    type_id: {
+      handler: async function (val, oldCal) {
+        this.date = "";
+        const dataArr = this.type_id.split("-");
+        let type_id = dataArr[0];
+        let doctor_id = dataArr[1];
+
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checkdate`,
+            {
+              type_id: type_id,
+              doctor_id: doctor_id,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            this.dataFetch.availableDates = res.data;
+          });
+      },
+    },
   },
   methods: {
     onChangeEventHandler(time, statusButton) {
@@ -179,25 +204,22 @@ export default {
       }
     },
     async fetchSlot() {
-      if (
-        this.dataPrepareSend.type_id != "" &&
-        this.dataPrepareSend.date != ""
-      ) {
+      if (this.type_id != "" && this.date != "") {
         //Clear Toggle bug
         if (this.dataPrepareSend.slot_time.length != 0) {
           this.noContent = true;
           this.dataPrepareSend.slot_time = [];
         }
         this.loading = true;
-        const dataArr = this.dataPrepareSend.type_id.split("-");
+        const dataArr = this.type_id.split("-");
         this.dataPrepareSend.doctor_id = dataArr[1];
         try {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checktimeslot`,
               {
-                type_id: this.dataPrepareSend.type_id.split("-")[0],
-                date: formatDate.format(this.dataPrepareSend.date),
+                type_id: this.type_id.split("-")[0],
+                date: formatDate.format(this.date),
                 doctor_id: this.dataPrepareSend.doctor_id,
               },
               {
