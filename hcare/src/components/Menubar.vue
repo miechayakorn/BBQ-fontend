@@ -151,7 +151,7 @@
           >
             <router-link class="nav-link blackTextMenu" to="/profile">
               <i class="far fa-user" style="margin-right: 14px"></i
-              >ข้อมูลส่วนตัว
+              >{{ $t("myprofile") }}
             </router-link>
           </li>
           <router-link

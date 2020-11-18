@@ -53,6 +53,7 @@
     "yourNewPassword" : "Your new password",
     "confirmYourNewPassword" : "Confirm your new password",
     "back": "Go Back",
-    "historydetail": "History Details"
+    "historydetail": "History Details",
+    "myprofile": "My Profile"
 
 }
