@@ -7,7 +7,7 @@
     </div>
     <div v-if="!loading" class="container fixed-container mt-5 mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">รายละเอียดการนัดของฉัน</label>
+        <label class="font-weight-bold mb-4">{{ $t("appointmentdetail") }}</label>
         <div class="form">
           <div class="container">
             <AppointmentCard :data="dataFetch.appointmentCard" />
@@ -49,35 +49,34 @@
                 </p>
               </div>
             </div>
-            <div class="row mt-5" style="text-align: center">
-              <div class="col-12" v-show="dataFetch.link_meeting != null">
-                <a :href="dataFetch.link_meeting">
-                  <button
-                    v-if="dataFetch.link_meeting"
-                    class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
+          </div>
+          <div class="row mt-5" style="text-align: center">
+            <div class="col-12" v-show="dataFetch.link_meeting != null">
+              <a :href="dataFetch.link_meeting">
+                <button
+                  v-if="dataFetch.link_meeting"
+                  class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
+                >
+                  <span style="font-weight: 900; color: white"
+                    >Join Meeting</span
                   >
-                    <span style="font-weight: 900; color: white"
-                      >Join Meeting</span
-                    >
-                  </button>
-                </a>
-              </div>
+                </button>
+              </a>
+            </div>
+            <div
+              v-show="dataFetch.link_meeting == null && dateCanCancel"
+              class="col-12"
+            >
+              <button
+                class="btn btnBlock btnCancel fixed-button mb-2"
+                @click="cancelAppointment"
+              >
+                <span style="font-weight: 900; color: white">{{ $t("cancel") }}</span>
+              </button>
             </div>
           </div>
           <div class="row" style="text-align: center">
             <div class="col-12" @click="$router.go(-1)">
-              <div
-                v-show="dataFetch.link_meeting == null && dateCanCancel"
-               
-              >
-                <button
-                  class="btn btnBlock btnCancel fixed-button mb-2"
-                  @click="cancelAppointment"
-                  style="border-radius: 10px"
-                >
-                  <span style="font-weight: 900; color: white; ">{{ $t("cancel") }}</span>
-                </button>
-              </div>
               <button
                 class="btn btnBlock btn-primary btn-back fixed-button mb-2"
                 style="border-radius: 10px"
@@ -115,20 +114,20 @@ export default {
             type_name: "",
             date: "",
             time_in: "",
-            dateformat: ""
-          }
+            dateformat: "",
+          },
         ],
         link_meeting: "",
         doctor_id: null,
         doctor_firstname: "",
-        doctor_lastname: ""
-      }
+        doctor_lastname: "",
+      },
     };
   },
   components: {
     AppointmentCard,
     VclFacebook,
-    VclList
+    VclList,
   },
   async mounted() {
     this.loading = true;
@@ -136,10 +135,10 @@ export default {
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.account_id) {
           this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
           this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
@@ -160,7 +159,7 @@ export default {
           this.$router.push("/");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("===== Backend-error ======");
         console.error(error.response);
         this.$router.go(-1);
@@ -183,7 +182,7 @@ export default {
         this.dateCanCancel = d.toLocaleDateString("th-TH", {
           year: "numeric",
           month: "long",
-          day: "numeric"
+          day: "numeric",
         });
       }
       return result;
@@ -196,8 +195,8 @@ export default {
         showCloseButton: true,
         confirmButtonColor: "#FF4F5B",
         confirmButtonText: "ยืนยัน",
-        footer: "ระบบจะไม่สามารถคืนการนัดได้"
-      }).then(result => {
+        footer: "ระบบจะไม่สามารถคืนการนัดได้",
+      }).then((result) => {
         if (result.value) {
           this.$swal({
             title: "กรุณารอสักครู่",
@@ -205,38 +204,38 @@ export default {
             allowOutsideClick: false,
             onOpen: () => {
               this.$swal.showLoading();
-            }
+            },
           });
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
               {
-                booking_id: this.dataFetch.appointmentCard[0].booking_id
+                booking_id: this.dataFetch.appointmentCard[0].booking_id,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "ยกเลิกการนัดสำเร็จ"
+                title: "ยกเลิกการนัดสำเร็จ",
               });
               this.$router.push("/appointment");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

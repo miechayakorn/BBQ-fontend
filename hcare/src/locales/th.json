@@ -2,7 +2,7 @@
     "loginMessage" : "กรุณา เข้าสู่ระบบ",
     "logout":"ออกจากระบบ",
     "appointment": "ทำนัด",
-    "myappointment": "นัดของฉัน",
+    "myappointment": "นัดหมายของฉัน",
     "serviceschedule": "ตารางให้บริการ",
     "history": "ประวัตินัดของฉัน",
     "register": "สมัครสมาชิก",
@@ -56,8 +56,7 @@
     "back": "ย้อนกลับ",
     "historydetail": "รายละเอียดประวัติการเข้าใช้บริการ",
     "myprofile": "ข้อมูลส่วนตัว",
-    "cancel":"ยกเลิกนัดหมาย"
-
-
+    "cancel":"ยกเลิกนัดหมาย",
+    "appointmentdetail": "รายละเอียดการนัดหมาย"
    
 }

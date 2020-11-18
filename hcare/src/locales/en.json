@@ -55,6 +55,7 @@
     "back": "Go Back",
     "historydetail": "History Details",
     "myprofile": "My Profile",
-    "cancel":"Cancel appointment"
+    "cancel":"Cancel appointment",
+    "appointmentdetail": "Appointment Details"
 
 }
