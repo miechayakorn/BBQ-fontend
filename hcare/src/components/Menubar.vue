@@ -167,13 +167,7 @@
           >
             <iconHome style="margin-right: 14px" />Admin Dashboard
           </router-link>
-          <hr
-            v-if="
-              this.$store.state.role == 'ADMIN' ||
-                this.$store.state.role == 'STAFF'
-            "
-            class="lineHr"
-          />
+          <hr class="lineHr" />
           <router-link v-if="this.$store.state.token" to="/logout">
             <button
               data-toggle="collapse"
