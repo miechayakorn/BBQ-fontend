@@ -67,7 +67,7 @@
             </div>
           </router-link>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-2">
           <div class="card btnHome" style="max-width: 500px">
             <div class="row no-gutters">
               <div class="col-5">
