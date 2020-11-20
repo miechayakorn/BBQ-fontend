@@ -57,5 +57,6 @@
     "myprofile": "My Profile",
     "cancel":"Cancel appointment",
     "appointmentdetail": "Appointment Details",
-    "Noappointment" : "No have any appointment"
+    "Noappointment" : "No have any appointment",
+    "Nohistory" : "No have appointment history."
 }

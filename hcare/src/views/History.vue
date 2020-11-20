@@ -14,7 +14,7 @@
             <div class v-else-if="checkAppointment">
               <div class="row justify-content-center">
                 <span class="announcement mt-3"
-                  >คุณไม่มีประวัติการเข้าใช้บริการ</span
+                  >{{ $t("Nohistory") }}</span
                 >
                 <man class="d-flex justify-content-center" />
               </div>
