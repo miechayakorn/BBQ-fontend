@@ -110,12 +110,4 @@ export default {
 .announcement {
   font-size: 20px;
 }
-.fix-buttom-man {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
 </style>

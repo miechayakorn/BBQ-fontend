@@ -7,20 +7,16 @@
     </div>
     <div v-if="!loading">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">{{$t('history')}}</label>
+        <label class="font-weight-bold mb-4">{{ $t("history") }}</label>
         <div class="form">
           <div class="container">
             <HistoryCard v-if="!checkAppointment" :data="dataFetch" />
             <div class v-else-if="checkAppointment">
-              <div class="row">
-                <div class="col-12">
-                  <span class="announcement d-flex justify-content-center mt-3"
-                    >คุณไม่มีประวัติการเข้าใช้บริการ</span
-                  >
-                </div>
-                <div class="fix-buttom-man">
-                  <man />
-                </div>
+              <div class="row justify-content-center">
+                <span class="announcement mt-3"
+                  >คุณไม่มีประวัติการเข้าใช้บริการ</span
+                >
+                <man class="d-flex justify-content-center" />
               </div>
             </div>
           </div>
@@ -31,7 +27,9 @@
               class="btn btnBlock btn-primary fixed-button mb-2"
               style="border-radius: 10px"
             >
-              <span style="font-weight: 900; color: white">{{ $t("back") }}</span>
+              <span style="font-weight: 900; color: white">{{
+                $t("back")
+              }}</span>
             </button>
           </div>
         </div>
@@ -93,13 +91,5 @@ export default {
 }
 .announcement {
   font-size: 20px;
-}
-.fix-buttom-man {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
 }
 </style>
