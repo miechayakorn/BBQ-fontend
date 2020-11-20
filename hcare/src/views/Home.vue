@@ -88,11 +88,8 @@
                 v-if="this.$store.state.token && checkAppointment"
                 class="col-7"
               >
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  คุณยังไม่มีนัดหมาย
-                </h6>
-                <h6 class="card-title text-md-center text-left title-card-app">
-                  หรือยังไม่ได้กดยืนยันที่ Email
+                <h6 class="card-title p-2 text-center text-left title-card-app">
+                  {{ $t("Noappointment") }}
                 </h6>
               </div>
               <div class="col-7">

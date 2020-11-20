@@ -13,7 +13,7 @@
             <AppointmentCard v-if="!checkAppointment" :data="dataFetch" />
             <div class v-else-if="checkAppointment">
               <div class="row justify-content-center">
-                <span class="announcement mt-3">คุณยังไม่มีนัดหมาย</span>
+                <span class="announcement mt-3">{{ $t("Noappointment") }}</span>
                 <man class="d-flex justify-content-center" />
               </div>
             </div>
@@ -109,13 +109,5 @@ export default {
 }
 .announcement {
   font-size: 20px;
-}
-.fix-buttom-man {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
 }
 </style>

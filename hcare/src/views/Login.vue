@@ -1,24 +1,29 @@
 <template>
-  <div>
-    <logoHeader />
-    <div class="container fixed-container mb-3 bg" style="margin-top: 10px">
-      <div v-if="!visibleState" class="col-12" style="margin-top: 99px">
-        <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
-          <span style="font-weight: 900; color: white">{{
-            $t("Loginwithkmutt")
-          }}</span>
-        </button>
-        <div class="mb-3">
-          <span class="text-link" @click="visibleState = true">
-            {{ $t("cannotlogin") }}</span
-          >
-        </div>
-      </div>
-      <div v-if="visibleState">
-        <SendMailForm v-if="!email" v-on:email="getEmail" />
-        <ComfirmOTPForm v-else-if="email" :email="email" />
-        <div class="text-link" @click="visibleState = false">
-          &#60; {{ $t("goback") }}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="div-login mt-3">
+        <logoHeader />
+        <div class="container fixed-container mb-3">
+          <groupDocter2 class="media-height-docter" />
+          <div v-if="!visibleState" class="col-12">
+            <button @click="adal" class="btn fixed-button btnAuth mb-2 mt-2">
+              <span style="font-weight: 900; color: white">{{
+                $t("Loginwithkmutt")
+              }}</span>
+            </button>
+            <div class="mb-3">
+              <span class="text-link" @click="visibleState = true">
+                {{ $t("cannotlogin") }}</span
+              >
+            </div>
+          </div>
+          <div v-if="visibleState">
+            <SendMailForm v-if="!email" v-on:email="getEmail" />
+            <ComfirmOTPForm v-else-if="email" :email="email" />
+            <div class="text-link" @click="visibleState = false">
+              &#60; {{ $t("goback") }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -28,6 +33,7 @@
 <script>
 import axios from "axios";
 import logoHeader from "@/components/svg/logoHeader.vue";
+import groupDocter2 from "@/components/svg/groupDocter2.vue";
 import CryptoJS from "crypto-js";
 import SendMailForm from "@/components/login/SendMailForm.vue";
 import ComfirmOTPForm from "@/components/login/ComfirmOTPForm";
@@ -135,6 +141,7 @@ export default {
   },
   components: {
     logoHeader,
+    groupDocter2,
     SendMailForm,
     ComfirmOTPForm,
   },
@@ -142,6 +149,30 @@ export default {
 </script>
 
 <style>
+.div-login {
+  background: #f9f9fc;
+}
+
+@media (min-width: 768px) {
+  .div-login {
+    background: #e9ebfb;
+    box-shadow: 0px 4px 8px #ececec;
+    border-radius: 30px;
+  }
+}
+
+.media-height-docter {
+  height: 150px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .media-height-docter {
+    height: 150px;
+    margin-bottom: 20px;
+  }
+}
+
 .text-link {
   color: #99a3ff;
   cursor: pointer;
