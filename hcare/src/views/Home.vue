@@ -89,7 +89,7 @@
                 class="col-7"
               >
                 <h6 class="card-title p-2 text-center text-left title-card-app">
-                  คุณยังไม่มีนัดหมาย
+                  {{ $t("Noappointment") }}
                 </h6>
               </div>
               <div class="col-7">

@@ -57,6 +57,6 @@
     "historydetail": "รายละเอียดประวัติการเข้าใช้บริการ",
     "myprofile": "ข้อมูลส่วนตัว",
     "cancel":"ยกเลิกนัดหมาย",
-    "appointmentdetail": "รายละเอียดการนัดหมาย"
-   
+    "appointmentdetail": "รายละเอียดการนัดหมาย",
+    "Noappointment" : "คุณยังไม่มีนัดหมาย"
 }
