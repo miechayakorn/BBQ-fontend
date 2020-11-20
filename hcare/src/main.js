@@ -12,6 +12,7 @@ import 'v-calendar/lib/v-calendar.min.css';
 import i18n from './i18n'
 
 Vue.config.productionTip = false
+Vue.config.devtools = false
 Vue.use(VueSweetalert2);
 Vue.use(DataTable)
 Vue.use(ToggleButton)
