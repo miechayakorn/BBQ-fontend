@@ -312,7 +312,7 @@ export default {
         this.dataShow.activeBtnTime = "";
         await axios
           .get(
-            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}`
+            `${process.env.VUE_APP_BACKEND_URL}/ServiceDate/${serviceDataType.type_id}?role=admin`
           )
           .then((res) => {
             this.dataFetch.dataDates = res.data;
