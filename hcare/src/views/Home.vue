@@ -164,7 +164,6 @@
 
 <script>
 import axios from "axios";
-import HelloWorld from "@/components/HelloWorld.vue";
 import iconNote2 from "@/components/svg/icon/iconNote-2.vue";
 import iconMedicine from "@/components/svg/icon/iconMedicine.vue";
 import iconClock2 from "@/components/svg/icon/iconClock-2.vue";
@@ -176,7 +175,6 @@ import { VclFacebook, VclList } from "vue-content-loading";
 export default {
   name: "Home",
   components: {
-    HelloWorld,
     iconNote2,
     iconMedicine,
     iconClock2,
