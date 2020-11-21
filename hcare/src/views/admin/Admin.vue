@@ -43,17 +43,17 @@
               </div>
               <div class="modal-body">
                 หากเข้าใช้งานผ่านโปรแกรม Google Chrome
-                <br/>
+                <br />
                 <img
                   :width="windowWidth - 100"
-                  src="https://support.gpsgate.com/hc/article_attachments/360033260533/mceclip4.png"
+                  src="@/assets/desktopMode-chrome.jpg"
                 />
-                <br/>
+                <br />
                 หรือ หากเข้าใช้งานผ่านโปรแกรม Safari
-                <br/>
+                <br />
                 <img
                   :width="windowWidth - 100"
-                  src="https://support.gpsgate.com/hc/article_attachments/360033260533/mceclip4.png"
+                  src="@/assets/desktopMode-safari.jpg"
                 />
               </div>
               <div class="modal-footer">
