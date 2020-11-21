@@ -1,9 +1,108 @@
 <template>
-  <div style="margin-top: -0.625rem; margin-right: 15px;">
+  <div style="margin-top: -0.625rem; margin-right: 15px">
+    <div class="row">
+      <div
+        v-if="windowWidth < 769"
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+      >
+        <strong>คำแนะนำ</strong> เพื่อการใช้งานที่ราบลื่น
+        โปรดเข้าใช้งานผ่านคอมพิวเตอร์ หรือท่านสามารถทำตามคำแนะนำ ดังนี้
+        <br />
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#modalInfo"
+        >
+          ดูเพิ่มเติม
+        </button>
+        <div
+          class="modal fade"
+          id="modalInfo"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modalInfo"
+          aria-hidden="true"
+          style="color: black"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalInfo">
+                  วิธีเปลี่ยนโหมด Desktop site
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                หากเข้าใช้งานผ่านโปรแกรม Google Chrome
+                <br/>
+                <img
+                  :width="windowWidth - 100"
+                  src="https://support.gpsgate.com/hc/article_attachments/360033260533/mceclip4.png"
+                />
+                <br/>
+                หรือ หากเข้าใช้งานผ่านโปรแกรม Safari
+                <br/>
+                <img
+                  :width="windowWidth - 100"
+                  src="https://support.gpsgate.com/hc/article_attachments/360033260533/mceclip4.png"
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
     <router-view></router-view>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      windowWidth: window.innerWidth,
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+  },
+  methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+};
+</script>
 <style>
 .dropdown {
   cursor: pointer;
