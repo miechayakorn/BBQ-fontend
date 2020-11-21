@@ -93,7 +93,7 @@
               </div>
             </div>
             <div class="col-12 m-3" v-show="item.service.length == 0">
-              <div class="alert p-3 alert-warning">ไม่พบบริการในสถานที่นี้</div>
+              <div class="alert p-3 alert-warning">ไม่พบบริการที่รับผิดชอบ</div>
             </div>
           </div>
         </div>
