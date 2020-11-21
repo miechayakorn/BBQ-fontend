@@ -1,24 +1,30 @@
-<template> </template>
+<template></template>
 
 <script>
+import authentication from "@/utility/authentication";
+
 export default {
-  mounted() {
+  async mounted() {
     if (localStorage.getItem("user")) {
       localStorage.removeItem("user");
-      this.$router.go();
-      this.$swal({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        icon: "info",
-        title: "ออกจากระบบเรียบร้อยแล้ว",
-      });
-    } else {
-      this.$router.push("/");
+      this.$store.state.token = null;
+      this.$store.state.role = null;
+      this.$store.state.user = {
+        first_name: null,
+        last_name: null,
+      };
+      await authentication.initialize();
+      await authentication.signOut();
     }
-  }
+    this.$swal({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      icon: "info",
+      title: "ออกจากระบบ สำเร็จ!",
+    });
+    this.$router.push("/");
+  },
 };
 </script>
-
-<style></style>

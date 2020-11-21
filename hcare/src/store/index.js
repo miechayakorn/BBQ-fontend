@@ -8,12 +8,21 @@ export default new Vuex.Store({
     token: null,
     role: null,
     user: {
+      account_id: null,
       first_name: null,
       last_name: null,
-      role: null,
+      profile_picture: null,
     },
-    dashboard: {
-      colorIconNav: "iconAppointment"
+    booking: {
+      location: {
+        location_id: "",
+        location_name: "",
+      },
+      location_id: null,
+      serviceDataType: {
+        type_id: "",
+        type_name: "",
+      },
     }
   },
   mutations: {},

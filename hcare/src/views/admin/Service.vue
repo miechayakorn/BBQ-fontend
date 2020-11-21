@@ -1,73 +1,89 @@
 <template>
-  <div class="d-flex">
-    <Menudash />
-    <Queuedash />
-    <div class="container bg-light">
-      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
-        <button
-          class="btn btn-primary"
-          data-toggle="collapse"
-          data-target="#navbarCollapseMenu-toggle"
-          id="menu-toggle"
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <Menudash style="position: fixed" />
+    </div>
+    <div class="col-9 col-md-9">
+      <div class="bg-light">
+        <nav
+          class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom"
         >
-          <span>&#60;</span>
-        </button>
-        <ul class="nav navbar-nav nav-underlined">
-          <li
-            :class="{ active: activeBtnNav === 'AddService' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'AddService'"
-          >
-            <router-link
-              to="#AddService"
-              :class="[
-                'disText',
-                { activeText: activeBtnNav === 'AddService' }
-              ]"
-              >เพิ่มบริการ</router-link
+          <ul class="navbar-nav nav-underlined">
+            <li
+              :class="{
+                active:
+                  this.$route.query.p === 'TotalService' ||
+                  this.$route.query.p == undefined,
+              }"
+              style="margin-left: 63px"
             >
-          </li>
-          <li
-            :class="{ active: activeBtnNav === 'EditService' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'EditService'"
-          >
-            <router-link
-              to="#EditService"
-              :class="[
-                'disText',
-                { activeText: activeBtnNav === 'EditService' }
-              ]"
-              >แก้ไขบริการ</router-link
+              <router-link
+                to="?p=TotalService"
+                :class="[
+                  'disText',
+                  {
+                    activeText:
+                      this.$route.query.p === 'TotalService' ||
+                      this.$route.query.p == undefined,
+                  },
+                ]"
+                >บริการทั้งหมด</router-link
+              >
+            </li>
+            <li
+              :class="{ active: this.$route.query.p === 'ManageService' }"
+              style="margin-left: 63px"
             >
-          </li>
-        </ul>
-      </nav>
-      <AddService v-if="activeBtnNav == 'AddService'" />
-      <EditService v-if="activeBtnNav == 'EditService'" />
+              <router-link
+                to="?p=ManageService"
+                :class="[
+                  'disText',
+                  { activeText: this.$route.query.p === 'ManageService' },
+                ]"
+                >จัดการบริการ</router-link
+              >
+            </li>
+            <li
+              v-if="this.$store.state.role == 'ADMIN'"
+              :class="{ active: this.$route.query.p === 'LocationService' }"
+              style="margin-left: 63px"
+            >
+              <router-link
+                to="?p=LocationService"
+                :class="[
+                  'disText',
+                  { activeText: this.$route.query.p === 'LocationService' },
+                ]"
+                >เพิ่มสถานที่ให้บริการ</router-link
+              >
+            </li>
+          </ul>
+        </nav>
+        <TotalService
+          v-if="
+            this.$route.query.p == 'TotalService' ||
+            this.$route.query.p == undefined
+          "
+        />
+        <ManageService v-if="this.$route.query.p == 'ManageService'" />
+        <LocationService v-if="this.$route.query.p == 'LocationService'" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
-import Queuedash from "@/components/dashboard/Queuedash.vue";
-import AddService from "@/components/dashboard/service/AddService.vue";
-import EditService from "@/components/dashboard/service/EditService.vue";
+import TotalService from "@/components/dashboard/service/TotalService.vue";
+import ManageService from "@/components/dashboard/service/ManageService.vue";
+import LocationService from "@/components/dashboard/service/LocationService.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "AddService"
-    };
-  },
   components: {
     Menudash,
-    Queuedash,
-    AddService,
-    EditService,
-  }
+    TotalService,
+    ManageService,
+    LocationService,
+  },
 };
 </script>
-
-<style></style>

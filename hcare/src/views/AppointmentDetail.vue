@@ -1,8 +1,13 @@
 <template>
-  <div class="mt-5">
-    <div class="container fixed-container mb-3">
+  <div>
+    <div v-if="loading" class="container fixed-container mb-3">
+      <VclFacebook />
+      <VclList class="mt-2" />
+      <VclList class="mt-2" />
+    </div>
+    <div v-if="!loading" class="container fixed-container mt-5 mb-3">
       <div class="form-group text-left">
-        <label class="font-weight-bold mb-4">My Appointment</label>
+        <label class="font-weight-bold mb-4">{{ $t("appointmentdetail") }}</label>
         <div class="form">
           <div class="container">
             <AppointmentCard :data="dataFetch.appointmentCard" />
@@ -18,7 +23,7 @@
                 </span>
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-show="dataFetch.link_meeting != null">
               <div class="col-12">
                 <span class="font-weight-bold">
                   โปรดอ่าน
@@ -27,32 +32,57 @@
                 <span>ควรเข้า Join Meeting ก่อนเวลาประมาณ 5 นาที</span>
               </div>
             </div>
-            <div class="row mt-5" style="text-align: center;">
-              <div class="col-12">
-                <a :href="dataFetch.link_meeting">
-                  <button
-                    v-if="dataFetch.link_meeting"
-                    class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
-                  >
-                    <span style="font-weight: 900; color:white;">Join Meeting</span>
-                  </button>
-                  <button
-                    v-if="dataFetch.link_meeting == null"
-                    class="btn btn-secondary btnBlock btnConfirm fixed-button mb-2 disabled"
-                    :disabled="true"
-                  >
-                    <span style="font-weight: 900; color:white;">ท่านยังไม่ได้รับลิงค์</span>
-                  </button>
-                </a>
+            <div
+              class="row"
+              v-show="dataFetch.link_meeting == null && dateCanCancel"
+            >
+              <div class="col-12 text-danger">
+                <span class="font-weight-bold text-danger">
+                  โปรดอ่าน
+                  <br />
+                </span>
+                <span>**กดยกเลิกนัดได้ก่อนถึงวันนัด 3 วัน</span>
+                <p>
+                  ( ภายในวันที่
+                  {{ dateCanCancel }}
+                  เวลา 23:59 )
+                </p>
               </div>
-              <div class="col-12">
+            </div>
+          </div>
+          <div class="row mt-5" style="text-align: center">
+            <div class="col-12" v-show="dataFetch.link_meeting != null">
+              <a :href="dataFetch.link_meeting">
                 <button
-                  class="btn btnBlock btnConfirm btnCancel fixed-button mb-2"
-                  @click="cancelAppointment"
+                  v-if="dataFetch.link_meeting"
+                  class="btn btn-primary btnBlock btnConfirm fixed-button mb-2"
                 >
-                  <span style="font-weight: 900; color:white;">ยกเลิกนัด</span>
+                  <span style="font-weight: 900; color: white"
+                    >Join Meeting</span
+                  >
                 </button>
-              </div>
+              </a>
+            </div>
+            <div
+              v-show="dataFetch.link_meeting == null && dateCanCancel"
+              class="col-12"
+            >
+              <button
+                class="btn btnBlock btnCancel fixed-button mb-2"
+                @click="cancelAppointment"
+              >
+                <span style="font-weight: 900; color: white">{{ $t("cancel") }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="row" style="text-align: center">
+            <div class="col-12" @click="$router.go(-1)">
+              <button
+                class="btn btnBlock btn-primary btn-back fixed-button mb-2"
+                style="border-radius: 10px"
+              >
+                <span style="font-weight: 900">{{ $t("back") }}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -64,11 +94,14 @@
 <script>
 import axios from "axios";
 import AppointmentCard from "@/components/AppointmentCard.vue";
+import { VclFacebook, VclList } from "vue-content-loading";
 import { errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
+      loading: false,
+      dateCanCancel: null,
       dataFetch: {
         appointmentCard: [
           {
@@ -81,28 +114,31 @@ export default {
             type_name: "",
             date: "",
             time_in: "",
-            dateformat: ""
-          }
+            dateformat: "",
+          },
         ],
         link_meeting: "",
         doctor_id: null,
         doctor_firstname: "",
-        doctor_lastname: ""
-      }
+        doctor_lastname: "",
+      },
     };
   },
   components: {
-    AppointmentCard
+    AppointmentCard,
+    VclFacebook,
+    VclList,
   },
   async mounted() {
+    this.loading = true;
     await axios
       .get(
         `${process.env.VUE_APP_BACKEND_URL}/appointment/detail/${this.$route.params.id}`,
         {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` }
+          headers: { Authorization: `Bearer ${this.$store.state.token}` },
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.account_id) {
           this.dataFetch.appointmentCard[0].account_id = res.data.account_id;
           this.dataFetch.appointmentCard[0].hn_number = res.data.hn_number;
@@ -118,17 +154,39 @@ export default {
           this.dataFetch.doctor_id = res.data.doctor_id;
           this.dataFetch.doctor_firstname = res.data.doctor_firstname;
           this.dataFetch.doctor_lastname = res.data.doctor_lastname;
+          this.checkDateBeforeDue();
         } else {
           this.$router.push("/");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("===== Backend-error ======");
         console.error(error.response);
-        this.$router.push("/appointment")
+        this.$router.go(-1);
       });
+    this.loading = false;
   },
   methods: {
+    checkDateBeforeDue() {
+      let result =
+        Math.round(
+          Math.abs(
+            new Date() - new Date(this.dataFetch.appointmentCard[0].date)
+          ) /
+            (1000 * 3600 * 24)
+        ) >= 3;
+      if (result) {
+        let d = new Date(this.dataFetch.appointmentCard[0].date);
+        d.setDate(d.getDate() - 4);
+        d.setHours(23, 59, 59, 999);
+        this.dateCanCancel = d.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+      return result;
+    },
     cancelAppointment() {
       this.$swal({
         title: "คำเตือน",
@@ -137,44 +195,59 @@ export default {
         showCloseButton: true,
         confirmButtonColor: "#FF4F5B",
         confirmButtonText: "ยืนยัน",
-        footer: "ระบบจะไม่สามารถคืนการนัดได้"
-      }).then(result => {
+        footer: "ระบบจะไม่สามารถคืนการนัดได้",
+      }).then((result) => {
         if (result.value) {
+          this.$swal({
+            title: "กรุณารอสักครู่",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
           axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/appointment/cancel`,
               {
-                booking_id: this.dataFetch.appointmentCard[0].booking_id
+                booking_id: this.dataFetch.appointmentCard[0].booking_id,
               },
               {
-                headers: { Authorization: `Bearer ${this.$store.state.token}` }
+                headers: { Authorization: `Bearer ${this.$store.state.token}` },
               }
             )
-            .then(res => {
+            .then((res) => {
               this.$swal({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 3000,
                 icon: "success",
-                title: "ยกเลิกการนัดสำเร็จ"
+                title: "ยกเลิกการนัดสำเร็จ",
               });
               this.$router.push("/appointment");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
+.btn-back {
+  background: #ffffff;
+  border: 2px solid #99a3ff;
+  color: #99a3ff;
+}
 .btnCancel {
+  box-shadow: 0px 3px 8px #a4a7aa;
   background-color: #ff4f5b;
+  border-radius: 31px;
 }
 </style>

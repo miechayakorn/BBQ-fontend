@@ -1,99 +1,72 @@
 <template>
-  <div class="d-flex">
-    <Menudash />
-    <Queuedash />
-    <div class="container bg-light">
-      <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
-        <button
-          class="btn btn-primary"
-          data-toggle="collapse"
-          data-target="#navbarCollapseMenu-toggle"
-          id="menu-toggle"
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <Menudash style="position: fixed" />
+    </div>
+    <div class="col-9 col-md-9">
+      <div class="bg-light">
+        <nav
+          class="navbar-expand navbar-light bg-white pl-3 pt-3 border-bottom"
         >
-          <span>&#60;</span>
-        </button>
-        <ul class="nav navbar-nav nav-underlined">
-          <li
-            :class="{ active: activeBtnNav === 'ServiceTable' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'ServiceTable'"
-          >
-            <router-link
-              to="#ServiceTable"
-              :class="[
-                'disText',
-                { activeText: activeBtnNav === 'ServiceTable' }
-              ]"
-              >ตารางการให้บริการ</router-link
+          <ul class="navbar-nav nav-underlined">
+            <li
+              :class="{
+                active:
+                  this.$route.query.p === 'AddSlotTime' ||
+                  this.$route.query.p == undefined,
+              }"
+              style="margin-left: 63px"
             >
-          </li>
-          <li
-            :class="{ active: activeBtnNav === 'ManageTable' }"
-            style="margin-left: 63px;"
-            @click="activeBtnNav = 'ManageTable'"
-          >
-            <router-link
-              to="#ManageTable"
-              :class="[
-                'disText',
-                { activeText: activeBtnNav === 'ManageTable' }
-              ]"
-              >จัดการตารางให้บริการ</router-link
+              <router-link
+                to="?p=AddSlotTime"
+                :class="[
+                  'disText',
+                  {
+                    activeText:
+                      this.$route.query.p === 'AddSlotTime' ||
+                      this.$route.query.p == undefined,
+                  },
+                ]"
+                >เพิ่ม slot เวลา</router-link
+              >
+            </li>
+            <li
+              :class="{ active: this.$route.query.p === 'EditSlotTime' }"
+              style="margin-left: 63px"
             >
-          </li>
-        </ul>
-      </nav>
-      <ServiceTable v-if="activeBtnNav == 'ServiceTable'" />
-      <ManageTable v-if="activeBtnNav == 'ManageTable'" />
+              <router-link
+                to="?p=EditSlotTime"
+                :class="[
+                  'disText',
+                  { activeText: this.$route.query.p === 'EditSlotTime' },
+                ]"
+                >แก้ไขตารางการให้บริการ</router-link
+              >
+            </li>
+          </ul>
+        </nav>
+        <AddSlotTime
+          v-if="
+            this.$route.query.p == 'AddSlotTime' ||
+            this.$route.query.p == undefined
+          "
+        />
+        <EditSlotTime v-if="this.$route.query.p == 'EditSlotTime'" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Menudash from "@/components/dashboard/Menudash.vue";
-import Queuedash from "@/components/dashboard/Queuedash.vue";
-import ServiceTable from "@/components/dashboard/timeTable/ServiceTable.vue";
-import ManageTable from "@/components/dashboard/timeTable/ManageTable.vue";
+import AddSlotTime from "@/components/dashboard/timeTable/AddSlotTime.vue";
+import EditSlotTime from "@/components/dashboard/timeTable/EditSlotTime.vue";
 
 export default {
-  data() {
-    return {
-      activeBtnNav: "ServiceTable"
-    };
-  },
   components: {
     Menudash,
-    Queuedash,
-    ServiceTable,
-    ManageTable
-  }
+    AddSlotTime,
+    EditSlotTime,
+  },
 };
 </script>
-
-<style scoped>
-.nav-item-underlined:after,
-.nav-underlined > li:after {
-  display: block;
-  content: " ";
-  bottom: 10px;
-  border-bottom: 3px solid transparent;
-  width: 0;
-  width: auto;
-}
-.disText {
-  color: #b6b6b6;
-}
-.activeText {
-  color: #555555;
-}
-
-.underlined-active:after,
-.nav-underlined:hover > li:hover:after,
-.nav-underlined:active > li:hover:after,
-.nav-underlined:hover > li.active:hover:after,
-.nav-underlined:active > li.active:hover:after,
-.nav-underlined > li.active:after,
-.nav-underlined > li:hover:after {
-  border-color: #99a3ff;
-}
-</style>

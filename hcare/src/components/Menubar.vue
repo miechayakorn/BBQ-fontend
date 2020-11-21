@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar fixed-top bg-white bd-navbar site-header sticky-top">
     <router-link to="/">
-      <logoHeaderMini style="width: 55px; height: 17px; margin-top:0px;" />
+      <logoHeaderMini class="mt-1" />
     </router-link>
     <button
       class="navbar-toggler toggler-example"
@@ -12,7 +12,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span style="color:#99A3FF">
+      <span style="color: #99a3ff">
         <i class="fas fa-bars fa-1x"></i>
       </span>
     </button>
@@ -22,29 +22,68 @@
       id="navbarCollapse"
     >
       <ul class="navbar-nav mr-auto"></ul>
-      <ul class="navbar-nav mt-2 mt-md-0 blackTextMenu">
-        <li class="nav-item">
-          <div class="float-right">V 1.0</div>
-          <logoAdmin v-if="this.$store.state.role == 'ADMIN'" class="centerImg" />
-          <logoStaff v-else-if="this.$store.state.role == 'STAFF'" class="centerImg" />
-          <logoUser v-else class="centerImg" />
-          <p v-if="log" class="d-flex justify-content-center mb-0 mt-2">
-            {{ user.first_name }} {{ user.last_name }}
+      <ul class="navbar-nav blackTextMenu">
+        <div class="col-12">
+          <div class="float-right">
+            <select v-model="selectLang" class="form-control">
+              <option
+                v-for="(lang, i) in langs"
+                :key="`Lang${i}`"
+                :value="lang"
+              >
+                {{ lang }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <li class="nav-item" style="margin-top: -50px">
+          <router-link
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+            to="/profile"
+          >
+            <div v-if="this.$store.state.user.profile_picture == null">
+              <logoAdmin
+                v-if="this.$store.state.role == 'ADMIN'"
+                class="centerImg"
+              />
+              <logoStaff
+                v-else-if="this.$store.state.role == 'STAFF'"
+                class="centerImg"
+              />
+              <logoUser v-else class="centerImg" />
+            </div>
+            <div v-else-if="this.$store.state.user.profile_picture">
+              <img
+                class="rounded-circle centerImg"
+                width="56"
+                height="56"
+                :src="this.$store.state.user.profile_picture"
+              />
+            </div>
+          </router-link>
+          <p
+            v-if="this.$store.state.token"
+            class="d-flex justify-content-center mb-0 mt-2"
+          >
+            {{ this.$store.state.user.first_name }}
+            {{ this.$store.state.user.last_name }}
           </p>
           <router-link
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
-            v-if="log == false"
+            v-if="this.$store.state.token == null"
             to="/login"
           >
             <p class="d-flex justify-content-center mb-0 mt-2">
-              {{ user.first_name }} {{ user.last_name }}
+              {{ $t("loginMessage") }}
             </p>
           </router-link>
         </li>
         <hr class="lineHr" />
-        <div v-if="log">
+        <div class="mb-3" v-if="this.$store.state.token">
           <li
             class="nav-item"
             data-toggle="collapse"
@@ -52,7 +91,7 @@
             aria-expanded="false"
           >
             <router-link class="nav-link blackTextMenu" to="/">
-              <iconHome style="margin-right:14px;" />Home
+              <iconHome style="margin-right: 14px" />Home
             </router-link>
           </li>
           <li class="nav-item">
@@ -63,32 +102,9 @@
               class="nav-link blackTextMenu"
               to="/booking"
             >
-              <iconNote style="margin-right:14px;" />ทำนัด
+              <iconNote style="margin-right: 14px" />{{ $t("appointment") }}
             </router-link>
           </li>
-          <!-- <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
-              to="/queue"
-            >
-              <iconPaper style="margin-right:14px;" />กดคิว
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
-              aria-expanded="false"
-              class="nav-link blackTextMenu"
-              to="#"
-            >
-              <iconClock style="margin-right:14px;" />ตารางให้บริการ
-            </router-link>
-          </li> -->
-          <hr class="lineHr" />
           <li class="nav-item">
             <router-link
               data-toggle="collapse"
@@ -97,7 +113,9 @@
               class="nav-link blackTextMenu"
               to="/appointment"
             >
-              <iconCalendar style="margin-right:14px;" />นัดของฉัน
+              <iconCalendar style="margin-right: 14px" />{{
+                $t("myappointment")
+              }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -106,9 +124,11 @@
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="#"
+              to="/schedule"
             >
-              <iconNoti style="margin-right:14px;" />Notification
+              <iconClock style="margin-right: 14px" />{{
+                $t("serviceschedule")
+              }}
             </router-link>
           </li>
           <li class="nav-item">
@@ -117,30 +137,45 @@
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="nav-link blackTextMenu"
-              to="#"
+              to="/history"
             >
-              <iconTime style="margin-right:14px;" />History
+              <iconTime style="margin-right: 14px" />{{ $t("history") }}
+            </router-link>
+          </li>
+          <hr class="lineHr" />
+          <li
+            class="nav-item"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-expanded="false"
+          >
+            <router-link class="nav-link blackTextMenu" to="/profile">
+              <i class="far fa-user" style="margin-right: 14px"></i
+              >{{ $t("myprofile") }}
             </router-link>
           </li>
           <router-link
-            v-if="role"
+            v-if="
+              this.$store.state.role == 'ADMIN' ||
+                this.$store.state.role == 'STAFF'
+            "
             data-toggle="collapse"
             data-target="#navbarCollapse"
             aria-expanded="false"
             class="nav-link blackTextMenu"
             to="/admin/dashboard"
           >
-            <iconHome style="margin-right:14px;" />Admin Dashboard
+            <iconHome style="margin-right: 14px" />Admin Dashboard
           </router-link>
           <hr class="lineHr" />
-          <router-link v-if="log" to="/logout">
+          <router-link v-if="this.$store.state.token" to="/logout">
             <button
               data-toggle="collapse"
               data-target="#navbarCollapse"
               aria-expanded="false"
               class="btn btnLogout mx-auto d-flex justify-content-center"
             >
-              <span style="font-weight:900">ออกจากระบบ</span>
+              <span style="font-weight: 900">{{ $t("logout") }}</span>
             </button>
           </router-link>
           <router-link v-else to="/login">
@@ -150,7 +185,7 @@
               aria-expanded="false"
               class="btn btnLogout mx-auto"
             >
-              <span style="font-weight:900">เข้าสู่ระบบ</span>
+              <span style="font-weight: 900">{{ $t("loginMessage") }}</span>
             </button>
           </router-link>
         </div>
@@ -167,35 +202,24 @@ import iconCalendar from "@/components/svg/icon/iconCalendar.vue";
 import iconClock from "@/components/svg/icon/iconClock.vue";
 import iconHome from "@/components/svg/icon/iconHome.vue";
 import iconNote from "@/components/svg/icon/iconNote.vue";
-import iconNoti from "@/components/svg/icon/iconNoti.vue";
 import iconPaper from "@/components/svg/icon/iconPaper.vue";
 import iconTime from "@/components/svg/icon/iconTime.vue";
 
 export default {
   data() {
-    return {
-      user: {
-        first_name: "",
-        last_name: ""
-      },
-      log: false,
-      role: false
-    };
+    return { selectLang: "", langs: ["th", "en"] };
   },
   mounted() {
-    if (this.$store.state.user.first_name && this.$store.state.user.last_name) {
-      this.user.first_name = this.$store.state.user.first_name;
-      this.user.last_name = this.$store.state.user.last_name;
-      this.log = true;
-      if (
-        this.$store.state.role == "ADMIN" ||
-        this.$store.state.role == "STAFF"
-      ) {
-        this.role = true;
+    this.selectLang = localStorage.getItem("locale") || "th";
+  },
+  watch: {
+    selectLang: {
+      handler: async function(val, oldCal) {
+        if (val) {
+          this.$i18n.locale = val;
+          localStorage.setItem("locale", val);
+        }
       }
-    } else {
-      this.user.first_name = "กรุณา";
-      this.user.last_name = "เข้าสู่ระบบ";
     }
   },
   components: {
@@ -204,7 +228,6 @@ export default {
     iconClock,
     iconHome,
     iconNote,
-    iconNoti,
     iconPaper,
     iconTime,
     logoUser,
@@ -214,37 +237,39 @@ export default {
 };
 </script>
 <style>
+.navbar-collapse {
+  position: absolute;
+  background: #99a3ff;
+  top: 52.5px;
+  width: 35%;
+  margin-left: 65%;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  transition: all 0.4s ease;
+  display: block;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+}
+
 @media (max-width: 992px) {
   .navbar-collapse {
-    position: absolute;
-    top: 45px;
-    /* left: 100%; */
-    margin-left: 20%;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    width: 80%;
-    transition: all 0.4s ease;
-    display: block;
+    margin-left: 0;
+    width: 100%;
   }
-  .navbar-collapse.collapsing {
-    height: auto !important;
-    margin-left: 50%;
-    left: 50%;
-    transition: all 0.2s ease;
-  }
-  .navbar-collapse.show {
-    left: 0;
-  }
+}
+.navbar-collapse.collapsing {
+  height: auto !important;
+  margin-left: 50%;
+  left: 50%;
+  transition: all 0.2s ease;
+}
+.navbar-collapse.show {
+  left: 0;
 }
 .blackTextMenu {
   color: #555555;
 }
 .centerImg {
-  /* display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%; */
   display: block;
   margin: auto;
   margin-top: 24px;

@@ -1,10 +1,10 @@
 <template>
   <div class="form-group">
     <p class="font-weight-bold">{{ email }}</p>
-    <p>
-      <span style="font-weight: lighter; color:#888888">กรุณานำ OTP ที่ได้รับจากอีเมลมากรอก</span>
+    <p style="font-weight: lighter; color: #888888">
+      {{ $t("fillOTP") }}
     </p>
-    <div class="col-12" style="margin-top:28px">
+    <div class="col-12" style="margin-top: 28px">
       <div class="form-group text-left mt-2">
         <label for="InputOTP">OTP</label>
         <div class="inner-addon left-addon">
@@ -24,17 +24,18 @@
             v-if="status == '401'"
             id="otpSend"
             class="form-text text-right"
-            style="cursor: pointer;"
-          >Send OTP Again?</small>
+            style="cursor: pointer"
+            >Send OTP Again?</small
+          >
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <button
             @click="sendToBackend"
-            class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+            class="btn btn-primary btnBlock btnConfirm mt-4 fixed-button"
           >
-            <span style="font-weight:900">Confirm</span>
+            <span style="font-weight: 900">Confirm</span>
           </button>
         </div>
       </div>
@@ -96,24 +97,33 @@ export default {
             password: this.password
           })
           .then(res => {
-            //encrypt dataSetLocal
             let dataSetLocal = res.data;
             dataSetLocal.first_name = CryptoJS.AES.encrypt(
               dataSetLocal.first_name,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             dataSetLocal.last_name = CryptoJS.AES.encrypt(
               dataSetLocal.last_name,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             dataSetLocal.role = CryptoJS.AES.encrypt(
               dataSetLocal.role,
-              "hcare6018"
+              process.env.VUE_APP_SECRET_KEY
+            ).toString();
+            if (dataSetLocal.profile_picture) {
+              dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
+                dataSetLocal.profile_picture,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+            }
+            dataSetLocal.account_id = CryptoJS.AES.encrypt(
+              dataSetLocal.account_id + "",
+              process.env.VUE_APP_SECRET_KEY
             ).toString();
             localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
-            this.$router.push("/");
-            this.$router.go();
+            const redirectPath = this.$route.query.redirect || "/";
+            this.$router.push(redirectPath);
           })
           .catch(error => {
             console.log("===== Backend-error ======");
@@ -131,5 +141,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

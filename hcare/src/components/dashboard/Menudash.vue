@@ -1,103 +1,66 @@
 <template>
-  <div class="border-right bg-primary col-custom" id="navbarCollapseMenu-toggle">
+  <div
+    class="border-right bg-primary col-custom collapse show"
+    id="navbarCollapseMenu-toggle"
+    :style="{ minHeight: windowHeight + 'px', minWidth: '110px' }"
+  >
     <div class="list-group menu mt-4">
-      <div @click="changeColorIcon('iconAppointment')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary" style="margin-top: 1rem !important">
         <router-link to="/admin/dashboard/">
           <iconAppointment
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'Dashboard' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconAppointment'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'Dashboard' ? 'menu-list-click' : 'menu-list'
             "
-          >นัดหมาย</p>
+          >
+            นัดหมาย
+          </p>
         </router-link>
       </div>
-      <!--<div @click="changeColorIcon('iconTimeTable')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <router-link to="/admin/dashboard/timetable">
           <iconTimeTable
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'TimeTable' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconTimeTable'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'TimeTable' ? 'menu-list-click' : 'menu-list'
             "
           >
             ตารางเวลา
           </p>
         </router-link>
       </div>
-      <div @click="changeColorIcon('iconQueue')" class="p-2 bg-primary">
-        <a href="#">
-          <iconQueue
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
-                ? '#5E65A1'
-                : 'white'
-            "
-          />
-          <p
-            :class="
-              this.$store.state.dashboard.colorIconNav == 'iconQueue'
-                ? 'menu-list-click'
-                : 'menu-list'
-            "
-          >
-            คิว
-          </p>
-        </a>
-      </div>
-      <div @click="changeColorIcon('iconService')" class="p-2 bg-primary">
+      <div class="p-2 bg-primary">
         <routerLink to="/admin/dashboard/service">
           <iconService
-            :color="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
-                ? '#5E65A1'
-                : 'white'
-            "
+            :color="this.$route.name == 'Service' ? '#5E65A1' : 'white'"
           />
           <p
             :class="
-              this.$store.state.dashboard.colorIconNav == 'iconService'
-                ? 'menu-list-click'
-                : 'menu-list'
+              this.$route.name == 'Service' ? 'menu-list-click' : 'menu-list'
             "
           >
             บริการ
           </p>
         </routerLink>
-      </div>-->
-      <div class="list-group">
-        <div
-          @click="changeColorIcon('iconSetting')"
-          class="p-2 bg-primary"
-          style="margin-top:755px"
-        >
-          <!--<a href="#">
-            <iconSetting
-              :color="
-                this.$store.state.dashboard.colorIconNav == 'iconSetting'
-                  ? '#5E65A1'
-                  : 'white'
-              "
-            />
-          </a>-->
-        </div>
-        <!--<a href="#" class="p-2 bg-primary" style="margin-bottom:75px">
-          <iconLogout />
-        </a>-->
+      </div>
+
+      <div class="p-2 bg-primary" v-if="this.$store.state.role == 'ADMIN'">
+        <routerLink to="/admin/dashboard/manageEmployee">
+          <iconEmp
+            :color="this.$route.name == 'ManageEmp' ? '#5E65A1' : 'white'"
+          />
+          <p
+            :class="
+              this.$route.name == 'ManageEmp' ? 'menu-list-click' : 'menu-list'
+            "
+          >
+            จัดการเจ้าหน้าที่
+          </p>
+        </routerLink>
       </div>
     </div>
   </div>
@@ -105,7 +68,7 @@
 <script>
 import iconAppointment from "@/components/svg/icon/iconAppointment.vue";
 import iconTimeTable from "@/components/svg/icon/iconTimeTable.vue";
-import iconQueue from "@/components/svg/icon/iconQueue.vue";
+import iconEmp from "@/components/svg/icon/iconEmp.vue";
 import iconSetting from "@/components/svg/icon/iconSetting.vue";
 import iconLogout from "@/components/svg/icon/iconLogout.vue";
 import iconService from "@/components/svg/icon/iconService.vue";
@@ -114,31 +77,36 @@ export default {
   components: {
     iconAppointment,
     iconTimeTable,
-    iconQueue,
+    iconEmp,
     iconSetting,
     iconLogout,
-    iconService
+    iconService,
+  },
+  data() {
+    return {
+      windowHeight: window.innerHeight,
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
   },
   beforeDestroy() {
-    this.$store.state.dashboard.colorIconNav = "iconAppointment";
+    window.removeEventListener("resize", this.onResize);
   },
   methods: {
-    changeColorIcon(nameIcon) {
-      this.$store.state.dashboard.colorIconNav = nameIcon;
-    }
-  }
+    onResize() {
+      this.windowHeight = window.innerHeight;
+    },
+  },
 };
 </script>
-<style>
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+<style scoped>
+@media only screen and (min-width: 768px) {
   .col-custom {
-    flex: 0 0 8.333333%;
-    max-width: 10% !important;
+    flex: 0 0 6%;
   }
-}
-.col-custom {
-  flex: 0 0 8.333333%;
-  max-width: 5.25%;
 }
 .menu-list {
   font-style: normal;
@@ -153,21 +121,5 @@ export default {
   font-size: 14px;
   line-height: 21px;
   color: #5e65a1;
-}
-.qText {
-  font-size: 18px;
-  font-weight: 300;
-  font-family: "Mitr";
-  color: #444444;
-}
-.current-queue-text {
-  color: #99a3ff;
-  font-style: bold;
-  font-size: 2em;
-}
-.textBold {
-  font-size: 36px;
-  font-weight: 900;
-  font-family: "Poppins";
 }
 </style>

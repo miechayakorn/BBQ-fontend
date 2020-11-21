@@ -4,7 +4,7 @@
       <div class="row" v-if="dataTimes == null">
         <div class="col-12">
           <div class="alert alert-warning text-center" role="alert">
-            กรุณาเลือกวันให้เรียบร้อย
+            {{ $t("alertdoctor") }}
           </div>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <button
             href="#"
             :class="[
-              timeLoop.status == null
+              checkButtonStatus(timeLoop.availability, timeLoop.status)
                 ? 'btn btn-outline-primary mr-2 mb-2 btnTime'
                 : 'btn btn-secondary mr-2 mb-2 disable btnTime btnDisabled',
 
@@ -34,7 +34,9 @@
                   : ''
               ]
             "
-            :disabled="timeLoop.status != null ? true : false"
+            :disabled="
+              checkButtonStatus(timeLoop.availability, timeLoop.status) == false
+            "
           >
             {{ timeLoop.time_in.slice(0, 5) }}
           </button>
@@ -47,6 +49,13 @@
 <script>
 export default {
   methods: {
+    checkButtonStatus(availability, status) {
+      if (availability == "AVAILABLE" && status == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     onChangeTime(booking_id, time_in, activeTime) {
       let booking = {
         booking_id: booking_id,
@@ -67,12 +76,12 @@ export default {
 .btnTime {
   height: 48px;
   width: 72px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 .btnDisabled {
   cursor: default;
-  background-color: #E7E7E7!important;
-  border-color: #E7E7E7!important;
+  background-color: #e7e7e7 !important;
+  border-color: #e7e7e7 !important;
 }
 .btnDisabled:active {
   outline: none;

@@ -1,255 +1,230 @@
 <template>
-  <div class="container fixed-container mb-3 bg" style="margin-top:40px">
+  <div class="container fixed-container mb-3" style="margin-top: 40px">
     <div class="form-group text-left">
-      <h1 class="RegStyle">Register</h1>
-      <form @submit>
-        <div class="col-xs-12" style="margin-top:28px">
-          <div class="form-group">
-            <label for="InputName">ชื่อ</label>
-            <input
-              type="text"
-              id="InputName"
-              v-model="dataUserInfo.first_name"
-              class="form-control"
-              placeholder="ชื่อ"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="InputName">นามสกุล</label>
-            <input
-              type="text"
-              v-model="dataUserInfo.last_name"
-              class="form-control"
-              placeholder="นามสกุล"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="InputName">รหัสนักคึกษา</label>
-            <input
-              type="text"
-              v-model="dataUserInfo.hn_number"
-              class="form-control"
-              placeholder="รหัสนักศึกษา"
-              required
-            />
-          </div>
-          <!--<div class="form-group">
-            <label for="InputPass">รหัสผ่าน</label>
-            <input
-              type="password"
-              v-model="dataUserInfo.password"
-              :class="
-                dataUserInfo.password == dataUserInfo.confirmpassword
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
-              placeholder="รหัสผ่าน"
-              required
-            />
-            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
-          </div>
-          <div class="form-group">
-            <label for="InputPass">ยืนยันรหัสผ่าน</label>
-            <input
-              type="password"
-              v-model="dataUserInfo.confirmpassword"
-              :class="
-                dataUserInfo.password == dataUserInfo.confirmpassword
-                  ? 'form-control'
-                  : 'form-control is-invalid'
-              "
-              placeholder="ยืนยันรหัสผ่าน"
-              required
-            />
-            <div class="invalid-feedback">กรุณากรอกรหัสผ่านให้ตรงกัน</div>
-          </div>-->
-          <div class="form-group">
-            <label for="InputEmail">อีเมล</label>
-            <input
-              type="email"
-              v-model="dataUserInfo.email"
-              id="InputEmail"
-              :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
-              placeholder="example@mail.kmutt.ac.th หรือ example@kmutt.ac.th "
-              required
-            />
-            <div class="invalid-feedback">กรุณากรอก email ลงท้าย @mail.kmutt.ac.th หรือ @kmutt.ac.th</div>
-          </div>
-          <div class="form-group">
-            <label for="InputTel">เบอร์โทรศัพท์</label>
-            <input
-              type="tel"
-              v-model="dataUserInfo.telephone"
-              class="form-control"
-              placeholder="เบอร์โทรศัพท์"
-              required
-            />
-          </div>
-          <div class="row" style="text-align: center;">
-            <div class="col-12">
-              <button
-                @click="sendToBackend"
-                type="button"
-                class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
-                style="font-weight:900"
-              >Register</button>
-            </div>
+      <h1 style="font-size: 28px; font-weight: 900">{{ $t("register") }}</h1>
+      <div class="col-xs-12" style="margin-top: 28px">
+        <div class="form-group">
+          <label for="InputFirstName">{{ $t("name") }}</label>
+          <input
+            type="text"
+            id="InputFirstName"
+            v-model="dataUserInfo.first_name"
+            class="form-control"
+            :placeholder="$t('name')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputLastName">{{ $t("surname") }}</label>
+          <input
+            type="text"
+            id="InputLastName"
+            v-model="dataUserInfo.last_name"
+            class="form-control"
+            :placeholder="$t('surname')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputHN">{{ $t("stdID") }}</label>
+          <input
+            type="text"
+            id="InputHN"
+            v-model="dataUserInfo.hn_number"
+            class="form-control"
+            :placeholder="$t('stdID')"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="InputEmail">{{ $t("email") }}</label>
+          <input
+            v-if="this.$route.query.email"
+            type="email"
+            v-model="dataUserInfo.email"
+            id="InputEmail"
+            disabled
+            class="form-control"
+            placeholder="example@mail.kmutt.ac.th"
+            required
+          />
+          <input
+            v-else
+            type="email"
+            v-model="dataUserInfo.email"
+            id="InputEmail"
+            :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
+            placeholder="example@mail.kmutt.ac.th"
+            required
+          />
+          <div class="invalid-feedback">
+            {{ $t("suggestemail") }}
           </div>
         </div>
-      </form>
+        <div class="form-group">
+          <label for="InputTel">{{ $t("phoneno") }}</label>
+          <input
+            type="tel"
+            id="InputTel"
+            v-model="dataUserInfo.telephone"
+            class="form-control"
+            :placeholder="$t('phoneno')"
+            required
+          />
+        </div>
+        <div class="form-group form-check">
+          <input
+            type="checkbox"
+            :class="
+              checkTermsofservice()
+                ? 'form-check-input'
+                : 'form-check-input is-invalid'
+            "
+            id="termsofservice"
+            v-model="termsofservice"
+          />
+          <label class="form-check-label" for="termsofservice"
+            >ข้อตกลงการให้บริการ
+            <router-link to="/terms-of-service"
+              >terms of service</router-link
+            ></label
+          >
+          <div class="invalid-feedback">{{ $t("accept") }}</div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <button
+              @click="sendToBackend"
+              class="btn btn-primary btnBlock btnConfirm mt-5 fixed-button mb-2"
+              style="font-weight: 900"
+            >
+              {{ $t("register") }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { waiting, errorSWAL, successSWAL } from "@/utility/swal.js";
+import { waiting, errorSWAL } from "@/utility/swal.js";
 
 export default {
   data() {
     return {
+      termsofservice: true,
       dataUserInfo: {
         first_name: "",
         last_name: "",
         email: "",
         telephone: "",
         hn_number: ""
-        // password: "",
-        // confirmpassword: ""
       }
     };
   },
+  mounted() {
+    if (this.$route.query.email && this.$route.query.firstname && this.$route.query.lastname) {
+      this.dataUserInfo.email = this.$route.query.email;
+      this.dataUserInfo.first_name = this.$route.query.firstname;
+      this.dataUserInfo.last_name = this.$route.query.lastname;
+    }
+  },
   methods: {
     checkEmail() {
-      if (this.dataUserInfo.email == "") {
+      if (this.dataUserInfo.email.length == 0) {
         return true;
       }
       let email = this.dataUserInfo.email;
       let emailKmutt = "@mail.kmutt.ac.th";
-      let emailKmuttAnother = "@kmutt.ac.th";
       let emailSub = this.dataUserInfo.email.slice(
         email.length - 17,
         email.length
       );
-      let emailSubAnother = this.dataUserInfo.email.slice(
-        email.length - 12,
-        email.length
-      );
-
-      if (emailSub == emailKmutt || emailSubAnother == emailKmuttAnother) {
+      if (emailSub == emailKmutt) {
         return true;
       }
 
       return false;
     },
     checkForm() {
-      // if (this.dataUserInfo.password == "") {
-      //   return false;
-      // } else
-      if (this.dataUserInfo.last_name == "") {
+      if (this.dataUserInfo.first_name.length < 3) {
         return false;
-      } else if (this.dataUserInfo.email == "") {
+      } else if (this.dataUserInfo.last_name.length < 3) {
         return false;
-      } else if (this.dataUserInfo.password == "") {
+      } else if (this.dataUserInfo.email.length < 3) {
         return false;
-      } else if (this.dataUserInfo.telephone == "") {
+      } else if (this.dataUserInfo.telephone.length < 9) {
         return false;
-      } else if (this.dataUserInfo.hn_number == "") {
+      } else if (this.dataUserInfo.hn_number.length < 5) {
         return false;
       }
-      //else if (this.dataUserInfo.confirmpassword == "") {
-      //   return false;
-      // }
-      this.checkEmail();
-      return true;
+      if (this.checkEmail()) {
+        return true;
+      } else {
+        return false;
+      }
     },
-    sendToBackend() {
-      if (
-        this.checkForm()
-        //&& this.dataUserInfo.password == this.dataUserInfo.confirmpassword
-      ) {
-        this.$swal({
-          ...waiting,
-          onOpen: () => {
-            this.$swal.showLoading();
-          }
-        });
-
-        axios
-          .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
-            first_name: this.dataUserInfo.first_name,
-            last_name: this.dataUserInfo.last_name,
-            email: this.dataUserInfo.email,
-            telephone: this.dataUserInfo.telephone,
-            hn_number: this.dataUserInfo.hn_number
-            // priviledge: "student"
-            // password: this.dataUserInfo.password,
-          })
-          .then(res => {
-            console.log(res.data);
-            this.$swal({
-              icon: "success",
-              title: "ลงทะเบียนสำเร็จ",
-              text: "กรุณาตรวจสอบอีเมล เพื่อทำการยืนยันตัวตน"
-            }).then(result => {
-              if (result.value) {
-                this.$router.push("/");
-              }
-            });
-          })
-          .catch(error => {
-            console.log("===== Backend-error ======");
-            console.error(error.response);
-            this.$swal({ ...errorSWAL });
+    checkTermsofservice() {
+      return this.termsofservice;
+    },
+    async sendToBackend() {
+      if (this.checkTermsofservice()) {
+        if (this.dataUserInfo.email.length != 0 && this.checkForm()) {
+          this.$swal({
+            ...waiting,
+            onOpen: () => {
+              this.$swal.showLoading();
+            }
           });
+
+          await axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/register`, {
+              first_name: this.dataUserInfo.first_name.split(" ").join(""),
+              last_name: this.dataUserInfo.last_name.split(" ").join(""),
+              email: this.dataUserInfo.email.split(" ").join(""),
+              telephone: this.dataUserInfo.telephone.split(" ").join(""),
+              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
+            })
+            .then(res => {
+              if (res.status == 200) {
+                this.$swal({
+                  icon: "success",
+                  title: "ลงทะเบียนสำเร็จ",
+                }).then(result => {
+                  if (result.value) {
+                    this.$router.push("/login");
+                  }
+                });
+              } else if (res.status == 203) {
+                this.$swal({
+                  icon: "warning",
+                  title: "คำเตือน",
+                  text: res.data
+                });
+              }
+            })
+            .catch(error => {
+              console.log("===== Backend-error ======");
+              console.error(error.response);
+              this.$swal({ ...errorSWAL });
+            });
+        } else {
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+          });
+        }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
         });
       }
     }
   }
 };
 </script>
-
-<style>
-@media (max-width: 776px) {
-  .fixed-button {
-    width: 100%;
-    height: 48px;
-  }
-}
-@media (min-width: 776px) {
-  .fixed-button {
-    width: 320px;
-    text-align: center;
-    position: relative;
-    height: 48px;
-  }
-}
-@media (min-width: 900px) {
-  .fixed-container {
-    width: 720px;
-  }
-}
-.bg {
-  background-color: #f9f9fc;
-}
-::placeholder {
-  font-size: 16px;
-  font-weight: 100;
-}
-.btnConfirm {
-  border-radius: 31px;
-}
-
-.RegStyle {
-  font-size: 28px;
-  font-weight: 900;
-  font-family: "Poppins";
-}
-</style>
