@@ -273,10 +273,20 @@ export default {
         this.dataFetch.dataWorkTimeDetail.start_time != "" &&
         this.dataFetch.dataWorkTimeDetail.end_time != ""
       ) {
-        if (
-          this.dataFetch.dataWorkTimeDetail.end_time >
-          this.dataFetch.dataWorkTimeDetail.start_time
-        ) {
+        //start time
+        let t1 = this.dataFetch.dataWorkTimeDetail.start_time;
+        var r1 =
+          Number(t1.split(":")[0]) * 3600000 + Number(t1.split(":")[1]) * 60000;
+
+        //end time
+        let t2 = this.dataFetch.dataWorkTimeDetail.end_time;
+        var r2 =
+          Number(t2.split(":")[0]) * 3600000 + Number(t2.split(":")[1]) * 60000;
+
+        //time_slot
+        let r3 = this.dataFetch.dataWorkTimeDetail.time_slot * 60000;
+
+        if (t2 > t1 && (r2 - r1) % r3 == 0) {
           try {
             await axios
               .patch(
@@ -333,7 +343,7 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณาตรวจสอบเวลาเริ่มบริการ",
+            text: "กรุณาตรวจสอบเวลาการให้บริการ",
           });
         }
       } else {

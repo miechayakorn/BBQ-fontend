@@ -167,7 +167,7 @@ export default {
         //time_slot
         let r3 = this.dataPrepareSend.worktime.time_slot * 60000;
 
-        if ((r2 - r1) % r3 == 0) {
+        if (t2 > t1 && (r2 - r1) % r3 == 0) {
           await axios
             .post(
               `${process.env.VUE_APP_BACKEND_URL}/addworktime`,
