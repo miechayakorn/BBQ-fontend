@@ -12,9 +12,7 @@
             :class="checkEmail() ? 'form-control' : 'form-control is-invalid'"
           />
           <div class="input-group-append">
-            <span class="input-group-text"
-              >@mail.kmutt.ac.th</span
-            >
+            <span class="input-group-text">@mail.kmutt.ac.th</span>
           </div>
           <div class="invalid-feedback">
             {{ $t("noemail") }}
@@ -43,7 +41,7 @@ export default {
   data() {
     return {
       email: "",
-      lastname_email: "@mail.kmutt.ac.th"
+      lastname_email: "@mail.kmutt.ac.th",
     };
   },
   methods: {
@@ -63,66 +61,75 @@ export default {
       return true;
     },
     sendToBackend() {
-      if (this.checkEmail() == true && this.email != "") {
-        this.$swal({
-          ...waiting,
-          onOpen: () => {
-            this.$swal.showLoading();
-          }
-        });
-
-        this.email = this.email.split(" ").join("");
-
-        axios
-          .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
-            email: `${this.email.split(" ").join("")}${this.lastname_email}`
-          })
-          .then(res => {
-            console.log(res);
-            if (res.status == 200) {
-              let email2 = this.email + this.lastname_email;
-              this.$emit("email", email2);
-              this.$swal.close();
-            }
-          })
-          .catch(error => {
-            console.log("===== Backend-error ======");
-            console.error(error.response);
-            if (error.response.status == 403) {
-              this.$swal({
-                title: "คำเตือน",
-                text: "กรุณาเข้าสู่ระบบสำหรับบุคลากร Healthcare",
-                icon: "warning"
-              }).then(result => {
-                if (result.value) {
-                  this.$router.push({
-                    name: "AdminLogin",
-                    query: {
-                      email: `${this.email.split(" ").join("")}${
-                        this.lastname_email
-                      }`,
-                      redirect: this.$route.query.redirect
-                    }
-                  });
-                }
-              });
-            } else {
-              this.$swal({
-                title: "คำเตือน",
-                text: "กรุณาลงทะเบียนเพื่อใช้งาน",
-                icon: "warning"
-              });
-            }
+      if (this.email != "") {
+        if (this.checkEmail() == true) {
+          this.$swal({
+            ...waiting,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
           });
+
+          this.email = this.email.split(" ").join("");
+
+          axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/login`, {
+              email: `${this.email.split(" ").join("")}${this.lastname_email}`,
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.status == 200) {
+                let email2 = this.email + this.lastname_email;
+                this.$emit("email", email2);
+                this.$swal.close();
+              }
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error.response);
+              if (error.response.status == 403) {
+                this.$swal({
+                  title: "คำเตือน",
+                  text: "กรุณาเข้าสู่ระบบสำหรับบุคลากร Healthcare",
+                  icon: "warning",
+                }).then((result) => {
+                  if (result.value) {
+                    this.$router.push({
+                      name: "AdminLogin",
+                      query: {
+                        email: `${this.email.split(" ").join("")}${
+                          this.lastname_email
+                        }`,
+                        redirect: this.$route.query.redirect,
+                      },
+                    });
+                  }
+                });
+              } else {
+                this.$swal({
+                  title: "คำเตือน",
+                  text: "กรุณาลงทะเบียนเพื่อใช้งาน",
+                  icon: "warning",
+                });
+              }
+            });
+        } else {
+          this.email = "";
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "ไม่ต้องกรอก @mail.kmutt.ac.th",
+          });
+        }
       } else {
         this.email = "";
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th"
+          text: "กรุณากรอกข้อมูล อีเมล",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
