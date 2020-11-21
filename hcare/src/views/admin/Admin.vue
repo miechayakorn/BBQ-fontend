@@ -6,7 +6,7 @@
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
       >
-        <strong>คำแนะนำ</strong> เพื่อการใช้งานที่ราบลื่น
+        <strong>คำแนะนำ</strong> เพื่อการใช้งานที่ราบรื่น
         โปรดเข้าใช้งานผ่านคอมพิวเตอร์ หรือท่านสามารถทำตามคำแนะนำ ดังนี้
         <br />
         <button
