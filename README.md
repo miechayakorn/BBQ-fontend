@@ -5,6 +5,12 @@
 npm install
 ```
 
+### ENV : change .env.example to .env and Modify variable
+```
+mv .env.example .env
+vi .env
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
