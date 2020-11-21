@@ -127,8 +127,8 @@ export default {
       password: "",
       forgetPassword: {
         email: "",
-        lastname_email: "@mail.kmutt.ac.th"
-      }
+        lastname_email: "@mail.kmutt.ac.th",
+      },
     };
   },
   mounted() {
@@ -194,81 +194,85 @@ export default {
       return true;
     },
     async sendToBackend() {
-      if (
-        this.checkEmail() == true &&
-        this.email != "" &&
-        this.password != ""
-      ) {
-        this.$swal({
-          ...waiting,
-          onOpen: () => {
-            this.$swal.showLoading();
-          }
-        });
-        this.email = this.email.split(" ").join("");
+      if (this.email != "" && this.password != "") {
+        if (this.checkEmail()) {
+          this.$swal({
+            ...waiting,
+            onOpen: () => {
+              this.$swal.showLoading();
+            },
+          });
+          this.email = this.email.split(" ").join("");
 
-        await axios
-          .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
-            email: `${this.email}${this.lastname_email}`,
-            password: this.password
-          })
-          .then(res => {
-            this.$store.state.token = res.data.token;
-            this.$store.state.role = res.data.role;
-            this.$store.state.user = {
-              account_id: res.data.account_id,
-              first_name: res.data.first_name,
-              last_name: res.data.last_name,
-              profile_picture: res.data.profile_picture
-            };
+          await axios
+            .post(`${process.env.VUE_APP_BACKEND_URL}/staff/login`, {
+              email: `${this.email}${this.lastname_email}`,
+              password: this.password,
+            })
+            .then((res) => {
+              this.$store.state.token = res.data.token;
+              this.$store.state.role = res.data.role;
+              this.$store.state.user = {
+                account_id: res.data.account_id,
+                first_name: res.data.first_name,
+                last_name: res.data.last_name,
+                profile_picture: res.data.profile_picture,
+              };
 
-            //encrypt dataSetLocal
-            let dataSetLocal = res.data;
-            dataSetLocal.first_name = CryptoJS.AES.encrypt(
-              dataSetLocal.first_name,
-              process.env.VUE_APP_SECRET_KEY
-            ).toString();
-            dataSetLocal.last_name = CryptoJS.AES.encrypt(
-              dataSetLocal.last_name,
-              process.env.VUE_APP_SECRET_KEY
-            ).toString();
-            dataSetLocal.role = CryptoJS.AES.encrypt(
-              dataSetLocal.role,
-              process.env.VUE_APP_SECRET_KEY
-            ).toString();
-            if (dataSetLocal.profile_picture) {
-              dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
-                dataSetLocal.profile_picture,
+              //encrypt dataSetLocal
+              let dataSetLocal = res.data;
+              dataSetLocal.first_name = CryptoJS.AES.encrypt(
+                dataSetLocal.first_name,
                 process.env.VUE_APP_SECRET_KEY
               ).toString();
-            }
-            dataSetLocal.account_id = CryptoJS.AES.encrypt(
-              dataSetLocal.account_id + "",
-              process.env.VUE_APP_SECRET_KEY
-            ).toString();
+              dataSetLocal.last_name = CryptoJS.AES.encrypt(
+                dataSetLocal.last_name,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+              dataSetLocal.role = CryptoJS.AES.encrypt(
+                dataSetLocal.role,
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
+              if (dataSetLocal.profile_picture) {
+                dataSetLocal.profile_picture = CryptoJS.AES.encrypt(
+                  dataSetLocal.profile_picture,
+                  process.env.VUE_APP_SECRET_KEY
+                ).toString();
+              }
+              dataSetLocal.account_id = CryptoJS.AES.encrypt(
+                dataSetLocal.account_id + "",
+                process.env.VUE_APP_SECRET_KEY
+              ).toString();
 
-            localStorage.setItem("user", JSON.stringify(dataSetLocal));
+              localStorage.setItem("user", JSON.stringify(dataSetLocal));
 
-            const redirectPath =
-              this.$route.query.redirect || "/admin/dashboard";
-            this.$router.push(redirectPath);
-            this.$swal.close();
-          })
-          .catch(error => {
-            console.log("===== Backend-error ======");
-            console.error(error);
-            this.$swal({
-              title: "คำเตือน",
-              text: "รหัสผ่านไม่ถูกต้อง",
-              icon: "warning"
+              const redirectPath =
+                this.$route.query.redirect || "/admin/dashboard";
+              this.$router.push(redirectPath);
+              this.$swal.close();
+            })
+            .catch((error) => {
+              console.log("===== Backend-error ======");
+              console.error(error);
+              this.$swal({
+                title: "คำเตือน",
+                text: "รหัสผ่านไม่ถูกต้อง",
+                icon: "warning",
+              });
             });
+        } else {
+          this.email = "";
+          this.$swal({
+            icon: "warning",
+            title: "คำเตือน",
+            text: "ไม่ต้องกรอก @mail.kmutt.ac.th",
           });
+        }
       } else {
-        this.email = "";
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th"
+          text: "กรุณากรอกข้อมูลให้ครบ",
         });
       }
     },
@@ -279,41 +283,42 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            }
+            },
           });
           this.email = this.email.split(" ").join("");
 
           await axios
             .post(`${process.env.VUE_APP_BACKEND_URL}/admin/forgetpassword`, {
-              email: `${this.forgetPassword.email}${this.forgetPassword.lastname_email}`
+              email: `${this.forgetPassword.email}${this.forgetPassword.lastname_email}`,
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$swal({
                   icon: "success",
                   title: "รีเซ็ตรหัสผ่าน สำเร็จ!",
-                  text: "กรุณาตรวจสอบอีเมลของท่าน เพื่อทำการเปลี่ยนรหัสผ่านใหม่"
+                  text:
+                    "กรุณาตรวจสอบอีเมลของท่าน เพื่อทำการเปลี่ยนรหัสผ่านใหม่",
                 });
               } else if (res.status == 202) {
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
-                  text: res.data
+                  text: res.data,
                 });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error);
               this.$swal({
-                ...errorSWAL
+                ...errorSWAL,
               });
             });
         } else {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูล"
+            text: "กรุณากรอกข้อมูล",
           });
         }
       } else {
@@ -321,14 +326,14 @@ export default {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ไม่ต้องกรอก @mail.kmutt.ac.th"
+          text: "ไม่ต้องกรอก @mail.kmutt.ac.th",
         });
       }
-    }
+    },
   },
   components: {
-    logoHeader
-  }
+    logoHeader,
+  },
 };
 </script>
 
