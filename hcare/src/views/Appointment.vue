@@ -14,7 +14,9 @@
             <div class v-else-if="checkAppointment">
               <div class="row justify-content-center">
                 <span class="announcement mt-3">{{ $t("Noappointment") }}</span>
-                <man class="d-flex justify-content-center" />
+                <div class="col-12 row justify-content-center">
+                  <man class="d-flex justify-content-center" />
+                </div>
               </div>
             </div>
           </div>
