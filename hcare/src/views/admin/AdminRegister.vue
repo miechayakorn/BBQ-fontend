@@ -205,6 +205,7 @@ export default {
             this.dataPrepareSend.first_name = res.data.first_name;
             this.dataPrepareSend.last_name = res.data.last_name;
             this.dataPrepareSend.email = res.data.email;
+            this.dataPrepareSend.hn_number = res.data.hn_number;
             this.loading = false;
           } else if (res.status == 202) {
             this.$swal({
