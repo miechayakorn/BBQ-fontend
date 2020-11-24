@@ -39,7 +39,11 @@
         <div class="form-group">
           <label for="InputEmail">{{ $t("email") }}</label>
           <input
-            v-if="this.$route.query.email"
+            v-if="
+              this.$route.query.email &&
+              this.$route.query.firstname &&
+              this.$route.query.lastname
+            "
             type="email"
             v-model="dataUserInfo.email"
             id="InputEmail"
@@ -125,9 +129,12 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.email) {
+    if (
+      this.$route.query.email &&
+      this.$route.query.firstname &&
+      this.$route.query.lastname
+    ) {
       this.dataUserInfo.email = this.$route.query.email;
-    } else if (this.$route.query.firstname && this.$route.query.lastname) {
       this.dataUserInfo.first_name = this.$route.query.firstname;
       this.dataUserInfo.last_name = this.$route.query.lastname;
     }
