@@ -52,8 +52,8 @@ export default {
     if (localStorage.getItem("adal.idtoken")) {
       authentication.initialize();
       let email = authentication.getUserProfile().upn;
-      let firstname = authentication.getUserProfile().given_name;
-      let lastname = authentication.getUserProfile().family_name;
+      let firstname = authentication.getUserProfile().name.split(" ")[0];
+      let lastname = authentication.getUserProfile().name.split(" ")[1];
 
       await axios
         .post(`${process.env.VUE_APP_BACKEND_URL}/login/oauth`, {
