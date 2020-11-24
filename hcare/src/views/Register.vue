@@ -120,13 +120,14 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: ""
-      }
+        hn_number: "",
+      },
     };
   },
   mounted() {
-    if (this.$route.query.email && this.$route.query.firstname && this.$route.query.lastname) {
+    if (this.$route.query.email) {
       this.dataUserInfo.email = this.$route.query.email;
+    } else if (this.$route.query.firstname && this.$route.query.lastname) {
       this.dataUserInfo.first_name = this.$route.query.firstname;
       this.dataUserInfo.last_name = this.$route.query.lastname;
     }
@@ -176,7 +177,7 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            }
+            },
           });
 
           await axios
@@ -185,14 +186,14 @@ export default {
               last_name: this.dataUserInfo.last_name.split(" ").join(""),
               email: this.dataUserInfo.email.split(" ").join(""),
               telephone: this.dataUserInfo.telephone.split(" ").join(""),
-              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
+              hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$swal({
                   icon: "success",
                   title: "ลงทะเบียนสำเร็จ",
-                }).then(result => {
+                }).then((result) => {
                   if (result.value) {
                     this.$router.push("/login");
                   }
@@ -201,11 +202,11 @@ export default {
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
-                  text: res.data
+                  text: res.data,
                 });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
@@ -214,17 +215,17 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง",
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
