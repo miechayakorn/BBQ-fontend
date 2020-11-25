@@ -89,7 +89,7 @@
           />
           <label class="form-check-label" for="termsofservice"
             >ข้อตกลงการให้บริการ
-            <router-link to="/terms-of-service"
+            <router-link to="/terms-of-service" target="_blank"
               >terms of service</router-link
             ></label
           >
