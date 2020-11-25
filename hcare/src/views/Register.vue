@@ -10,7 +10,7 @@
             id="InputFirstName"
             v-model="dataUserInfo.first_name"
             class="form-control"
-            :placeholder="$t('name')"
+            :placeholder="$t('TypeYour') + $t('name')"
             required
           />
         </div>
@@ -21,7 +21,7 @@
             id="InputLastName"
             v-model="dataUserInfo.last_name"
             class="form-control"
-            :placeholder="$t('surname')"
+            :placeholder="$t('TypeYour') + $t('surname')"
             required
           />
         </div>
@@ -32,7 +32,7 @@
             id="InputHN"
             v-model="dataUserInfo.hn_number"
             class="form-control"
-            :placeholder="$t('stdID')"
+            :placeholder="$t('TypeYour') + $t('stdID')"
             required
           />
         </div>
@@ -72,7 +72,7 @@
             id="InputTel"
             v-model="dataUserInfo.telephone"
             class="form-control"
-            :placeholder="$t('phoneno')"
+            :placeholder="$t('TypeYour') + $t('phoneno')"
             required
           />
         </div>

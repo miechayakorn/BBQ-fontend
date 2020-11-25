@@ -1,5 +1,6 @@
 {
     "loginMessage" : "Please login",
+    "TypeYour" : "Type your ",
     "logout":"Logout",
     "appointment": "Appointment",
     "myappointment": "My Appointments",
