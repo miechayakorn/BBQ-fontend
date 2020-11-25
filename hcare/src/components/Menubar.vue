@@ -31,7 +31,7 @@
                 :key="`Lang${i}`"
                 :value="lang"
               >
-                {{ lang }}
+                {{ lang == "th" ? "TH" : "EN" }}
               </option>
             </select>
           </div>
@@ -157,7 +157,7 @@
           <router-link
             v-if="
               this.$store.state.role == 'ADMIN' ||
-                this.$store.state.role == 'STAFF'
+              this.$store.state.role == 'STAFF'
             "
             data-toggle="collapse"
             data-target="#navbarCollapse"
@@ -214,13 +214,13 @@ export default {
   },
   watch: {
     selectLang: {
-      handler: async function(val, oldCal) {
+      handler: async function (val, oldCal) {
         if (val) {
           this.$i18n.locale = val;
           localStorage.setItem("locale", val);
         }
-      }
-    }
+      },
+    },
   },
   components: {
     logoHeaderMini,
@@ -232,8 +232,8 @@ export default {
     iconTime,
     logoUser,
     logoStaff,
-    logoAdmin
-  }
+    logoAdmin,
+  },
 };
 </script>
 <style>
