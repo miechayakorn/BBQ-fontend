@@ -22,7 +22,7 @@
                 <select
                   id="serviceType"
                   class="form-control col-12 col-md-6"
-                  v-model="dataPrepareSend.type_id"
+                  v-model="type_id"
                 >
                   <option value disabled selected>
                     -- กรุณาเลือกบริการ --
@@ -30,7 +30,7 @@
                   <option
                     v-for="(data, index) in dataFetch.dataTypes"
                     :key="index"
-                    :value="data.type_id"
+                    :value="data.type_id + '-' + data.doctor_id"
                   >
                     {{ data.type_name }}
                   </option>
@@ -45,6 +45,12 @@
                   color="indigo"
                   :popover="{ visibility: 'click' }"
                   v-model="dataPrepareSend.date"
+                  :attributes="[
+                    {
+                      dates: { weekdays: dataFetch.availableDates },
+                      dot: { backgroundColor: '#99a3ff' },
+                    },
+                  ]"
                   :input-props="{
                     class: 'form-control',
                     placeholder: 'กรุณาเลือกวัน',
@@ -96,14 +102,15 @@ export default {
   data() {
     return {
       visibleState: false,
+      type_id: "",
       dataFetch: {
         dataTypes: null,
         dataDates: null,
         dataTimes: null,
+        availableDates: [],
       },
       userBookings: [],
       dataPrepareSend: {
-        type_id: "",
         date: null,
       },
       dataShow: {
@@ -122,6 +129,33 @@ export default {
     DashboardTable,
     doctor3,
   },
+  watch: {
+    type_id: {
+      handler: async function (val, oldCal) {
+        this.dataPrepareSend.date = "";
+        const dataArr = this.type_id.split("-");
+        let type_id = dataArr[0];
+        let doctor_id = dataArr[1];
+
+        await axios
+          .post(
+            `${process.env.VUE_APP_BACKEND_URL}/admin/dashboard/timetable/managetable/checkdate`,
+            {
+              type_id: type_id,
+              doctor_id: doctor_id,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+              },
+            }
+          )
+          .then((res) => {
+            this.dataFetch.availableDates = res.data;
+          });
+      },
+    },
+  },
   async mounted() {
     await axios
       .get(`${process.env.VUE_APP_BACKEND_URL}/ServiceTypesStaff`, {
@@ -129,7 +163,10 @@ export default {
       })
       .then((res) => {
         this.dataFetch.dataTypes = res.data;
-        this.dataPrepareSend.type_id = this.dataFetch.dataTypes[0].type_id;
+        this.type_id =
+          this.dataFetch.dataTypes[0].type_id +
+          "-" +
+          this.dataFetch.dataTypes[0].doctor_id;
       });
   },
   methods: {
@@ -140,11 +177,11 @@ export default {
     },
 
     async sendToBackend() {
-      if (this.dataPrepareSend.type_id && this.dataPrepareSend.date) {
+      if (this.type_id && this.dataPrepareSend.date) {
         await axios
           .get(
             `${process.env.VUE_APP_BACKEND_URL}/showbooking/${
-              this.dataPrepareSend.type_id
+              this.type_id
             }/${formatDate.format(this.dataPrepareSend.date)}`,
             {
               headers: { Authorization: `Bearer ${this.$store.state.token}` },
