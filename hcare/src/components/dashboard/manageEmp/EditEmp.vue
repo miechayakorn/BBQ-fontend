@@ -9,7 +9,10 @@
       <div class="row mt-4">
         <div class="col-12 text-right" style="margin-bottom: 14px">
           <span
-            v-if="dataFetch.account_id != 1"
+            v-if="
+              dataFetch.account_id != 1 &&
+              dataFetch.account_id != this.$store.state.user.account_id
+            "
             style="color: #ff4f5b; font-weight: bold; cursor: pointer"
             @click="showRemoveUser = !showRemoveUser"
             >ลบบัญชีผู้ใช้งาน</span

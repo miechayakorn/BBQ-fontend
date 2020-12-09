@@ -10,7 +10,7 @@
             id="InputFirstName"
             v-model="dataUserInfo.first_name"
             class="form-control"
-            :placeholder="$t('name')"
+            :placeholder="$t('TypeYour') + $t('name')"
             required
           />
         </div>
@@ -21,7 +21,7 @@
             id="InputLastName"
             v-model="dataUserInfo.last_name"
             class="form-control"
-            :placeholder="$t('surname')"
+            :placeholder="$t('TypeYour') + $t('surname')"
             required
           />
         </div>
@@ -32,14 +32,18 @@
             id="InputHN"
             v-model="dataUserInfo.hn_number"
             class="form-control"
-            :placeholder="$t('stdID')"
+            :placeholder="$t('TypeYour') + $t('stdID')"
             required
           />
         </div>
         <div class="form-group">
           <label for="InputEmail">{{ $t("email") }}</label>
           <input
-            v-if="this.$route.query.email"
+            v-if="
+              this.$route.query.email &&
+              this.$route.query.firstname &&
+              this.$route.query.lastname
+            "
             type="email"
             v-model="dataUserInfo.email"
             id="InputEmail"
@@ -68,7 +72,7 @@
             id="InputTel"
             v-model="dataUserInfo.telephone"
             class="form-control"
-            :placeholder="$t('phoneno')"
+            :placeholder="$t('TypeYour') + $t('phoneno')"
             required
           />
         </div>
@@ -85,7 +89,7 @@
           />
           <label class="form-check-label" for="termsofservice"
             >ข้อตกลงการให้บริการ
-            <router-link to="/terms-of-service"
+            <router-link to="/terms-of-service" target="_blank"
               >terms of service</router-link
             ></label
           >
@@ -120,12 +124,16 @@ export default {
         last_name: "",
         email: "",
         telephone: "",
-        hn_number: ""
-      }
+        hn_number: "",
+      },
     };
   },
   mounted() {
-    if (this.$route.query.email && this.$route.query.firstname && this.$route.query.lastname) {
+    if (
+      this.$route.query.email &&
+      this.$route.query.firstname &&
+      this.$route.query.lastname
+    ) {
       this.dataUserInfo.email = this.$route.query.email;
       this.dataUserInfo.first_name = this.$route.query.firstname;
       this.dataUserInfo.last_name = this.$route.query.lastname;
@@ -176,7 +184,7 @@ export default {
             ...waiting,
             onOpen: () => {
               this.$swal.showLoading();
-            }
+            },
           });
 
           await axios
@@ -185,14 +193,14 @@ export default {
               last_name: this.dataUserInfo.last_name.split(" ").join(""),
               email: this.dataUserInfo.email.split(" ").join(""),
               telephone: this.dataUserInfo.telephone.split(" ").join(""),
-              hn_number: this.dataUserInfo.hn_number.split(" ").join("")
+              hn_number: this.dataUserInfo.hn_number.split(" ").join(""),
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$swal({
                   icon: "success",
                   title: "ลงทะเบียนสำเร็จ",
-                }).then(result => {
+                }).then((result) => {
                   if (result.value) {
                     this.$router.push("/login");
                   }
@@ -201,11 +209,11 @@ export default {
                 this.$swal({
                   icon: "warning",
                   title: "คำเตือน",
-                  text: res.data
+                  text: res.data,
                 });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("===== Backend-error ======");
               console.error(error.response);
               this.$swal({ ...errorSWAL });
@@ -214,17 +222,17 @@ export default {
           this.$swal({
             icon: "warning",
             title: "คำเตือน",
-            text: "กรุณากรอกข้อมูลให้ถูกต้อง"
+            text: "กรุณากรอกข้อมูลให้ถูกต้อง",
           });
         }
       } else {
         this.$swal({
           icon: "warning",
           title: "คำเตือน",
-          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service"
+          text: "ยอมรับ ข้อตกลงการให้บริการ terms of service",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>

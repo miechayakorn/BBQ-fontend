@@ -1,5 +1,8 @@
 {
     "loginMessage" : "กรุณา เข้าสู่ระบบ",
+    "TypeYour" : "กรุณากรอก",
+    "personal" : "ข้อมูลส่วนตัว",
+    "save": "บันทึก",
     "logout":"ออกจากระบบ",
     "appointment": "ทำนัด",
     "myappointment": "นัดหมายของฉัน",
